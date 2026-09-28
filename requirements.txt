@@ -1,0 +1,2 @@
+# System packages: poppler-utils tesseract-ocr
+# Python: stdlib only (python3 >= 3.8)
