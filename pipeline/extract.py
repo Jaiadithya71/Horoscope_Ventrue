@@ -18,12 +18,14 @@ Outputs per book in extracted/:
 
 Usage:
   python3 pipeline/extract.py --pdf-dir pdfs --out-dir extracted [--only slug ...]
-Dependencies: poppler-utils (pdftoppm, pdftotext, pdfinfo), tesseract-ocr.
+Dependencies: poppler-utils (pdftoppm, pdftotext, pdfinfo), tesseract-ocr
+with eng+san language data (Debian: tesseract-ocr-eng tesseract-ocr-san).
+Set TESSDATA_PREFIX if your traineddata lives elsewhere.
 """
 import argparse, json, os, re, subprocess, sys, tempfile
 
 DPI = 200          # 300dpi OOMs on 2GB machines and is no more accurate on these scans
-TESS_LANG = "eng"
+TESS_LANG = "eng+san"
 PSM = "3"
 
 
@@ -42,7 +44,8 @@ def ocr_page(pdf, page, workdir):
         raise RuntimeError(f"no render for page {page}")
     png = os.path.join(workdir, pngs[0])
     out_base = os.path.join(workdir, f"o{page}")
-    env = dict(os.environ, OMP_THREAD_LIMIT="2")
+    env = dict(os.environ, OMP_THREAD_LIMIT="1")
+    if os.environ.get("TESSDATA_PREFIX"): env["TESSDATA_PREFIX"] = os.environ["TESSDATA_PREFIX"]
     subprocess.run(["tesseract", png, out_base, "--psm", PSM, "-l", TESS_LANG],
                    check=True, capture_output=True, env=env)
     with open(out_base + ".txt", encoding="utf-8") as fh:

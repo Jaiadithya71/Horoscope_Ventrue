@@ -1,2 +1,4 @@
-# System packages: poppler-utils tesseract-ocr
+# System packages (Debian/Ubuntu):
+#   sudo apt install poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-san
 # Python: stdlib only (python3 >= 3.8)
+# Set TESSDATA_PREFIX if your .traineddata files live in a custom directory.
