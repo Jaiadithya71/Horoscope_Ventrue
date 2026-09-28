@@ -43,6 +43,17 @@ def ocr_page(pdf, page, workdir):
     if not pngs:
         raise RuntimeError(f"no render for page {page}")
     png = os.path.join(workdir, pngs[0])
+    # Some scans have giant PDF page objects (10k+ px renders): re-render capped,
+    # otherwise tesseract OOMs or takes minutes per page.
+    import struct
+    with open(png, "rb") as fh:
+        w = struct.unpack(">I", fh.read(24)[16:20])[0]
+    if w > 2600:
+        os.remove(png)
+        subprocess.run(["pdftoppm", "-f", str(page), "-l", str(page), "-scale-to", "2600",
+                        "-gray", "-png", pdf, base], check=True, capture_output=True)
+        pngs = [f for f in os.listdir(workdir) if f.startswith(f"p{page}-") and f.endswith(".png")]
+        png = os.path.join(workdir, pngs[0])
     out_base = os.path.join(workdir, f"o{page}")
     env = dict(os.environ, OMP_THREAD_LIMIT="1")
     if os.environ.get("TESSDATA_PREFIX"): env["TESSDATA_PREFIX"] = os.environ["TESSDATA_PREFIX"]
