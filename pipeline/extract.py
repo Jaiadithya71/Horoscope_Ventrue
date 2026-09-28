@@ -86,7 +86,7 @@ def main():
         pages = pdf_pages(pdf)
         info = subprocess.run(["pdfinfo", "-f", "1", "-l", "1", pdf],
                               capture_output=True, text=True).stdout
-        m = re.search(r"page\s+1\s+size:\s+([\d.]+)", info)
+        m = re.search(r"page\s+1\s+size:\s+([\d.]+)", info, re.I)
         big = bool(m and float(m.group(1)) > 900)  # >900pt wide -> giant page object
         page_texts, failed = [], []
         with tempfile.TemporaryDirectory() as workdir:
