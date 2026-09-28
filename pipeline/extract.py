@@ -34,26 +34,19 @@ def pdf_pages(pdf):
     return int(re.search(r"^Pages:\s+(\d+)", out, re.M).group(1))
 
 
-def ocr_page(pdf, page, workdir):
-    """Render one page and OCR it. Returns the page text."""
+def ocr_page(pdf, page, workdir, big=False):
+    """Render one page and OCR it. Returns the page text.
+    big=True for scans with giant PDF page objects: render capped directly
+    (a full-DPI render would be 10k+ px and OOM tesseract)."""
     base = os.path.join(workdir, f"p{page}")
-    subprocess.run(["pdftoppm", "-f", str(page), "-l", str(page), "-r", str(DPI),
-                    "-gray", "-png", pdf, base], check=True, capture_output=True)
+    render = (["pdftoppm", "-f", str(page), "-l", str(page), "-scale-to", "2600"]
+              if big else
+              ["pdftoppm", "-f", str(page), "-l", str(page), "-r", str(DPI)])
+    subprocess.run(render + ["-gray", "-png", pdf, base], check=True, capture_output=True)
     pngs = [f for f in os.listdir(workdir) if f.startswith(f"p{page}-") and f.endswith(".png")]
     if not pngs:
         raise RuntimeError(f"no render for page {page}")
     png = os.path.join(workdir, pngs[0])
-    # Some scans have giant PDF page objects (10k+ px renders): re-render capped,
-    # otherwise tesseract OOMs or takes minutes per page.
-    import struct
-    with open(png, "rb") as fh:
-        w = struct.unpack(">I", fh.read(24)[16:20])[0]
-    if w > 2600:
-        os.remove(png)
-        subprocess.run(["pdftoppm", "-f", str(page), "-l", str(page), "-scale-to", "2600",
-                        "-gray", "-png", pdf, base], check=True, capture_output=True)
-        pngs = [f for f in os.listdir(workdir) if f.startswith(f"p{page}-") and f.endswith(".png")]
-        png = os.path.join(workdir, pngs[0])
     out_base = os.path.join(workdir, f"o{page}")
     env = dict(os.environ, OMP_THREAD_LIMIT="1")
     if os.environ.get("TESSDATA_PREFIX"): env["TESSDATA_PREFIX"] = os.environ["TESSDATA_PREFIX"]
@@ -91,11 +84,15 @@ def main():
         if not os.path.exists(pdf):
             print(f"[{slug}] MISSING {pdf}", flush=True); continue
         pages = pdf_pages(pdf)
+        info = subprocess.run(["pdfinfo", "-f", "1", "-l", "1", pdf],
+                              capture_output=True, text=True).stdout
+        m = re.search(r"page\s+1\s+size:\s+([\d.]+)", info)
+        big = bool(m and float(m.group(1)) > 900)  # >900pt wide -> giant page object
         page_texts, failed = [], []
         with tempfile.TemporaryDirectory() as workdir:
             for p in range(1, pages + 1):
                 try:
-                    t = ocr_page(pdf, p, workdir) if book["mode"] == "ocr" else text_page(pdf, p)
+                    t = ocr_page(pdf, p, workdir, big) if book["mode"] == "ocr" else text_page(pdf, p)
                 except Exception as e:  # keep going; a failed page is marked, never silently dropped
                     t, failed = f"[EXTRACTION FAILED on this page: {e}]", failed + [p]
                 page_texts.append(t)
