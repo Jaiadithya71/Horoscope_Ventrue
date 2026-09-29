@@ -57,11 +57,13 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     positions = {name: position(utc, name) for name in ('Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Rahu')}
     placements = {name: {**p, 'whole_sign_house_from_ascendant': (int(p['longitude'] // 30) - asc_index) % 12 + 1}
                   for name, p in positions.items()}
+    from .synthesis import structural_factors
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
             'placements': placements, 'moon_nakshatra': nakshatra(moon_precise),
             'moon_periods': moon_periods(moon_precise),
             'reference_rules': natal_references(placements),
+            'structural_factors_from_ascendant': structural_factors(SIGNS[asc_index],placements),
             'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
 

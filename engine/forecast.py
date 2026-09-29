@@ -57,7 +57,9 @@ def forecast(date, moon_rashi, planet_names=None):
     findings = [{**rule, 'trigger': {'planet': rule['planet'], **placements[rule['planet']]}}
                 for rule in rules if rule['planet'] in placements and placements[rule['planet']]['house_from_moon']==rule['house_from_moon']]
     from .natal import sign_audience_padas
+    from .synthesis import structural_factors
     return {'as_of_utc': utc.isoformat(), 'natal_moon_sign': SIGNS[moon],
+            'structural_factors_from_moon': structural_factors(SIGNS[moon],placements),
             'audience_nakshatra_padas': sign_audience_padas(SIGNS[moon]),
             'model': 'Swiss Ephemeris/Moshier + Lahiri sidereal; mean Rahu node; whole-sign Moon houses',
             'placements': placements, 'findings': findings,
