@@ -1,0 +1,198 @@
+{
+  "subject": "Balaji Haasan, public recorded method only",
+  "scope": "Public rashi forecasts and named political-chart comparisons; not a private-consultation reconstruction or predictive-accuracy score",
+  "sample": [
+    {
+      "video_id": "kG7YfX5MSj8",
+      "format": "2026 Aries rashi forecast"
+    },
+    {
+      "video_id": "18gXX8iOGFg",
+      "format": "2026 Aquarius rashi forecast"
+    },
+    {
+      "video_id": "b9VjVnfXCwM",
+      "format": "2026 Leo rashi forecast"
+    },
+    {
+      "video_id": "nA9OUOZM92I",
+      "format": "Tiruppur constituency comparisons"
+    },
+    {
+      "video_id": "nQDY4WUxio4",
+      "format": "Coimbatore constituency comparisons"
+    },
+    {
+      "video_id": "77Jc0L-wtqQ",
+      "format": "Karur constituency comparisons"
+    },
+    {
+      "video_id": "0gcVomZFgnk",
+      "format": "Tamil Nadu statewide election chart"
+    }
+  ],
+  "source_quality": "Tamil automatic captions contain transcription errors. Claims below are limited to clear repeated terms/context; audio/visual verification is needed for formal equivalence claims. Q&A part 1 and part 8 were checked but captions were not usable for detailed rule extraction. A later transcript fetch returned HTTP 429, so no further YouTube requests were made.",
+  "method": [
+    {
+      "id": "audience-moon-rashi-star-pada",
+      "status": "observed",
+      "input": "Known rashi, nakshatra/pada audience",
+      "operation": "Open with sign and qualifying birth-star divisions, then separate star segments",
+      "evidence": [
+        {
+          "video_id": "kG7YfX5MSj8",
+          "seconds": 142
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 58
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 1313
+        }
+      ],
+      "engine": "Moon sign is computed or supplied; natal star index exists, but exact pada and sign-wide star branching are pending",
+      "book_alignment": "Phaladeepika XIX.2-3 (PDF 229) uses the birth star for a period calculation, but it does not authenticate these forecast branches"
+    },
+    {
+      "id": "slow-fast-transit-layering",
+      "status": "observed",
+      "input": "Sign plus prediction period",
+      "operation": "Broad slow-planet year themes followed by Sun/Mars/Mercury/Venus month branches and ingress boundaries",
+      "evidence": [
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 81
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 223
+        },
+        {
+          "video_id": "b9VjVnfXCwM",
+          "seconds": 146
+        }
+      ],
+      "engine": "Transit sample at UTC midnight exists; exact ingress/window/retrograde interval engine pending",
+      "book_alignment": "Enabled Phaladeepika XXVI rules only cover four specific planet-house combinations, not general month synthesis"
+    },
+    {
+      "id": "house-lord-aspect-topic",
+      "status": "observed",
+      "input": "Planet's house relative to sign or natal ascendant, sign lordship and aspect",
+      "operation": "Associate a planet's house, lordship and aspects with multiple topic houses",
+      "evidence": [
+        {
+          "video_id": "b9VjVnfXCwM",
+          "seconds": 42
+        },
+        {
+          "video_id": "b9VjVnfXCwM",
+          "seconds": 50
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 162
+        }
+      ],
+      "engine": "Moon/ascendant whole-sign houses and narrow transit rules exist; lordship, aspects and topic synthesis pending",
+      "book_alignment": "Phaladeepika XXVI.22 (PDF 332) covers eighth-from-Moon Saturn adversity, not the precise 3rd/7th/10th aspect claims. XV.20-21 (PDF 197) permits derived references, not an outcome by itself"
+    },
+    {
+      "id": "natal-election-comparison",
+      "status": "observed",
+      "input": "Candidates' charts where available, or DOB-only affidavits",
+      "operation": "Compare natal strength, transit favorability, yogas/exchanges and present periods; acknowledge missing chart/time",
+      "evidence": [
+        {
+          "video_id": "nQDY4WUxio4",
+          "seconds": 134
+        },
+        {
+          "video_id": "nQDY4WUxio4",
+          "seconds": 210
+        },
+        {
+          "video_id": "77Jc0L-wtqQ",
+          "seconds": 138
+        },
+        {
+          "video_id": "nA9OUOZM92I",
+          "seconds": 323
+        }
+      ],
+      "engine": "Full-time/location natal ascendant exists; no reproducible strength/yoga/exchange evaluator; date-only must not synthesize lagna",
+      "book_alignment": "XV.25 (PDF 198) requires three strengths for a favorable house judgment; this rule is explicitly disabled, not a surrogate for Balaji's undisclosed strength scoring"
+    },
+    {
+      "id": "dasha-bhukti-antara",
+      "status": "mentioned-not-derived",
+      "input": "An original chart, time-dependent natal data",
+      "operation": "References active major/sub/sub-sub periods in candidate analysis without deriving system in video",
+      "evidence": [
+        {
+          "video_id": "nA9OUOZM92I",
+          "seconds": 303
+        },
+        {
+          "video_id": "nA9OUOZM92I",
+          "seconds": 351
+        }
+      ],
+      "engine": "Phaladeepika XIX.2-4-derived Moon-star major period offsets and Self-Instructor proportional subperiod arithmetic exist; third-level and exact calendar dates not present",
+      "book_alignment": "A 120-year star-based system is book-verified, but it is not proven to be Balaji's specific period system"
+    },
+    {
+      "id": "conditional-audience-grammar",
+      "status": "observed",
+      "input": "Role or life-stage qualifier, year/month/star subgroup",
+      "operation": "Address employed/business/married/separated/parent/student audience with topical branches and remedies",
+      "evidence": [
+        {
+          "video_id": "kG7YfX5MSj8",
+          "seconds": 1418
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 443
+        },
+        {
+          "video_id": "18gXX8iOGFg",
+          "seconds": 278
+        }
+      ],
+      "engine": "No automatic subgroup synthesis; requires eligibility guard and source for each emitted claim",
+      "book_alignment": "XXVI.19 (PDF 330) supports only a traditional generic children-related reading for Jupiter fifth; cannot infer a child's marriage or fertility probability"
+    },
+    {
+      "id": "uncertainty-from-source-data",
+      "status": "observed",
+      "input": "Original horoscope vs affidavit birth date vs missing time",
+      "operation": "Say when lagna and dasha cannot be computed from available data",
+      "evidence": [
+        {
+          "video_id": "nQDY4WUxio4",
+          "seconds": 137
+        },
+        {
+          "video_id": "nA9OUOZM92I",
+          "seconds": 351
+        }
+      ],
+      "engine": "Time and location explicitly required for lagna; birth time required for Moon sign/period; no guessed defaults",
+      "book_alignment": "Calculation boundary, not a predictive verse"
+    }
+  ],
+  "not_established": [
+    "Ayanamsha or node convention Balaji uses",
+    "Named exact period system or calendar-year conversion",
+    "Quantitative planetary strength formula",
+    "Rule precedence when factors conflict",
+    "Use of divisional charts, Shadbala, Ashtakavarga, KP or Nadi",
+    "Reliability on individual clients or real-world outcomes"
+  ],
+  "output_pattern": "Sign and nakshatra audience, slow-planet yearly overview, planetary house/lord/aspect explanations, monthly timing and life-role branches, favorable/adverse sections, practical or ritual remedies. This is a descriptive pattern, not a verbatim voice clone or license to make unsupported life predictions.",
+  "safety": "No medical diagnosis, fertility probability, lifespan assertion, financial guarantee or real person's outcome based on these examples. Election accuracy is separate and not established.",
+  "falsifiability": "A future individual-reading comparison must freeze chart inputs, exact predicted event/window, consented outcomes and misses before calculating agreement."
+}
