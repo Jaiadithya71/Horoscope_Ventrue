@@ -9,6 +9,12 @@ import json
 from pathlib import Path
 from .forecast import swe, julian_day, position, FLAGS, SIGNS
 
+STARS = ('Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha',
+         'Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha',
+         'Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada',
+         'Uttara Bhadrapada','Revati')
+STAR_SOURCE = {'slug':'astrological-self-instructor-1893','pdf_pages':[86,88],
+               'printed_pages':[72,74], 'verified_against_page_image':True}
 PERIODS = (('Sun', 6), ('Moon', 10), ('Mars', 7), ('Rahu', 18),
            ('Jupiter', 16), ('Saturn', 19), ('Mercury', 17), ('Ketu', 7), ('Venus', 20))
 STAR_ARC = 360 / 27
@@ -47,12 +53,14 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     cusps, axes = swe.houses_ex(jd, latitude, longitude, b'W', swe.FLG_SIDEREAL)
     asc = axes[0] % 360
     asc_index = int(asc // 30)
+    moon_precise=swe.calc_ut(jd,swe.MOON,FLAGS)[0][0] % 360
     positions = {name: position(utc, name) for name in ('Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Rahu')}
     placements = {name: {**p, 'whole_sign_house_from_ascendant': (int(p['longitude'] // 30) - asc_index) % 12 + 1}
                   for name, p in positions.items()}
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
-            'placements': placements, 'moon_periods': moon_periods(placements['Moon']['longitude']),
+            'placements': placements, 'moon_nakshatra': nakshatra(moon_precise),
+            'moon_periods': moon_periods(moon_precise),
             'reference_rules': natal_references(placements),
             'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
@@ -118,3 +126,26 @@ def natal_references(placements):
     return {'derived_bhava_source': by_id['phaladeepika-15-20-derived-bhava']['source'],
             'relatives': relatives,
             'notice': 'These are reference signs only. No event, health, or lifespan is inferred.'}
+
+
+def nakshatra(longitude):
+    """27 equal sidereal sectors, each quartered into padas; no interpretation."""
+    if not 0 <= longitude < 360:
+        raise ValueError('Longitude must be in [0,360)')
+    # Whole integer quarter avoids rounding a boundary into the previous pada.
+    quarter=int(longitude/(360/108))
+    star, pada=divmod(quarter,4)
+    return {'name':STARS[star], 'index_1_based':star+1,'pada':pada+1,
+            'sign':SIGNS[quarter//9], 'source':STAR_SOURCE,
+            'convention':'27 equal Lahiri sidereal sectors, 4 equal quarters each'}
+
+
+def sign_audience_padas(sign):
+    """Nine possible Moon-star padas in a rashi; not a person's birth star."""
+    idx=SIGNS.index(sign)
+    result=[]
+    for quarter in range(idx*9,idx*9+9):
+        star,pada=divmod(quarter,4)
+        result.append({'nakshatra':STARS[star], 'pada':pada+1})
+    return {'moon_sign':sign,'possible_nakshatra_padas':result,'source':STAR_SOURCE,
+            'notice':'Audience segmentation only; unknown birth data cannot select an individual pada or forecast.'}

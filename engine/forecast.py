@@ -56,7 +56,9 @@ def forecast(date, moon_rashi, planet_names=None):
     rules = json.loads((ROOT/'rules.json').read_text())
     findings = [{**rule, 'trigger': {'planet': rule['planet'], **placements[rule['planet']]}}
                 for rule in rules if rule['planet'] in placements and placements[rule['planet']]['house_from_moon']==rule['house_from_moon']]
+    from .natal import sign_audience_padas
     return {'as_of_utc': utc.isoformat(), 'natal_moon_sign': SIGNS[moon],
+            'audience_nakshatra_padas': sign_audience_padas(SIGNS[moon]),
             'model': 'Swiss Ephemeris/Moshier + Lahiri sidereal; mean Rahu node; whole-sign Moon houses',
             'placements': placements, 'findings': findings,
             'notice': 'Historical astrological interpretations, not validated prediction or medical/financial advice. Only visually checked page excerpts are enabled.'}
@@ -83,6 +85,10 @@ def main():
     try:
         sign=a.moon_sign or moon_sign(a.birth_date,a.birth_time,a.birth_tz)
         result=forecast(a.date,sign)
+        if a.birth_date:
+            from .natal import nakshatra, birth_utc
+            exact_moon=swe.calc_ut(julian_day(birth_utc(a.birth_date,a.birth_time,a.birth_tz)),swe.MOON,FLAGS)[0][0]
+            result['natal_moon_nakshatra']=nakshatra(exact_moon)
         if all(x is not None for x in coords):
             from .natal import natal_chart
             result['natal_chart']=natal_chart(a.birth_date,a.birth_time,a.birth_tz,a.birth_lat,a.birth_lon,a.birth_place)
