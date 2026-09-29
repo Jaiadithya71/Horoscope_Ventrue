@@ -41,9 +41,8 @@ def sign_index(sign):
 
 def moon_sign(birth_date, birth_time, birth_tz):
     """Birth data must include real IANA timezone; no guessed birth hour."""
-    from zoneinfo import ZoneInfo
-    local = dt.datetime.fromisoformat(f'{birth_date}T{birth_time}').replace(tzinfo=ZoneInfo(birth_tz))
-    return position(local.astimezone(dt.timezone.utc), 'Moon')['sign']
+    from .natal import birth_utc
+    return position(birth_utc(birth_date,birth_time,birth_tz), 'Moon')['sign']
 
 
 def forecast(date, moon_rashi, planet_names=None):
@@ -70,9 +69,24 @@ def main():
     g.add_argument('--moon-sign',help='known Moon rashi, for like-for-like sign-video comparisons')
     g.add_argument('--birth-date',help='YYYY-MM-DD, requires birth time and IANA timezone')
     p.add_argument('--birth-time',help='HH:MM, never defaulted');p.add_argument('--birth-tz',help='IANA timezone')
+    p.add_argument('--birth-place', help='birth place label; provide verified latitude and longitude')
+    p.add_argument('--birth-lat', type=float); p.add_argument('--birth-lon', type=float)
     a=p.parse_args()
     if a.birth_date and not (a.birth_time and a.birth_tz):p.error('--birth-date requires --birth-time and --birth-tz')
-    sign=a.moon_sign or moon_sign(a.birth_date,a.birth_time,a.birth_tz)
-    print(json.dumps(forecast(a.date,sign),indent=2))
+    if a.moon_sign and any(x is not None for x in (a.birth_place,a.birth_lat,a.birth_lon)):
+        p.error('birth-place/coordinates require birth-date, birth-time and birth-tz')
+    coords=(a.birth_place,a.birth_lat,a.birth_lon)
+    if any(x is not None for x in coords) and not all(x is not None for x in coords):
+        p.error('birth-place, birth-lat and birth-lon must be supplied together')
+    if all(x is not None for x in coords) and not a.birth_date:
+        p.error('birth-place/coordinates require birth-date')
+    try:
+        sign=a.moon_sign or moon_sign(a.birth_date,a.birth_time,a.birth_tz)
+        result=forecast(a.date,sign)
+        if all(x is not None for x in coords):
+            from .natal import natal_chart
+            result['natal_chart']=natal_chart(a.birth_date,a.birth_time,a.birth_tz,a.birth_lat,a.birth_lon,a.birth_place)
+    except ValueError as exc: p.error(str(exc))
+    print(json.dumps(result,indent=2))
 
 if __name__=='__main__': main()
