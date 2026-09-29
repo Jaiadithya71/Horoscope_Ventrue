@@ -1,0 +1,37 @@
+[
+  {
+    "id": "phaladeepika-15-20-derived-bhava",
+    "kind": "house_derived_reference",
+    "trigger": "Any natal bhava selected for study",
+    "operation": "Treat that bhava as a temporary ascendant and count the twelve topical houses from it",
+    "limitation": "A counting method only; does not establish favorable or adverse outcomes without strength and other conditions",
+    "source": {"slug": "phaladeepika-1937", "pdf_page": 197, "printed_page": 160, "chapter": "XV", "sloka": 20, "verified_against_page_image": true}
+  },
+  {
+    "id": "phaladeepika-15-21-karaka-reference",
+    "kind": "planet_derived_reference",
+    "trigger": "Select a relative's karaka in a natal chart",
+    "operation": "Treat the sign occupied by that karaka as a temporary ascendant for the relative's twelve houses",
+    "limitation": "The source names father/Sun and mother/Moon explicitly, with further karakas; this record enables only explicit Sun/father and Moon/mother mappings, not a final prediction",
+    "mappings": {"Sun": "father", "Moon": "mother"},
+    "source": {"slug": "phaladeepika-1937", "pdf_page": 197, "printed_page": 160, "chapter": "XV", "sloka": 21, "verified_against_page_image": true}
+  },
+  {
+    "id": "phaladeepika-15-25-three-strength-condition",
+    "kind": "conditional_outcome",
+    "trigger": "Bhava, its lord and its karaka are all strong",
+    "operation": "Traditional favorable reading for that bhava only when all three strengths have been established",
+    "limitation": "Strength algorithm not implemented; record is deliberately disabled for automatic output",
+    "enabled": false,
+    "source": {"slug": "phaladeepika-1937", "pdf_page": 198, "printed_page": 161, "chapter": "XV", "sloka": 25, "verified_against_page_image": true}
+  },
+  {
+    "id": "phaladeepika-19-11-jupiter-dasha",
+    "kind": "conditional_outcome",
+    "trigger": "Jupiter natal mahadasha operating",
+    "operation": "Traditional reading mentions children and fulfilled desires among several topics",
+    "limitation": "No exact dasha calendar dates or strength/whole-chart judgment yet; do not emit as a personal forecast",
+    "enabled": false,
+    "source": {"slug": "phaladeepika-1937", "pdf_page": 232, "printed_page": 195, "chapter": "XIX", "sloka": 11, "verified_against_page_image": true}
+  }
+]

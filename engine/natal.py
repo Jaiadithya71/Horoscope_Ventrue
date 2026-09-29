@@ -5,6 +5,8 @@ Swiss Ephemeris license gate in engine/README.md applies.
 """
 import datetime as dt
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import json
+from pathlib import Path
 from .forecast import swe, julian_day, position, FLAGS, SIGNS
 
 PERIODS = (('Sun', 6), ('Moon', 10), ('Mars', 7), ('Rahu', 18),
@@ -51,6 +53,7 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
             'placements': placements, 'moon_periods': moon_periods(placements['Moon']['longitude']),
+            'reference_rules': natal_references(placements),
             'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
 
@@ -98,3 +101,20 @@ def subperiods(lord, starting_solar_years=0.0):
                        'printed_page': 97, 'verified_against_page_image': True},
             'illustration': {'pdf_page': 112, 'printed_page': 98},
             'unit': 'solar-year fraction; no calendar date claim'}
+
+
+def natal_references(placements):
+    """Only reversible house-reference math, not outcome claims."""
+    records = json.loads((Path(__file__).parent / 'natal_rules.json').read_text())
+    by_id = {record['id']: record for record in records}
+    def derived_sign(sign, house):
+        return SIGNS[(SIGNS.index(sign) + house - 1) % 12]
+    relatives = {}
+    for planet, relative in by_id['phaladeepika-15-21-karaka-reference']['mappings'].items():
+        if planet in placements:
+            relatives[relative] = {'reference_planet': planet, 'reference_sign': placements[planet]['sign'],
+                                   'second_sign': derived_sign(placements[planet]['sign'], 2),
+                                   'source': by_id['phaladeepika-15-21-karaka-reference']['source']}
+    return {'derived_bhava_source': by_id['phaladeepika-15-20-derived-bhava']['source'],
+            'relatives': relatives,
+            'notice': 'These are reference signs only. No event, health, or lifespan is inferred.'}

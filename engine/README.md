@@ -33,3 +33,7 @@ The natal JSON also contains a Moon-star period sequence. [Phaladeepika XIX.2-3]
 ```bash
 python3 -m engine.forecast --date 2026-01-01 --birth-date 2000-01-01 --birth-time 14:30 --birth-tz Asia/Kolkata --birth-place 'Chennai, India' --birth-lat 13.0827 --birth-lon 80.2707
 ```
+
+## Verified natal rule registry (no unsupported prediction)
+
+[`natal_rules.json`](natal_rules.json) stores the original-scan-checked [Phaladeepika XV.20-21](https://archive.org/details/in.ernet.dli.2015.92117), PDF p. 197 (printed 160): count topical houses from the relevant natal house, or count from a relative's signifying planet. Only the explicit father/Sun and mother/Moon references are calculated at present; the JSON emits reference signs, not life-event conclusions. XV.25 on p. 198 (printed 161) requires the house, lord and karaka all to be strong before a favorable judgment, so it is recorded as **disabled** until strength calculation is implemented. XIX.11 on p. 232 (printed 195) lists traditional Jupiter-dasha outcomes, but likewise remains disabled because precise date and whole-chart judgment are absent. Each of these pages was visually checked; OCR alone was not used as authority. The source material contains unsupported historical claims, including health/lifespan statements: do not turn these into advice or asserted outcomes.

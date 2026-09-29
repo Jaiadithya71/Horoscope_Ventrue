@@ -1,5 +1,5 @@
 import unittest
-from engine.natal import natal_chart, moon_periods, subperiods, birth_utc
+from engine.natal import natal_chart, moon_periods, subperiods, birth_utc, natal_references
 
 class NatalTests(unittest.TestCase):
     def test_star_boundaries_and_initial_remainder(self):
@@ -21,6 +21,14 @@ class NatalTests(unittest.TestCase):
         self.assertNotEqual(a['ascendant']['longitude'],b['ascendant']['longitude'])
         self.assertEqual(a['placements']['Moon']['longitude'],b['placements']['Moon']['longitude'])
         self.assertEqual(a['birth_utc'],'2000-01-01T09:00:00+00:00')
+
+    def test_page_cited_relative_house_references_no_outcomes(self):
+        positions={'Sun': {'sign': 'Aries'}, 'Moon': {'sign': 'Pisces'}}
+        refs=natal_references(positions)
+        self.assertEqual(refs['relatives']['father']['second_sign'],'Taurus')
+        self.assertEqual(refs['relatives']['mother']['second_sign'],'Aries')
+        self.assertEqual(refs['relatives']['father']['source']['pdf_page'],197)
+        self.assertNotIn('outcome',refs)
 
     def test_dst_and_coordinates_fail_closed(self):
         with self.assertRaisesRegex(ValueError,'did not exist'):
