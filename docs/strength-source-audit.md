@@ -355,3 +355,11 @@ printed example matches exactly. No whole-chart total or natal profile is
 selected, and no class switch, Mercury association test or Moon doubling from
 another commentary is silently imported. The birth-input app interface is
 unchanged.
+
+Jha28.12-13 PDF188/156 independently confirms the already implemented interior
+third order: day Mercury/Sun/Saturn, night Moon/Venus/Mars, Jupiter always 60
+virupa. Year/month/day/hour lord weights are 15/30/45/60 virupa. The standalone
+`jha_temporal_corroboration` checks all six interior cases and four supplied-lord
+weights against existing Sripati helpers, without duplicating calculators. It
+does not corroborate historical lord derivation, modern solar-event models or
+exact third-boundary ownership. No full strength or app interface changes.
