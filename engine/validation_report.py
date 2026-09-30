@@ -19,6 +19,7 @@ from .sripati_worked_ayana_audit import worked_ayana_audit
 from .three_segment_ayana import worked_three_segment_ayana_audit
 from .sripati_worked_motion_audit import worked_motion_audit
 from .ketkar_motion_input_audit import ketkar_motion_input_audit
+from .ketkar_mean_anchor_audit import ketkar_mean_anchor_audit
 from .modern_book_date_audit import audit_example50
 from .dated_example_audit import secondary_example_audit
 
@@ -106,6 +107,7 @@ def validation_report():
     'worked_three_segment_ayana_audit':worked_three_segment_ayana_audit(),
     'sripati_worked_motion_audit':worked_motion_audit(),
     'ketkar_motion_input_semantics':ketkar_motion_input_audit(),
+    'ketkar_printed_mean_anchors':ketkar_mean_anchor_audit(),
     'raman_motion_source_audit':raman_motion_source_audit(),
     'raman_mean_sun_example_audit':raman_mean_sun_example_audit(),
     'raman_source_validation':raman_validation_report(),
