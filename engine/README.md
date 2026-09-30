@@ -193,3 +193,27 @@ The house report now keeps XV.3 lord-target influence and XV.6 supplied connecti
 Historical ephemeris input provenance is documented in `docs/historical-ephemeris-provenance.md`. The downloaded Ketkar scan contains a revised second-edition note signed1937, not proof that it is the exact table set behind Sripati's printed example. Generic modern mean longitude/speed must not be silently substituted. A verified table/epoch/input chain is needed before chart-derived traditional motion can be claimed.
 
 The period-condition CLI accepts `--include-modern-degree-geometry` to evaluate XV.13-14's exact Sandhi qualification using this chart's modern Swiss Lahiri ascendant/MC and Sripati quadrant-trisection candidate. It is opt-in, with anchors/model and unavailable geometry retained; the default leaves the geometry-dependent period gate unresolved. This is not a historical ephemeris profile selection or a global outcome priority, and does not remove explicit period-school disagreement.
+
+## One structured research-input report
+
+```bash
+python3 -m engine.research_input_report \
+  --input-json profiles/research/synthetic-birth-input.json
+# Or pipe an input object with birth into --input-json -
+```
+
+The sample is synthetic, not a user's birth record. It runs the existing labeled
+modern chart and an optional explicitly supplied period pair together. That pair
+is not inferred to be active. Optional `supplied_strength` maps classical planet
+names to one of two exact declaration formats:
+
+- `source_layout: raman_art121_ayana_in_kala`, with `components`,
+  `declared_complete`, `component_profile`, `war_treatment` as defined by
+  `raman_supplied_composition` (virupa, Ayana insideKala, signedDrik).
+- `source_layout: sripati_iii20_supplied_base`, with `components`, `layout`,
+  `complete`, `component_profile` as defined by `supplied_layout_audit` (rupa,
+  expanded or inclusive-motion base only, no signed-aspect assembly).
+
+These are caller declarations, not strengths verified from the chart. They never
+become strong/weak condition flags, a selected total, rank or forecast. Unknown
+layouts and extra fields are rejected rather than inferred.

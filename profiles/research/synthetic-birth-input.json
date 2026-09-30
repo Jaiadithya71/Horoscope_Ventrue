@@ -1,0 +1,11 @@
+{
+  "birth": {
+    "date": "2000-01-01",
+    "time": "14:30",
+    "timezone": "Asia/Kolkata",
+    "latitude": 13.0,
+    "longitude": 80.0,
+    "place": "Synthetic example coordinates, not a user birth record"
+  },
+  "period_pair": {"main_lord": "Jupiter", "sub_lord": "Mercury"}
+}
