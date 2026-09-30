@@ -133,3 +133,19 @@ class HouseAndDecanTests(unittest.TestCase):
                                      'sripati_degree_house':{'house':None,'at_sandhi':True}}})
         self.assertEqual(len(x['planets']['Sun']['kendradibala_candidates']['candidates']),1)
         self.assertIsNone(x['total_strength'])
+
+class NatalStatusTests(unittest.TestCase):
+    def test_live_natal_partial_status_and_separate_houses(self):
+        from engine.natal import natal_chart
+        chart=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        factors=chart['natal_factors']
+        components=factors['continuous_strength_components']
+        self.assertIsNone(components['total_strength'])
+        self.assertIn('global outcome precedence',factors['unresolved_conventions'])
+        self.assertNotIn('numeric directional (whole-sign condition only)',factors['missing_strength_components'])
+        for p,row in components['planets'].items():
+            self.assertIsNotNone(row['digbala'])
+            self.assertEqual(row['kendradibala_candidates']['candidates'][0]['profile'],'rasi_house')
+            self.assertEqual(row['kendradibala_candidates']['candidates'][1]['profile'],'sripati_degree_bhava')
+            self.assertIn('sripati_degree_house',chart['placements'][p])
+            self.assertIn('whole_sign_house_from_ascendant',chart['placements'][p])
