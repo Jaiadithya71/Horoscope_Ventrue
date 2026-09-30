@@ -16,3 +16,9 @@ class JhaValidationTests(unittest.TestCase):
   x=report();self.assertEqual(x['checks']['normalized_birth_balance_and_solar_target']['source']['pdf_page'],310)
   self.assertIsNone(x['checks']['printed_strength_thresholds_and_layout']['selected_threshold_profile'])
   self.assertTrue(x['critical_source_disagreements']);self.assertTrue(x['source_profile_boundaries'])
+ def test_source_only_cli_without_ephemeris_import(self):
+  import os
+  env=os.environ.copy();env.pop('PYTHONPATH',None)
+  script="import sys; sys.modules['swisseph']=None; from engine.jha_validation_report import jha_validation_report; import json; print(json.dumps(jha_validation_report()))"
+  r=subprocess.run([sys.executable,'-c',script],capture_output=True,text=True,env=env)
+  self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(len(json.loads(r.stdout)['checks']),6)

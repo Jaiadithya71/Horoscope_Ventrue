@@ -2,7 +2,6 @@
 
 This is not a general priority between outcome rules or a numeric score.
 """
-from .forecast import sign_index
 
 CLASSICAL=('Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn')
 FRIENDS={'Sun':{'Moon','Mars','Jupiter'},'Moon':{'Sun','Mercury'},
@@ -29,6 +28,7 @@ def natural_relation(planet, other):
 
 
 def relationship_evidence(placements):
+    from .forecast import sign_index
     rows=[]
     for planet in CLASSICAL:
         if planet not in placements:continue
@@ -70,6 +70,7 @@ def compound_relation(natural,other_house):
 
 
 def compound_relationship_candidates(placements):
+    from .forecast import sign_index
     rows=[]
     for a in CLASSICAL:
         for b in CLASSICAL:
