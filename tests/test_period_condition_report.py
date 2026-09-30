@@ -45,3 +45,17 @@ class PeriodDispositionBridgeTests(unittest.TestCase):
   r=x['xx14_lord_disposition_candidates']['rows'][0]
   self.assertTrue(r['condition_evidence']['opposed_conditions_active'])
   self.assertIsNone(x['personal_outcome']);self.assertIsNone(x['global_precedence'])
+
+class AngularTrinalPeriodBridgeTests(unittest.TestCase):
+ def test_pair_candidates_preserve_relation_profiles_and_strength_gap(self):
+  x=period_condition_report('Aries',{'Saturn':{'sign':'Capricorn','longitude':270},'Jupiter':{'sign':'Cancer','longitude':90}},'Saturn','Jupiter')
+  rows=x['xx45_46_angular_trinal_pair_candidates']
+  self.assertEqual([r['relation_profile'] for r in rows],[r['profile'] for r in x['xv30_lord_connection_candidates']['candidates']])
+  self.assertTrue(rows[0]['condition_evidence']['candidates'][0]['xx45_related_pair_condition'])
+  self.assertIsNone(rows[0]['condition_evidence']['candidates'][0]['xx46_related_strong_kendra_condition'])
+  self.assertIsNone(x['personal_outcome'])
+ def test_missing_node_roles_stay_unknown(self):
+  x=period_condition_report('Aries',{},'Rahu','Ketu')
+  for r in x['xx45_46_angular_trinal_pair_candidates']:
+   for c in r['condition_evidence']['candidates']:
+    self.assertIsNone(c['xx45_related_pair_condition'])
