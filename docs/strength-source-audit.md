@@ -463,3 +463,13 @@ classification unknown. This does not verify caller completeness, settle Jha
 threshold conflicts or justify using an emphasized component as a full total.
 Dignity import is now local to condition_precedence so this threshold-only
 check needs no astronomy dependency. PathakCLI nine checks, app unchanged.
+
+PathakIV.24 actualPDF73/53 and1937PDF79-80/42-43 original pixels independently
+corroborate house lord strength+one rupa+house directional strength+house
+aspect strength.1937 commentary explicitly refers to its Sripati chaptersII-III
+for details. This referral is not blanket proof of compatibility among every
+existing lord/house/aspect/occupant candidate. Source-only term-list audit names
+remaining lord-total, cross-sign weighting, category, aspect and occupant-term
+gates without assembling a mixed-source Bhava total. PathakCLI ten checks.
+This closes the bounded independent IV source audit; own-Shadvarga refinement,
+complete strength composition and unique calendar/predictive gates remain open.
