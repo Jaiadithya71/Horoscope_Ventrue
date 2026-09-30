@@ -149,3 +149,20 @@ class NatalStatusTests(unittest.TestCase):
             self.assertEqual(row['kendradibala_candidates']['candidates'][1]['profile'],'sripati_degree_bhava')
             self.assertIn('sripati_degree_house',chart['placements'][p])
             self.assertIn('whole_sign_house_from_ascendant',chart['placements'][p])
+
+class SeventhVargaTests(unittest.TestCase):
+    def test_source_owner_sequences(self):
+        from engine.vargas import saptamsa,seven_varga_owner_evidence,six_vargas
+        for base,owners in ((0,('Mars','Venus','Mercury','Moon','Sun','Mercury','Venus')),
+                            (30,('Mars','Jupiter','Saturn','Saturn','Jupiter','Mars','Venus'))):
+            for k,owner in enumerate(owners):
+                self.assertEqual(saptamsa(base+(k+.5)*30/7)['owner'],owner)
+        self.assertEqual(saptamsa(17.725)['sign'],'Leo')
+        self.assertEqual(saptamsa(0)['part_1_based'],1)
+        self.assertEqual(saptamsa(30)['sign'],'Scorpio')
+        self.assertEqual(saptamsa(359.999)['part_1_based'],7)
+        self.assertEqual(len(seven_varga_owner_evidence('Sun',17.725)['vargas']),7)
+        self.assertEqual(len(six_vargas(17.725)['vargas']),6)
+        self.assertEqual(seven_varga_owner_evidence('Sun',17.725)['score_status'],'not_scored')
+        for bad in (-1,360,float('nan')):
+            with self.assertRaises(ValueError):saptamsa(bad)

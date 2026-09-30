@@ -56,3 +56,31 @@ def varga_owner_evidence(planet,longitude):
     result['score_status']='not_scored'
     result['notice']='Varga owners and natural relationships only; no sum, weighted strength, or unsupported varga sign assignment.'
     return result
+
+
+SAPTAMSA_SOURCE={'slug':'sarvartha-chintamani-1899-part-1','chapter':'I','stanza':19,
+                 'pdf_pages':[44,45],'printed_pages':[26,27],'verified_against_page_image':True,
+                 'url':'https://archive.org/details/Astrology_Books_by_B_Suryanarayana_Row'}
+
+
+def saptamsa(longitude):
+    if not math.isfinite(longitude) or not 0<=longitude<360:
+        raise ValueError('Longitude must be finite and in [0,360)')
+    lon=Fraction(str(longitude));index=int(lon//30);degree=lon-index*30
+    part=int(degree*7//30)
+    target=(index+(0 if index%2==0 else 6)+part)%12
+    return {'varga':'saptamsa','sidereal_longitude':longitude,'part_1_based':part+1,
+            'sign':SIGNS[target],'owner':LORDS[target],'source':SAPTAMSA_SOURCE,
+            'notice':'Seven equal divisions; own-sign start for odd signs, seventh-sign start for even. Geometry only, no children outcome or strength sum.'}
+
+
+def seven_varga_owner_evidence(planet,longitude):
+    result=varga_owner_evidence(planet,longitude)
+    seventh=saptamsa(longitude)
+    seventh['own_owner']=seventh['owner']==planet
+    seventh['natural_relation_to_owner']=('self' if seventh['own_owner'] else natural_relation(planet,seventh['owner'])) if planet in CLASSICAL else None
+    result['vargas'].insert(3,seventh)
+    result['membership_source']={'slug':'sripatipaddhati-sastri-archive-203510','chapter':'III','sloka':3,
+        'pdf_page':40,'printed_page':26,'verified_against_page_image':True,'url':'https://archive.org/details/dli.ernet.203510'}
+    result['notice']='Seven-varga owner geometry from explicitly named sources, not a source-selected strength aggregation. Compound relations and alternative owner-strength interpretation remain unresolved.'
+    return result
