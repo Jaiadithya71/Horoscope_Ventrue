@@ -56,7 +56,9 @@ def positional_hora_candidates(weekday_lord,ascendant_longitude,sun_longitude):
                 'remainder_one_based':HORA_CYCLE[(base+remainder-1)%7]}
     return {'doubled_arc_degrees':doubled,'completed_signs':signs,'remainder':remainder,
             'candidates':candidates,'selected_lord':None,'source':source('14 commentary',64,50),
-            'original_sample_disagreement':'Printed doubled arc23sign23deg36min32sec has remainder2. Zero-based gives third from Venus, Moon, matching the printed planet but not its fourth ordinal; one-based gives second, Mercury. Planet example supports zero-based, but conflicting ordinal stays exposed and no universal indexing winner chosen.',
+            'original_sample_disagreement':None,
+            'worked_sample_evidence':'Printed doubled arc23sign23deg36min32sec has completed-sign index23, hence 24th hora from Venus, Moon. Enlarged laterPDF64/50 and1919PDF106/90 confirm24th, not earlier mistaken4th. Zero-based candidate matches arithmetic, ordinal and planet; one-based remainder gives Mercury and fails this worked example.',
+            'worked_sample_supported_profile':'completed_signs_zero_based',
             'notice':'Separate half-Rasi alternative, not merged into Kala hora. Exact half-Rasi boundary convention also remains unresolved.'}
 
 
