@@ -2,6 +2,7 @@
 from decimal import Decimal
 from .full_strength_table_audit import PRINTED,NAMES
 from .continuous_strength import source
+from .luminary_motion_identity import supplied_luminary_motion_identity
 
 
 def luminary_motion_table_audit():
@@ -15,6 +16,7 @@ def luminary_motion_table_audit():
   row['exact_printed_equality']=Decimal(row['printed_cheshta'])==Decimal(row['comparison_value'])
   row['explicit_later_multiplier']=2
   row['doubled_comparison_not_substituted']=str(2*Decimal(row['comparison_value']))
+  row['named_bphs_identity_corroboration']=supplied_luminary_motion_identity(row['planet'],float(row['comparison_value']),component_profile='Sripati printed undoubled worked-table component, not selected natal model')
   row['motion_source']=source('20 total table separate motion row',75,61)
   row['later_multiplier_source']=source('15-16 Sun Ayana/Moon Paksha doubling',66,52)
  return {'rows':rows,'universal_luminary_motion_rule_verified':False,
