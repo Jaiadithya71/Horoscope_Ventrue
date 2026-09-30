@@ -23,6 +23,6 @@ class ValidationReportTests(unittest.TestCase):
   self.assertFalse(dates['historical_mean_sun_other_dasha']['exact_endpoint_verified'])
   self.assertIsNone(dates['historical_mean_sun_other_dasha']['selected_calendar'])
   self.assertIsNone(dates['modern_book_explicit_savana']['selected_calendar'])
-  self.assertEqual(len(dates),9)
+  self.assertEqual(len(dates),10)
   self.assertTrue(dates['ketkar_local_mean_day_chain']['ujjain_arithmetic_matches'])
   self.assertIsNone(dates['ketkar_local_mean_day_chain']['mean_planet_longitudes'])
