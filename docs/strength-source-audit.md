@@ -345,3 +345,13 @@ JhaSudha directrelationship corroboration: actualPDF49-51/17-19 chapter3.56-62 e
 IndependentJha wartransfer corroboration: actualPDF190/158,28.20 Sanskrit/Hindi specifies difference of fullsixfoldstrengths addedtowinner/subtractedfromloser. ExistingquotedParashara absolute-difference suppliedcandidate nowattaches thisindependent source, withoutchanging itsarithmetic orselecting absoluteinterpretation ascriticaltext. Itdoesnot inherit Ramanpartialbase/discdivisor or Sripatilatitudedivisor. Boundedchapter3/fullOCRhunt foundno wartrigger/winnerdefinition thatcanbeconfirmedfromthissource; absenceinOCR isnotevidenceofabsenceinthebook. Trigger/winnerrule therefore remainunverified, andcallerconfirmedwar/completetotals/winner stillrequired. Noautomaticwar/total/forecast enabled. Tonightappinterfaceunchanged.
 
 JhaSudha28.10-18 actualPDF188-189/156-157 verifiesfixedMoon/Mercury/Venus/Jupiterbeneficgroup; workedwaningMoonshares43;15;50virupa undoubled, malefics16;44;10. Exactarithmeticmatchesboth. This checkedworkedprofile differsfromSanthanamdarkhalf/association/Moondouble commentary; absenceofdoublinghere isnotuniversalexclusionproof. JhaAyana isexplicitresidualthree-khanda, not23.45degreedeclination. Suninitial2;28;32;10 becomesnextoperand28;12;10 (-20minutes); printed342;26;0product/30 differsfromprinted11;14;40 by612arcseconds. The78additionmatches89;14;40, but(90+89;14;40)/3 differsfromprinted59;44;53 by⅓second. `jha_luminary_component_audit` retainstheseerrors/namedworkedmultipliers1 withoutrepair orwholeprofilewinner. RunnableJhareportnowsevenchecks, appcontractunchanged.
+
+`engine.bphs_jha_paksha.bphs_jha_paksha` now calculates a separately named
+Jha28.10-11 supplied-longitude component. It requires common coordinate
+provenance and uses exact rational folded phase / 3, with the printed fixed
+benefic group and worked Moon multiplier 1. Conjunction, opposition, quarters,
+wraparound, rational reflection and invalid inputs have regressions. The waning
+printed example matches exactly. No whole-chart total or natal profile is
+selected, and no class switch, Mercury association test or Moon doubling from
+another commentary is silently imported. The birth-input app interface is
+unchanged.
