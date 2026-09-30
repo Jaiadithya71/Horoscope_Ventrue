@@ -53,6 +53,8 @@ def continuous_components(placements,bhava_centres=None):
         rows[planet]={'uchchabala':uchchabala(planet,p['longitude']),
                       'naisargikabala':naisargikabala(planet),
                       'yugmayugmabala':yugmayugmabala(planet,p['longitude']),
+                      'drekkanabala':drekkanabala(planet,p['longitude']),
+                      'kendradibala_candidates':kendradibala_candidates(p.get('whole_sign_house_from_ascendant'),p.get('sripati_degree_house',{}).get('house')),
                       'pakshabala_candidates':pakshabala_candidates(planet,placements['Sun']['longitude'],placements['Moon']['longitude']) if placements.get('Sun',{}).get('longitude') is not None and placements.get('Moon',{}).get('longitude') is not None else None,
                       'digbala':digbala(planet,p['longitude'],bhava_centres) if bhava_centres is not None else None}
     return {'planets':rows,'status':'partial_numeric_components',
@@ -142,3 +144,38 @@ def yugmayugmabala(planet,longitude):
             'rupa':.25*sum(matches),'source':source('4',49,35),
             'worked_example_source':source('4 commentary',50,36),
             'notice':'Rasi/Navamsa parity component only, not seven-varga aggregation or total positional strength.'}
+
+
+def kendradibala_candidates(whole_sign_house=None,degree_bhava=None):
+    """III.5 commentary explicitly preserves Rasi vs Bhava disagreement."""
+    rows=[]
+    for profile,house in (('rasi_house',whole_sign_house),('sripati_degree_bhava',degree_bhava)):
+        if house is None:continue
+        if type(house) is not int or not 1<=house<=12:raise ValueError('House must be integer 1..12 or unresolved None')
+        category=('kantaka','panapara','apoklima')[(house-1)%3]
+        rows.append({'profile':profile,'house':house,'category':category,'rupa':(1,.5,.25)[(house-1)%3]})
+    return {'candidates':rows,'candidate_conflict':len(rows)==2 and rows[0]['rupa']!=rows[1]['rupa'],
+            'source':source('5',51,37),'interpretation_source':source('5 commentary',52,38),
+            'notice':'Rasi and degree-Bhava interpretations retained separately. Missing/exact Sandhi Bhava stays unresolved; no automatic profile selection or strength total.'}
+
+
+PLANET_DEKAN_CLASS={'Sun':'masculine','Mars':'masculine','Jupiter':'masculine',
+                   'Mercury':'neuter','Saturn':'neuter','Moon':'feminine','Venus':'feminine'}
+
+
+def drekkanabala(planet,longitude):
+    if planet not in PLANET_DEKAN_CLASS:raise ValueError('Classical planet required')
+    from .vargas import six_vargas
+    decan=six_vargas(longitude)['vargas'][2]['part_1_based']
+    classification=PLANET_DEKAN_CLASS[planet]
+    preferred={'masculine':1,'neuter':2,'feminine':3}[classification]
+    return {'planet':planet,'decan_1_based':decan,'historical_planet_class':classification,
+            'matching_decan':decan==preferred,'rupa':.25 if decan==preferred else 0,
+            'source':source('5',51,37),
+            'classification_source':{'slug':'phaladeepika-1937','chapter':'II','sloka':27,
+                                     'pdf_pages':[56,57],'printed_pages':[19,20],'verified_against_page_image':True,
+                                     'url':'https://archive.org/details/in.ernet.dli.2015.92117'},
+            'classification_notice':'Historical symbolic planet categories, not a claim about human sex or gender; independently grounded in Phaladeepika II.27, not inferred as the Sripati commentary cited Jatakaparijata II.27.',
+            'quoted_own_shadvarga_adjustment':{'source':source('5 commentary',52,38),'rupa':.5,
+                'status':'not_evaluated','notice':'Commentary quotes30 Virupas instead of15 for own Shadvarga. Its Jupiter example differs from Sripati table. No unsupported definition of this extra condition is inferred.'},
+            'notice':'Sripati quarter-Rupa decan component only. No own-Shadvarga refinement, total positional strength or outcome inferred.'}

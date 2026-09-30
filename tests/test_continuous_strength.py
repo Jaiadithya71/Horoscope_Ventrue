@@ -95,3 +95,41 @@ class ParityTests(unittest.TestCase):
         self.assertEqual(yugmayugmabala('Venus',45)['rupa'],.5)
         self.assertEqual(yugmayugmabala('Mercury',45)['rupa'],0)
         with self.assertRaises(ValueError):yugmayugmabala('Rahu',0)
+
+class HouseAndDecanTests(unittest.TestCase):
+    def test_house_categories_and_disagreement(self):
+        from engine.continuous_strength import kendradibala_candidates
+        for house in range(1,13):
+            x=kendradibala_candidates(house,house)
+            self.assertEqual(x['candidates'][0]['rupa'],(1,.5,.25)[(house-1)%3])
+            self.assertFalse(x['candidate_conflict'])
+        self.assertTrue(kendradibala_candidates(1,12)['candidate_conflict'])
+        self.assertEqual(len(kendradibala_candidates(1,None)['candidates']),1)
+        self.assertEqual(kendradibala_candidates()['candidates'],[])
+        for bad in (0,13,1.5,True):
+            with self.assertRaises(ValueError):kendradibala_candidates(bad)
+
+    def test_decan_classes_and_boundaries(self):
+        from engine.continuous_strength import drekkanabala,PLANET_DEKAN_CLASS
+        for p,c in PLANET_DEKAN_CLASS.items():
+            preferred={'masculine':1,'neuter':2,'feminine':3}[c]
+            for k in range(3):
+                self.assertEqual(drekkanabala(p,30+k*10)['rupa'],.25 if k+1==preferred else 0)
+        self.assertEqual(drekkanabala('Sun',9.999999)['rupa'],.25)
+        self.assertEqual(drekkanabala('Sun',10)['rupa'],0)
+        self.assertEqual(drekkanabala('Venus',20)['rupa'],.25)
+        with self.assertRaises(ValueError):drekkanabala('Rahu',0)
+
+    def test_source_table_and_unapplied_refinement(self):
+        from engine.continuous_strength import drekkanabala
+        # PDF52 source Jupiter at beginning, Sun at17deg, Moon at14deg.
+        self.assertEqual(drekkanabala('Jupiter',240+5)['rupa'],.25)
+        self.assertEqual(drekkanabala('Sun',17.725)['rupa'],0)
+        self.assertEqual(drekkanabala('Moon',284)['rupa'],0)
+        self.assertEqual(drekkanabala('Jupiter',245)['quoted_own_shadvarga_adjustment']['status'],'not_evaluated')
+
+    def test_components_preserve_sandhi(self):
+        x=continuous_components({'Sun':{'longitude':10,'whole_sign_house_from_ascendant':1,
+                                     'sripati_degree_house':{'house':None,'at_sandhi':True}}})
+        self.assertEqual(len(x['planets']['Sun']['kendradibala_candidates']['candidates']),1)
+        self.assertIsNone(x['total_strength'])
