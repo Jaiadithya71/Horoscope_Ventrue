@@ -167,3 +167,5 @@ python3 -m engine.period_condition_report --birth-date 2000-01-01 --birth-time 1
 ```
 
 The report keeps XXI.41 competing schools, XX.22 unfavorable-house candidates, XX.22 Vargottama qualifications and XV.10-11 lordship emphasis separate. Commentary-threshold-conditioned variants are hypotheses, never selected flags. No voting, final outcome, probability, calendar selection or full strength total follows from this report.
+
+`python3 -m engine.convention_condition_report` takes the same birth/place arguments plus `--at 2026-01-01T00:00:00+00:00`. It carries all nine calendar/birth-balance profiles into the scoped main/subperiod condition report without selecting one. Repeated lord pairs share one evidence record. Invalid or overfull profiles stay invalid. This makes convention uncertainty operational: a different applicable lord pair can change the cited conditions. Agreement does not prove a unique convention, Balaji match or predictive accuracy.

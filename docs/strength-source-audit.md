@@ -147,3 +147,7 @@ Fresh Kapoor II.36 notes PDF26-27 images give Moon12°, Mars17°, direct/retrogr
 ## Simultaneous main/subperiod unfavorable-house condition keeps its translations separate
 
 Original1937 PDF245 XX.22 says both planets 'own or occupy'6/8/12; Kapoor PDF186 writes separate owner-pair and occupant-pair clauses. Fresh image inspection supports preserving the mixed owner/occupant case as a possible interpretation difference rather than guessing equivalence. `period_dusthana_condition.py` applies three-valued logic to explicit house lists/occupations and provides separate whole-sign and degree-Bhava chart candidates. Node ownership is unknown, not an invented lordship or empty absence. Missing Bhava cannot fall back to Rasi. No active calendar, adverse personal event, school winner or override of the Lagna exception/Vargottama qualification is selected.
+
+## Calendar uncertainty now reaches condition evidence without an automatic winner
+
+`convention_condition_report.py` routes every one of the existing3x3 calendar/balance profiles to its main/subperiod evidence. Invalid profiles get no fallback, and distinct lord pairs get separate condition reports. Antara remains in the path but no unsupported three-level outcome combination is added. This is deterministic integration of unresolved choices, not a resolution by voting. Neither matching paths nor matching scoped conditions certify the convention or an event prediction.
