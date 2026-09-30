@@ -5,6 +5,7 @@ from .vargottama_period_qualification import chart_vargottama_period_qualificati
 from .combustion_candidates import chart_combustion_candidates
 from .lordship_precedence import lordship_precedence
 from .period_sandhi_gate import period_sandhi_gate
+from .dual_owner_occupation_exception import dual_owner_occupation_exception
 from .natal_factors import dignity
 from .vargas import six_vargas
 
@@ -32,6 +33,7 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geome
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
     'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
     'vargottama_qualification_candidates':qualified,'lordship_emphasis':owners,
+    'xv29_own_other_house_exception':dual_owner_occupation_exception(reference_sign,{p:v for p,v in placements.items() if p in (main_lord,sub_lord)}),
     'selected_strength_total':None,'selected_calendar':None,'personal_outcome':None,
     'global_precedence':None,'status':'scoped_condition_evidence_only',
     'notice':'No vote, numerical weights or global winner between these different scopes. A specific exception within one verse cannot override another verse or unchosen school. Absence of a checked conflict is not correctness or a forecast. Birth/motion/geometry uncertainty and missing source selection remain.'}
