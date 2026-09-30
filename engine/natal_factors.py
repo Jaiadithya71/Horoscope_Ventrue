@@ -97,7 +97,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .lordship_precedence import lordship_precedence
     from .planetary_war import chart_war_evidence
     from .seven_varga_strength import chart_direct_owner_candidates
-    return {'seven_varga_numeric_candidates':chart_direct_owner_candidates(placements),
+    from .positional_candidates import positional_candidates
+    return {'base_positional_candidates':positional_candidates(placements),
+            'seven_varga_numeric_candidates':chart_direct_owner_candidates(placements),
             'planetary_war_coordinate_evidence':chart_war_evidence(placements,coordinate_profile='Lahiri sidereal Swiss Ephemeris/Moshier geocentric ecliptic coordinates'),
             'scoped_lordship_precedence':lordship_precedence(ascendant_sign),
             'compound_relationship_candidates':compound_relationship_candidates(placements),
