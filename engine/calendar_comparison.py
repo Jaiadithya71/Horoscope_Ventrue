@@ -9,6 +9,8 @@ BALANCES=('equal_sector_longitude_fraction','normalized_actual_traversal_fractio
 
 def compare_conventions(birth,instant):
     """Report valid and invalid choices equally; no overfull balance clipping."""
+    if not isinstance(instant,dt.datetime) or instant.tzinfo is None or instant.utcoffset() is None:
+        raise ValueError('Query instant must be timezone-aware')
     evidence=lunar_traversal_evidence(birth)
     rows=[]
     for calendar in CALENDARS:

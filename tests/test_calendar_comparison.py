@@ -24,3 +24,22 @@ class ComparisonTests(unittest.TestCase):
         self.assertIsNone(x['lord_path_agreement'])
         self.assertEqual(x['distinct_computed_lord_paths'],[])
         self.assertTrue(all(r['hierarchy'] is None for r in x['comparison_rows']))
+
+    def test_overfull_fixed60_balance_stays_invalid_in_three_calendars(self):
+        from engine.period_evidence import lunar_traversal_evidence
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        evidence=lunar_traversal_evidence(birth)
+        near_entry=dt.datetime.fromisoformat(evidence['sector_entry_utc'])+dt.timedelta(seconds=1)
+        x=compare_conventions(near_entry,near_entry)
+        self.assertEqual(x['invalid_combinations'],3)
+        for row in x['comparison_rows']:
+            if row['balance_method']=='printed_XIX_3_fixed_60_divisor':
+                self.assertEqual(row['status'],'invalid_or_out_of_horizon')
+                self.assertIn('Initial balance must fit',row['reason'])
+                self.assertIsNone(row['hierarchy'])
+            else:self.assertEqual(row['status'],'computed_convention_estimate')
+
+    def test_naive_query_not_silently_localized(self):
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        with self.assertRaisesRegex(ValueError,'timezone-aware'):
+            compare_conventions(birth,dt.datetime(2026,1,1))

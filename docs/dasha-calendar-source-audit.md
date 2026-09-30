@@ -99,3 +99,5 @@ Explicit longitude-balance selection now keeps the unrounded model fraction, sep
 ## Single convention matrix, no majority oracle
 
 `engine.calendar_comparison` reports all3 calendar x3 balance combinations together, preserving each valid hierarchy, provenance and convention name, plus invalid/out-of-horizon reasons. Overfull fixed60 balances are not clipped or silently replaced. Distinct active-lord paths and agreement are visible, but agreement does not establish true timing, select a winner or unlock outcomes. This comparison uses only supplied birth/query data; synthetic tests and CLI examples contain no owner birth data.
+
+Comparison regressions explicitly check a slow-sector near-entry birth where fixed60 balance exceeds the full term: all3 fixed60 combinations remain invalid while the other6 compute. Naive query clocks are rejected before any result instead of being silently localized by datetime conversion.
