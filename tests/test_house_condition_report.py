@@ -42,3 +42,19 @@ class HouseCliTests(unittest.TestCase):
  def test_missing_file_not_empty_classification(self):
   p=self.run_cli('--classification-file','/tmp/does-not-exist-house-classes.json')
   self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
+
+ def test_condition_declarations_not_arbitration(self):
+  import tempfile,json
+  with tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+   json.dump({'lord_eclipsed':False,'lord_inimical_sign':False,'xv6_clauses':{'all_three_weak':True,'afflicted_without_benefics':False,'adverse_relative_occupation':False}},f);f.flush()
+   p=self.run_cli('--condition-file',f.name);self.assertEqual(p.returncode,0,p.stderr)
+   r=json.loads(p.stdout)
+   self.assertEqual([x['condition'] for x in r['xv6_supplied_connective_candidates']['candidates']],[False,True])
+   self.assertEqual(len(r['xv3_lord_target_candidates']['candidates']),8)
+   self.assertIsNone(r['personal_outcome'])
+ def test_unknown_condition_key_fails(self):
+  import tempfile,json
+  with tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+   json.dump({'automatic_global_winner':True},f);f.flush()
+   p=self.run_cli('--condition-file',f.name)
+   self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')

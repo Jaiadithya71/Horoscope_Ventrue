@@ -185,3 +185,5 @@ python3 -m engine.house_condition_report --birth-date 2000-01-01 --birth-time 14
 ```
 
 An optional `--strength-file` supplies JSON `profile`, `bhava`, `lord` and `karaka` bool/null fields. These are declarations, not engine-certified complete strength. Missing/invalid files, keys, classes, flags and birth inputs fail instead of guessing. No selected interpretation, prediction or empirical score follows.
+
+The house report now keeps XV.3 lord-target influence and XV.6 supplied connective candidates alongside XV.5 house recovery. Optional `--condition-file` JSON accepts `lord_eclipsed`, `lord_inimical_sign` bool/null flags and `xv6_clauses` with `all_three_weak`, `afflicted_without_benefics`, `adverse_relative_occupation`. These are independently grounded caller declarations; the engine does not infer aggregate XV.6 clauses or turn a positive house aspect into lord protection. Missing flags stay unknown and unknown keys fail. No all-three weakness is inferred from partial natal components or absence of favorable conditions.
