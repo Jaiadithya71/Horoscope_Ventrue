@@ -50,9 +50,10 @@ def forecast(date, moon_rashi, planet_names=None):
     moon = sign_index(moon_rashi)
     names = planet_names or list(PLANETS)
     placements = {}
+    from .transit_phase import transit_phase
     for name in names:
         p = position(utc, name)
-        placements[name] = {**p, 'house_from_moon': (sign_index(p['sign'])-moon)%12+1}
+        placements[name] = {**p, 'transit_phase_evidence':transit_phase(name,p['longitude']), 'house_from_moon': (sign_index(p['sign'])-moon)%12+1}
     rules = json.loads((ROOT/'rules.json').read_text())
     findings = [{**rule, 'trigger': {'planet': rule['planet'], **placements[rule['planet']]}}
                 for rule in rules if rule['planet'] in placements and placements[rule['planet']]['house_from_moon']==rule['house_from_moon']]
