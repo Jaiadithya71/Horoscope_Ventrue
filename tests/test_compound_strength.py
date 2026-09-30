@@ -30,3 +30,32 @@ class CompoundTests(unittest.TestCase):
         self.assertEqual(x['vargas'][2]['rupa'],.5)
         with self.assertRaises(ValueError):direct_owner_seven_varga('Sun',17.725,{},relation_profile='test',rasi_moolatrikona=True)
         with self.assertRaises(ValueError):direct_owner_seven_varga('Sun',17.725,{'Mars':'self'},relation_profile='test')
+
+class ChartSevenVargaCandidatesTests(unittest.TestCase):
+    def test_candidate_bridge_preserves_missing_bhava_and_no_winner(self):
+        from engine.seven_varga_strength import chart_direct_owner_candidates
+        # All owners exist, but no degree-Bhava assignment is supplied.
+        p={a:{'sign':s,'longitude':l} for a,s,l in [('Sun','Aries',17.725),('Moon','Capricorn',284),
+              ('Mars','Pisces',351),('Mercury','Aries',10),('Jupiter','Sagittarius',245),
+              ('Venus','Taurus',42),('Saturn','Cancer',100)]}
+        x=chart_direct_owner_candidates(p)
+        self.assertEqual(len(x['planets']),7)
+        for row in x['planets']:
+            self.assertIsNotNone(row['candidates'][0]['component']['rupa'])
+            # Sun/Moon owners may cover some pieces, but no missing relation is filled.
+            self.assertIsNone(row['candidates'][1]['component']['rupa'])
+            self.assertIsNone(row['selected_component'])
+        self.assertIsNone(x['total_strength'])
+        self.assertIsNone(x['positional_total'])
+
+    def test_complete_geometry_keeps_both_profiles_and_sources(self):
+        from engine.natal import natal_chart
+        from engine.seven_varga_strength import chart_direct_owner_candidates
+        n=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        x=chart_direct_owner_candidates(n['placements'])
+        for r in x['planets']:
+            for c in r['candidates']:
+                self.assertEqual(c['component']['score_status'],'explicit_input_component')
+                self.assertTrue(c['component']['strength_sources'])
+                self.assertIn('Phaladeepika1937',c['component']['relation_profile'])
+        self.assertIsNone(x['selected_profile'])
