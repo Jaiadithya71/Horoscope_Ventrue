@@ -8,6 +8,7 @@ from .period_sandhi_gate import period_sandhi_gate
 from .dual_owner_occupation_exception import dual_owner_occupation_exception
 from .period_disposition_gate import chart_period_disposition_candidates
 from .period_context_requirements import period_context_requirements
+from .period_manifestation_gate import period_manifestation_gate
 from .natal_factors import dignity
 from .vargas import six_vargas
 
@@ -36,6 +37,7 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geome
  return {'main_lord':main_lord,'sub_lord':sub_lord,
     'lord_pair_origin':'Explicit caller input, not inferred active date or selected dasha/calendar convention',
     'xx21_context_requirements':period_context_requirements(),
+    'xx43_44_manifestation_conditions':period_manifestation_gate(main_lord,sub_lord),
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
     'xx14_lord_disposition_candidates':chart_period_disposition_candidates(reference_sign,placements,main_lord,sub_lord),
     'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
