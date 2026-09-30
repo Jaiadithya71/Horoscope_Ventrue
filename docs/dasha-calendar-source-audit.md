@@ -145,3 +145,16 @@ was found in that passage. This preserves an arithmetic discrepancy rather
 than asserting a corrected misprint. `calendar_comparison` now adds the
 independent commentary audit as evidence only, retaining all nine choices
 and no selected profile. Birth-input defaults and numeric calendars unchanged.
+
+## Mean duration in a distinct chapter is not dasha arbitration
+
+PathakIV.12 actualPDF69/printed49, original pixels inspected, explicitly gives
+mean60-ghatika/3600-pala traversal for Chandra-kriya/avastha/vela. Divisors60/300/100
+produce60/12/36 mean partitions of13degree20minute.1937IV.12 actualPDF75/38
+independently confirms the elapsed-time divisors, not the later commentary's
+mean-duration explanation. `pathak_mean_partition_audit` checks exact widths:
+800,4000,4000/3 arcseconds. Printed vela22minutes13.3seconds is lower by1/30
+arcsecond. This is a separate IV.12 convention, not evidence to erase normalized
+actual traversal or choose XIX balance/calendar. True variable Moon traversal
+is not uniform angular progress. Integer quotient/index/boundary policies and
+listed personal outcomes stay unimplemented. Pathak source CLI now eight checks.

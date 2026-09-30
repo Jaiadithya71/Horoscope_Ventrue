@@ -9,7 +9,7 @@ from engine.pathak_validation_report import pathak_validation_report
 class PathakValidationTests(unittest.TestCase):
     def test_source_checks_keep_decisions_unknown(self):
         x = pathak_validation_report()
-        self.assertEqual(len(x['checks']), 7)
+        self.assertEqual(len(x['checks']), 8)
         self.assertEqual(len(x['local_precedence_scope']), 1)
         self.assertIsNone(x['checks']['explicit_lagna_house_or_lord_connective']['condition'])
         for key in ('selected_natal_total', 'selected_calendar_profile', 'selected_translation',
