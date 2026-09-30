@@ -13,6 +13,7 @@ from .sripati_worked_relation_audit import worked_relation_audit
 from .sripati_worked_strength_candidate import worked_direct_owner_candidates
 from .sripati_worked_positional_candidate import worked_positional_candidates
 from .sripati_worked_directional_audit import worked_directional_audit
+from .sripati_worked_temporal_audit import worked_temporal_audit
 from .modern_book_date_audit import audit_example50
 from .dated_example_audit import secondary_example_audit
 
@@ -81,6 +82,7 @@ def validation_report():
     'sripati_worked_direct_owner_components':worked_direct_owner_candidates(),
     'sripati_worked_positional_matrix':worked_positional_candidates(),
     'sripati_worked_directional_audit':worked_directional_audit(),
+    'sripati_worked_temporal_audit':worked_temporal_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
