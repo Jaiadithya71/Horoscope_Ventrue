@@ -135,3 +135,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 `ishta_kashta.py` keeps the IV.5-6 root transformation and quoted Parashara average transformation separate with grounded supplied normalized components. Historical names are not calibrated good/bad probabilities or automatic outcome weights; no total-strength/aspect multiplication or profile winner is inferred.
 
 `bhava_condition_gate.py` audits the XV.25 all-three-strong condition alongside XV.26's quoted competing placements. Supplied source-grounded flags/geometry remain caller responsibility; no winner or personal forecast is selected.
+
+`historical_declination.py` uses the original III.15-16 six-part, fixed24-degree table on supplied equinox-referenced longitude. It keeps Sun Ayana double/undoubled candidates separate and is not substituted for modern equatorial declination.
