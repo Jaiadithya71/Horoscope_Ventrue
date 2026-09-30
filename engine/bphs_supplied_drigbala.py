@@ -36,5 +36,13 @@ def bphs_supplied_drigbala(target,aspect_amounts_virupa,classifications,*,aspect
   'missing_planets_or_classifications':missing,'candidate_drigbala_virupa':str(total) if total is not None else None,
   'candidate_drigbala_rupa':str(total/60) if total is not None else None,
   'source':{'url':SOURCE_URL,'pdf_page':235,'printed_page':225,'chapter':27,'sloka':19,'verified_against_page_image':True},
+  'unsigned_geometry_source_gates':{
+   'source_url':SOURCE_URL,'pdf_pages':[209,210,211],'printed_pages':[199,200,201],
+   'verified_against_page_image':True,
+   'conflicts':['General English subtraction direction differs from Mars/Jupiter direction',
+    'Rule6 above160 overlaps150to180 branch',
+    'Mars simplified range210to249 differs from main7sign interval',
+    'Simplified constant additions do not generally match special-planet main formulas'],
+   'sripati_geometry_imported':False,'unique_bphs_geometry_verified':False},
   'selected_geometry_profile':None,'selected_strength_profile':None,'complete_total_strength':None,
   'notice':'Santhanam reproduction27.19 additive reading on explicitly supplied unsigned aspect magnitudes/classifications. No Sripati geometry imported as BPHS, self-aspect, hidden classification, strength-total assembly or profile winner. Quarter sign and fullMercury/Jupiter extra are shown separately, including a supplied maleficMercury case. Missing class even at zero aspect remains unknown. Use only once within a caller-validated source-consistent composition; not an additional adjustment to a Drik-inclusive total.'}

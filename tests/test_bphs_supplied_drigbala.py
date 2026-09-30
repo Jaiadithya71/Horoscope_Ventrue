@@ -22,3 +22,11 @@ class BphsDrigTests(unittest.TestCase):
   for v in (True,-1,61,'NaN'):
    amounts['Moon']=v
    with self.assertRaises(ValueError):self.call(amounts=amounts)
+
+class BphsGeometryGateTests(unittest.TestCase):
+ def test_source_conflicts_do_not_import_another_geometry(self):
+  others=set(CLASSICAL)-{'Sun'}
+  x=drig('Sun',dict.fromkeys(others,0),dict.fromkeys(others,'benefic'),aspect_profile='supplied zero fixture',classification_profile='supplied fixture')
+  g=x['unsigned_geometry_source_gates'];self.assertFalse(g['unique_bphs_geometry_verified'])
+  self.assertFalse(g['sripati_geometry_imported']);self.assertEqual(len(g['conflicts']),4)
+  self.assertIsNone(x['selected_geometry_profile'])
