@@ -4,8 +4,21 @@ from .continuous_strength import source,valid_longitude
 NON_LUMINARIES=('Mars','Mercury','Jupiter','Venus','Saturn')
 
 
+def _finite_angle(value):
+    import math
+    if isinstance(value,bool) or not isinstance(value,(int,float)):
+        raise ValueError('Numeric non-boolean angle required')
+    try:
+        finite=math.isfinite(value)
+    except OverflowError:
+        finite=False
+    if not finite:
+        raise ValueError('Finite representable angle required')
+
+
 def cheshtabala(planet,cheshtakendra_degrees):
     if planet not in NON_LUMINARIES:raise ValueError('Classical non-luminary required')
+    _finite_angle(cheshtakendra_degrees)
     valid_longitude(cheshtakendra_degrees)
     folded=min(cheshtakendra_degrees,360-cheshtakendra_degrees)
     return {'planet':planet,'supplied_cheshtakendra_degrees':cheshtakendra_degrees,
@@ -25,13 +38,16 @@ def cheshta_from_supplied_mean_true(planet,mean_unwrapped_degrees,true_unwrapped
     wrap rule here. Accept unwrapped finite inputs with named provenance.
     """
     import math
-    if not input_profile or not coordinate_branch:
+    if not isinstance(input_profile,str) or not input_profile.strip() or not isinstance(coordinate_branch,str) or not coordinate_branch.strip():
         raise ValueError('Grounded input profile and coordinate branch required')
-    if not all(math.isfinite(a) for a in (mean_unwrapped_degrees,true_unwrapped_degrees)):
-        raise ValueError('Mean and true supplied angles must be finite')
+    for angle in (mean_unwrapped_degrees,true_unwrapped_degrees,sighrochcha_degrees):
+        _finite_angle(angle)
     valid_longitude(sighrochcha_degrees)
     corrected=sighrochcha_degrees+(mean_unwrapped_degrees-true_unwrapped_degrees)/2
-    kendra=(corrected-mean_unwrapped_degrees)%360
+    difference=corrected-mean_unwrapped_degrees
+    if not math.isfinite(corrected) or not math.isfinite(difference):
+        raise ValueError('Supplied angle branch overflows the motion algebra')
+    kendra=difference%360
     return {'planet':planet,'supplied_mean_unwrapped_degrees':mean_unwrapped_degrees,
             'supplied_true_unwrapped_degrees':true_unwrapped_degrees,
             'supplied_sighrochcha_degrees':sighrochcha_degrees,
