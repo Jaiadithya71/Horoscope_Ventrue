@@ -69,3 +69,41 @@ def chart_cancellation_candidates(ascendant_sign,placements):
   'geometry_sources':[LORD_SOURCE,SOURCE_DIGNITY],
   'selected_profile':None,'personal_outcome':None,
   'notice':'If no classical planet is exalted in the depression sign (e.g. Moon/Scorpio), the alternative condition is unresolved, not false. This bridge uses sign Kendra geometry only; no degree-Bhava substitution, global cancellation, complete strength or outcome inferred.'}
+
+
+def other_cancellation_recipes(debilitated=None,mutual_lords_kendra=None,
+     aspected_by_depression_lord=None,non_dusthana_occupation=None,
+     depression_lord_kendra=None,exaltation_sign_lord_kendra=None,
+     debilitated_planet_kendra=None):
+ """VII.27-30 supplied conditions, deliberately not royal-event statements."""
+ flags=(debilitated,mutual_lords_kendra,aspected_by_depression_lord,
+        non_dusthana_occupation,depression_lord_kendra,
+        exaltation_sign_lord_kendra,debilitated_planet_kendra)
+ if any(x is not None and not isinstance(x,bool) for x in flags):
+  raise ValueError('Grounded bool or None required')
+ aspect=_and(debilitated,aspected_by_depression_lord)
+ rows=[{'verse':27,'condition':_and(debilitated,mutual_lords_kendra)},
+       {'verse':28,'condition':aspect,
+        'auspicious_house_qualification':_and(aspect,non_dusthana_occupation)},
+       {'verse':29,'condition':_and(debilitated,_or(depression_lord_kendra,exaltation_sign_lord_kendra))},
+       {'verse':30,'condition':_and(debilitated,debilitated_planet_kendra)}]
+ for row in rows:
+  row['source']={'slug':'phaladeepika-1937','pdf_page':118,'printed_page':81,
+                 'chapter':'VII','sloka':row['verse'],'verified_against_page_image':True}
+ return {'recipe_conditions':rows,'selected_combination':None,'personal_outcome':None,
+    'notice':'Separate text conditions only, not cancellation of every adverse factor. Aspect system remains caller-grounded. OriginalVII.28 explicitly glosses auspicious as other than6/8/12. No strength threshold, global priority or personal event inferred.'}
+
+
+def printed_cancellation_illustration_audit():
+ """Kapoor PDF90 displayed signs versus accompanying prose; not natal truth."""
+ from .forecast import sign_index
+ reference='Leo'
+ placements={'Saturn':'Aries','Mars':'Aquarius','Sun':'Sagittarius','Venus':'Capricorn'}
+ houses={p:(sign_index(s)-sign_index(reference))%12+1 for p,s in placements.items()}
+ return {'source':{'title':'Kapoor Phaladeepika','pdf_page':90,'verified_against_page_image':True},
+  'reference_sign':reference,'moon_sign':reference,'displayed_placements':placements,
+  'whole_sign_houses':houses,'mars_kendra_claim_matches':houses['Mars'] in (1,4,7,10),
+  'sun_kendra_claim_matches':houses['Sun'] in (1,4,7,10),
+  'duplicate_node_label':'Ketu appears in Aries and Scorpio',
+  'cancellation_condition_used_to_arbitrate_schools':None,
+  'notice':'Image/prose inconsistency exposed, not repaired. This figure cannot establish astronomical inputs, select either/both or silently move Sun to match prose.'}

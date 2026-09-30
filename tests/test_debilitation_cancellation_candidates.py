@@ -27,3 +27,22 @@ class CancellationTests(unittest.TestCase):
   from engine.debilitation_cancellation_candidates import chart_cancellation_candidates
   r=chart_cancellation_candidates('Aries',{'Moon':{'sign':'Scorpio'},'Mars':{'sign':'Taurus'}})
   self.assertIsNone(next(x for x in r['planet_evidence'] if x['planet']=='Moon')['planet_exalted_in_depression_sign'])
+
+ def test_other_recipes_independent(self):
+  from engine.debilitation_cancellation_candidates import other_cancellation_recipes
+  r=other_cancellation_recipes(True,True,False,None,False,False,True)
+  self.assertEqual([x['condition'] for x in r['recipe_conditions']],[True,False,False,True])
+  self.assertFalse(r['recipe_conditions'][1]['auspicious_house_qualification'])
+  self.assertIsNone(r['personal_outcome'])
+ def test_aspect_unknown_and_qualification(self):
+  from engine.debilitation_cancellation_candidates import other_cancellation_recipes
+  r=other_cancellation_recipes(True,aspected_by_depression_lord=True)
+  self.assertTrue(r['recipe_conditions'][1]['condition'])
+  self.assertIsNone(r['recipe_conditions'][1]['auspicious_house_qualification'])
+ def test_printed_illustration_is_not_arbitration(self):
+  from engine.debilitation_cancellation_candidates import printed_cancellation_illustration_audit
+  r=printed_cancellation_illustration_audit()
+  self.assertEqual(r['whole_sign_houses']['Mars'],7)
+  self.assertEqual(r['whole_sign_houses']['Sun'],5)
+  self.assertTrue(r['mars_kendra_claim_matches']);self.assertFalse(r['sun_kendra_claim_matches'])
+  self.assertIsNone(r['cancellation_condition_used_to_arbitrate_schools'])
