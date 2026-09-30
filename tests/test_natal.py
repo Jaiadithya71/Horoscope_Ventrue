@@ -21,6 +21,8 @@ class NatalTests(unittest.TestCase):
         self.assertNotEqual(a['ascendant']['longitude'],b['ascendant']['longitude'])
         self.assertEqual(a['placements']['Moon']['longitude'],b['placements']['Moon']['longitude'])
         self.assertEqual(a['birth_utc'],'2000-01-01T09:00:00+00:00')
+        self.assertEqual(len(a['dasha_hierarchy_at_birth']['hierarchy']),3)
+        self.assertEqual(a['dasha_hierarchy_at_birth']['hierarchy'][0]['lord'],a['moon_periods']['initial_lord'])
 
     def test_page_cited_relative_house_references_no_outcomes(self):
         positions={'Sun': {'sign': 'Aries'}, 'Moon': {'sign': 'Pisces'}}
@@ -39,3 +41,22 @@ class NatalTests(unittest.TestCase):
             natal_chart('2000-01-01','14:30','Asia/Kolkata',90,80,'somewhere')
 
 if __name__=='__main__': unittest.main()
+
+class DashaHierarchyTests(unittest.TestCase):
+    def test_first_partial_and_nested_boundaries(self):
+        from engine.natal import dasha_at_solar_offset
+        at_birth=dasha_at_solar_offset(360/54,0)
+        levels=at_birth['hierarchy']
+        self.assertEqual([x['level'] for x in levels],['mahadasha','antardasha','antara'])
+        self.assertEqual([x['lord'] for x in levels],['Ketu','Rahu','Mercury'])
+        self.assertAlmostEqual(levels[0]['full_start_solar_years_after_birth'],-3.5)
+        self.assertEqual(levels[0]['visible_start_solar_years_after_birth'],0)
+        self.assertNotIn('calendar_dates',at_birth)
+        # A boundary belongs to the next major lord, and nested intervals fit.
+        boundary=dasha_at_solar_offset(360/54,3.5)
+        self.assertEqual(boundary['hierarchy'][0]['lord'],'Venus')
+        for outer,inner in zip(boundary['hierarchy'],boundary['hierarchy'][1:]):
+            self.assertLessEqual(outer['full_start_solar_years_after_birth'],inner['full_start_solar_years_after_birth'])
+            self.assertLessEqual(inner['end_solar_years_after_birth'],outer['end_solar_years_after_birth'])
+        with self.assertRaises(ValueError):dasha_at_solar_offset(0,float('nan'))
+        with self.assertRaises(ValueError):dasha_at_solar_offset(0,-1)

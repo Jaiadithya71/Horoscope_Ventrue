@@ -58,12 +58,15 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     placements = {name: {**p, 'whole_sign_house_from_ascendant': (int(p['longitude'] // 30) - asc_index) % 12 + 1}
                   for name, p in positions.items()}
     from .synthesis import structural_factors
+    from .natal_factors import natal_factors
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
             'placements': placements, 'moon_nakshatra': nakshatra(moon_precise),
             'moon_periods': moon_periods(moon_precise),
+            'dasha_hierarchy_at_birth': dasha_at_solar_offset(moon_precise, 0.0),
             'reference_rules': natal_references(placements),
             'structural_factors_from_ascendant': structural_factors(SIGNS[asc_index],placements),
+            'natal_factors': natal_factors(SIGNS[asc_index],placements),
             'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
 
@@ -151,3 +154,57 @@ def sign_audience_padas(sign):
         result.append({'nakshatra':STARS[star], 'pada':pada+1})
     return {'moon_sign':sign,'possible_nakshatra_padas':result,'source':STAR_SOURCE,
             'notice':'Audience segmentation only; unknown birth data cannot select an individual pada or forecast.'}
+
+HIERARCHY_SOURCE = {'slug':'astrological-self-instructor-1893','pdf_pages':[111,112],
+                    'printed_pages':[97,98], 'verified_against_page_image':True}
+
+
+def dasha_at_solar_offset(moon_longitude, offset):
+    """Three nested period lords at a nonnegative solar-year offset from birth.
+
+    Return actual theoretical boundaries and the birth-clipped interval. No
+    Gregorian dates or personal outcomes. An offset on a boundary enters the
+    new period; the last supplied major period is exclusive at its end.
+    """
+    if not 0 <= moon_longitude < 360:
+        raise ValueError('Moon longitude must be in [0,360)')
+    if not 0 <= offset < float('inf'):
+        raise ValueError('Offset must be finite and nonnegative')
+    star=int(moon_longitude/STAR_ARC)
+    first=(star+7)%9
+    initial_years=PERIODS[first][1]
+    elapsed_initial=(moon_longitude/STAR_ARC-star)*initial_years
+    start=-elapsed_initial
+    path=[]
+    for cycle in range(10):
+        lord,years=PERIODS[(first+cycle)%9]
+        end=start+years
+        if start<=offset<end:
+            path.append((lord,start,end))
+            break
+        start=end
+    else:
+        raise ValueError('Offset exceeds the ten-period horizon after birth')
+    for _ in range(2):
+        parent_lord,begin,finish=path[-1]
+        first_child=next(i for i,(name,_) in enumerate(PERIODS) if name==parent_lord)
+        child_start=begin
+        for i in range(9):
+            name,years=PERIODS[(first_child+i)%9]
+            child_end=child_start+(finish-begin)*years/120
+            if i==8:child_end=finish
+            if child_start<=offset<child_end:
+                path.append((name,child_start,child_end))
+                break
+            child_start=child_end
+        else:
+            raise ArithmeticError('Subperiod boundary not resolved')
+    return {'offset_solar_years_after_birth':offset,
+            'hierarchy':[{'level':level,'lord':lord,
+                          'full_start_solar_years_after_birth':round(begin,9),
+                          'visible_start_solar_years_after_birth':round(max(begin,0),9),
+                          'end_solar_years_after_birth':round(end,9)}
+                         for level,(lord,begin,end) in zip(('mahadasha','antardasha','antara'),path)],
+            'source':HIERARCHY_SOURCE,
+            'date_limit':'No civil dates. Phaladeepika XIX.4 (PDF p. 230) uses solar returns; numeric years here are proportional offsets only.',
+            'notice':'Nested lord arithmetic is not Balaji attribution or an outcome predictor.'}
