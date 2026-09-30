@@ -92,7 +92,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .vargas import varga_owner_evidence,seven_varga_owner_evidence
     from .strength_precedence import condition_precedence
     from .continuous_strength import continuous_components
-    return {'continuous_strength_components':continuous_components(placements,bhava_centres),
+    from .degree_aspects import degree_aspect_evidence
+    return {'degree_aspect_evidence':degree_aspect_evidence(placements),
+            'continuous_strength_components':continuous_components(placements,bhava_centres),
             'scoped_strength_conditions':{p:condition_precedence(p,x['sign'],x.get('longitude'),x.get('retrograde'),x.get('overpowered_sun_rays')) for p,x in placements.items()},
             'seven_varga_owner_evidence':{p:seven_varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
             'six_varga_owner_evidence':{p:varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
@@ -101,7 +103,7 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
             'sign_exchanges':exchanges(placements),
             'maha_purusha_conditions':mahapurusha(ascendant_sign,placements),
-            'missing_strength_components':['complete temporal profile (standalone solar-clock/declination helpers only)','numeric motional (retrograde condition only)','seven-varga numerical aggregation and compound relationships','automatic combustion thresholds','source-selected complete positional profile','source-selected total sixfold strength'],
+            'missing_strength_components':['complete temporal profile (standalone solar-clock/declination helpers only)','numeric motional (retrograde condition only)','seven-varga numerical aggregation and compound relationships','automatic combustion thresholds','signed aspect-strength total (unsigned degree amounts implemented)','source-selected complete positional profile','source-selected total sixfold strength'],
             'unresolved_conventions':['phase complement and Sun/Moon multipliers','Rasi versus degree-Bhava house-category interpretation','exact Sandhi membership','global outcome precedence'],
             'sixfold_source':SOURCE_SIXFOLD,
             'notice':'No total strength score, comparative rank, or outcome is justified by these partial factors.'}
