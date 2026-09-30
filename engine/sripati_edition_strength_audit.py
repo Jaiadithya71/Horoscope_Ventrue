@@ -29,7 +29,7 @@ def edition_strength_audit():
    'table_pdf_page':75,'printed_page':61,'verified_against_page_image':True},
    'rows':rows,'earlier_subtotals_match':sum(r['1919_subtotal_matches'] for r in rows),
    'upstream_component_trace':{
-    'jupiter':{'1919_navamsa_owner':'Jupiter','1919_navamsa_relation':'own',
+    'jupiter':{'1919_printed_navamsa_owner':'Jupiter','1919_printed_navamsa_relation':'own',
      '1919_navamsa_rupa':'.5','later_navamsa_rupa':'.375',
      'seven_varga_delta':str(Decimal('3.25')-Decimal('3.125')),
      'positional_delta':str(Decimal('4.436')-Decimal('4.311')),
@@ -37,7 +37,7 @@ def edition_strength_audit():
      'earlier_numeric_source':{'pdf_page':96,'printed_page':80,'verified_against_page_image':True},
      'earlier_positional_source':{'pdf_page':99,'printed_page':83,'verified_against_page_image':True},
      'later_numeric_source':{'pdf_page':49,'printed_page':35,'verified_against_page_image':True},
-     'notice':'Own-owner Navamsa score is internally consistent in1919; later relation/score change needs independent chart reconstruction, not automatic import.'},
+     'notice':'1919score.5 follows its printed own-owner row, but the workedlongitude contradicts that row under named Phaladeepika geometry; see worked_navamsa_audit. No automatic import.'},
     'saturn':{'1919_local_motion_table_rupa':'.062','1919_aggregate_motion_rupa':'.026',
      'printed_cheshtakendra_degrees':'11.270','folded_angle_rupa':str(Decimal('11.270')/180),
      'earlier_local_source':{'pdf_page':113,'printed_page':97,'verified_against_page_image':True},

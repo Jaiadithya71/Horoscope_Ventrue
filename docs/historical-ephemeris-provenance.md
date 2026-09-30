@@ -53,3 +53,8 @@ Ayana endpoint consistency correction: the small fraction on archive-editionPDF6
 
 
 1919 upstream trace:PDF95/79 JupiterNavamsa ownerJupiter/own,PDF96/80 gives.5 (laterPDF49/35 .375); the.125 difference exactly propagates seven-varga3.25vs3.125 and positional4.436vs4.311 (earlyPDF99/83). No chart reconstruction certified. Crucially1919Saturn localmotionPDF113/97 prints11.270degrees/.062 while itsaggregatePDF114/98 prints.026: earlieraggregate sum closure did not certify components. Digitreversal plausible, not sourceproven. Extended edition audit with both traces, no substitution.
+
+
+### Worked Navamsa geometry cross-check
+
+`sripati_worked_navamsa_audit.py` preserves the visually read1919 PDF80/64 DMS longitudes and compares computed Navamsas against both categorical tables (1919PDF95/79, laterPDF48/34). Named geometry is Phaladeepika1937 III.4, PDF62/25, rechecked visually: the first Navamsas repeat Aries/Capricorn/Libra/Cancer. Six of seven1919 rows agree; Jupiter does not. Sagittarius1d25m1s lies in its first Navamsa, Aries/Mars, not Sagittarius/Jupiter. All seven later categorical rows agree for these supplied1919 longitudes. Therefore1919Jupiter .5 and its larger total are consistent with its own categorical row, but not with this explicitly sourced geometry. Later.375 fits its printed very-friend label, not a newly reconstructed compound relationship. Later originallongitude verification and historical ephemeris reconstruction remain open. No table is selected as natal strength.
