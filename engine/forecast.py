@@ -76,6 +76,7 @@ def main():
     g.add_argument('--moon-sign',help='known Moon rashi, for like-for-like sign-video comparisons')
     g.add_argument('--birth-date',help='YYYY-MM-DD, requires birth time and IANA timezone')
     p.add_argument('--birth-time',help='HH:MM, never defaulted');p.add_argument('--birth-tz',help='IANA timezone')
+    p.add_argument('--solar-event-profile',choices=('moshier_topocentric_solar_centre_no_refraction_zero_altitude',),default=None,help='Opt-in modern solar event profile, requires complete birth place coordinates')
     p.add_argument('--birth-place', help='birth place label; provide verified latitude and longitude')
     p.add_argument('--birth-lat', type=float); p.add_argument('--birth-lon', type=float)
     a=p.parse_args()
@@ -85,6 +86,8 @@ def main():
     coords=(a.birth_place,a.birth_lat,a.birth_lon)
     if any(x is not None for x in coords) and not all(x is not None for x in coords):
         p.error('birth-place, birth-lat and birth-lon must be supplied together')
+    if a.solar_event_profile and not (a.birth_date and all(x is not None for x in coords)):
+        p.error('solar-event-profile requires complete birth data and coordinates')
     if all(x is not None for x in coords) and not a.birth_date:
         p.error('birth-place/coordinates require birth-date')
     try:
@@ -96,7 +99,7 @@ def main():
             result['natal_moon_nakshatra']=nakshatra(exact_moon)
         if all(x is not None for x in coords):
             from .natal import natal_chart
-            result['natal_chart']=natal_chart(a.birth_date,a.birth_time,a.birth_tz,a.birth_lat,a.birth_lon,a.birth_place)
+            result['natal_chart']=natal_chart(a.birth_date,a.birth_time,a.birth_tz,a.birth_lat,a.birth_lon,a.birth_place,solar_event_profile=a.solar_event_profile)
     except ValueError as exc: p.error(str(exc))
     print(json.dumps(result,indent=2))
 

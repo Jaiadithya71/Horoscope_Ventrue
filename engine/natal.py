@@ -40,7 +40,7 @@ def birth_utc(date, time, timezone):
         raise ValueError(f'Invalid IANA timezone: {timezone}') from exc
 
 
-def natal_chart(date, time, timezone, latitude, longitude, place):
+def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_profile=None):
     """Coordinates are explicit input, not guessed from a place-name."""
     if not place or not place.strip():
         raise ValueError('Birth place label is required with verified coordinates')
@@ -70,7 +70,12 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     except ValueError as exc:
         degree_geometry={'status':'unavailable','reason':str(exc),'notice':'No substitute geometry inferred, e.g. for polar/reversed anchors.'}
         centres=None
-    return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
+    solar_evidence=None
+    if solar_event_profile is not None:
+        from .solar_intervals import solar_interval_evidence
+        solar_evidence=solar_interval_evidence(utc,latitude,longitude,solar_event_profile=solar_event_profile)
+    return {'solar_interval_evidence':solar_evidence,
+            'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': asc, 'longitude_display_5dp':round(asc,5), 'sign': SIGNS[asc_index]},
             'sripati_degree_geometry':degree_geometry,
             'midheaven':{'longitude':axes[1]%360,'longitude_display_5dp':round(axes[1]%360,5),'model':'Swiss Ephemeris Lahiri sidereal returned MC angle',

@@ -34,3 +34,16 @@ class SolarIntervalTests(unittest.TestCase):
         t=dt.datetime(2000,1,1,tzinfo=dt.timezone.utc)
         for args in ((t,90,0,PROFILE),(t,float('nan'),0,PROFILE),(t,10,0,'guessed'),(t.replace(tzinfo=None),10,0,PROFILE)):
             with self.assertRaises(ValueError):solar_interval_evidence(args[0],args[1],args[2],solar_event_profile=args[3])
+
+class OptInNatalSolarTests(unittest.TestCase):
+    def test_optin_no_change_to_existing_coordinates_or_totals(self):
+        from engine.natal import natal_chart
+        args=('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        base=natal_chart(*args);optional=natal_chart(*args,solar_event_profile=PROFILE)
+        self.assertIsNone(base['solar_interval_evidence'])
+        self.assertEqual(optional['placements'],base['placements'])
+        self.assertEqual(optional['moon_periods'],base['moon_periods'])
+        self.assertEqual(optional['solar_interval_evidence']['period'],'day')
+        self.assertEqual(optional['solar_interval_evidence']['geographic_inputs']['altitude_meters'],0)
+        self.assertIsNone(optional['natal_factors']['continuous_strength_components']['total_strength'])
+        self.assertIsNone(optional['solar_interval_evidence']['total_strength'])
