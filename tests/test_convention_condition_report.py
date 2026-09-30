@@ -24,3 +24,18 @@ class ConventionConditionReportTests(unittest.TestCase):
   x=convention_condition_report(b,b-dt.timedelta(days=1),'Aries',{})
   self.assertEqual(x['distinct_pair_conditions'],[])
   self.assertTrue(all(r['condition_evidence_key'] is None for r in x['profile_condition_routes']))
+ def test_actual_profile_divergence_reaches_distinct_rule_pairs(self):
+  from engine.solar_dates import dated_hierarchy
+  from engine.period_evidence import lunar_traversal_evidence
+  n=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.08,80.27,'synthetic fixture')
+  b=birth_utc('2000-01-01','14:30','Asia/Kolkata')
+  moon=lunar_traversal_evidence(b)['birth_moon_longitude']
+  h=dated_hierarchy(b,moon,b,calendar_profile='fixed_365_25_day_software_comparison',balance_method='equal_sector_longitude_fraction')
+  t=dt.datetime.fromisoformat(h['hierarchy'][0]['end_utc_estimate'])+dt.timedelta(seconds=1)
+  x=convention_condition_report(b,t,n['ascendant']['sign'],n['placements'])
+  pairs={r['key'] for r in x['distinct_pair_conditions']}
+  self.assertEqual(pairs,{'Rahu/Mars','Jupiter/Jupiter'})
+  paths={tuple(r['lord_path']) for r in x['profile_condition_routes']}
+  self.assertEqual(paths,{('Rahu','Mars','Moon'),('Rahu','Mars','Venus'),('Jupiter','Jupiter','Jupiter')})
+  for r in x['distinct_pair_conditions']:self.assertIsNone(r['evidence']['personal_outcome'])
+  self.assertIsNone(x['selected_profile'])

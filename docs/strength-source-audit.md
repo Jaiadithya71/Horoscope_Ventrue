@@ -16,7 +16,7 @@ The Sun declination example is892.737 arcminutes north. Its undoubled formula gi
 
 [Phaladeepika IV.1-3, PDF70-72](https://archive.org/details/in.ernet.dli.2015.92117) uses a different sixfold enumeration and night/day classifications. The two books are not one interchangeable formula. Its original translator points to Sripati II-III for details (PDF80), but that does not erase disagreement or permit mixing all components into an undocumented total.
 
-Still absent: full positional aggregation with compound relationships and house geometry, numerical motion using the book's mean/true-motion definitions, automatic temporal lord/third-of-day integration, signed net aspect adjustment, planetary war, combustion thresholds, a source-chosen complete profile and global outcome priority. Personal-outcome rules remain disabled. Tests check text mechanics and arithmetic, not scientific predictive validity or Balaji's private practice.
+Current selected-model gaps: complete positional profile/refinements, automatically grounded historic mean/true/Sighra astronomy, complete temporal lord/solar-clock profile, chosen signed aspect classification, war/winner adjustment, source-selected Sun-ray convention, complete total and global outcome priority. Numerical candidate/explicit-input bridges for these pieces are documented chronologically below; they are not missing merely because source selection is unresolved. Personal-outcome rules remain disabled. Tests check text mechanics and arithmetic, not scientific predictive validity or Balaji's private practice.
 
 ## Degree bhava geometry
 
@@ -104,7 +104,7 @@ The candidate bridge is now attached to natal factors with no selected component
 
 ## Five-piece table audit is not a natal positional total
 
-Fresh PDF52-53 images confirm the five printed positional pieces and their sum. `positional_table_audit.py` checks all7 printed sums with exact decimal arithmetic, preserving suspicious values including Venus's duplicate0.905 Uchcha/seven-varga entries. Internal sum agreement does not validate those inputs, select relationship/house profiles or reconcile PDF52's own-Shadvarga decan refinement (which changes the Jupiter example). This audit is separate from chart-derived candidate components and never emits a selected natal positional or full-strength total. These unresolved refinements remain real gates, not permissions to add partial evidence into a trusted score.
+Fresh PDF52-53 images confirm the five printed positional pieces and their sum. `positional_table_audit.py` checks all7 printed sums with exact decimal arithmetic, preserving Venus's duplicate0.905 Uchcha/seven-varga entries, which the later PDF49 entry-sum audit independently supports. Internal sum agreement does not validate those inputs, select relationship/house profiles or reconcile PDF52's own-Shadvarga decan refinement (which changes the Jupiter example). This audit is separate from chart-derived candidate components and never emits a selected natal positional or full-strength total. These unresolved refinements remain real gates, not permissions to add partial evidence into a trusted score.
 
 ## Explicit mean/true algebra, no mean model selected
 
