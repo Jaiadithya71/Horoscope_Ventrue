@@ -10,3 +10,10 @@ class EditionAuditTests(unittest.TestCase):
   self.assertEqual(changes['Mars'][0]['1919'],'.554')
   self.assertEqual(changes['Saturn'][0]['1919'],'.026')
   self.assertFalse(x['sun_doubling_allocation_resolved']);self.assertIsNone(x['selected_natal_total'])
+
+ def test_upstream_trace_arithmetic_not_input_validation(self):
+  x=edition_strength_audit()['upstream_component_trace']
+  self.assertEqual(x['jupiter']['seven_varga_delta'],x['jupiter']['positional_delta'])
+  self.assertEqual(x['jupiter']['seven_varga_delta'],'0.125')
+  self.assertEqual(x['saturn']['1919_local_motion_table_rupa'],'.062')
+  self.assertNotEqual(x['saturn']['1919_local_motion_table_rupa'],x['saturn']['1919_aggregate_motion_rupa'])

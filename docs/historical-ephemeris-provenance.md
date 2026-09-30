@@ -50,3 +50,6 @@ Ayana endpoint consistency correction: the small fraction on archive-editionPDF6
 
 
 1919 edition tablePDF114/98 visually verified versus archive tablePDF75/61: earlierMarsDig.554 (notlater.534) makes its7.370subtotal consistent; Jupiterpositional4.436/total8.933/final8.738 versuslater4.311/8.808/8.613; Saturnmotion.026/3.612/3.808 versuslater.062/3.648/3.844. All seven earlier component sums and aspect equations close exactly. No value automatically substituted. EarlierSunAyana.810+Cheshta.810 layout still unresolved for universal multiplier allocation. Earlier source https://archive.org/details/ksu.h1304.sripatipaddhati0000vsub . Registry identifies existing archive as fifth edition1976; earlier notes casually called it1934 after an external lead, which is corrected here. Same translator, not independent validation.
+
+
+1919 upstream trace:PDF95/79 JupiterNavamsa ownerJupiter/own,PDF96/80 gives.5 (laterPDF49/35 .375); the.125 difference exactly propagates seven-varga3.25vs3.125 and positional4.436vs4.311 (earlyPDF99/83). No chart reconstruction certified. Crucially1919Saturn localmotionPDF113/97 prints11.270degrees/.062 while itsaggregatePDF114/98 prints.026: earlieraggregate sum closure did not certify components. Digitreversal plausible, not sourceproven. Extended edition audit with both traces, no substitution.
