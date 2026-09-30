@@ -35,3 +35,21 @@ class MotionSignedTests(unittest.TestCase):
         cs['Mercury']='neutral'
         with self.assertRaises(ValueError):signed_aspect_adjustment('Sun',0,ps,cs,classification_profile='test')
         with self.assertRaises(ValueError):signed_aspect_adjustment('Sun',0,ps,{},classification_profile='')
+
+class SuppliedMeanTrueTests(unittest.TestCase):
+    def test_both_commentary_branches_equal_explicit_algebra(self):
+        from engine.motional_strength import cheshta_from_supplied_mean_true as calc
+        for mean,true in ((80,60),(60,80),(359,361),(-1,1)):
+            x=calc('Mars',mean,true,250,input_profile='synthetic supplied inputs',coordinate_branch='explicit synthetic unwrap')
+            self.assertAlmostEqual(x['cheshtakendra_degrees'],(250-(mean+true)/2)%360)
+            self.assertIsNone(x['total_strength'])
+            self.assertEqual(x['source']['pdf_page'],71)
+
+    def test_wrap_is_not_silently_selected(self):
+        from engine.motional_strength import cheshta_from_supplied_mean_true as calc
+        a=calc('Mars',359,1,250,input_profile='synthetic',coordinate_branch='literal')
+        b=calc('Mars',359,361,250,input_profile='synthetic',coordinate_branch='unwrapped across zero')
+        self.assertNotEqual(a['cheshtakendra_degrees'],b['cheshtakendra_degrees'])
+        self.assertAlmostEqual(abs(a['cheshtakendra_degrees']-b['cheshtakendra_degrees']),180)
+        for profile,branch,mean in (('', 'literal', 0),('synthetic','',0),('synthetic','literal',float('nan'))):
+            with self.assertRaises(ValueError):calc('Mars',mean,1,250,input_profile=profile,coordinate_branch=branch)
