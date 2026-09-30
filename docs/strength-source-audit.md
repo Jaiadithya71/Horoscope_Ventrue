@@ -363,3 +363,14 @@ virupa. Year/month/day/hour lord weights are 15/30/45/60 virupa. The standalone
 weights against existing Sripati helpers, without duplicating calculators. It
 does not corroborate historical lord derivation, modern solar-event models or
 exact third-boundary ownership. No full strength or app interface changes.
+
+Jha28.14 PDF188/156 independently gives exact 60/7 natural-strength rank
+increments in Saturn/Mars/Mercury/Jupiter/Venus/Moon/Sun order, corroborating
+existing Sripati fractions. Six values differ from the rounded integer
+Parashara comparison quoted in the Sripati commentary. Jha28.18 PDF189/157
+explicitly equates Sun Ayana with Sun Cheshta and Moon Paksha with Moon Cheshta;
+the Hindi explanation says a calculated amount supplies both named strengths.
+This equality is not a double-add instruction or general Ayana containment
+rule. The sixfold list at28.25.5 PDF190/158 does not close composition. The new
+`jha_composition_audit` keeps the identities, exact-ratio comparison and
+unselected containment/double-counting explicit. No full total or app change.
