@@ -117,3 +117,7 @@ IV.3-4, fresh PDF82-83 images, defines Sun angle as sidereal Sun plus ayanamsa p
 ## IV.7 full-total multiplication requires completeness
 
 Fresh PDF86-88 images verify rectified historical strength as supplied total times each supplied normalized factor. All14 printed product pairs are checked by `rectified_strength.py`, requiring named total/factor profiles and explicit complete flag; incomplete totals return no products. This is not a reconstructed III total, automatic natal output, calibrated event model or global rule priority. PDF88 aspect examples multiply by the target's factor while the prose's 'each planet' attribution is unclear, so aspect rectification remains absent rather than silently choosing a factor owner.
+
+## Original aggregate-table consistency is imperfect
+
+Fresh III20-21 PDF74-75 images reveal that Mars's printed six components sum7.350, not printed subtotal7.370, with Digbala0.534. All seven printed subtotal-plus-aspect equations agree, but using Mars's component sum produces7.711, not printed final7.731. Six other subtotal sums agree. PDF75 Venus/Saturn positional2.811/2.231 also differ by0.001 from PDF53's2.810/2.230. `full_strength_table_audit.py` preserves these exact-decimal inconsistencies; no component is corrected, print-fit or silently called independently validated. The prose's five-class enumeration versus separate table Ayana is still a model-selection issue. Printed totals in other examples can test arithmetic only, not certify a reconstructed natal total.
