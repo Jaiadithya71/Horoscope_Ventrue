@@ -83,3 +83,14 @@ python3 -m engine.bphs_jha_aspect_report --aspecting-planet Saturn --aspector-lo
 This is a named book-profile calculation on supplied coordinates, not a forecast.
 Exact boundary disagreements, printed arithmetic errors and source differences
 remain visible. It does not choose a universal BPHS geometry or strength total.
+
+For the separately supplied coordinate-to-Drigbala lane:
+
+```bash
+python3 -m engine.bphs_jha_aspect_report --input-json profiles/research/synthetic-jha-drigbala-input.json
+```
+
+The strict JSON fields are target, longitudes, classifications,
+coordinate_profile and classification_profile. Missing positions/classes and
+unresolved geometry endpoints stay unavailable, not automatically filled from a
+birth chart or another book. This fixture is synthetic and not a natal total.

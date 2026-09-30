@@ -1,0 +1,7 @@
+{
+  "target": "Sun",
+  "longitudes": {"Sun": 100, "Moon": 0, "Mars": 0, "Mercury": 0, "Jupiter": 0, "Venus": 0, "Saturn": 0},
+  "classifications": {"Moon": "benefic", "Mars": "benefic", "Mercury": "benefic", "Jupiter": "benefic", "Venus": "benefic", "Saturn": "benefic"},
+  "coordinate_profile": "synthetic common degree frame, not a birth chart",
+  "classification_profile": "synthetic caller declarations, not historical or natal classifications"
+}
