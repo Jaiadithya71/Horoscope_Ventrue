@@ -27,6 +27,7 @@ from .debilitation_cancellation_candidates import printed_cancellation_illustrat
 from pathlib import Path
 
 
+from .own_shadvarga_refinement_audit import own_shadvarga_refinement_audit
 from .strength_profile_inventory import strength_profile_inventory
 from .precedence_inventory import precedence_inventory
 
@@ -86,6 +87,7 @@ def validation_report():
     'sripati_worked_relation_candidates':worked_relation_audit(),
     'sripati_worked_direct_owner_components':worked_direct_owner_candidates(),
     'sripati_worked_positional_matrix':worked_positional_candidates(),
+    'own_shadvarga_refinement_definition_audit':own_shadvarga_refinement_audit(),
     'sripati_worked_directional_audit':worked_directional_audit(),
     'sripati_worked_temporal_audit':worked_temporal_audit(),
     'sripati_worked_lord_subtotal_audit':worked_lord_subtotal_audit(),
