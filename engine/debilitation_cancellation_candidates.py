@@ -61,6 +61,31 @@ def chart_cancellation_candidates(ascendant_sign,placements):
   other=next((x for x,s in EXALTATION.items() if s==fall),None)
   row=cancellation_candidates(d['flags']['fall_sign'],kendra(depression_lord),
                              kendra(exaltation_lord),kendra(other) if other else None)
+  def mutual(a,b):
+   sa=placements.get(a,{}).get('sign');sb=placements.get(b,{}).get('sign')
+   return None if sa is None or sb is None else (sign_index(sb)-sign_index(sa))%12 in (0,3,6,9)
+  lord_sign=placements.get(depression_lord,{}).get('sign')
+  relative=None if lord_sign is None else (sign_index(sign)-sign_index(lord_sign))%12+1
+  special={'Mars':{4,8},'Jupiter':{5,9},'Saturn':{3,10}}.get(depression_lord,set())
+  aspect_flags=[('whole_sign_full_aspects',None if relative is None else relative in {7}|special),
+                ('whole_sign_seventh_only',None if relative is None else relative==7)]
+  occupation=(sign_index(sign)-asc)%12+1
+  recipes=[]
+  for profile,aspect_flag in aspect_flags:
+   recipes.append({'aspect_condition_hypothesis':profile,
+    'condition_evidence':other_cancellation_recipes(d['flags']['fall_sign'],
+      mutual(depression_lord,exaltation_lord),aspect_flag,occupation not in (6,8,12),
+      kendra(depression_lord),kendra(exaltation_lord),kendra(planet))})
+  degree=None
+  a=placements.get(depression_lord,{}).get('longitude');b=p.get('longitude')
+  if a is not None and b is not None:
+   from .degree_aspects import degree_aspect
+   degree=degree_aspect(depression_lord,a,b)
+  row['other_recipe_candidates']=recipes
+  row['aspect_evidence']={'aspecting_depression_lord':depression_lord,
+   'target_planet':planet,'relative_whole_sign_house':relative,
+   'degree_aspect_amount':degree,'degree_amount_to_VII28_condition':None,
+   'notice':'Full whole-sign versus seventh-only condition hypotheses retained, not selected. A positive degree amount is not silently a qualifying VII.28 aspect; no threshold is verified.'}
   rows.append({'planet':planet,'occupied_sign':sign,'depression_sign':fall,
     'depression_lord':depression_lord,'own_exaltation_sign_lord':exaltation_lord,
     'planet_exalted_in_depression_sign':other,'condition_evidence':row})
