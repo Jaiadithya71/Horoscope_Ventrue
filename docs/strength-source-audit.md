@@ -454,3 +454,12 @@ planet strength, without a dependency equation. New source-only
 as Shadbala multipliers, total-strength ratios or automatic adverse-effect
 cancellation. Activation/applicability and global precedence stay unselected.
 PathakCLI now seven checks; no natal strength/app default change.
+
+PathakIV.21-23 actualPDF72-73/52-53 original pixels corroborate existing
+Phaladeepika thresholds Sun6.5/Moon6/Mars5/Mercury7/Jupiter6.5/Venus5.5/Saturn5
+rupa and Moon-Paksha/other-positional emphasis. Standalone audit runs existing
+complete-supplied-total helper at seven exact thresholds, keeping incomplete
+classification unknown. This does not verify caller completeness, settle Jha
+threshold conflicts or justify using an emphasized component as a full total.
+Dignity import is now local to condition_precedence so this threshold-only
+check needs no astronomy dependency. PathakCLI nine checks, app unchanged.

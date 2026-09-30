@@ -9,6 +9,7 @@ from .pathak_angular_strength_audit import pathak_angular_strength_audit
 from .pathak_aspect_efficacy_audit import pathak_aspect_efficacy_audit
 from .pathak_protective_potency_audit import pathak_protective_potency_audit
 from .pathak_mean_partition_audit import pathak_mean_partition_audit
+from .pathak_strength_threshold_audit import pathak_strength_threshold_audit
 
 
 def pathak_validation_report():
@@ -21,7 +22,8 @@ def pathak_validation_report():
                        'angular_strength_corroboration': pathak_angular_strength_audit(),
                        'aspect_efficacy_alternatives': pathak_aspect_efficacy_audit(),
                        'protective_potency_scope': pathak_protective_potency_audit(),
-                       'mean_nakshatra_partition': pathak_mean_partition_audit()},
+                       'mean_nakshatra_partition': pathak_mean_partition_audit(),
+                       'complete_supplied_thresholds': pathak_strength_threshold_audit()},
             'local_precedence_scope': [r for r in precedence_inventory()['scope_records']
                                       if r['id'] == 'strong_dusthana_owner_main_period_clause'],
             'additional_existing_source_reports': [

@@ -2,7 +2,6 @@
 import math
 from .strength_components import source
 from .friendship import CLASSICAL
-from .natal_factors import dignity
 
 THRESHOLDS={'Sun':6.5,'Moon':6.0,'Mars':5.0,'Mercury':7.0,'Jupiter':6.5,'Venus':5.5,'Saturn':5.0}
 
@@ -11,6 +10,7 @@ def condition_precedence(planet,sign,longitude=None,retrograde=None,overpowered_
     for flag in (retrograde,overpowered_rays):
         if flag is not None and not isinstance(flag,bool):
             raise ValueError('Conditions must be bool or None')
+    from .natal_factors import dignity
     d=dignity(planet,sign,longitude)
     if planet not in CLASSICAL:
         return {'status':'not_scored','reason':'Node conditions not resolved by this checked slice'}
