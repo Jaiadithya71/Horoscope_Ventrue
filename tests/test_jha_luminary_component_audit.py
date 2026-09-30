@@ -13,6 +13,6 @@ class JhaLuminaryAuditTests(unittest.TestCase):
   self.assertNotEqual(F(a['next_operand_times12_minus_printed_product_arcseconds_rational']),0)
   self.assertEqual(F(a['printed_product_div30_minus_printed_quotient_arcseconds_rational']),612)
   self.assertEqual(F(a['printed_quotient_plus78_minus_printed_accumulation_arcseconds_rational']),0)
-  self.assertEqual(F(a['printed_accumulation_plus90_div3_minus_printed_ayana_arcseconds_rational']),F(1801,3))
+  self.assertEqual(F(a['printed_accumulation_plus90_div3_minus_printed_ayana_arcseconds_rational']),F(1,3))
  def test_no_multiplier_or_strength_winner(self):
   x=audit();self.assertIsNone(x['selected_multiplier_policy']);self.assertIsNone(x['full_strength'])

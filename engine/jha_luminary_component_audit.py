@@ -10,7 +10,7 @@ def jha_luminary_component_audit():
  # Source Sun starts2;28;32;10 but next operand prints28;12;10.
  residual_initial=dms(0,28,32,10);residual_next=dms(0,28,12,10)
  printed_product=dms(0,342,26,0);printed_quotient=dms(0,11,14,40)
- printed_accumulation=dms(0,89,14,40);printed_ayana=dms(0,59,34,53)
+ printed_accumulation=dms(0,89,14,40);printed_ayana=dms(0,59,44,53)
  exact_initial=(90+78+residual_initial*F(12,30))/3
  return {'profile':'jha_sudha28_worked_phase_ayana_source_audit',
   'paksha_worked':{'sun_degrees_rational':str(sun),'moon_degrees_rational':str(moon),
