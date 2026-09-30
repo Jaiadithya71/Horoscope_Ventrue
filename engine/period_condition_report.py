@@ -1,0 +1,56 @@
+"""Run checked scoped period conditions on an explicit lord pair, no prediction."""
+from .period_school_conflict import period_school_conflict
+from .period_dusthana_condition import chart_period_dusthana_candidates
+from .vargottama_period_qualification import chart_vargottama_period_qualifications,vargottama_period_qualification
+from .combustion_candidates import chart_combustion_candidates
+from .lordship_precedence import lordship_precedence
+from .natal_factors import dignity
+from .vargas import six_vargas
+
+
+def period_condition_report(reference_sign,placements,main_lord,sub_lord):
+ school=period_school_conflict(main_lord,sub_lord)
+ houses=chart_period_dusthana_candidates(reference_sign,placements,main_lord,sub_lord)
+ rays=chart_combustion_candidates(placements)
+ base=chart_vargottama_period_qualifications(placements)
+ qualified=[]
+ for lord in dict.fromkeys((main_lord,sub_lord)):
+  p=placements.get(lord,{})
+  candidates=[]
+  if p.get('longitude') is not None and lord in base['planets']:
+   d=dignity(lord,p['sign'],p['longitude']);v=six_vargas(p['longitude'])['vargottama']
+   for c in rays['planets'][lord].get('candidates',[]):
+    candidates.append({'sun_ray_candidate':c,'vargottama_qualification':vargottama_period_qualification(v,d['flags']['fall_sign'],c['candidate_overpowered_sun_rays']),
+      'selection_status':'Commentary threshold hypothesis only, not source-selected Sun-ray flag'})
+  qualified.append({'lord':lord,'base_qualification':base['planets'].get(lord),
+                    'commentary_conditioned_candidates':candidates,'selected_result':None})
+ owners=lordship_precedence(reference_sign)
+ owners['dual_owner_evidence']=[r for r in owners['dual_owner_evidence'] if r['planet'] in (main_lord,sub_lord)]
+ return {'main_lord':main_lord,'sub_lord':sub_lord,
+    'lord_pair_origin':'Explicit caller input, not inferred active date or selected dasha/calendar convention',
+    'period_school_conflict':school,'unfavorable_house_candidates':houses,
+    'vargottama_qualification_candidates':qualified,'lordship_emphasis':owners,
+    'selected_strength_total':None,'selected_calendar':None,'personal_outcome':None,
+    'global_precedence':None,'status':'scoped_condition_evidence_only',
+    'notice':'No vote, numerical weights or global winner between these different scopes. A specific exception within one verse cannot override another verse or unchosen school. Absence of a checked conflict is not correctness or a forecast. Birth/motion/geometry uncertainty and missing source selection remain.'}
+
+
+def main():
+ import argparse,json
+ from .natal import natal_chart,PERIODS
+ a=argparse.ArgumentParser(description=__doc__)
+ a.add_argument('--birth-date',required=True);a.add_argument('--birth-time',required=True)
+ a.add_argument('--birth-tz',required=True);a.add_argument('--birth-place',required=True)
+ a.add_argument('--birth-lat',required=True,type=float);a.add_argument('--birth-lon',required=True,type=float)
+ a.add_argument('--main-lord',required=True,choices=list(dict(PERIODS)))
+ a.add_argument('--sub-lord',required=True,choices=list(dict(PERIODS)))
+ args=a.parse_args()
+ try:
+  n=natal_chart(args.birth_date,args.birth_time,args.birth_tz,args.birth_lat,args.birth_lon,args.birth_place)
+  x=period_condition_report(n['ascendant']['sign'],n['placements'],args.main_lord,args.sub_lord)
+  x['chart_input_context']={k:n[k] for k in ('birth_utc','birth_place','latitude','longitude','ascendant','model')}
+  print(json.dumps(x,indent=2))
+ except ValueError as exc:a.error(str(exc))
+
+
+if __name__=='__main__':main()

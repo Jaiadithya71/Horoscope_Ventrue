@@ -159,3 +159,11 @@ Natal `iv_luminary_cheshta_ray_evidence` is a separately named modern-coordinate
 `python3 -m engine.validation_report` runs the current public transcript, published calendar and printed source-table checks together while keeping their scopes and denominators separate. It reports unresolved release/model gates explicitly. Four chart-mechanics matches plus three unsupported outcome claims are not predictive accuracy. Likewise seven date matches for one software convention do not resolve a unique classic calendar, and printed arithmetic agreement does not reconstruct natal strength.
 
 Natal factors include `base_positional_candidates`: two explicitly labeled five-piece base hypotheses using matching Rasi or degree-Bhava house profiles, with all source evidence attached. Missing degree-house evidence cannot fall back to Rasi. Own-Shadvarga refinement and alternative owner-placement interpretations remain uncomputed, so `selected_positional_total` and `full_strength_total` stay null. Do not treat these candidate sums as a chosen strength score or feed them into prediction weights.
+
+Run scoped period-condition evidence on a caller-selected lord pair (not an inferred active calendar date):
+
+```bash
+python3 -m engine.period_condition_report --birth-date 2000-01-01 --birth-time 14:30 --birth-tz Asia/Kolkata --birth-place 'synthetic Chennai fixture' --birth-lat 13.08 --birth-lon 80.27 --main-lord Jupiter --sub-lord Mercury
+```
+
+The report keeps XXI.41 competing schools, XX.22 unfavorable-house candidates, XX.22 Vargottama qualifications and XV.10-11 lordship emphasis separate. Commentary-threshold-conditioned variants are hypotheses, never selected flags. No voting, final outcome, probability, calendar selection or full strength total follows from this report.
