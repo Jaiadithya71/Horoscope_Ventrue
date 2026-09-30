@@ -27,3 +27,25 @@ class BhavaTests(unittest.TestCase):
         self.assertEqual(len(x['centres']),12)
         for a,m in ((0,0),(0,180),(-1,270),(float('nan'),270)):
             with self.assertRaises(ValueError):bhava_geometry(a,m)
+
+class NatalGeometryIntegrationTests(unittest.TestCase):
+    def test_degree_direction_integrated_without_changing_whole_sign(self):
+        from engine.natal import natal_chart
+        from engine.continuous_strength import digbala
+        x=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        g=x['sripati_degree_geometry']
+        self.assertEqual(len(g['centres']),12)
+        self.assertAlmostEqual(g['centres'][1],x['ascendant']['longitude'],delta=.00001)
+        self.assertAlmostEqual(g['centres'][10],x['midheaven']['longitude'],delta=.00001)
+        sun=x['placements']['Sun']
+        d=x['natal_factors']['continuous_strength_components']['planets']['Sun']['digbala']
+        self.assertEqual(d['rupa'],digbala('Sun',sun['longitude'],g['centres'])['rupa'])
+        self.assertIn('whole_sign_house_from_ascendant',sun)
+        self.assertIn('sripati_degree_house',sun)
+        self.assertIsNone(x['natal_factors']['continuous_strength_components']['total_strength'])
+
+    def test_geometry_does_not_change_with_house_label(self):
+        # Asymmetrical quadrants are distinct from30-degree whole-sign boxes.
+        x=bhava_geometry(28.58,289.28)
+        self.assertNotEqual(x['centres'][2]-x['centres'][1],30)
+        self.assertNotEqual(x['centres'][2],30)

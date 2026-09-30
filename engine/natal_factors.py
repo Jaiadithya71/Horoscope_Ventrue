@@ -86,13 +86,13 @@ def mahapurusha(reference_sign, placements):
     return found
 
 
-def natal_factors(ascendant_sign, placements):
+def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .strength_components import components
     from .friendship import relationship_evidence
     from .vargas import varga_owner_evidence
     from .strength_precedence import condition_precedence
     from .continuous_strength import continuous_components
-    return {'continuous_strength_components':continuous_components(placements),
+    return {'continuous_strength_components':continuous_components(placements,bhava_centres),
             'scoped_strength_conditions':{p:condition_precedence(p,x['sign'],x.get('longitude'),x.get('retrograde'),x.get('overpowered_sun_rays')) for p,x in placements.items()},
             'six_varga_owner_evidence':{p:varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
             'relationship_evidence':relationship_evidence(placements),

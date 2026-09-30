@@ -59,14 +59,26 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
                   for name, p in positions.items()}
     from .synthesis import structural_factors
     from .natal_factors import natal_factors
+    from .bhava_geometry import bhava_geometry,house_membership
+    try:
+        degree_geometry=bhava_geometry(asc,axes[1]%360)
+        for planet,p in placements.items():
+            p['sripati_degree_house']=house_membership(p['longitude'],degree_geometry)
+        centres=degree_geometry['centres']
+    except ValueError as exc:
+        degree_geometry={'status':'unavailable','reason':str(exc),'notice':'No substitute geometry inferred, e.g. for polar/reversed anchors.'}
+        centres=None
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
+            'sripati_degree_geometry':degree_geometry,
+            'midheaven':{'longitude':round(axes[1]%360,5),'model':'Swiss Ephemeris Lahiri sidereal returned MC angle',
+                         'source_url':'https://github.com/aloistr/swisseph/blob/c353e6f8/swehouse.c'},
             'placements': placements, 'moon_nakshatra': nakshatra(moon_precise),
             'moon_periods': moon_periods(moon_precise),
             'dasha_hierarchy_at_birth': dasha_at_solar_offset(moon_precise, 0.0),
             'reference_rules': natal_references(placements),
             'structural_factors_from_ascendant': structural_factors(SIGNS[asc_index],placements),
-            'natal_factors': natal_factors(SIGNS[asc_index],placements),
+            'natal_factors': natal_factors(SIGNS[asc_index],placements,centres),
             'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
 
