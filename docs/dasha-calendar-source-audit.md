@@ -46,3 +46,22 @@ Additional inspected sources:
 - BPHS source landing page: https://elibraryofyoga.com/items/13b2600f-95fd-4bb5-86b4-a18396c68993
 - BPHS vol. II downloaded scan, pp. 18-19: https://elibraryofyoga.com/bitstreams/c4881ae4-af7a-4952-8194-71e42f2c7a5e/download
 - Matching online BPHS 46.16 used as a search lead: https://www.siva.sh/brihat-parashara-hora-shastra/46/16
+
+## Independent software-date check
+
+The Astro-Vision/Clickastro Saturn sample report, original PDF pp. 3-5 inspected as images, explicitly prints a 365.25-day Vimshottari year. It publishes the birth instant, Chitra Paksha Moon longitude 149°27'59", and complete major-end dates through Mercury. `python3 -m engine.calendar_benchmark` uses that published longitude, not a secretly fitted birth time, to reproduce all **seven** complete local dates with longitude balance and fixed 365.25-day years. The return-interpolation profile matches the first three dates but differs by a day for the later 2032/2048/2067/2084 boundaries. The report's final Ketu endpoint is not a complete seven-year term and is excluded transparently.
+
+This checks a concrete third-party **software convention**, not the correct interpretation of every classic, Balaji's settings, exact boundary times, or life events. The report publishes only dates. It cannot certify an hour-level algorithm. The source supports an optional software-comparison reference; the canonical book-sourced solar-return profile is not silently changed to match it.
+
+Source: https://astrology.mathrubhumi.com/downloads/samples-pdf/saturnrep_eng.pdf
+
+## Sanskrit divisor corroboration
+
+A direct download of the full SanskritDocuments ITRANS source reaches XIX.3 and gives `natAptA` and `natena`, matching the nata form in the original page image. The readable-page fetch had cut off earlier; this follow-up recovers the relevant verse. With the fetched Katapayadi letter table (na = 0, dental ta = 6, reversed place order), nata corresponds to 60. The repeated English translation and Kapoor's explicit fixed-divisor discussion independently support that reading. This is a corroborated numeric reading, not specialist manuscript criticism or proof that the fixed-60 and normalized-total-duration methods are equivalent.
+
+Sources inspected:
+- Full Sanskrit transcription download: https://sanskritdocuments.org/doc_z_misc_sociology_astrology/phaladIpika.itx
+- Katapayadi letter table and reversal rule: https://en.wikipedia.org/wiki/Katapayadi_system
+- Independent university teaching text explaining the letter-table method: https://spmvv.ac.in/ddefiles/ugcproposals/2025/05/MAMUD1_2_Musical_Concepts_I.pdf
+
+Conclusion at this stage: the fixed 60 is not merely an OCR mistake. Normalized traversal is separately supported by BPHS and commentary; longitude fraction plus 365.25 days can be checked against published software dates. Choose and label a profile rather than pretend these independent conventions collapse into one universally certain timetable.
