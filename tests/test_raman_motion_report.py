@@ -35,3 +35,22 @@ class RamanReportTests(unittest.TestCase):
   self.assertTrue(all(r['motion_input_evidence']['missing_inputs']==['sighrochcha'] for r in x['inferior_table_motion_candidates']))
  def test_no_optional_table_request_changes_existing_default(self):
   x=report(**self.inputs());self.assertEqual(x['inferior_table_evidence'],{});self.assertEqual(x['inferior_table_motion_candidates'],[])
+ def test_superior_table_independent_branch_preserves_base(self):
+  d=self.inputs();base=report(**d)
+  d['superior_table_requests']={'Mars':dict(elapsed_days='4602.5',birth_year_offset=12,epoch_clock_profile='independent fixture',revolution_branch=1)}
+  x=report(**d);self.assertEqual(x['candidates'],base['candidates'])
+  self.assertAlmostEqual(x['superior_table_evidence']['Mars']['assigned_mean_unwrapped'],522.020)
+  self.assertEqual(len(x['superior_table_motion_candidates']),2)
+  self.assertTrue(all(r['motion_input_evidence']['motion_evidence'] is not None for r in x['superior_table_motion_candidates']))
+ def test_superior_branch_missing_or_boolean_rejected(self):
+  d=self.inputs();d['superior_table_requests']={'Mars':dict(elapsed_days=0,birth_year_offset=12,epoch_clock_profile='fixture')}
+  with self.assertRaises(ValueError):report(**d)
+  d['superior_table_requests']['Mars']['revolution_branch']=True
+  with self.assertRaises(ValueError):report(**d)
+  d['superior_table_requests']={'Venus':{}}
+  with self.assertRaises(ValueError):report(**d)
+ def test_superior_missing_true_remains_missing(self):
+  d=self.inputs();d['superior_table_requests']={'Jupiter':dict(elapsed_days='4602.5',birth_year_offset=12,epoch_clock_profile='fixture',revolution_branch=0)}
+  x=report(**d)
+  self.assertTrue(all(r['motion_input_evidence']['missing_inputs']==['true'] for r in x['superior_table_motion_candidates']))
+  self.assertIsNone(x['selected_motion_profile']);self.assertIsNone(x['total_strength'])

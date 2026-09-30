@@ -2,12 +2,22 @@
 from .raman_mean_clock import raman_local_mean_clock
 from .raman_motion_inputs import raman_motion_inputs
 from .raman_inferior_sighra import raman_inferior_sighra
+from .raman_superior_mean import raman_superior_mean
 
 
-def raman_motion_report(local_mean_timestamp,longitude,*,clock_kind,clock_profile,sun_revolution_branch,superior_means,true_longitudes,inferior_sighra,input_profile,coordinate_branch,inferior_table_requests=None):
+def raman_motion_report(local_mean_timestamp,longitude,*,clock_kind,clock_profile,sun_revolution_branch,superior_means,true_longitudes,inferior_sighra,input_profile,coordinate_branch,inferior_table_requests=None,superior_table_requests=None):
     if type(sun_revolution_branch) is not int:raise ValueError('Explicit integer Sun revolution branch required')
     if inferior_table_requests is not None and (not isinstance(inferior_table_requests,dict) or set(inferior_table_requests)-{'Mercury','Venus'}):raise ValueError('Inferior table requests must name Mercury or Venus')
     inferior_tables={p:raman_inferior_sighra(p,**request) for p,request in (inferior_table_requests or {}).items()}
+    if superior_table_requests is not None and (not isinstance(superior_table_requests,dict) or set(superior_table_requests)-{'Mars','Jupiter','Saturn'}):raise ValueError('Superior table requests must name Mars, Jupiter or Saturn')
+    superior_tables={}
+    for planet,request in (superior_table_requests or {}).items():
+        request=dict(request)
+        branch=request.pop('revolution_branch',None)
+        if type(branch) is not int:raise ValueError('Explicit integer superior revolution branch required')
+        table=raman_superior_mean(planet,**request)
+        superior_tables[planet]={'raw_table_evidence':table,'revolution_branch':branch,
+            'assigned_mean_unwrapped':float(table['raw_mean_degrees'])+360*branch}
     clock=raman_local_mean_clock(local_mean_timestamp,longitude,clock_kind=clock_kind,clock_profile=clock_profile)
     rows=[]
     for c in clock['mean_sun_table_candidates']['candidates']:
@@ -27,7 +37,17 @@ def raman_motion_report(local_mean_timestamp,longitude,*,clock_kind,clock_profil
                 table_motion.append({'planet':planet,'mean_sun_constant_profile':sun['mean_sun_constant_profile'],
                     'correction_profile':correction['correction_profile'],
                     'motion_input_evidence':next(r for r in evidence['rows'] if r['planet']==planet)})
-    return {'inferior_table_evidence':inferior_tables,'inferior_table_motion_candidates':table_motion,
+    superior_motion=[]
+    for sun in rows:
+        for planet,table in superior_tables.items():
+            means=dict(superior_means);means[planet]=table['assigned_mean_unwrapped']
+            evidence=raman_motion_inputs(sun['assigned_sun_unwrapped'],means,true_longitudes,inferior_sighra,
+                input_profile=input_profile+'; raw superior table '+planet,coordinate_branch=coordinate_branch)
+            superior_motion.append({'planet':planet,'mean_sun_constant_profile':sun['mean_sun_constant_profile'],
+                'motion_input_evidence':next(r for r in evidence['rows'] if r['planet']==planet)})
+    return {'superior_table_evidence':superior_tables,'superior_table_motion_candidates':superior_motion,
+        'superior_table_notice':'Optional independent supplied clock/year requests and explicit integer revolution branches. Existing superior means stay unchanged in base candidates. Each planet propagates separately; no repaired table, inferred branch or combined selected chart.',
+        'inferior_table_evidence':inferior_tables,'inferior_table_motion_candidates':table_motion,
         'inferior_table_notice':'Optional independent supplied elapsed-day and epoch-clock requests. No clock equivalence assumed with mean-Sun chain. Supplied-Sighra candidates remain unchanged. Each planet is propagated separately, not combined into a selected chart.',
         'clock_evidence':clock,'sun_revolution_branch':sun_revolution_branch,'candidates':rows,
         'selected_mean_sun':None,'selected_motion_profile':None,'total_strength':None,
