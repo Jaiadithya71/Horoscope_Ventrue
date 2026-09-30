@@ -16,6 +16,7 @@ def precedence_inventory():
         ('own_other_house','dual_owner_occupation_exception','XV.29',[199,200],'other-own-house occupation excludes dusthana ownership in this clause','does not cancel all adverse chart conditions'),
         ('lord_period_disposition','period_disposition_gate','XX.14',[241],'favorable and adverse alternatives can both apply','friendship/rays/geometry and later favorable connective remain unselected'),
         ('vargottama_qualification','vargottama_period_qualification','XX.22',[245],'fall/rays qualify favorable Vargottama reading to mixed','no universal override'),
+        ('period_manifestation','period_manifestation_gate','XX.43-44',[252],'no automatic own-subperiod owned-house output; relationship candidates kept','relation profile and similarly-circumstanced classification unselected'),
         ('period_school_conflict','period_school_conflict','XXI.41',[269],'Jupiter main/Mercury subperiod opposite schools retained','no school selected by strength or timing')]
     return {'scope_records':[{'id':i,'implementation':m,'checked_scope':s,'remaining_boundary':b,
         'source':{'url':'https://archive.org/details/in.ernet.dli.2015.92117','chapter_sloka':v,'pdf_pages':p},

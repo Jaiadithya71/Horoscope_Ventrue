@@ -19,3 +19,7 @@ class PlanetConnectionTests(unittest.TestCase):
   x=relations({'Rahu':{'sign':'Aries'},'Ketu':{'sign':'Taurus'}},'Rahu','Ketu')
   self.assertTrue(all(r['related_candidate'] is None for r in x['candidates']))
   self.assertTrue(all(r['related_candidate'] is None for r in relations({'Sun':{'sign':'Aries'}},'Sun','Sun')['candidates']))
+
+class ConnectionIdentityContractTests(unittest.TestCase):
+ def test_unknown_pair_rejected(self):
+  with self.assertRaises(ValueError):relations({},'Jupitr','Moon')

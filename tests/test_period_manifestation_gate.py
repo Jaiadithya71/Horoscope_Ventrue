@@ -18,3 +18,18 @@ class ManifestationGateTests(unittest.TestCase):
   x=period_condition_report('Aries',{},'Sun','Sun')
   self.assertIsNone(x['xx43_44_manifestation_conditions']['selected_personal_effect'])
   self.assertIsNone(x['global_precedence'])
+
+class RelationManifestationBridgeTests(unittest.TestCase):
+ def test_candidate_true_without_selected_manifestation(self):
+  x=period_condition_report('Aries',{'Mars':{'sign':'Libra'},'Venus':{'sign':'Aries'}},'Mars','Venus')
+  rows=x['xx44_relation_conditioned_candidates']
+  self.assertEqual(len(rows),2)
+  self.assertTrue(all(r['condition_evidence']['xx44_supplied_activation_condition'] for r in rows))
+  self.assertTrue(all(r['condition_evidence']['selected_personal_effect'] is None for r in rows))
+  self.assertIsNone(x['xv30_lord_connection_candidates']['selected_related'])
+ def test_no_relation_does_not_clear_unknown_circumstance(self):
+  x=period_condition_report('Aries',{'Sun':{'sign':'Aries'},'Moon':{'sign':'Taurus'}},'Sun','Moon')
+  self.assertTrue(all(r['condition_evidence']['xx44_supplied_activation_condition'] is None for r in x['xx44_relation_conditioned_candidates']))
+ def test_self_does_not_activate(self):
+  x=period_condition_report('Aries',{'Mars':{'sign':'Aries'}},'Mars','Mars')
+  self.assertTrue(all(r['condition_evidence']['xx44_supplied_activation_condition'] is None for r in x['xx44_relation_conditioned_candidates']))

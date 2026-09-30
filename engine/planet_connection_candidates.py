@@ -7,6 +7,7 @@ from .chart_evidence_inputs import validate_sign_longitude
 
 
 def planet_connection_candidates(placements,first,second):
+    if first not in (*CLASSICAL,'Rahu','Ketu') or second not in (*CLASSICAL,'Rahu','Ketu'):raise ValueError('Known planet pair required')
     validate_sign_longitude(placements)
     a=placements.get(first,{});b=placements.get(second,{})
     sa=a.get('sign');sb=b.get('sign');la=a.get('longitude');lb=b.get('longitude')

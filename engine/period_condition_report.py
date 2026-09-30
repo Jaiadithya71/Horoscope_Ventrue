@@ -35,11 +35,16 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geome
  other=dual_owner_occupation_exception(reference_sign,{p:v for p,v in placements.items() if p in (main_lord,sub_lord)})
  other['rows']=[r for r in other['rows'] if r['planet'] in (main_lord,sub_lord)]
  other['lord_pair_scope']={'main_lord':main_lord,'sub_lord':sub_lord,'single_owner_or_node_lords_have_no_dual_owner_row':True}
+ connections=planet_connection_candidates(placements,main_lord,sub_lord)
+ manifestations=[{'relation_profile':r['profile'],'condition_evidence':period_manifestation_gate(
+    main_lord,sub_lord,related=r['related_candidate'],evidence_profile=r['profile']),
+    'selection_status':'XV.30 geometry hypothesis only, not selected relation or a personal manifestation'} for r in connections['candidates']]
  return {'main_lord':main_lord,'sub_lord':sub_lord,
     'lord_pair_origin':'Explicit caller input, not inferred active date or selected dasha/calendar convention',
     'xx21_context_requirements':period_context_requirements(),
     'xx43_44_manifestation_conditions':period_manifestation_gate(main_lord,sub_lord),
-    'xv30_lord_connection_candidates':planet_connection_candidates(placements,main_lord,sub_lord),
+    'xv30_lord_connection_candidates':connections,
+    'xx44_relation_conditioned_candidates':manifestations,
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
     'xx14_lord_disposition_candidates':chart_period_disposition_candidates(reference_sign,placements,main_lord,sub_lord),
     'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
