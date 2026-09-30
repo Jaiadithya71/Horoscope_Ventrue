@@ -70,6 +70,8 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     except ValueError as exc:
         degree_geometry={'status':'unavailable','reason':str(exc),'notice':'No substitute geometry inferred, e.g. for polar/reversed anchors.'}
         centres=None
+    from .bhava_sign_coverage import bhava_sign_coverage
+    coverage=bhava_sign_coverage(degree_geometry) if centres is not None else None
     solar_evidence=None
     if solar_event_profile is not None:
         from .solar_intervals import solar_interval_evidence
@@ -81,7 +83,8 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     ray_evidence['astronomy_input_source_url']='https://astrorigin.com/pyswisseph/pydoc/index.html'
     ray_evidence['ayanamsa_returned_flags']=ayana_flags
     ray_evidence['input_notice']='Extended UT ayanamsa, including the apparent-coordinate correction, is used rather than the non-nutated get_ayanamsa_ut value. This modern input profile is not claimed identical to the historical example ephemeris.'
-    return {'iv_luminary_cheshta_ray_evidence':ray_evidence,
+    return {'bhava_sign_coverage':coverage,
+            'iv_luminary_cheshta_ray_evidence':ray_evidence,
             'solar_interval_evidence':solar_evidence,
             'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': asc, 'longitude_display_5dp':round(asc,5), 'sign': SIGNS[asc_index]},

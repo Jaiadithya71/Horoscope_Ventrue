@@ -163,3 +163,7 @@ Integration inspection found that three-level period boundaries were rounded to9
 ## Bhava aspect extra terms are separate from planet Drigbala
 
 Fresh Sripati III.21-23 PDF76-79 images confirm signed quarter-aspect for Bhava plus **extra full** Jupiter/Mercury aspect. `bhava_aspect_candidates.py` requires actual supplied centre and all7classical positions/classes, uses the separately labeled degree-table aspect hypothesis, and keeps quarter plus full terms distinct. Missing classification/longitude prevents a net, not a zero. Extra full aspect is not silently a replacement for quarter or copied into the planetary Drigbala helper. Quoted occupant additions/subtractions, complete/cross-sign lord strength and directional category remain outside this helper; no total, rank, automatic classes or outcome is inferred.
+
+## Cross-sign Bhava coverage is now geometric evidence, not chosen strength weighting
+
+Fresh PDF78/printed64 image shows Lagna Bhava combining Pisces/Jupiter1°36′30″ and Aries/Mars28°23′30″ against30° and rounded supplied lord totals. `bhava_sign_coverage.py` integrates actual Sandhi-to-Sandhi interval coverage in natal output, enumerating every sign segment and lord, conserving full360° and each house fraction across wrapping and unequal houses. `geometric_fraction_of_house` is coverage metadata only, not a selected weighting formula or a licence to combine incomplete strength. The30° example alone does not resolve an unequal-house denominator. No centre-sign shortcut, complete lord total, Bhava total, rank or outcome is emitted.
