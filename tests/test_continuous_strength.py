@@ -49,3 +49,33 @@ class NaturalAndPhaseTests(unittest.TestCase):
         self.assertFalse(pakshabala_candidates('Sun',0,90)['candidate_conflict'])
         self.assertEqual(pakshabala_candidates('Mercury',0,180)['candidates'][0]['rupa'],1)
         self.assertEqual(pakshabala_candidates('Sun',0,180)['candidates'][0]['rupa'],0)
+
+class DeclinationAndClockTests(unittest.TestCase):
+    def test_declination_examples_and_sun_disagreement(self):
+        from engine.continuous_strength import ayanabala_candidates
+        x=ayanabala_candidates('Sun',892.737/60)
+        self.assertEqual(round(x['candidates'][0]['rupa'],4),0.8100)
+        self.assertAlmostEqual(x['candidates'][1]['rupa'],x['candidates'][0]['rupa']*2)
+        self.assertTrue(x['candidate_conflict'])
+        self.assertEqual(ayanabala_candidates('Moon',-24)['candidates'][0]['rupa'],1)
+        self.assertEqual(ayanabala_candidates('Saturn',24)['candidates'][0]['rupa'],0)
+        self.assertEqual(ayanabala_candidates('Mercury',-12)['candidates'][0]['rupa'],.75)
+        for decl in (-24.1,24.1,float('nan')):
+            with self.assertRaises(ValueError):ayanabala_candidates('Sun',decl)
+
+    def test_clock_component_no_civil_clock_assumption(self):
+        from engine.continuous_strength import natonnatabala
+        self.assertEqual(natonnatabala('Sun',0)['rupa'],0)
+        self.assertEqual(natonnatabala('Sun',12)['rupa'],1)
+        self.assertEqual(natonnatabala('Venus',18)['rupa'],.5)
+        self.assertEqual(natonnatabala('Saturn',0)['rupa'],1)
+        self.assertEqual(natonnatabala('Mercury',3)['rupa'],1)
+        for hour in (-1,24,float('nan')):
+            with self.assertRaises(ValueError):natonnatabala('Sun',hour)
+
+    def test_later_moon_doubling_remains_separate(self):
+        from engine.continuous_strength import pakshabala_candidates
+        x=pakshabala_candidates('Moon',0,90)
+        self.assertEqual(x['candidates'][0]['rupa'],.5)
+        self.assertEqual(x['later_moon_multiplier_evidence']['doubled_candidates'][0]['rupa'],1)
+        self.assertIsNone(pakshabala_candidates('Mercury',0,90)['later_moon_multiplier_evidence'])

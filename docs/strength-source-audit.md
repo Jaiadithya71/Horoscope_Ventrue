@@ -1,0 +1,19 @@
+# Numerical strength source audit
+
+Source: [Sripatipaddhati, Sastri archive scan](https://archive.org/details/dli.ernet.203510). Each listed page was inspected as an image, not accepted from OCR alone. Edition page PDF2 lists fifth edition1976; metadata2005 is not silently treated as the publication date of the checked text. No PDF is committed and redistribution rights remain unresolved.
+
+| Component | Checked pages | Code/check | Remaining limit |
+|---|---|---|---|
+| Continuous exaltation | PDF38-39, printed24-25, III.2 | Fold distance from depression /180 Rupa; Sun0.957 reproduced | Not sign-level dignity; never added twice |
+| Degree-based direction | PDF55-56, printed41-42, III.8 | Fold distance from weakest centre /180; Sun0.444 reproduced | Real degree-based bhava centres not calculated yet |
+| Natural | PDF73, printed59, III.19 | Exact rank/7 Rupa | Quoted Parashara integers are separate |
+| Phase | PDF58-59, printed44-45, III.11-12 | Folded commentary and literal translated dark-half complement kept | Translation/commentary differ; no winner |
+| Moon phase multiplier | PDF66, printed52, III.15-16 | Explicit double retained as extra evidence | Earlier phase table is undoubled; no silent automatic multiplier |
+| Declination | PDF65-67, printed51-53, III.15-16 | Supplied declination, fixed24-degree historical maximum | Sun verse says double, worked example/table undoubled; both kept. No modern declination substitution or clipping |
+| Noon/midnight temporal | PDF56-57, printed42-43, III.9-10 | Supplied solar-clock hour triangular component | No civil-clock substitution or solar-noon solver yet; Venus/Saturn classifications differ from Phaladeepika IV.1 |
+
+The Sun declination example is892.737 arcminutes north. Its undoubled formula gives0.809978125 Rupa, consistent with the printed0.8099/rounded0.810; the explicit doubling instruction yields1.61995625. These are source disagreement, not a rounding difference. The code keeps the disagreement.
+
+[Phaladeepika IV.1-3, PDF70-72](https://archive.org/details/in.ernet.dli.2015.92117) uses a different sixfold enumeration and night/day classifications. The two books are not one interchangeable formula. Its original translator points to Sripati II-III for details (PDF80), but that does not erase disagreement or permit mixing all components into an undocumented total.
+
+Still absent: full positional aggregation with compound relationships and house geometry, numerical motion using the book's mean/true-motion definitions, complete temporal lord/third-of-day pieces, numerical aspect adjustment, planetary war, combustion thresholds, a source-chosen complete profile and global outcome priority. Personal-outcome rules remain disabled. Tests check text mechanics and arithmetic, not scientific predictive validity or Balaji's private practice.

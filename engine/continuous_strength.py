@@ -87,5 +87,41 @@ def pakshabala_candidates(planet,sun_longitude,moon_longitude):
             'candidates':[{'profile':'folded_arc_commentary','rupa':commentary,'source':source('11-12 commentary',59,45)},
                           {'profile':'literal_translated_dark_half_complement','rupa':literal,'source':source('11-12',58,44)}],
             'candidate_conflict':abs(commentary-literal)>1e-12,
+            'later_moon_multiplier_evidence':paksha_moon_multiplier_evidence(planet,[{'profile':'folded_arc_commentary','rupa':commentary},{'profile':'literal_translated_dark_half_complement','rupa':literal}]),
             'classification_profile':'Moon/Mercury/Venus/Jupiter benefic for this component; Sun/Mars/Saturn malefic',
-            'notice':'Source-specific candidates only. Commentary keeps Mercury benefic and Moon benefic while waning; other schools are mentioned. No automatic winner or Moon multiplier added.'}
+            'notice':'Source-specific candidates only. Commentary keeps Mercury benefic and Moon benefic while waning; other schools are mentioned. No automatic winner or automatic Moon multiplier; later doubling evidence retained separately.'}
+
+
+def paksha_moon_multiplier_evidence(planet,candidates):
+    """III.15-16 mentions Moon doubling, absent in III.11-12 table."""
+    if planet!='Moon':return None
+    return {'multiplier':2,'source':source('15-16',66,52),
+            'doubled_candidates':[{'profile':x['profile'],'rupa':2*x['rupa']} for x in candidates],
+            'notice':'Later verse says Moon Pakshabala doubles, but III.11-12 table lists the undoubled value. Both retained; not automatically applied.'}
+
+
+def ayanabala_candidates(planet,signed_declination):
+    """Historical fixed24-degree formula only, not a modern declination model."""
+    if planet not in NEECHA:raise ValueError('Classical planet required')
+    if not math.isfinite(signed_declination) or abs(signed_declination)>24:
+        raise ValueError('Historical formula requires declination in [-24,24]; do not clip a modern value')
+    delta=abs(signed_declination) if planet=='Mercury' else -signed_declination if planet in ('Moon','Saturn') else signed_declination
+    base=(24+delta)/48
+    rows=[{'profile':'base_zero_point_over_48','rupa':base,'source':source('15-16 commentary',67,53)}]
+    if planet=='Sun':rows.append({'profile':'explicit_sun_double','rupa':base*2,'source':source('15-16',66,52)})
+    return {'planet':planet,'supplied_declination_degrees':signed_declination,'historical_max_declination_degrees':24,
+            'candidates':rows,'candidate_conflict':planet=='Sun' and base!=0,
+            'notice':'Fixed24-degree historical formula; Sun doubling and undoubled worked table remain separate. No modern-model declination is silently substituted.'}
+
+
+def natonnatabala(planet,hours_after_local_solar_midnight):
+    """Supplied solar-clock hour, not civil time or timezone clock."""
+    if planet not in NEECHA:raise ValueError('Classical planet required')
+    if not math.isfinite(hours_after_local_solar_midnight) or not 0<=hours_after_local_solar_midnight<24:
+        raise ValueError('Solar-clock hours must be finite in [0,24)')
+    day_fraction=min(hours_after_local_solar_midnight,24-hours_after_local_solar_midnight)/12
+    return {'planet':planet,'solar_clock_hours_after_midnight':hours_after_local_solar_midnight,
+            'rupa':1 if planet=='Mercury' else day_fraction if planet in ('Sun','Venus','Jupiter') else 1-day_fraction,
+            'source':source('9-10 commentary',57,43),
+            'classification_source':source('9-10',56,42),
+            'notice':'Sripati profile: Venus day, Saturn night. Phaladeepika IV.1 assigns Venus night and Saturn day. Supplied solar clock must be independently grounded; not civil clock time.'}
