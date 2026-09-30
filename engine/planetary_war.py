@@ -84,5 +84,14 @@ def supplied_war_adjustment(a,b,total_a,total_b,*,winner,war_condition_confirmed
         'latitude_unit':latitude_unit,'transfer_amount':str(amount),
         'candidate_adjusted_totals':{p:str(v) for p,v in adjusted.items()},
         'negative_candidate_totals':[p for p,v in adjusted.items() if v<0],
-        'source':reference,'selected_winner':None,'engine_certified_total':None,
+        'source':reference,
+        'independent_transfer_corroboration':{
+            'url':'https://archive.org/details/bmmv_brihat-parashar-hora-shastra-of-parashar-muni-with-sudha-commentary-by-pt.-dev-c',
+            'pdf_page':190,'printed_page':158,'chapter':28,'sloka':20,
+            'verified_against_page_image':True,
+            'scope':'Full sixfold strength difference added to winner and subtracted from loser',
+            'trigger_verified':False,'winner_rule_verified':False,
+            'absolute_difference_interpretation_selected':False
+        } if adjustment_profile=='quoted_parashara_absolute_difference_candidate' else None,
+        'selected_winner':None,'engine_certified_total':None,
         'notice':'Arithmetic on explicit externally supplied complete prewar totals and confirmed condition. Candidate absolute-difference interpretation only; source latitude unit and minute-agreement rule unselected. Degree/arcminute denominators differ by60. No clipping negative results, automatic natal adjustment or double inclusion in temporal/base strength.'}
