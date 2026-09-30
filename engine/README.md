@@ -147,3 +147,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 `solar_intervals.solar_interval_evidence` accepts an explicit modern Sun-centre/no-refraction/zero-altitude profile and feeds actual rise/set interval fraction to the original Tribhaga helper. Model-boundary and polar cases abstain; not civil-clock thirds, an automatic natal total or a traditional-anchor equivalence claim.
 
 With complete natal birth data/place/coordinates, add `--solar-event-profile moshier_topocentric_solar_centre_no_refraction_zero_altitude` for opt-in natal solar-interval evidence. Default is absent; this does not alter positions/dashas or produce a full temporal/strength total. Geographic model inputs and polar/boundary caveats stay with the result.
+
+`solar_dates --calendar-profile fixed_365_25_day_software_comparison` uses the explicitly labeled vendor365.25-day comparison profile for hierarchy dates. Its calendar citation is the vendor sample, not XIX.4, and no solar-root tolerance is assigned. This is optional; default, separate birth-balance profiles and outcome abstention are unchanged.

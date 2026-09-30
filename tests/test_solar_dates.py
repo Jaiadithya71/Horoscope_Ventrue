@@ -82,3 +82,27 @@ class SeparateRootRoutineChecks(unittest.TestCase):
             crossing=swe.solcross_ut(target,julian_day(birth)+offset*365.25636-35,FLAGS)
             bisection=julian_day(a.at_offset(offset))
             self.assertLess(abs(crossing-bisection)*86400,.1)
+
+class FixedComparisonCalendarTests(unittest.TestCase):
+    def test_explicit_software_profile_reproduces_vendor_first_end(self):
+        from engine.solar_dates import Fixed36525Calendar
+        from fractions import Fraction
+        birth=dt.datetime(1992,7,5,18,30,tzinfo=dt.timezone(dt.timedelta(hours=5,minutes=30)))
+        moon=Fraction(149)+Fraction(27,60)+Fraction(59,3600)
+        remaining=float((160-moon)/Fraction(40,3)*6)
+        c=Fixed36525Calendar(birth);end=c.at_offset(remaining)
+        self.assertEqual(end.astimezone(birth.tzinfo).date().isoformat(),'1997-04-02')
+        self.assertAlmostEqual(c.offset_at(end),remaining,places=10)
+        x=dated_hierarchy(birth,float(moon),birth,calendar_profile='fixed_365_25_day_software_comparison')
+        self.assertEqual(x['hierarchy'][0]['end_utc_estimate'],end.isoformat())
+        self.assertIn('vendor',x['calendar_source']['scope'])
+        self.assertIsNone(x['solar_return_tolerance_seconds'])
+        self.assertNotIn('outcome',x)
+
+    def test_bad_fixed_clock_or_range(self):
+        from engine.solar_dates import Fixed36525Calendar
+        with self.assertRaises(ValueError):Fixed36525Calendar(dt.datetime(2000,1,1))
+        c=Fixed36525Calendar(dt.datetime(2000,1,1,tzinfo=dt.timezone.utc))
+        for o in (151,float('inf'),float('nan')):
+            with self.assertRaises(ValueError):c.at_offset(o)
+        with self.assertRaises(ValueError):c.offset_at(dt.datetime(2000,1,1))

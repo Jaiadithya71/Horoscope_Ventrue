@@ -119,9 +119,29 @@ class AngularSolarCalendar(SolarCalendar):
         return lower+progress/360
 
 
+class Fixed36525Calendar:
+    """Published vendor comparison profile, not a solar-return calculation."""
+    def __init__(self,birth):
+        if not isinstance(birth,dt.datetime) or birth.tzinfo is None or birth.utcoffset() is None:
+            raise ValueError('Birth must be timezone-aware')
+        self.birth=birth.astimezone(UTC)
+
+    def at_offset(self,offset):
+        if not math.isfinite(offset) or not -150<=offset<=150:
+            raise ValueError('Offset must be finite and within +/-150 years')
+        return self.birth+dt.timedelta(days=offset*365.25)
+
+    def offset_at(self,instant):
+        if not isinstance(instant,dt.datetime) or instant.tzinfo is None or instant.utcoffset() is None:
+            raise ValueError('Query instant must be timezone-aware')
+        value=(instant.astimezone(UTC)-self.birth).total_seconds()/(365.25*86400)
+        if not -150<=value<=150:raise ValueError('Query outside supported calendar horizon')
+        return round(value,12)
+
+
 def dated_hierarchy(birth, moon_longitude, instant, *, balance_method=None, calendar_profile='elapsed_utc_return_interpolation'):
     """Nested lord intervals with UTC estimates under a named convention."""
-    calendars={'elapsed_utc_return_interpolation':SolarCalendar,'sidereal_solar_angular_progress':AngularSolarCalendar}
+    calendars={'elapsed_utc_return_interpolation':SolarCalendar,'sidereal_solar_angular_progress':AngularSolarCalendar,'fixed_365_25_day_software_comparison':Fixed36525Calendar}
     if calendar_profile not in calendars:raise ValueError('Unknown calendar profile')
     calendar = calendars[calendar_profile](birth)
     offset = calendar.offset_at(instant)
@@ -147,12 +167,14 @@ def dated_hierarchy(birth, moon_longitude, instant, *, balance_method=None, cale
             ('end_solar_years_after_birth','end_utc_estimate')):
             row[target] = calendar.at_offset(row[key]).isoformat()
     hierarchy['query_utc'] = instant.astimezone(UTC).isoformat()
-    hierarchy['calendar_source'] = SOURCE
+    hierarchy['calendar_source'] = SOURCE if calendar_profile!='fixed_365_25_day_software_comparison' else {'source_url':'https://astrology.mathrubhumi.com/downloads/samples-pdf/saturnrep_eng.pdf','pdf_pages':[3,4,5],'verified_against_page_images':True,'scope':'Published vendor software365.25-day convention, not XIX.4 true solar-return mandate'}
     hierarchy['calendar_profile']=calendar_profile
     hierarchy['calendar_convention'] = 'Lahiri/Moshier integer solar returns; fractional years linearly interpolate elapsed UTC time between adjacent returns' if calendar_profile=='elapsed_utc_return_interpolation' else 'Lahiri/Moshier true sidereal solar angular progress; fractional years solve360*fraction degrees after each natal return'
+    if calendar_profile=='fixed_365_25_day_software_comparison':
+        hierarchy['calendar_convention']='Fixed365.25-day years, source-labeled vendor software comparison; no true solar-return root'
     hierarchy['modern_angular_profile_sources']=['https://www.vedicastrologer.org/jh/features.htm','https://www.vedicastrologer.org/jh/update_7.65.htm'] if calendar_profile=='sidereal_solar_angular_progress' else []
-    hierarchy['date_limit'] = 'Calendar estimates under an explicit interpolation convention, not uniquely book-defined exact dasha dates. Birth balance is chosen explicitly from separately sourced methods; disagreements remain exposed.'
-    hierarchy['solar_return_tolerance_seconds'] = 0.1
+    hierarchy['date_limit'] = 'Calendar estimates under an explicitly named calendar convention, not uniquely book-defined exact dasha dates. Birth balance is chosen explicitly from separately sourced methods; disagreements remain exposed.'
+    hierarchy['solar_return_tolerance_seconds'] = None if calendar_profile=='fixed_365_25_day_software_comparison' else 0.1
     return hierarchy
 
 
@@ -165,7 +187,7 @@ def main():
     parser.add_argument('--birth-time',required=True)
     parser.add_argument('--birth-tz',required=True)
     parser.add_argument('--at',required=True,help='Timezone-aware ISO query instant')
-    parser.add_argument('--calendar-profile',choices=('elapsed_utc_return_interpolation','sidereal_solar_angular_progress'),default='elapsed_utc_return_interpolation')
+    parser.add_argument('--calendar-profile',choices=('elapsed_utc_return_interpolation','sidereal_solar_angular_progress','fixed_365_25_day_software_comparison'),default='elapsed_utc_return_interpolation')
     parser.add_argument('--balance-method',choices=('equal_sector_longitude_fraction','normalized_actual_traversal_fraction','printed_XIX_3_fixed_60_divisor'),default=None)
     args=parser.parse_args()
     birth=birth_utc(args.birth_date,args.birth_time,args.birth_tz)
