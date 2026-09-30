@@ -412,3 +412,14 @@ without changing their count or selecting a critical-edition winner. Its
 complement of favorable strength: mixed/unknown flags are not automatically
 adverse. Same page keeps the XV.25 all-three strength and XV.26 named
 others-say context, which does not make a global override.
+
+PathakIV.4 actualPDF65-66/printed45-46, original pixels inspected, Hindi explicitly
+separates retrograde OR full rays for strength despite fall/enemy sign/navamsa.
+The Sanskrit juxtaposes retrograde and full-ray descriptions; no independent
+Boolean winner is selected from that juxtaposition. The weakness clause names
+solar obscuration despite exalted/friendly sign/navamsa. New standalone
+`pathak_motion_ray_audit` evaluates the Hindi OR with supplied three-valued flags
+and exposes simultaneous positive/negative and full-ray/obscuration evidence.
+It does not define rays, derive obscuration or numeric strength, replace existing
+IV.4/7 reports or select global priority. IV.3/7 do not settle the separate
+Sripati own-Shadvarga refinement quantifier. App and birth-input defaults unchanged.
