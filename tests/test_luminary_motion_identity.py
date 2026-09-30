@@ -11,3 +11,15 @@ class LuminaryIdentityTests(unittest.TestCase):
    with self.assertRaises(ValueError):identity('Sun',value,component_profile='supplied')
   with self.assertRaises(ValueError):identity('Mars',1,component_profile='supplied')
   with self.assertRaises(ValueError):identity('Sun',1,component_profile='')
+
+class LuminaryMultiplierChainTests(unittest.TestCase):
+ def test_one_upstream_double_no_second_identity_double(self):
+  from engine.luminary_motion_identity import supplied_bphs_doubled_component_chain
+  for p,v,w in [('Sun',.810,1.620),('Moon',.518,1.036)]:
+   x=supplied_bphs_doubled_component_chain(p,v,base_component_profile='explicit supplied base hypothesis')
+   self.assertAlmostEqual(x['doubled_upstream_component_rupa'],w)
+   self.assertEqual(x['motion_identity']['motion_rupa'],x['doubled_upstream_component_rupa'])
+   self.assertIsNone(x['engine_computed_base_component']);self.assertIsNone(x['total_strength'])
+ def test_doubled_component_cannot_reenter_as_base(self):
+  from engine.luminary_motion_identity import supplied_bphs_doubled_component_chain
+  with self.assertRaises(ValueError):supplied_bphs_doubled_component_chain('Sun',1.62,base_component_profile='not undoubled')
