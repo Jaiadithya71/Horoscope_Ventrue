@@ -12,3 +12,12 @@ class OwnShadvargaAuditTests(unittest.TestCase):
   x=own_shadvarga_refinement_audit()
   self.assertTrue(all(r['quoted_refinement_rupa'] is None for r in x['rows'] if r['planet']!='Jupiter'))
   self.assertTrue(all(r['selected_refined_component'] is None for r in x['rows']))
+
+class EarlierOwnVargaEvidenceTests(unittest.TestCase):
+ def test_clear_replacement_not_extra_rupa_or_quantifier_resolution(self):
+  from engine.own_shadvarga_refinement_audit import own_shadvarga_refinement_audit
+  x=own_shadvarga_refinement_audit();r=x['quoted_component_replacement']
+  self.assertEqual((r['base_virupa'],r['refined_virupa']),(15,30))
+  self.assertFalse(r['added_full_rupa']);self.assertFalse(r['explicit_any_or_all_quantifier_verified'])
+  self.assertIsNone(x['selected_refinement_definition'])
+  self.assertEqual(x['earlier_edition_source']['pdf_pages'],[97,98])

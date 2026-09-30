@@ -19,6 +19,12 @@ def own_shadvarga_refinement_audit():
     j=next(r for r in rows if r['planet']=='Jupiter')
     return {'rows':rows,'source':{'url':'https://archive.org/details/dli.ernet.203510',
         'pdf_page':52,'printed_page':38,'chapter':'III','sloka':'5 commentary','verified_against_page_image':True},
+        'earlier_edition_source':{'url':'https://archive.org/details/ksu.h1304.sripatipaddhati0000vsub',
+            'pdf_pages':[97,98],'printed_pages':[81,82],'verified_against_page_image':True},
+        'quoted_component_replacement':{'base_virupa':15,'refined_virupa':30,
+            'earlier_edition_leading_digit_clear':True,'added_full_rupa':False,
+            'explicit_any_or_all_quantifier_verified':False,
+            'sanskrit_scope_notice':'Quoted svavarga compound observed, not an independently settled any-one/all-six interpretation.'},
         'all_six_required_guess_fits_explicit_jupiter_example':j['all_six_owned'],
         'any_own_quantifier_verified':False,'selected_refinement_definition':None,
         'selected_positional_total':None,
