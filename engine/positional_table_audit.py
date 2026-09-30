@@ -31,7 +31,7 @@ def audit_printed_positional_table():
                 'notice':'Quoted refinement would change printed Jupiter decan. Condition definition is not silently inferred.'},
                 {'kind':'seven-varga direct-owner versus owner-placement','source':source('3 commentary',46,32),
                  'notice':'Printed table is not proof that one profile or every input value is correct.'}],
-            'notice':'Seven printed positional sums are an internal arithmetic audit only, not independent chart reconstruction, source-selected natal positional total, total Shadbala, calibrated weights or personal effects. Suspicious duplicate Venus Uchcha/seven-varga values are preserved rather than guessed corrections.'}
+            'notice':'Seven printed positional sums are an internal arithmetic audit only, not independent chart reconstruction, source-selected natal positional total, total Shadbala, calibrated weights or personal effects. Duplicate Venus values are preserved; PDF49 printed seven-varga entries independently sum.905. Exact relation-unit precision and Saturn cross-table disagreement remain separate audits.'}
 
 
 if __name__=='__main__':
