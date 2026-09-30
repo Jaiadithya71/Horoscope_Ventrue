@@ -241,3 +241,7 @@ Fresh original1937 PDF199-200/printed162-163 and Kapoor PDF153 images verify XV.
 ## Lagna-link strength connective discrepancy
 
 Fresh original1937 PDF199/printed162 and Kapoor PDF153 images verify XV.27's shared Lagna-lord occupation/conjunction link, followed by1937's Bhava OR lord strong versus Kapoor's AND wording. `lagna_house_strength_connective` exposes both three-valued favorable-condition readings on caller-grounded link and independently supplied strong/weak statuses. It is a translation discrepancy, not verified Sanskrit schools. A failed strong flag is not weak, mixed conditions are not adverse, and the adverse weakness quantifier remains unselected. No automatic degree-conjunction orb, complete strength, calendar or global winner is supplied.
+
+## Scoped precedence coverage inventory
+
+`precedence_inventory`, now exposed in the validation report, groups13 implemented source-scoped conditions from relationship priority through exact Sandhi, own-other-house exception, connective discrepancies and explicit period schools. It separates local exceptions, consistent differently named effects, translation discrepancies and unresolved global arbitration. This is coverage orientation, not a natal execution or completion percentage. No global rank, selected school, coherent full strength/calendar or personal outcome appears just because13 local scopes have implementations.

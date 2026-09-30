@@ -28,6 +28,7 @@ from pathlib import Path
 
 
 from .strength_profile_inventory import strength_profile_inventory
+from .precedence_inventory import precedence_inventory
 
 
 from .luminary_motion_table_audit import luminary_motion_table_audit
@@ -97,6 +98,7 @@ def validation_report():
     'source_selected_natal_strength_total_available':False,
     'strength_profile_completeness_inventory':strength_profile_inventory(),
     'global_outcome_precedence_verified':False,
+    'scoped_precedence_inventory':precedence_inventory(),
     'public_release_rights_cleared':False,
     'blocking_requirements':['Independently recorded personalized readings/outcomes for an actual predictive benchmark',
        'Resolve calendar/birth-balance convention and exact endpoint reference, not date-only software fit',
