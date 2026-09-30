@@ -8,6 +8,7 @@ from .full_strength_table_audit import audit_printed_full_strength_table
 from .historical_mean_year_audit import historical_mean_year_audit
 from .historical_declination import ayana_zero_point_consistency_audit
 from .sripati_edition_strength_audit import edition_strength_audit
+from .sripati_worked_navamsa_audit import worked_seven_varga_owner_audit
 from .modern_book_date_audit import audit_example50
 from .dated_example_audit import secondary_example_audit
 
@@ -71,6 +72,7 @@ def validation_report():
     'luminary_motion_cross_table_audit':luminary_motion_table_audit(),
     'ayana_equator_sentence_consistency_audit':ayana_zero_point_consistency_audit(),
     'sripati_edition_strength_comparison':edition_strength_audit(),
+    'sripati_worked_seven_varga_owners':worked_seven_varga_owner_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,

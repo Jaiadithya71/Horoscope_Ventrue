@@ -19,6 +19,7 @@ class ValidationReportTests(unittest.TestCase):
   self.assertEqual(a['aggregate']['subtotal_matches'],6)
   self.assertEqual(a['aggregate']['aspect_equations_match'],7)
   self.assertNotIn('accuracy_percentage',x)
+  self.assertEqual(x['sripati_worked_seven_varga_owners']['1919_owner_matches'],47)
   dates=x['dated_source_example_audits']
   self.assertFalse(dates['historical_mean_sun_other_dasha']['exact_endpoint_verified'])
   self.assertIsNone(dates['historical_mean_sun_other_dasha']['selected_calendar'])
