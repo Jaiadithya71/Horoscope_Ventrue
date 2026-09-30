@@ -30,7 +30,7 @@ def julian_day(utc):
 
 def position(utc, planet):
     lon, lat, distance, speed, *_ = swe.calc_ut(julian_day(utc), PLANETS[planet], FLAGS)[0]
-    return {'longitude': round(lon, 5), 'sign': SIGNS[int(lon // 30)],
+    return {'longitude': lon, 'longitude_display_5dp': round(lon,5), 'sign': SIGNS[int(lon // 30)],
             'retrograde': speed < 0}
 
 

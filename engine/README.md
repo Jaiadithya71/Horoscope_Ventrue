@@ -127,3 +127,5 @@ Natal output now exposes `scoped_lordship_precedence` from page-checked Phaladee
 `bhava_effectiveness_evidence` is a separate XV.13-14 historical centre/Sandhi rule-of-three fraction in natal placements. It keeps exact boundary assignment unresolved while preserving boundary qualification despite strength. No near-boundary orb, probability, occurrence or outcome is inferred.
 
 Forecast placements now include separate XXVI.25 sign-third timing evidence from original PDF333: Sun/Mars first, Jupiter/Venus middle, Moon/Saturn last, Mercury/Rahu throughout. It does not suppress existing verse readings or establish events; exact internal boundaries abstain, Ketu remains uncovered, and retrograde timing is not guessed from chronological thirds.
+
+Coordinates retain full numerical longitude for all geometry and conditions. `longitude_display_5dp` is separate display-only rounding; a rounded29.999999→30 or9.999999→10 must not change a sign, varga, Sandhi or transit-third decision. Numerical precision is still not astronomical accuracy or birth-data certainty.
