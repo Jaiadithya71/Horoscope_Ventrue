@@ -49,3 +49,16 @@ class NatalGeometryIntegrationTests(unittest.TestCase):
         x=bhava_geometry(28.58,289.28)
         self.assertNotEqual(x['centres'][2]-x['centres'][1],30)
         self.assertNotEqual(x['centres'][2],30)
+
+class NatalPrecisionIntegrationTests(unittest.TestCase):
+    def test_all_returned_angles_keep_geometry_precision(self):
+        from engine.natal import natal_chart
+        from engine.bhava_effectiveness import bhava_effectiveness
+        x=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        g=x['sripati_degree_geometry']
+        self.assertEqual(g['centres'][1],x['ascendant']['longitude'])
+        self.assertEqual(g['centres'][10],x['midheaven']['longitude'])
+        for p in x['placements'].values():
+            self.assertEqual(p['bhava_effectiveness_evidence'],bhava_effectiveness(p['longitude'],g))
+        for name in ('ascendant','midheaven'):
+            self.assertEqual(x[name]['longitude_display_5dp'],round(x[name]['longitude'],5))

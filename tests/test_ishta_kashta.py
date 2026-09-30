@@ -27,3 +27,16 @@ class IshtaTests(unittest.TestCase):
         for bad in (-.01,1.01,float('inf'),float('nan')):
             with self.assertRaises(ValueError):ishta_kashta(bad,.5,component_profile='test')
         with self.assertRaises(ValueError):ishta_kashta(.5,.5,component_profile='')
+
+class PrintedFactorsAuditTests(unittest.TestCase):
+    def test_seven_original_inputs_not_a_false_rounding_oracle(self):
+        # PDF85 prints some factors truncated/inconsistently rounded. Confirm
+        # formula within .001, not equality to a false standard-rounding oracle.
+        fixtures=[(.957,.810,.880,.090),(.397,.518,.453,.539),
+                  (.667,.189,.355,.519),(.051,.794,.201,.442),
+                  (.186,.795,.384,.408),(.905,.049,.210,.300),
+                  (.044,.062,.052,.947)]
+        for u,c,i,k in fixtures:
+            x=ishta_kashta(u,c,component_profile='printed PDF85 inputs')['sripati_root_profile']
+            self.assertAlmostEqual(x['historical_ishta'],i,delta=.001)
+            self.assertAlmostEqual(x['historical_kashta'],k,delta=.001)

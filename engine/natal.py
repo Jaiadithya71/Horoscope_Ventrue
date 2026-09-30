@@ -71,9 +71,9 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
         degree_geometry={'status':'unavailable','reason':str(exc),'notice':'No substitute geometry inferred, e.g. for polar/reversed anchors.'}
         centres=None
     return {'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
-            'longitude': longitude, 'ascendant': {'longitude': round(asc, 5), 'sign': SIGNS[asc_index]},
+            'longitude': longitude, 'ascendant': {'longitude': asc, 'longitude_display_5dp':round(asc,5), 'sign': SIGNS[asc_index]},
             'sripati_degree_geometry':degree_geometry,
-            'midheaven':{'longitude':round(axes[1]%360,5),'model':'Swiss Ephemeris Lahiri sidereal returned MC angle',
+            'midheaven':{'longitude':axes[1]%360,'longitude_display_5dp':round(axes[1]%360,5),'model':'Swiss Ephemeris Lahiri sidereal returned MC angle',
                          'source_url':'https://github.com/aloistr/swisseph/blob/c353e6f8/swehouse.c'},
             'placements': placements, 'moon_nakshatra': nakshatra(moon_precise),
             'moon_periods': moon_periods(moon_precise),
