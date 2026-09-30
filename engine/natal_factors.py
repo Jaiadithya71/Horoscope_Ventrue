@@ -96,7 +96,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .friendship import compound_relationship_candidates
     from .lordship_precedence import lordship_precedence
     from .planetary_war import chart_war_evidence
-    return {'planetary_war_coordinate_evidence':chart_war_evidence(placements,coordinate_profile='Lahiri sidereal Swiss Ephemeris/Moshier geocentric ecliptic coordinates'),
+    from .seven_varga_strength import chart_direct_owner_candidates
+    return {'seven_varga_numeric_candidates':chart_direct_owner_candidates(placements),
+            'planetary_war_coordinate_evidence':chart_war_evidence(placements,coordinate_profile='Lahiri sidereal Swiss Ephemeris/Moshier geocentric ecliptic coordinates'),
             'scoped_lordship_precedence':lordship_precedence(ascendant_sign),
             'compound_relationship_candidates':compound_relationship_candidates(placements),
             'degree_aspect_evidence':degree_aspect_evidence(placements),
@@ -109,7 +111,7 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
             'sign_exchanges':exchanges(placements),
             'maha_purusha_conditions':mahapurusha(ascendant_sign,placements),
-            'missing_strength_components':['source-selected complete temporal profile (standalone solar-clock/declination/third/lord helpers available)','automatic traditional motional-angle generation (supplied Cheshtakendra helper available)','automatic source-selected seven-varga numerical aggregation (explicit-input direct-owner helper available)','automatic combustion thresholds','source-selected planetary war/winner adjustment (supplied coordinate evidence helper available)','automatic signed aspect profile (explicit-classification adjustment helper available)','source-selected complete positional profile','source-selected total sixfold strength'],
+            'missing_strength_components':['source-selected complete temporal profile (standalone solar-clock/declination/third/lord helpers available)','automatic traditional motional-angle generation (supplied Cheshtakendra helper available)','source-selected seven-varga component (distinct chart-derived direct-owner candidates available)','automatic combustion thresholds','source-selected planetary war/winner adjustment (supplied coordinate evidence helper available)','automatic signed aspect profile (explicit-classification adjustment helper available)','source-selected complete positional profile','source-selected total sixfold strength'],
             'unresolved_conventions':['phase complement and Sun/Moon multipliers','Rasi versus degree-Bhava house-category interpretation','exact Sandhi membership','global outcome precedence'],
             'sixfold_source':SOURCE_SIXFOLD,
             'notice':'No total strength score, comparative rank, or outcome is justified by these partial factors.'}

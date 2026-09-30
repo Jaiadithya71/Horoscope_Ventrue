@@ -59,3 +59,17 @@ class ChartSevenVargaCandidatesTests(unittest.TestCase):
                 self.assertTrue(c['component']['strength_sources'])
                 self.assertIn('Phaladeepika1937',c['component']['relation_profile'])
         self.assertIsNone(x['selected_profile'])
+
+class NatalCandidateBridgeTests(unittest.TestCase):
+    def test_integrated_candidates_cannot_be_a_total(self):
+        from engine.natal import natal_chart
+        n=natal_chart('2000-01-01','14:30','Asia/Kolkata',13.0827,80.2707,'Chennai, India')
+        x=n['natal_factors']['seven_varga_numeric_candidates']
+        self.assertEqual(len(x['planets']),7)
+        self.assertIsNone(x['selected_profile'])
+        self.assertIsNone(x['positional_total'])
+        self.assertIsNone(x['total_strength'])
+        self.assertEqual(n['natal_factors']['compound_relationship_candidates'],x['compound_relation_evidence'])
+        for p in x['planets']:
+            self.assertIsNone(p['selected_component'])
+            self.assertEqual({c['house_profile'] for c in p['candidates']},{'rasi_relative','lagna_bhava_relative'})
