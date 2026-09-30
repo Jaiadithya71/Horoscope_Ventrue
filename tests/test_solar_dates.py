@@ -69,3 +69,16 @@ class AngularCalendarTests(unittest.TestCase):
         self.assertEqual(default['hierarchy'][0]['lord'],angular['hierarchy'][0]['lord'])
         self.assertNotIn('outcome',angular)
         with self.assertRaises(ValueError):dated_hierarchy(birth,360/54,birth,calendar_profile='unverified')
+
+class SeparateRootRoutineChecks(unittest.TestCase):
+    def test_bisection_matches_library_crossing_without_fitting(self):
+        from engine.solar_dates import AngularSolarCalendar
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        a=AngularSolarCalendar(birth)
+        # Separate library solver, same astronomical model. These are synthetic
+        # checks, not independent ephemeris/software or empirical truth.
+        for offset in (-2.75,-.3,.2,.5,4.81,80.125):
+            target=(a.target+360*(offset%1))%360
+            crossing=swe.solcross_ut(target,julian_day(birth)+offset*365.25636-35,FLAGS)
+            bisection=julian_day(a.at_offset(offset))
+            self.assertLess(abs(crossing-bisection)*86400,.1)
