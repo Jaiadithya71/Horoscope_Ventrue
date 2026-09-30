@@ -445,3 +445,12 @@ that the attributed view weakens special aspects. New source-only
 not deny special-aspect geometry, assign numeric efficacy or select a qualifying
 aspect definition for VII.28/XV.5 or any other condition. PathakCLI now exposes
 six checks. No aspect-helper, app output, school winner or global priority changes.
+
+PathakIV.11 actualPDF68-69/48-49 and1937PDF74-75/37-38 original pixels
+corroborate protective/favorable potency: Jupiter greatest, Mercury quarter
+and Venus half of that potency. Both describe Moon strength as the basis of
+planet strength, without a dependency equation. New source-only
+`pathak_protective_potency_audit` retains fractions in their named scope, not
+as Shadbala multipliers, total-strength ratios or automatic adverse-effect
+cancellation. Activation/applicability and global precedence stay unselected.
+PathakCLI now seven checks; no natal strength/app default change.

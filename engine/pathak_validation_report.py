@@ -7,6 +7,7 @@ from .precedence_inventory import precedence_inventory
 from .pathak_motion_ray_audit import pathak_motion_ray_audit
 from .pathak_angular_strength_audit import pathak_angular_strength_audit
 from .pathak_aspect_efficacy_audit import pathak_aspect_efficacy_audit
+from .pathak_protective_potency_audit import pathak_protective_potency_audit
 
 
 def pathak_validation_report():
@@ -17,7 +18,8 @@ def pathak_validation_report():
                        'explicit_lagna_house_or_lord_connective': connective,
                        'motion_ray_connective': pathak_motion_ray_audit(),
                        'angular_strength_corroboration': pathak_angular_strength_audit(),
-                       'aspect_efficacy_alternatives': pathak_aspect_efficacy_audit()},
+                       'aspect_efficacy_alternatives': pathak_aspect_efficacy_audit(),
+                       'protective_potency_scope': pathak_protective_potency_audit()},
             'local_precedence_scope': [r for r in precedence_inventory()['scope_records']
                                       if r['id'] == 'strong_dusthana_owner_main_period_clause'],
             'additional_existing_source_reports': [
