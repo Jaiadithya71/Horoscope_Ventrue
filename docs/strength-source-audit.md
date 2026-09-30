@@ -135,3 +135,7 @@ Fresh PDF52-53 images confirm the five-piece base table and the own-Shadvarga de
 ## Period-school conflict is independent of arithmetic readiness
 
 Fresh original1937 Phaladeepika PDF269/printed232 XXI.41 image and Kapoor PDF203 image both explicitly retain opposite schools for Mercury subperiod within Jupiter main period. `period_school_conflict.py` preserves scoped adverse/beneficial evidence without choosing a school or issuing medical/personal predictions. Exact lord order matters; other pairs are unassessed by this helper, not cleared. The existing reconciliation gate abstains even with supplied verified strength/timing flags because those flags do not establish which school this verse adopts. This is one direct source-backed arbitration obstacle, not a universal precedence rule.
+
+## Vargottama period result has a specific exception, not universal priority
+
+Fresh original1937 PDF245/printed208 XX.22 and Kapoor PDF186 images give favorable Vargottama-period reading qualified to mixed when the same planet is eclipsed or depressed. `vargottama_period_qualification.py` implements this scoped exception with unknown flags preserved. Actual natal Rasi/Navamsa geometry and separately cited fall-sign condition feed it, but a missing Sun-ray classification is not uneclipsed. No active period date, automatic combustion orb, global school arbitration, personal outcome or probability is inferred. The verse's separate main/subperiod unfavorable-house clause is not silently combined into an unverified winner.
