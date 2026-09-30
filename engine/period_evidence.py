@@ -39,7 +39,7 @@ def lunar_traversal_evidence(birth):
     The checked English XIX.3 prints remaining ghatikas * lord years / 60.
     The actual traversal duration differs from 60 ghatikas. Show that literal
     candidate alongside longitude and normalized-time conventions. Only the
-    first is the printed formula; normalization is not attributed to this verse.
+    first is Sastri XIX.3; normalized time has a separate BPHS 46.16 source.
     """
     if not isinstance(birth,dt.datetime) or birth.tzinfo is None or birth.utcoffset() is None:
         raise ValueError('Birth must be timezone-aware')
@@ -72,9 +72,19 @@ def lunar_traversal_evidence(birth):
                 {'method':'printed_XIX_3_fixed_60_divisor','remaining_years':remaining_ghatikas*years/60,
                  'source':BALANCE_SOURCE,'warning':'Literal checked English formula. May exceed full lord years if actual traversal exceeds 60 ghatikas; not automatically adopted.'},
                 {'method':'normalized_actual_traversal_fraction','remaining_years':remaining/total*years,
-                 'source':None,'warning':'Explicit diagnostic convention, not the fixed-divisor instruction printed in this edition.'},
+                 'source':{'title':'Brihat Parasara Hora Sastra vol. II, Kapoor translation',
+                           'chapter':46,'sloka':16,'pdf_page':18,'printed_page':508,
+                           'url':'https://elibraryofyoga.com/bitstreams/c4881ae4-af7a-4952-8194-71e42f2c7a5e/download',
+                           'verified_against_page_image':True},
+                 'corroborating_commentary':{'title':'Phaladeepika, Kapoor commentary reproduction',
+                           'pdf_page':175,'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf',
+                           'verified_against_page_image':True},
+                 'warning':'Kapoor commentary alternative; not the fixed-divisor instruction printed in Sastri XIX.3.'},
                 {'method':'equal_sector_longitude_fraction','remaining_years':initial['initial_remaining_solar_years'],
-                 'warning':'Existing prototype approximation; does not measure Moon traversal time.'}],
+                 'source':{'title':'Phaladeepika, Kapoor commentary reproduction','pdf_pages':[175,176],
+                           'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf',
+                           'verified_against_page_image':True},
+                 'warning':'Commentary-supported shortcut, not measured Moon traversal time or the fixed-divisor instruction in Sastri XIX.3.'}],
             'ghatika_source':{'slug':'astrological-self-instructor-1893','pdf_page':99,'printed_page':85,
                               'verified_against_page_image':True},
             'numerical_bracket_seconds':0.1,'status':'unresolved_source_convention',

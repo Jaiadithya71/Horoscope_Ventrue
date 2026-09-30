@@ -83,11 +83,25 @@ class SolarCalendar:
         return round(year+(instant-start).total_seconds()/(end-start).total_seconds(),12)
 
 
-def dated_hierarchy(birth, moon_longitude, instant):
+def dated_hierarchy(birth, moon_longitude, instant, *, balance_method=None):
     """Nested lord intervals with UTC estimates under a named convention."""
     calendar = SolarCalendar(birth)
     offset = calendar.offset_at(instant)
-    hierarchy = dasha_at_solar_offset(moon_longitude, offset)
+    balance=None
+    evidence=None
+    if balance_method is not None:
+        from .period_evidence import lunar_traversal_evidence
+        evidence=lunar_traversal_evidence(birth)
+        if abs((evidence['birth_moon_longitude']-moon_longitude+180)%360-180)>0.000001:
+            raise ValueError('Supplied Moon longitude disagrees with birth model')
+        candidates={x['method']:x for x in evidence['balance_candidates']}
+        if balance_method not in candidates:
+            raise ValueError('Unknown birth balance method')
+        balance=candidates[balance_method]['remaining_years']
+    hierarchy = dasha_at_solar_offset(moon_longitude, offset,initial_remaining_years=balance)
+    hierarchy['birth_balance_method']=balance_method or 'equal_sector_longitude_fraction'
+    if evidence is not None:
+        hierarchy['birth_balance_evidence']=evidence
     for row in hierarchy['hierarchy']:
         for key, target in (
             ('full_start_solar_years_after_birth','full_start_utc_estimate'),
@@ -97,7 +111,7 @@ def dated_hierarchy(birth, moon_longitude, instant):
     hierarchy['query_utc'] = instant.astimezone(UTC).isoformat()
     hierarchy['calendar_source'] = SOURCE
     hierarchy['calendar_convention'] = 'Lahiri/Moshier integer solar returns; fractional years linearly interpolate elapsed UTC time between adjacent returns'
-    hierarchy['date_limit'] = 'Calendar estimates under an explicit interpolation convention, not uniquely book-defined exact dasha dates. Birth balance still uses equal-sector longitude approximation, not measured stellar traversal time.'
+    hierarchy['date_limit'] = 'Calendar estimates under an explicit interpolation convention, not uniquely book-defined exact dasha dates. Birth balance is chosen explicitly from separately sourced methods; disagreements remain exposed.'
     hierarchy['solar_return_tolerance_seconds'] = 0.1
     return hierarchy
 
@@ -111,11 +125,12 @@ def main():
     parser.add_argument('--birth-time',required=True)
     parser.add_argument('--birth-tz',required=True)
     parser.add_argument('--at',required=True,help='Timezone-aware ISO query instant')
+    parser.add_argument('--balance-method',choices=('equal_sector_longitude_fraction','normalized_actual_traversal_fraction','printed_XIX_3_fixed_60_divisor'),default=None)
     args=parser.parse_args()
     birth=birth_utc(args.birth_date,args.birth_time,args.birth_tz)
     moon=swe.calc_ut(julian_day(birth),swe.MOON,FLAGS)[0][0]%360
     try:
-        result=dated_hierarchy(birth,moon,dt.datetime.fromisoformat(args.at))
+        result=dated_hierarchy(birth,moon,dt.datetime.fromisoformat(args.at),balance_method=args.balance_method)
     except ValueError as exc:
         parser.error(str(exc))
     print(json.dumps(result,indent=2))

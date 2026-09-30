@@ -159,7 +159,7 @@ HIERARCHY_SOURCE = {'slug':'phaladeepika-1937','pdf_page':258,'printed_page':221
                     'chapter':'XXI','sloka':2,'verified_against_page_image':True}
 
 
-def dasha_at_solar_offset(moon_longitude, offset):
+def dasha_at_solar_offset(moon_longitude, offset, *, initial_remaining_years=None):
     """Three nested period lords at a nonnegative solar-year offset from birth.
 
     Return actual theoretical boundaries and the birth-clipped interval. No
@@ -174,6 +174,10 @@ def dasha_at_solar_offset(moon_longitude, offset):
     first=(star+7)%9
     initial_years=PERIODS[first][1]
     elapsed_initial=(moon_longitude/STAR_ARC-star)*initial_years
+    if initial_remaining_years is not None:
+        if not 0 <= initial_remaining_years <= initial_years:
+            raise ValueError('Initial balance must fit within its lord period')
+        elapsed_initial=initial_years-initial_remaining_years
     start=-elapsed_initial
     path=[]
     for cycle in range(10):
