@@ -131,3 +131,5 @@ Forecast placements now include separate XXVI.25 sign-third timing evidence from
 Coordinates retain full numerical longitude for all geometry and conditions. `longitude_display_5dp` is separate display-only rounding; a rounded29.999999→30 or9.999999→10 must not change a sign, varga, Sandhi or transit-third decision. Numerical precision is still not astronomical accuracy or birth-data certainty.
 
 `bhava_strength.py` supplies only III.21-23 degree-centre house direction with explicitly grounded category/profile. Cancer/Aquarius category disagreements remain visible; no complete house strength or automatic category winner is supplied.
+
+`ishta_kashta.py` keeps the IV.5-6 root transformation and quoted Parashara average transformation separate with grounded supplied normalized components. Historical names are not calibrated good/bad probabilities or automatic outcome weights; no total-strength/aspect multiplication or profile winner is inferred.
