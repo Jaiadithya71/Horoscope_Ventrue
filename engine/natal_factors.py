@@ -100,7 +100,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .positional_candidates import positional_candidates
     from .vargottama_period_qualification import chart_vargottama_period_qualifications
     from .combustion_candidates import chart_combustion_candidates
-    return {'commentary_combustion_candidates':chart_combustion_candidates(placements),
+    from .debilitation_cancellation_candidates import chart_cancellation_candidates
+    return {'debilitation_cancellation_candidates':chart_cancellation_candidates(ascendant_sign,placements),
+            'commentary_combustion_candidates':chart_combustion_candidates(placements),
             'vargottama_period_qualifications':chart_vargottama_period_qualifications(placements),
             'base_positional_candidates':positional_candidates(placements),
             'seven_varga_numeric_candidates':chart_direct_owner_candidates(placements),
