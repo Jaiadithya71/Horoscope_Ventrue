@@ -89,11 +89,13 @@ def mahapurusha(reference_sign, placements):
 def natal_factors(ascendant_sign, placements):
     from .strength_components import components
     from .friendship import relationship_evidence
-    return {'relationship_evidence':relationship_evidence(placements),
+    from .vargas import varga_owner_evidence
+    return {'six_varga_owner_evidence':{p:varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
+            'relationship_evidence':relationship_evidence(placements),
             'strength_components':components(ascendant_sign,placements),
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
             'sign_exchanges':exchanges(placements),
             'maha_purusha_conditions':mahapurusha(ascendant_sign,placements),
-            'missing_strength_components':['temporal','numeric motional (retrograde condition only)','numeric directional (whole-sign condition only)','declination','six-varga positional detail','combustion','exaltation/own/moola precedence','house boundary'],
+            'missing_strength_components':['temporal','numeric motional (retrograde condition only)','numeric directional (whole-sign condition only)','declination','six-varga numerical aggregation (owners only implemented)','combustion','exaltation/own/moola precedence','house boundary'],
             'sixfold_source':SOURCE_SIXFOLD,
             'notice':'No total strength score, comparative rank, or outcome is justified by these partial factors.'}
