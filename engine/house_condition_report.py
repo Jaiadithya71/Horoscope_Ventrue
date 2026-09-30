@@ -29,3 +29,32 @@ def house_condition_report(house,reference_sign,placements,classifications,*,
    'xv25_26_supplied_strength_conditions':checks,'global_precedence':None,'personal_outcome':None,
    'selected_strength_total':None,'timing':None,
    'notice':'Input flags/classes are caller supplied, not certified complete strength. VII cancellation does not substitute for XV strength or overrule XV26. XV5 recovery does not resolve unrelated competing conditions. No vote, combined polarity, probability or personal event. No active period/calendar inferred.'}
+
+
+def main():
+ import argparse,json
+ from .natal import natal_chart
+ a=argparse.ArgumentParser(description=__doc__)
+ for flag in ('birth-date','birth-time','birth-tz','birth-place'):
+  a.add_argument('--'+flag,required=True)
+ for flag in ('birth-lat','birth-lon'):a.add_argument('--'+flag,required=True,type=float)
+ a.add_argument('--house',required=True,type=int)
+ a.add_argument('--classification-file',required=True,
+   help='JSON with profile and classical planet classes; these are caller supplied, not engine certified')
+ a.add_argument('--strength-file',help='Optional JSON with profile and bhava/lord/karaka bool/null flags')
+ args=a.parse_args()
+ try:
+  from pathlib import Path
+  classes=json.loads(Path(args.classification_file).read_text())
+  strength=json.loads(Path(args.strength_file).read_text()) if args.strength_file else {}
+  n=natal_chart(args.birth_date,args.birth_time,args.birth_tz,args.birth_lat,args.birth_lon,args.birth_place)
+  r=house_condition_report(args.house,n['ascendant']['sign'],n['placements'],classes['classes'],
+    classification_profile=classes['profile'],strength_profile=strength.get('profile'),
+    bhava_strong=strength.get('bhava'),lord_strong=strength.get('lord'),karaka_strong=strength.get('karaka'))
+  r['chart_input_context']={k:n[k] for k in ('birth_utc','birth_place','latitude','longitude','ascendant','model')}
+  r['input_declaration_notice']='Classification/strength files are caller declarations, not engine-verified flags. No complete strength is calculated or certified.'
+  print(json.dumps(r,indent=2))
+ except (ValueError,KeyError,TypeError,OSError) as exc:a.error(str(exc))
+
+
+if __name__=='__main__':main()

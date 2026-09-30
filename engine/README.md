@@ -177,3 +177,11 @@ The validation report also runs three separately labeled dated-source audits: hi
 Modern Natonnata meridian-clock candidates can be added with `--meridian-profile moshier_modern_solar_meridian_transits_zero_altitude`, requiring all birth/place arguments. Default stays absent. It supplies distinct actual-elapsed and normalized-half hypotheses to the checked component without choosing a solar clock or total. It may be combined with the separately explicit rise/set-third profile; neither enables a full Kala total.
 
 `house_condition_report` accepts a caller-selected house, placements, named supplied classification profile and optional externally grounded strength flags. It carries XV.5 recovery, the house lord's VII.26-30 cancellation candidates and XV.25/26 checked/unchecked competing conditions together without aggregating a polarity, substituting cancellation for complete strength or selecting an outcome/timing rule. Whole-sign and missing degree-Bhava evidence remain distinct. The validation report also lists pending public outcome source gates and printed cancellation-illustration inconsistencies separately; neither is counted as predictive accuracy.
+
+Run the one-house evidence report with explicit birth/location inputs and an explicitly supplied JSON classification declaration (sample is synthetic and partial, not the engine's chosen classification):
+
+```bash
+python3 -m engine.house_condition_report --birth-date 2000-01-01 --birth-time 14:30 --birth-tz Asia/Kolkata --birth-place 'synthetic Chennai fixture' --birth-lat 13.08 --birth-lon 80.27 --house 7 --classification-file benchmarks/house_condition_classification_fixture.json
+```
+
+An optional `--strength-file` supplies JSON `profile`, `bhava`, `lord` and `karaka` bool/null fields. These are declarations, not engine-certified complete strength. Missing/invalid files, keys, classes, flags and birth inputs fail instead of guessing. No selected interpretation, prediction or empirical score follows.
