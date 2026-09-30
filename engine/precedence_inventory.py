@@ -18,6 +18,7 @@ def precedence_inventory():
         ('vargottama_qualification','vargottama_period_qualification','XX.22',[245],'fall/rays qualify favorable Vargottama reading to mixed','no universal override'),
         ('period_manifestation','period_manifestation_gate','XX.43-44',[252],'no automatic own-subperiod owned-house output; relationship candidates kept','relation profile and similarly-circumstanced classification unselected'),
         ('angular_trinal_related_pair','angular_trinal_pair_conditions','XX.45-46',[252],'extra adverse ownership does not disqualify this related pair condition','fifth/ninth candidate scope; relation profile and independent strong-Kendra flag unresolved'),
+        ('angular_trinal_period_wording','angular_trinal_period_readings','XX.49',[253],'unrelated no-harm and positive-good English readings retained separately','Trikona enumeration, relation hypothesis and translation selection unresolved'),
         ('period_school_conflict','period_school_conflict','XXI.41',[269],'Jupiter main/Mercury subperiod opposite schools retained','no school selected by strength or timing')]
     return {'scope_records':[{'id':i,'implementation':m,'checked_scope':s,'remaining_boundary':b,
         'source':{'url':'https://archive.org/details/in.ernet.dli.2015.92117','chapter_sloka':v,'pdf_pages':p},
