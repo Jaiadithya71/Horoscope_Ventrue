@@ -5,7 +5,7 @@ from .forecast import swe,julian_day
 from .temporal_lords import tribhaga
 
 UTC=dt.timezone.utc
-PROFILE='moshier_geocentric_solar_centre_no_refraction_zero_altitude'
+PROFILE='moshier_topocentric_solar_centre_no_refraction_zero_altitude'
 SOURCE_URL='https://astrorigin.com/pyswisseph/pydoc/index.html'
 
 
@@ -37,7 +37,7 @@ def solar_interval_evidence(instant,latitude,longitude,*,solar_event_profile):
     past=[e for e in events if e[0]<=jd];future=[e for e in events if e[0]>jd]
     if not past or not future:
         return {'status':'unavailable','solar_event_profile':PROFILE,'tribhaga_evidence':None,
-                'source_url':SOURCE_URL,'notice':'No bracketing rise/set in bounded search, including polar day/night. No civil-time replacement or invented interval.'}
+                'source_url':SOURCE_URL,'flag_semantics_source_url':'https://github.com/aloistr/swisseph/blob/3186eed405bd2b4ff520c91d0b27bb25e9d75106/swephexp.h','notice':'No bracketing rise/set in bounded search, including polar day/night. No civil-time replacement or invented interval.'}
     start,kind=past[-1];end,next_kind=future[0]
     if kind==next_kind:raise ArithmeticError('Alternating solar interval not established')
     boundary_seconds=min(abs(jd-start),abs(end-jd))*86400
@@ -47,7 +47,7 @@ def solar_interval_evidence(instant,latitude,longitude,*,solar_event_profile):
     near_third=min(abs(fraction-1/3),abs(fraction-2/3))*(end-start)*86400<=.1
     boundary=boundary_seconds<=.1 or near_third
     return {'status':'boundary_unresolved' if boundary else 'explicit_model_interval',
-            'solar_event_profile':PROFILE,'source_url':SOURCE_URL,
+            'solar_event_profile':PROFILE,'source_url':SOURCE_URL,'flag_semantics_source_url':'https://github.com/aloistr/swisseph/blob/3186eed405bd2b4ff520c91d0b27bb25e9d75106/swephexp.h',
             'period':'day' if kind=='rise' else 'night',
             'interval_start_utc':(epoch+dt.timedelta(days=start-2451545)).isoformat(),
             'interval_end_utc':(epoch+dt.timedelta(days=end-2451545)).isoformat(),
