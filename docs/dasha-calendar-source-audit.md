@@ -115,3 +115,23 @@ Broad half-open regression sweeps6synthetic longitudes and1200offsets each, chec
 Independent JhaSudha BPHS edition: actualPDF310/printed278 chapter46.14 useselapsedBhayaata/totalBhabhoga timeslordyears. WorkedRohini25;34/56;40×10 gives767/170 expired and933/170remainingyears. Exact12/30/60/60 arithmetic givesexpired4y6m4d14g7p+1/17p; printed7p istruncated, and itscomplementremaining53p sumsbackto10. The futureSun table printsbirth4sign25°45′55″ andlater10sign21°31′48″. Addingprintedremainingyears×360 tobirthSun reproduces321.53degrees exactly; exactfractiontarget differs by-1/17arcsecond. `jha_dasha_balance_audit` exposes this independent normalizedbalance andnamedsolar-targetarithmetic hypothesis. Samvat/Sunlabels do not supplyfullcivil timestamps, calendarconversion or ephemerismodel, so noexactUTCendpoint/universalcalendarwinner follows. DefaultappCLI/schema andselectedcalendarnull remainunchanged. Source https://archive.org/download/bmmv_brihat-parashar-hora-shastra-of-parashar-muni-with-sudha-commentary-by-pt.-dev-c/Brihat%20Parashar%20Hora%20Shastra%20of%20Parashar%20Muni%20with%20Sudha%20Commentary%20by%20Pt.%20Dev%20Chandra%20Jha%20Kashi%20Sanskrit%20Series%20No.%20220%20-%20Chaukhamba.pdf . No copyrightedPDF/transcriptionredistribution is implied.
 
 Jha input-profile distinction: actualPDF53/printed21 chapter4 Mooncommentary explicitly constructslongitude=(elapsedcompletestars+Bhayaata/Bhabhoga)×40/3. ItsAnuradha2755/3434pala,16elapsedstars example yieldsapproximately224°1′49″. `jha_traversal_moon` implements a separatelysuppliedlinearizedMoon profile and exactprintedsecondaudit. Timefraction/sectorlongitudefractionagreebyconstruction, not by universalidentity for moderntrueMoonmotion. The samepagewarns dailytrue-speedinterpolation iscoarseforMoon. This supplies usefulsourcecontext for46.14 but nohistoricalPanchanga, ayanamsa, sectorinstant oruniqueGregoriancalendar. Boundedsearch of46.14/52.1-2tablecontext foundnoexplicitcivilmapping; gaps remainunknown. Tonightappschema/defaults unchanged.
+
+## Independent Pathak angular-target commentary
+
+Hari Shankar Pathak's Hindi Phaladeepika commentary, actual PDF222-223 /
+printed204-205, XIX.3-4, inspected as original images, gives a1994-June16
+10:10 worked birth and normalized remaining Venus balance950/167 years.
+It explicitly tells the reader to add remaining year units to birth Samvat
+and Sun coordinates, then end when the Sun reaches the target sign/degrees.
+This supports a named angular-target convention, stronger than inferring
+fractional mapping from an annual-return definition. It does not establish a
+unique critical-edition interpretation or Balaji's settings.
+
+The worked addition itself has a270-degree error: printed birthSun5sign1°2′31″
+plus printed5y8m7d54g15p gives sign1,8°56′46″, not printed sign10,8°56′46″.
+The printed balance is15/167 pala below exact normalization. The scan's
+birth place/timezone and complete civil endpoint are not established here.
+`pathak_solar_target_audit` preserves both discrepancies with no guessed
+sign correction, calendar conversion or default change. The source supplies
+commentary-convention evidence, not a reliable exact civil benchmark.
+Source: https://archive.org/details/phala-dipika-of-shri-mantreshwar-hindi-commentary-by-dr.-hari-shankar-patak-chau
