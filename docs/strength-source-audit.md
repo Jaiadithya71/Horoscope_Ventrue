@@ -159,3 +159,7 @@ Fresh Sripati VII.18-20 PDF175-178 images explicitly use Mean Sun revolutions an
 ## Preserve full-precision period offsets before civil-date mapping
 
 Integration inspection found that three-level period boundaries were rounded to9decimals before calendar mapping. `dasha_at_solar_offset` now retains its actual numerical offsets and labels9decimal display values separately. Fixed-calendar regression demonstrates rounded display input would change the endpoint; nested exact half-open boundary checks use the full stored value. This fixes computational evidence plumbing, not exact birth data, physical timing precision, unique calendar selection or outcome accuracy.
+
+## Bhava aspect extra terms are separate from planet Drigbala
+
+Fresh Sripati III.21-23 PDF76-79 images confirm signed quarter-aspect for Bhava plus **extra full** Jupiter/Mercury aspect. `bhava_aspect_candidates.py` requires actual supplied centre and all7classical positions/classes, uses the separately labeled degree-table aspect hypothesis, and keeps quarter plus full terms distinct. Missing classification/longitude prevents a net, not a zero. Extra full aspect is not silently a replacement for quarter or copied into the planetary Drigbala helper. Quoted occupant additions/subtractions, complete/cross-sign lord strength and directional category remain outside this helper; no total, rank, automatic classes or outcome is inferred.
