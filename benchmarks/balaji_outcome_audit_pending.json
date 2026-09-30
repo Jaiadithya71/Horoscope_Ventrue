@@ -1,0 +1,25 @@
+[
+  {
+    "id": "tiruppur-south-2026-provisional-caption-discrepancy",
+    "forecast_source_url": "https://www.youtube.com/watch?v=nA9OUOZM92I&t=973s",
+    "forecast_caption_interval_seconds": [973, 982],
+    "caption_paraphrase": "DMK candidate Dinesh Kumar is predicted to win Tiruppur South.",
+    "caption_source_type": "Tamil automatic captions; not original audio independently checked",
+    "original_audio_verified": false,
+    "publication_before_result_verified": false,
+    "candidate_identity_verified": false,
+    "result_source_url": "https://results.eci.gov.in/ResultAcGenMay2026/ConstituencywiseS22114.htm",
+    "result_constituency": "Tamil Nadu Assembly114 Tiruppur South",
+    "result_table_round_status": "21/21",
+    "result_table_candidates": [
+      {"name": "BALAMURUGAN. S", "party": "Tamilaga Vettri Kazhagam", "total_votes": 73793},
+      {"name": "DINESHKUMAR. N", "party": "Dravida Munnetra Kazhagam", "total_votes": 60892}
+    ],
+    "result_read_live": true,
+    "result_source_notice": "ECI Returning Officer counting table; final AC data belongs to Form20.",
+    "caption_result_discrepancy": true,
+    "scored_predictive_outcome": null,
+    "status": "pending_audio_chronology_identity_verification",
+    "scope_notice": "Selected public election case only, not blind sample, engine output, personal consultation or overall predictive accuracy. Video/audio retrieval hit bot-verification challenge and stopped. No confirmed pre-result miss is asserted. News winner corroboration disagreed on exact votes, so ECI table retained."
+  }
+]
