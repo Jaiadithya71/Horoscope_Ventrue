@@ -113,3 +113,7 @@ Fresh III16-18 PDF70-73 images confirm the two branches reduce to Sighrochcha mi
 ## Separate IV luminary ray inputs
 
 IV.3-4, fresh PDF82-83 images, defines Sun angle as sidereal Sun plus ayanamsa plus90degrees and Moon angle as Moon minus Sun. Fold above180, then rays=1+folded/30. `luminary_cheshta_rays.py` reproduces the printed Sun5.317 and Moon4.107 within.001. The normalized equivalent is an IV ray input, not a silent replacement for III's unresolved Sun-Ayana/Moon-Paksha selection or a physical-speed model. Printed Moon subtraction lines differ by one arcsecond; supplied inputs remain authoritative for arithmetic, no print-fit correction. Neither total strength nor a probability is emitted.
+
+## IV.7 full-total multiplication requires completeness
+
+Fresh PDF86-88 images verify rectified historical strength as supplied total times each supplied normalized factor. All14 printed product pairs are checked by `rectified_strength.py`, requiring named total/factor profiles and explicit complete flag; incomplete totals return no products. This is not a reconstructed III total, automatic natal output, calibrated event model or global rule priority. PDF88 aspect examples multiply by the target's factor while the prose's 'each planet' attribution is unclear, so aspect rectification remains absent rather than silently choosing a factor owner.
