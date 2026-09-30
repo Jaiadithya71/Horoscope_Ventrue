@@ -19,3 +19,19 @@ class RamanReportTests(unittest.TestCase):
   import subprocess,json,sys
   r=subprocess.run([sys.executable,'-m','engine.raman_motion_report','--input-json','-'],input=json.dumps(self.inputs()),capture_output=True,text=True)
   self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(len(json.loads(r.stdout)['candidates']),2)
+ def test_optional_table_candidates_preserve_supplied_path(self):
+  d=self.inputs();original=report(**d)
+  d['inferior_table_requests']={'Mercury':dict(elapsed_days='6862.578',birth_year_offset=18,epoch_clock_profile='independently supplied inferior clock')}
+  x=report(**d)
+  self.assertEqual(x['candidates'],original['candidates']);self.assertEqual(len(x['inferior_table_motion_candidates']),4)
+  self.assertEqual(x['inferior_table_evidence']['Mercury']['supplied_elapsed_days'],'6862.578')
+  self.assertTrue(all(r['motion_input_evidence']['motion_evidence'] is not None for r in x['inferior_table_motion_candidates']))
+ def test_table_missing_clock_no_fallback_and_unknown_cell(self):
+  d=self.inputs();d['inferior_table_requests']={'Mercury':dict(elapsed_days=10000,birth_year_offset=18)}
+  with self.assertRaises(TypeError):report(**d)
+  d['inferior_table_requests']['Mercury']['epoch_clock_profile']='supplied unknown-cell fixture'
+  x=report(**d)
+  self.assertEqual(len(x['inferior_table_motion_candidates']),4)
+  self.assertTrue(all(r['motion_input_evidence']['missing_inputs']==['sighrochcha'] for r in x['inferior_table_motion_candidates']))
+ def test_no_optional_table_request_changes_existing_default(self):
+  x=report(**self.inputs());self.assertEqual(x['inferior_table_evidence'],{});self.assertEqual(x['inferior_table_motion_candidates'],[])
