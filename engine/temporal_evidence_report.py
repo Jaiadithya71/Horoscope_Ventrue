@@ -25,5 +25,5 @@ def temporal_evidence_report(instant,latitude,longitude,placements,ascendant,*,s
     'temporal_lord_component_candidates':lord_variants,
     'selected_temporal_profile':None,'total_temporal_strength':None,'total_strength':None,
     'remaining_model_gates':['phase complement/Moon multiplier','historical Ayana versus modern-coordinate model and Sun multiplier',
-         'historic epoch/calendar validation','hora indexing/origin choice','meridian-clock definition','war adjustment and component-enumeration scope'],
+         'historic epoch/calendar validation','hora indexing/origin choice','meridian-clock definition','war adjustment and inclusive-versus-expanded motion layout consistency'],
     'notice':'Explicit mixed-source computational bridges, not a historically unified temporal model. Epoch counts never inferred from civil birth date. Modern solar intervals and supplied historical lord counts retain their distinct provenance. No summing partial components, selecting a winner, automatic full temporal score, planet ranking or outcome.'}
