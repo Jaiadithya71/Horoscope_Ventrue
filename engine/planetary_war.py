@@ -41,3 +41,48 @@ def chart_war_evidence(placements,*,coordinate_profile):
                     coordinate_profile=coordinate_profile))
     return {'pairs':rows,'missing_coordinate_pairs':missing,'selected_winners':None,
             'adjusted_total_strength':None,'notice':'All pair evidence retained, not a filtered winner list. Modern coordinate model is explicit; physical overlap, minute-bin rule, complete totals and winner profile remain unresolved.'}
+
+
+def supplied_war_adjustment(a,b,total_a,total_b,*,winner,war_condition_confirmed,
+                            complete_prewar_totals,adjustment_profile,
+                            latitude_a=None,latitude_b=None,latitude_unit=None,
+                            total_unit='rupa'):
+    """Explicit candidate arithmetic only; never detect war or certify totals.
+
+    Absolute strength difference is a named candidate interpretation. Different
+    latitude units change the divided candidate, so none is silently converted.
+    """
+    from decimal import Decimal
+    if a not in NON_LUMINARIES or b not in NON_LUMINARIES or a==b:
+        raise ValueError('Distinct classical non-luminaries required')
+    if winner not in (a,b) or war_condition_confirmed is not True or complete_prewar_totals is not True:
+        raise ValueError('Explicit winner, confirmed condition and complete supplied prewar totals required')
+    if total_unit not in ('rupa','virupa'):
+        raise ValueError('Named total unit required')
+    x,y=Decimal(str(total_a)),Decimal(str(total_b))
+    if not all(v.is_finite() and v>=0 for v in (x,y)):
+        raise ValueError('Nonnegative finite supplied prewar strengths required')
+    difference=abs(x-y)
+    if adjustment_profile=='quoted_parashara_absolute_difference_candidate':
+        amount=difference;reference=source('war commentary',70,56)
+    elif adjustment_profile=='sripati_absolute_difference_per_supplied_latitude_unit_candidate':
+        if latitude_unit not in ('degrees','arcminutes') or latitude_a is None or latitude_b is None:
+            raise ValueError('Both latitudes in one explicit unit required')
+        la,lb=Decimal(str(latitude_a)),Decimal(str(latitude_b))
+        limit=Decimal(90 if latitude_unit=='degrees' else 5400)
+        if not all(v.is_finite() and abs(v)<=limit for v in (la,lb)) or la==lb:
+            raise ValueError('Finite distinct latitudes in stated unit range required')
+        north=a if la>lb else b
+        if winner!=north:
+            raise ValueError('Supplied winner conflicts with Sripati north candidate')
+        amount=difference/abs(la-lb);reference=source('15.5-16.5',69,55)
+    else:raise ValueError('Explicit known candidate adjustment profile required')
+    adjusted={a:x+(amount if winner==a else -amount),b:y+(amount if winner==b else -amount)}
+    return {'planets':[a,b],'supplied_prewar_totals':{a:str(x),b:str(y)},
+        'supplied_winner':winner,'adjustment_profile':adjustment_profile,
+        'difference_interpretation':'absolute_magnitude_candidate','total_unit':total_unit,
+        'latitude_unit':latitude_unit,'transfer_amount':str(amount),
+        'candidate_adjusted_totals':{p:str(v) for p,v in adjusted.items()},
+        'negative_candidate_totals':[p for p,v in adjusted.items() if v<0],
+        'source':reference,'selected_winner':None,'engine_certified_total':None,
+        'notice':'Arithmetic on explicit externally supplied complete prewar totals and confirmed condition. Candidate absolute-difference interpretation only; source latitude unit and minute-agreement rule unselected. Degree/arcminute denominators differ by60. No clipping negative results, automatic natal adjustment or double inclusion in temporal/base strength.'}

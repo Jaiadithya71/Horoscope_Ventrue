@@ -8,7 +8,7 @@ def strength_profile_inventory():
   ('directional','continuous_strength.digbala','Planet/degree-centre calculation',
    ['validated actual centres; unavailable geometry remains missing'],[55]),
   ('temporal','temporal_evidence_report','Explicit modern solar clocks and supplied historical lord bridges',
-   ['historic epoch/year-month-day mapping','hora origin/index','solar meridian definition','phase complement/Moon multiplier','war placement/adjustment'],[56,58,62,66,69]),
+   ['historic epoch/year-month-day mapping','hora origin/index','solar meridian definition','phase complement/Moon multiplier','war profile/unit/placement (supplied complete-total candidate arithmetic available)'],[56,58,62,66,69]),
   ('motion_excluding_ayana','motional_strength','Supplied mean/true/Sighrochcha algebra for five non-luminaries',
    ['historically coherent mean/true/Sighra ephemeris','angle branch','Sun/Moon motion relationship and multipliers'],[66,71,73]),
   ('ayana','historical_declination','Fixed24-degree equinox-referenced historical declination candidates',
