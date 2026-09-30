@@ -12,6 +12,7 @@ from .period_manifestation_gate import period_manifestation_gate
 from .planet_connection_candidates import planet_connection_candidates
 from .angular_trinal_pair_conditions import angular_trinal_pair_conditions
 from .angular_trinal_period_readings import angular_trinal_period_readings
+from .period_relation_context import period_relation_context
 from .natal_factors import dignity
 from .vargas import six_vargas
 
@@ -54,6 +55,7 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geome
     'xx49_angular_trinal_period_reading_candidates':[{'relation_profile':r['profile'],
       'condition_evidence':angular_trinal_period_readings(reference_sign,main_lord,sub_lord,related=r['related_candidate'],evidence_profile=r['profile'])} for r in connections['candidates']],
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
+    'occupied_sign_owner_relationship_context':period_relation_context(placements,main_lord,sub_lord),
     'xx14_lord_disposition_candidates':chart_period_disposition_candidates(reference_sign,placements,main_lord,sub_lord),
     'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
     'vargottama_qualification_candidates':qualified,'lordship_emphasis':owners,

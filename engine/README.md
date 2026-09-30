@@ -235,3 +235,10 @@ applicability remain unverified. Even a classical pair with complete coordinates
 is not fully evaluated: source-specific friendship, solar-ray and complete
 strength conditions are still unselected. The report does not silently turn
 missing evidence into absence or derive extra coordinates merely to fill a gap.
+
+Period evidence includes directional relationships from each classical period
+lord to its occupied-sign owner, plus the explicitly named Rasi-relative compound
+commentary candidate when that owner's placement is present. These remain
+context, not selected XX.14 friendly/inimical flags. Self-owned signs do not
+create a self-friendship, and node applicability stays unknown. Solar-ray
+commentary thresholds likewise remain candidates, not confirmed overrides.
