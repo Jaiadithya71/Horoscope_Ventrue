@@ -2,6 +2,7 @@
 import datetime as dt
 from .solar_dates import dated_hierarchy
 from .period_evidence import lunar_traversal_evidence
+from .pathak_solar_target_audit import pathak_solar_target_audit
 
 CALENDARS=('elapsed_utc_return_interpolation','sidereal_solar_angular_progress','fixed_365_25_day_software_comparison')
 BALANCES=('equal_sector_longitude_fraction','normalized_actual_traversal_fraction','printed_XIX_3_fixed_60_divisor')
@@ -34,6 +35,7 @@ def compare_conventions(birth,instant):
             'lord_path_agreement':len(paths)==1 if paths else None,
             'invalid_combinations':sum(r['status']!='computed_convention_estimate' for r in rows),
             'selected_profile':None,'status':'unresolved_source_convention',
+            'independent_commentary_calendar_evidence':pathak_solar_target_audit(),
             'notice':'Agreement is model/convention agreement only, not independently verified timing, majority voting, calendar selection, Balaji setting or personal outcome. Invalid overfull balances remain invalid; no clipping or silent fallback. Query must be after birth and within each profile horizon.'}
 
 

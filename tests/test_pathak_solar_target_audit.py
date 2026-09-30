@@ -19,3 +19,11 @@ class PathakTargetAuditTests(unittest.TestCase):
         self.assertIsNone(x['exact_civil_endpoint'])
         self.assertFalse(x['app_contract_changed'])
         self.assertEqual(x['source']['pdf_pages'], [222, 223])
+
+    def test_edition_and_sign_context_retained(self):
+        x = pathak_solar_target_audit()
+        self.assertEqual(x['edition']['reprint_year'], 2007)
+        self.assertTrue(x['edition']['publisher_all_rights_reserved'])
+        self.assertFalse(x['public_release_rights_cleared'])
+        self.assertIn('Aquarius', x['source_sign_numbering'])
+        self.assertFalse(x['input_sign_explanation_found_in_worked_passage'])

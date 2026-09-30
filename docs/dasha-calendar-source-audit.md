@@ -135,3 +135,13 @@ birth place/timezone and complete civil endpoint are not established here.
 sign correction, calendar conversion or default change. The source supplies
 commentary-convention evidence, not a reliable exact civil benchmark.
 Source: https://archive.org/details/phala-dipika-of-shri-mantreshwar-hindi-commentary-by-dr.-hari-shankar-patak-chau
+
+Pathak title/copyright actualPDF7-8 confirms commentator Dr. Hari Shankar
+Pathak, Chaukhamba Surabharati series349, reprint2007 and publisher all rights
+reserved. The digitizer's CC0 watermark does not clear those edition rights.
+The worked passage explicitly identifies endpoint sign10 as Aquarius, so it
+uses that zero-based sign index there; no alternate input-sign explanation
+was found in that passage. This preserves an arithmetic discrepancy rather
+than asserting a corrected misprint. `calendar_comparison` now adds the
+independent commentary audit as evidence only, retaining all nine choices
+and no selected profile. Birth-input defaults and numeric calendars unchanged.
