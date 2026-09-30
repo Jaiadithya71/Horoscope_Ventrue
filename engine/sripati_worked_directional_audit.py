@@ -6,7 +6,7 @@ from .continuous_strength import digbala,WEAKEST_BHAVA
 
 LOCAL={'Sun':'.444','Moon':'.037','Mars':'.554','Mercury':'.260',
     'Jupiter':'.887','Venus':'.535','Saturn':'.074'}
-LATE_AGGREGATE=dict(LOCAL,Mars='.534')
+LATE_AGGREGATE=dict(LOCAL)
 
 
 def worked_directional_audit():
@@ -42,4 +42,4 @@ def worked_directional_audit():
         'mercury_jupiter_exchange_hypothesis':{'computed_mercury_floor':'.887','computed_jupiter_floor':'.260',
             'printed_mercury':'.260','printed_jupiter':'.887','intent_verified':False},
         'selected_directional_values':None,'selected_natal_total':None,
-        'notice':'Both local tables giveMars.554, consistent with exact.554540123... from suppliedlongitude/4thcentre; lateraggregate.534 disagrees with its own localrow. Namedformula on sameinputs givesMercury.887219135... andJupiter.260486111..., whereasbothlocal/aggregate tables exchange.260/.887. Apparent transposition is hypothesis, not editorintent. Fiveofsevenlocalrows match observed3decimalfloor; this does not authorize universal truncation or natalvalue replacement.'}
+        'notice':'Both local tables giveMars.554, consistent with exact.554540123... from suppliedlongitude/4thcentre; later aggregate also prints .554, verified by enlarged crop; prior .534 reading was our error. Namedformula on sameinputs givesMercury.887219135... andJupiter.260486111..., whereasbothlocal/aggregate tables exchange.260/.887. Apparent transposition is hypothesis, not editorintent. Fiveofsevenlocalrows match observed3decimalfloor; this does not authorize universal truncation or natalvalue replacement.'}

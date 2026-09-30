@@ -16,7 +16,7 @@ class ValidationReportTests(unittest.TestCase):
   a=x['printed_source_internal_arithmetic']
   self.assertEqual(a['positional']['internal_arithmetic_matches'],7)
   self.assertEqual(a['seven_varga']['decimal_sums_matching'],6)
-  self.assertEqual(a['aggregate']['subtotal_matches'],6)
+  self.assertEqual(a['aggregate']['subtotal_matches'],7)
   self.assertEqual(a['aggregate']['aspect_equations_match'],7)
   self.assertNotIn('accuracy_percentage',x)
   self.assertEqual(x['sripati_worked_seven_varga_owners']['1919_owner_matches'],47)

@@ -9,7 +9,7 @@ class WorkedDigbalaTests(unittest.TestCase):
         self.assertEqual(failures,['Mercury','Jupiter'])
         mars=next(r for r in x['rows'] if r['planet']=='Mars')
         self.assertEqual(mars['later_local_printed'],'.554')
-        self.assertEqual(mars['later_aggregate_printed'],'.534')
+        self.assertEqual(mars['later_aggregate_printed'],'.554')
         self.assertAlmostEqual(mars['calculated_rupa'],.55454012345679)
         self.assertTrue(all(r['float_pipeline_agrees_with_exact'] for r in x['rows']))
         self.assertFalse(x['mercury_jupiter_exchange_hypothesis']['intent_verified'])
