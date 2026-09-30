@@ -171,3 +171,7 @@ Fresh PDF78/printed64 image shows Lagna Bhava combining Pisces/Jupiter1°36′30
 ## Cross-sign supplied-lord hypotheses preserve the example's incorrect Jupiter term
 
 Fresh PDF78 image gives1°36′30″/30×8.613 plus28°23′30″/30×7.731, then prints0.465+7.316=7.781. Exact displayed inputs give0.4617525+7.3165325=7.778285; Jupiter's printed term is not ordinary rounding. `audit_printed_cross_sign_example` preserves all values. `bhava_lord_candidates` requires named, declared complete externally supplied totals and emits two explicit unequal-house extensions: fixed30° denominator versus normalized actual house arc. Source's30° example cannot distinguish them. Neither becomes a selected lord/Bhava total or replaces missing source-selected Shadbala. No aspect/direction/occupant terms or outcomes are added.
+
+## Historical day-count recipe now reaches year/month/day lords without modern epoch guessing
+
+Fresh PDF62-63 III.14 images show completed creation years1955884954, additive-month ratio1593336/4320000, subtractive-day ratio25082252/4320000 and21elapsed tithis. `historical_day_count.py` reproduces all floor/intermediate counts and terrestrial714404106135, then year Jupiter/month Venus/day Venus. Source floors both corrections from completed years, not an invented exact ratio of total tithis. Caller must supply named historical epoch and residual month/tithi counts; no modern Gregorian date bridge is inferred. This closes supplied historical input arithmetic only, not automatic temporal epoch selection or full Kala total.
