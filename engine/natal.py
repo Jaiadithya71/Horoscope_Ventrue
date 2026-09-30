@@ -232,9 +232,10 @@ def dasha_at_solar_offset(moon_longitude, offset, *, initial_remaining_years=Non
             raise ArithmeticError('Subperiod boundary not resolved')
     return {'offset_solar_years_after_birth':offset,
             'hierarchy':[{'level':level,'lord':lord,
-                          'full_start_solar_years_after_birth':round(begin,9),
-                          'visible_start_solar_years_after_birth':round(max(begin,0),9),
-                          'end_solar_years_after_birth':round(end,9)}
+                          'full_start_solar_years_after_birth':begin,
+                          'visible_start_solar_years_after_birth':max(begin,0),
+                          'end_solar_years_after_birth':end,
+                          'offset_display_9dp':{'full_start':round(begin,9),'visible_start':round(max(begin,0),9),'end':round(end,9)}}
                          for level,(lord,begin,end) in zip(('mahadasha','antardasha','antara'),path)],
             'source':HIERARCHY_SOURCE,
             'date_limit':'No civil dates. Phaladeepika XIX.4 (PDF p. 230) uses solar returns; numeric years here are proportional offsets only.',
