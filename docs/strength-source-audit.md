@@ -5,7 +5,7 @@ Source: [Sripatipaddhati, Sastri archive scan](https://archive.org/details/dli.e
 | Component | Checked pages | Code/check | Remaining limit |
 |---|---|---|---|
 | Continuous exaltation | PDF38-39, printed24-25, III.2 | Fold distance from depression /180 Rupa; Sun0.957 reproduced | Not sign-level dignity; never added twice |
-| Degree-based direction | PDF55-56, printed41-42, III.8 | Fold distance from weakest centre /180; Sun0.444 reproduced | Real degree-based bhava centres not calculated yet |
+| Degree-based direction | PDF55-56, printed41-42, III.8 | Fold distance from weakest centre /180; Sun0.444 reproduced | Modern-anchor degree centres integrated; traditional anchor identity not claimed |
 | Natural | PDF73, printed59, III.19 | Exact rank/7 Rupa | Quoted Parashara integers are separate |
 | Phase | PDF58-59, printed44-45, III.11-12 | Folded commentary and literal translated dark-half complement kept | Translation/commentary differ; no winner |
 | Moon phase multiplier | PDF66, printed52, III.15-16 | Explicit double retained as extra evidence | Earlier phase table is undoubled; no silent automatic multiplier |
@@ -81,3 +81,7 @@ The seven PDF85 root-factor fixtures are checked within.001 rather than an inven
 ## Historical six-part declination table
 
 Fresh original Sripati PDF66-69/printed52-55 images inspected. PDF67 specifies cumulative15-degree increments362,341,299,236,150,52 arcminutes to a fixed24-degree maximum and linearly interpolates the Sun's39°31′08″ equinox distance to a printed892.737 arcminutes. Exact arithmetic from those sexagesimal inputs is892.743185 arcminutes; the.006185 difference is disclosed rather than forcing an incorrect oracle. `historical_declination.py` reproduces that arithmetic from explicitly supplied equinox-referenced longitude, then passes it to the existing labeled Ayana candidates. This is a historical longitude table, not modern3D declination or a planetary-latitude correction. No modern ayanamsa/profile is silently selected. Sun doubling versus undoubled table stays exposed; no full temporal total is inferred.
+
+## Planetary war disagreements are a real gate
+
+Sripati PDF69-70/printed55-56 freshly inspected: main III.15½-16½ uses minute-level longitude agreement, northern victor and strength difference divided by latitude difference. Commentary uses less-than1degree and quotes Parashara's un-divided difference, along with a brightness/larger-disc rule that may override north/south. `planetary_war.py` checks supplied non-luminary coordinate separation and northern-planet evidence but keeps these scopes separate. It does not invent a rounded-minute bin, certify physical overlap, select a winner from latitude alone, divide without a grounded latitude unit, or adjust partial strength. Sun/Moon/nodes are excluded. Source ambiguity is now exposed operationally rather than a guessed automatic war adjustment.

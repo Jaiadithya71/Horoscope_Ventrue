@@ -137,3 +137,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 `bhava_condition_gate.py` audits the XV.25 all-three-strong condition alongside XV.26's quoted competing placements. Supplied source-grounded flags/geometry remain caller responsibility; no winner or personal forecast is selected.
 
 `historical_declination.py` uses the original III.15-16 six-part, fixed24-degree table on supplied equinox-referenced longitude. It keeps Sun Ayana double/undoubled candidates separate and is not substituted for modern equatorial declination.
+
+`planetary_war.py` exposes original minute-agreement/north-rule evidence separately from the quoted one-degree/brightness-disc rule. Supplied coordinates only; no winner, physical-disc overlap or adjustment of partial strength is inferred.
