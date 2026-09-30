@@ -101,9 +101,10 @@ Independent JhaSudha edition checks are collected separately:
 python3 -m engine.jha_validation_report > jha-source-checks.json
 ```
 
-The six checks retain directed-aspect boundary disagreements, printed strength
+The seven checks retain directed-aspect boundary disagreements, printed strength
 threshold/layout conflicts, normalized birth-balance and solar-target arithmetic,
 time-fraction Moon construction, Sun interpolation clock/speed limitations,
-and the independently checked direct-Rasi friendship fixture.
+the independently checked direct-Rasi friendship fixture, and worked
+Paksha/Ayana source-profile differences.
 The local same-house yoga comparison is separate from global outcome precedence.
 This report is source validation, not a forecast or predictor readiness score.

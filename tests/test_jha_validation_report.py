@@ -3,7 +3,7 @@ from engine.jha_validation_report import jha_validation_report as report
 
 class JhaValidationTests(unittest.TestCase):
  def test_collected_existing_checks_and_closed_gates(self):
-  x=report();self.assertEqual(x['status'],'source_validation_not_forecast');self.assertEqual(len(x['checks']),6)
+  x=report();self.assertEqual(x['status'],'source_validation_not_forecast');self.assertEqual(len(x['checks']),7)
   self.assertEqual(len(x['local_precedence_scope']),1)
   for k in ('selected_natal_total','selected_calendar_profile','global_precedence','empirical_outcome_accuracy'):self.assertIsNone(x[k])
   self.assertFalse(x['balaji_personal_consultation_replication_verified']);self.assertFalse(x['public_release_rights_cleared'])
@@ -21,4 +21,4 @@ class JhaValidationTests(unittest.TestCase):
   env=os.environ.copy();env.pop('PYTHONPATH',None)
   script="import sys; sys.modules['swisseph']=None; from engine.jha_validation_report import jha_validation_report; import json; print(json.dumps(jha_validation_report()))"
   r=subprocess.run([sys.executable,'-c',script],capture_output=True,text=True,env=env)
-  self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(len(json.loads(r.stdout)['checks']),6)
+  self.assertEqual(r.returncode,0,r.stderr);self.assertEqual(len(json.loads(r.stdout)['checks']),7)

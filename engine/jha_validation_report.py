@@ -7,6 +7,7 @@ from .jha_traversal_moon import jha_traversal_moon_audit
 from .jha_daily_interpolation_audit import jha_daily_interpolation_audit
 from .precedence_inventory import precedence_inventory
 from .jha_friendship_audit import jha_friendship_audit
+from .jha_luminary_component_audit import jha_luminary_component_audit
 
 
 def jha_validation_report():
@@ -16,7 +17,8 @@ def jha_validation_report():
   'normalized_birth_balance_and_solar_target':jha_dasha_balance_audit(),
   'supplied_timefraction_moon':jha_traversal_moon_audit(),
   'daily_sun_interpolation_clock_and_speed':jha_daily_interpolation_audit(),
-  'direct_rasi_compound_friendship':jha_friendship_audit()},
+  'direct_rasi_compound_friendship':jha_friendship_audit(),
+  'worked_phase_ayana_profile_boundaries':jha_luminary_component_audit()},
   'local_precedence_scope':[r for r in precedence_inventory()['scope_records'] if r['id']=='same_house_yoga_strength'],
   'critical_source_disagreements':[
    'Saturn270degree adjacent endpoints60/30 and Jupiter270 endpoints0/15 remain unresolved',
@@ -38,7 +40,7 @@ def jha_validation_report():
   'selected_natal_total':None,'selected_calendar_profile':None,'global_precedence':None,
   'empirical_outcome_accuracy':None,'balaji_personal_consultation_replication_verified':False,
   'public_release_rights_cleared':False,
-  'notice':'Six existing deterministic source checks collected without pooling them into an accuracy/readiness score. Whole validation retains its existing individual keys; this report does not duplicate another nested copy there. Actual page verification and arithmetic regressions do not certify full natal strength, historical ephemeris truth or prediction. Tonight birth-input contract remains unchanged.'}
+  'notice':'Seven existing deterministic source checks collected without pooling them into an accuracy/readiness score. Whole validation retains its existing individual keys; this report does not duplicate another nested copy there. Actual page verification and arithmetic regressions do not certify full natal strength, historical ephemeris truth or prediction. Tonight birth-input contract remains unchanged.'}
 
 
 if __name__=='__main__':print(json.dumps(jha_validation_report(),indent=2))
