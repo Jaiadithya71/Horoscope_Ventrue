@@ -4,11 +4,12 @@ from .period_dusthana_condition import chart_period_dusthana_candidates
 from .vargottama_period_qualification import chart_vargottama_period_qualifications,vargottama_period_qualification
 from .combustion_candidates import chart_combustion_candidates
 from .lordship_precedence import lordship_precedence
+from .period_sandhi_gate import period_sandhi_gate
 from .natal_factors import dignity
 from .vargas import six_vargas
 
 
-def period_condition_report(reference_sign,placements,main_lord,sub_lord):
+def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geometry=None,geometry_profile=None):
  school=period_school_conflict(main_lord,sub_lord)
  houses=chart_period_dusthana_candidates(reference_sign,placements,main_lord,sub_lord)
  rays=chart_combustion_candidates(placements)
@@ -29,6 +30,7 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord):
  return {'main_lord':main_lord,'sub_lord':sub_lord,
     'lord_pair_origin':'Explicit caller input, not inferred active date or selected dasha/calendar convention',
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
+    'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
     'vargottama_qualification_candidates':qualified,'lordship_emphasis':owners,
     'selected_strength_total':None,'selected_calendar':None,'personal_outcome':None,
     'global_precedence':None,'status':'scoped_condition_evidence_only',
