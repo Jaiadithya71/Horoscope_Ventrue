@@ -217,3 +217,13 @@ names to one of two exact declaration formats:
 These are caller declarations, not strengths verified from the chart. They never
 become strong/weak condition flags, a selected total, rank or forecast. Unknown
 layouts and extra fields are rejected rather than inferred.
+
+The same input object can optionally include `query_instant`, an ISO timestamp
+with an explicit timezone offset, such as `2026-01-01T00:00:00+00:00`. This runs
+the existing nine calendar/birth-balance combinations and routes each candidate
+lord pair into its checked conditions. Invalid combinations remain invalid. No
+majority vote or selected active period is produced, and an explicit
+`period_pair` stays separate from the query candidates. A timestamp without a
+timezone offset is rejected. Birth coordinates must be finite numbers, not text
+or booleans; missing place labels and malformed input produce a CLI error, not
+an incomplete report presented as success.
