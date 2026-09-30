@@ -95,7 +95,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .degree_aspects import degree_aspect_evidence
     from .friendship import compound_relationship_candidates
     from .lordship_precedence import lordship_precedence
-    return {'scoped_lordship_precedence':lordship_precedence(ascendant_sign),
+    from .planetary_war import chart_war_evidence
+    return {'planetary_war_coordinate_evidence':chart_war_evidence(placements,coordinate_profile='Lahiri sidereal Swiss Ephemeris/Moshier geocentric ecliptic coordinates'),
+            'scoped_lordship_precedence':lordship_precedence(ascendant_sign),
             'compound_relationship_candidates':compound_relationship_candidates(placements),
             'degree_aspect_evidence':degree_aspect_evidence(placements),
             'continuous_strength_components':continuous_components(placements,bhava_centres),

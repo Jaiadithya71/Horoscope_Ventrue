@@ -26,3 +26,18 @@ def planetary_war_evidence(a,b,longitude_a,longitude_b,*,latitude_a=None,latitud
                                    {'profile':'quoted_parashara_strength_difference','status':'not_calculated','source':source('war commentary',70,56)}],
             'selected_winner':None,'adjusted_total_strength':None,
             'notice':'Longitude closeness is not certified physical disc overlap. Northern placement, brightness and disc-size rules can disagree; latitude equality cannot select a winner. No Sun/Moon/node war, automatic total adjustment or outcome.'}
+
+
+def chart_war_evidence(placements,*,coordinate_profile):
+    """Audit all classical non-luminary pairs, never discard missing evidence."""
+    from itertools import combinations
+    rows=[];missing=[]
+    for a,b in combinations(NON_LUMINARIES,2):
+        if any(p not in placements or placements[p].get('longitude') is None for p in (a,b)):
+            missing.append([a,b]);continue
+        x,y=placements[a],placements[b]
+        rows.append(planetary_war_evidence(a,b,x['longitude'],y['longitude'],
+                    latitude_a=x.get('ecliptic_latitude_degrees'),latitude_b=y.get('ecliptic_latitude_degrees'),
+                    coordinate_profile=coordinate_profile))
+    return {'pairs':rows,'missing_coordinate_pairs':missing,'selected_winners':None,
+            'adjusted_total_strength':None,'notice':'All pair evidence retained, not a filtered winner list. Modern coordinate model is explicit; physical overlap, minute-bin rule, complete totals and winner profile remain unresolved.'}
