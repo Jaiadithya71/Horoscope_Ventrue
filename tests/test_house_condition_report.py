@@ -94,7 +94,8 @@ class HouseSeverityIntegrationTests(unittest.TestCase):
    self.assertEqual(p.returncode,0,p.stderr)
    self.assertEqual(json.loads(p.stdout)['xv9_supplied_lord_severity_candidates'][0]['qualification']['supplied_strength_status'],'weak')
 
-class LagnaConnectiveCliBridgeTests(HouseCliTests):
+class LagnaConnectiveCliBridgeTests(unittest.TestCase):
+ run_cli=HouseCliTests.run_cli
  def test_xv27_is_exposed_without_automatic_strength(self):
   import json
   p=self.run_cli();self.assertEqual(p.returncode,0,p.stderr)
