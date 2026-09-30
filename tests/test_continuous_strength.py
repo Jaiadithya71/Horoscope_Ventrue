@@ -28,3 +28,24 @@ class ContinuousTests(unittest.TestCase):
         with self.assertRaises(ValueError):digbala('Sun',10,{1:10})
         for lon in (-1,360,float('nan'),float('inf')):
             with self.assertRaises(ValueError):uchchabala('Sun',lon)
+
+class NaturalAndPhaseTests(unittest.TestCase):
+    def test_natural_source_fractions_not_integer_quote(self):
+        from engine.continuous_strength import naisargikabala
+        self.assertEqual(naisargikabala('Sun')['rupa'],1)
+        self.assertEqual(naisargikabala('Saturn')['rational_rupa'],'1/7')
+        self.assertEqual(naisargikabala('Saturn')['quoted_comparison']['virupa'],9)
+        self.assertNotEqual(naisargikabala('Saturn')['virupa'],9)
+
+    def test_phase_profiles_and_conflict(self):
+        from engine.continuous_strength import pakshabala_candidates
+        for lon,val in ((0,0),(90,.5),(180,1),(270,.5),(359,1/180)):
+            x=pakshabala_candidates('Moon',0,lon)
+            self.assertAlmostEqual(x['candidates'][0]['rupa'],val)
+        x=pakshabala_candidates('Moon',0,300)
+        self.assertTrue(x['candidate_conflict'])
+        self.assertAlmostEqual(x['candidates'][0]['rupa'],1/3)
+        self.assertAlmostEqual(x['candidates'][1]['rupa'],2/3)
+        self.assertFalse(pakshabala_candidates('Sun',0,90)['candidate_conflict'])
+        self.assertEqual(pakshabala_candidates('Mercury',0,180)['candidates'][0]['rupa'],1)
+        self.assertEqual(pakshabala_candidates('Sun',0,180)['candidates'][0]['rupa'],0)
