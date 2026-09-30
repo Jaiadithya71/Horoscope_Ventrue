@@ -93,3 +93,20 @@ class CommentaryCrossChecks(unittest.TestCase):
         with self.assertRaises(ValueError):dated_hierarchy(birth,lon,birth,balance_method='unknown')
         from engine.natal import dasha_at_solar_offset
         with self.assertRaises(ValueError):dasha_at_solar_offset(0,0,initial_remaining_years=8)
+
+class BalancePrecisionTests(unittest.TestCase):
+    def test_explicit_longitude_candidate_is_not_display_rounded(self):
+        import datetime as dt
+        from engine.period_evidence import lunar_traversal_evidence
+        from engine.natal import STAR_ARC,PERIODS,dasha_at_solar_offset
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        x=lunar_traversal_evidence(birth)
+        c=next(c for c in x['balance_candidates'] if c['method']=='equal_sector_longitude_fraction')
+        expected=(x['star_index_1_based']-x['birth_moon_longitude']/STAR_ARC)*dict(PERIODS)[x['initial_lord']]
+        self.assertEqual(c['remaining_years'],expected)
+        self.assertEqual(c['remaining_years_display_7dp'],round(expected,7))
+        direct=dasha_at_solar_offset(x['birth_moon_longitude'],0)
+        chosen=dasha_at_solar_offset(x['birth_moon_longitude'],0,initial_remaining_years=c['remaining_years'])
+        for a,b in zip(direct['hierarchy'],chosen['hierarchy']):
+            self.assertEqual(a['lord'],b['lord'])
+            self.assertAlmostEqual(a['end_solar_years_after_birth'],b['end_solar_years_after_birth'],places=12)
