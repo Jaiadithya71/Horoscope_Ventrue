@@ -17,3 +17,7 @@ The Sun declination example is892.737 arcminutes north. Its undoubled formula gi
 [Phaladeepika IV.1-3, PDF70-72](https://archive.org/details/in.ernet.dli.2015.92117) uses a different sixfold enumeration and night/day classifications. The two books are not one interchangeable formula. Its original translator points to Sripati II-III for details (PDF80), but that does not erase disagreement or permit mixing all components into an undocumented total.
 
 Still absent: full positional aggregation with compound relationships and house geometry, numerical motion using the book's mean/true-motion definitions, complete temporal lord/third-of-day pieces, numerical aspect adjustment, planetary war, combustion thresholds, a source-chosen complete profile and global outcome priority. Personal-outcome rules remain disabled. Tests check text mechanics and arithmetic, not scientific predictive validity or Balaji's private practice.
+
+## Degree bhava geometry
+
+Sripati I.6-8, PDF25-26 (printed11-12), image-inspected, trisects the forward quadrants between supplied ascendant/fourth/seventh/tenth anchors; adjacent centres' midpoint is their Sandhi. The helper implements these centre/boundary calculations, wrap-aware, with exact-boundary membership held unresolved. It does not yet supply or certify astronomical anchors. A printed arithmetic discrepancy is tested: the worked paragraph's third centre2-9-53-43 disagrees with its table's2-9-58-43 (PDF27). Exact trisection gives2-9-58-42.6667, matching the table to rounding. Do not imitate the paragraph typo.
