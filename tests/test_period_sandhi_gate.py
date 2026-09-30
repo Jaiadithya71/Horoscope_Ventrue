@@ -27,3 +27,12 @@ class SandhiPeriodTests(unittest.TestCase):
 
     def test_geometry_requires_profile(self):
         with self.assertRaises(ValueError):period_sandhi_gate({},'Sun','Moon',geometry=bhava_geometry(10,300))
+
+class SandhiInputContractTests(unittest.TestCase):
+ def test_bool_longitude_and_incoherent_labels_rejected(self):
+  g=bhava_geometry(10,300)
+  for p in ({'Sun':{'longitude':True}},{'Sun':{'sign':'Aries','longitude':40}}):
+   with self.assertRaises(ValueError):period_sandhi_gate(p,'Sun','Moon',geometry=g,geometry_profile='supplied')
+ def test_truthy_nontext_profile_rejected(self):
+  for profile in (True,1,' '):
+   with self.assertRaises(ValueError):period_sandhi_gate({},'Sun','Moon',geometry=bhava_geometry(10,300),geometry_profile=profile)

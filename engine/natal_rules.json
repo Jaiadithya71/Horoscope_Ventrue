@@ -21,7 +21,7 @@
     "kind": "conditional_outcome",
     "trigger": "Bhava, its lord and its karaka are all strong",
     "operation": "Traditional favorable reading for that bhava only when all three strengths have been established",
-    "limitation": "Strength algorithm not implemented; record is deliberately disabled for automatic output",
+    "limitation": "Source-selected complete strength remains unresolved; supplied-condition audits exist separately and this rule stays disabled for automatic personal output",
     "enabled": false,
     "source": {"slug": "phaladeepika-1937", "pdf_page": 198, "printed_page": 161, "chapter": "XV", "sloka": 25, "verified_against_page_image": true}
   },

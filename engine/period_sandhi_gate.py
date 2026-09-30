@@ -3,7 +3,9 @@ from .bhava_effectiveness import bhava_effectiveness,SOURCE
 
 
 def period_sandhi_gate(placements,main_lord,sub_lord,*,geometry=None,geometry_profile=None):
-    if geometry is not None and not geometry_profile:
+    from .chart_evidence_inputs import validate_sign_longitude
+    validate_sign_longitude(placements)
+    if geometry is not None and (not isinstance(geometry_profile,str) or not geometry_profile.strip()):
         raise ValueError('Named supplied degree-Bhava geometry profile required')
     rows=[]
     for lord in dict.fromkeys((main_lord,sub_lord)):
