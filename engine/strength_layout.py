@@ -28,3 +28,25 @@ def supplied_layout_audit(components,*,layout,complete,component_profile):
   'table_source':source('20 expanded component rows',75,61),
   'engine_computed_full_strength':None,'signed_aspect_adjustment':None,
   'notice':'Layout arithmetic on supplied declared components only. Completeness is not engine certification. Aspect adjustment, war treatment, component input/profile validation remain outside. Inclusive Cheshta must not receive another Ayana term. No selected full strength, rank or prediction.'}
+
+
+def supplied_layout_with_aspects(components,*,layout,complete,component_profile,
+                                  target,target_longitude,aspecting_placements,
+                                  classifications,classification_profile,
+                                  war_treatment):
+ """III.20 assembly on declared supplied base, not a natal total calculator."""
+ from .signed_aspect_strength import signed_aspect_adjustment
+ if war_treatment not in ('confirmed_no_war','included_in_supplied_components','excluded_candidate'):
+  raise ValueError('Explicit supplied war treatment required; no extra war transfer is applied')
+ base=supplied_layout_audit(components,layout=layout,complete=complete,component_profile=component_profile)
+ aspects=signed_aspect_adjustment(target,target_longitude,aspecting_placements,classifications,
+                                  classification_profile=classification_profile)
+ adjustment=aspects['signed_adjustment_rupa']
+ candidate=None
+ if base['supplied_base_sum_rupa'] is not None and adjustment is not None:
+  candidate=str(Decimal(base['supplied_base_sum_rupa'])+Decimal(str(adjustment)))
+ return {'planet':target,'supplied_layout':base,'aspect_evidence':aspects,
+  'war_treatment':war_treatment,'candidate_total_rupa':candidate,
+  'negative_candidate_total':None if candidate is None else Decimal(candidate)<0,
+  'source':source('20',74,60),'engine_computed_full_strength':None,
+  'notice':'III.20 signed quarter-aspect addition on explicitly complete supplied base only. Missing base/aspect inputs block arithmetic, not replaced with zero. Inclusive motion cannot duplicate Ayana. War declaration is supplied context, not validated detection; no additional war transfer or negative clipping. No ranking, threshold certification, selected natal total or prediction.'}
