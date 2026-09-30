@@ -55,3 +55,20 @@ pipeline/render_page.sh pdfs/Phaladeepika-1937-English-small.pdf 120 page120.png
 Astrology is a tradition, not scientifically validated prediction. Classical
 texts carry the assumptions of their era; the app should present them as
 historical source material.
+
+## Re-running source validation
+
+From the repository root, with the research dependencies installed:
+
+```bash
+python3 -m engine.raman_validation_report > raman-source-checks.json
+python3 -m engine.validation_report > all-source-checks.json
+python3 -m unittest discover -s tests -q
+```
+
+The Raman report runs ten independent source checks and preserves their page
+references, arithmetic disagreements and unknown inputs. The Manual's1932
+illustration is separate from the1918 strength example. Raman and Sripati
+place Ayana differently; the report does not mix their component layouts.
+These commands validate source arithmetic and regression behavior, not a
+complete horoscope, Balaji's private settings or prediction accuracy.

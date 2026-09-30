@@ -68,6 +68,9 @@ from .ketkar_mercury_upstream import mercury_upstream_candidate
 from .ketkar_geocentric_geometry import geometry_example
 
 
+from .raman_validation_report import raman_validation_report
+
+
 def validation_report():
  transcript=score(json.loads(DATA.read_text()))
  calendar=run_benchmark()
@@ -98,6 +101,7 @@ def validation_report():
     'sripati_worked_motion_audit':worked_motion_audit(),
     'raman_motion_source_audit':raman_motion_source_audit(),
     'raman_mean_sun_example_audit':raman_mean_sun_example_audit(),
+    'raman_source_validation':raman_validation_report(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
