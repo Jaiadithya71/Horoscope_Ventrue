@@ -11,3 +11,34 @@ class HouseReportTests(unittest.TestCase):
  def test_missing_degree_stays_unchecked(self):
   r=house_condition_report(7,'Aries',{'Venus':{'sign':'Libra'}},{},classification_profile='partial')
   self.assertEqual(r['xv25_26_supplied_strength_conditions'][1]['condition_evidence']['unchecked_alternative_planets'],['Venus'])
+
+class HouseCliTests(unittest.TestCase):
+ def run_cli(self,*extra):
+  import subprocess,sys
+  return subprocess.run([sys.executable,'-m','engine.house_condition_report',
+   '--birth-date','2000-01-01','--birth-time','14:30','--birth-tz','Asia/Kolkata',
+   '--birth-place','synthetic Chennai fixture','--birth-lat','13.08','--birth-lon','80.27',
+   '--house','7','--classification-file','benchmarks/house_condition_classification_fixture.json',*extra],
+   capture_output=True,text=True)
+ def test_runnable_end_to_end(self):
+  import json
+  p=self.run_cli();self.assertEqual(p.returncode,0,p.stderr)
+  x=json.loads(p.stdout)
+  self.assertEqual(len(x['xv5_scoped_recovery']['candidates']),8)
+  self.assertIsNone(x['personal_outcome']);self.assertIsNone(x['selected_strength_total'])
+  self.assertEqual(x['xv25_26_supplied_strength_conditions'][0]['condition_evidence']['missing_strength'],['bhava','lord','karaka'])
+ def test_bad_class_file_fail_closed(self):
+  import tempfile,json
+  with tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+   json.dump({'profile':'bad','classes':{'Jupiter':'unknown'}},f);f.flush()
+   p=self.run_cli('--classification-file',f.name)
+   self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
+ def test_truthy_strength_rejected(self):
+  import tempfile,json
+  with tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+   json.dump({'profile':'bad','bhava':1},f);f.flush()
+   p=self.run_cli('--strength-file',f.name)
+   self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
+ def test_missing_file_not_empty_classification(self):
+  p=self.run_cli('--classification-file','/tmp/does-not-exist-house-classes.json')
+  self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
