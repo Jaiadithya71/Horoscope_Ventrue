@@ -22,3 +22,14 @@ class CalendarBenchmarkTests(unittest.TestCase):
             seconds=(dt.datetime.fromisoformat(r['solar_return_utc_estimate'])-dt.datetime.fromisoformat(r['fixed_365_25_utc_estimate'])).total_seconds()
             self.assertAlmostEqual(r['return_minus_fixed_hours'],seconds/3600)
         self.assertGreater(result['rows'][-1]['return_minus_fixed_hours'],10)
+
+class AngularBenchmarkTests(unittest.TestCase):
+    def test_explicit_angular_profile_exposes_not_fits_spread(self):
+        import datetime as dt
+        x=run_benchmark()
+        self.assertEqual(x['angular_profile_date_matches'],sum(r['angular_profile_match'] for r in x['rows']))
+        self.assertFalse(x['exact_reference_times_available'])
+        for r in x['rows']:
+            seconds=(dt.datetime.fromisoformat(r['angular_solar_utc_estimate'])-dt.datetime.fromisoformat(r['solar_return_utc_estimate'])).total_seconds()
+            self.assertAlmostEqual(seconds/3600,r['angular_minus_elapsed_return_hours'])
+        self.assertGreater(max(abs(r['angular_minus_elapsed_return_hours']) for r in x['rows']),24)

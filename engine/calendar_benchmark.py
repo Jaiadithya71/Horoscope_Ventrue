@@ -6,7 +6,7 @@ major boundaries. The last Ketu row is truncated and excluded.
 import datetime as dt
 from fractions import Fraction
 from zoneinfo import ZoneInfo
-from .solar_dates import SolarCalendar
+from .solar_dates import SolarCalendar,AngularSolarCalendar
 
 SOURCE='https://astrology.mathrubhumi.com/downloads/samples-pdf/saturnrep_eng.pdf'
 REFERENCE_ENDS=('1997-04-02','2007-04-02','2014-04-02','2032-04-01','2048-04-01','2067-04-02','2084-04-01')
@@ -21,23 +21,31 @@ def run_benchmark():
     moon=Fraction(149)+Fraction(27,60)+Fraction(59,3600)
     initial=(Fraction(160)-moon)/Fraction(40,3)*6
     calendar=SolarCalendar(birth)
+    angular=AngularSolarCalendar(birth)
     offset=initial
     rows=[]
     for (lord,years),expected in zip(TERMS,REFERENCE_ENDS):
         if years is not None:offset+=years
         fixed=birth+dt.timedelta(days=float(offset)*365.25)
         true_return=calendar.at_offset(float(offset))
+        angular_return=angular.at_offset(float(offset))
         fixed_date=fixed.astimezone(zone).date().isoformat()
         return_date=true_return.astimezone(zone).date().isoformat()
+        angular_date=angular_return.astimezone(zone).date().isoformat()
         rows.append({'lord':lord,'published_local_end_date':expected,
                      'fixed_365_25_local_end_date':fixed_date,'fixed_profile_match':fixed_date==expected,
                      'solar_return_local_end_date':return_date,'return_profile_match':return_date==expected,
                      'fixed_365_25_utc_estimate':fixed.isoformat(),
                      'solar_return_utc_estimate':true_return.isoformat(),
-                     'return_minus_fixed_hours':(true_return-fixed).total_seconds()/3600})
+                     'return_minus_fixed_hours':(true_return-fixed).total_seconds()/3600,
+                     'angular_solar_local_end_date':angular_date,'angular_profile_match':angular_date==expected,
+                     'angular_solar_utc_estimate':angular_return.isoformat(),
+                     'angular_minus_elapsed_return_hours':(angular_return-true_return).total_seconds()/3600})
     return {'source_url':SOURCE,'source_pdf_pages':[3,4,5],'verified_against_page_images':True,
             'rows':rows,'fixed_profile_date_matches':sum(x['fixed_profile_match'] for x in rows),
             'return_profile_date_matches':sum(x['return_profile_match'] for x in rows),
+            'angular_profile_date_matches':sum(x['angular_profile_match'] for x in rows),
+            'angular_profile_sources':['https://www.vedicastrologer.org/jh/features.htm','https://www.vedicastrologer.org/jh/update_7.65.htm'],
             'exact_reference_times_available':False,
             'calendar_profiles_are_not_interchangeable':True,
             'reference_profile':'Published Moon longitude, longitude birth balance, fixed365.25-day year, Asia/Kolkata date-only endpoints',

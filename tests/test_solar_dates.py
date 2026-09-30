@@ -44,3 +44,28 @@ class SolarDateTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.cal.offset_at(dt.datetime(2001,1,1))
         indian=self.birth.astimezone(dt.timezone(dt.timedelta(hours=5,minutes=30)))
         self.assertEqual(SolarCalendar(indian).annual_return(1),self.cal.annual_return(1))
+
+class AngularCalendarTests(unittest.TestCase):
+    def test_root_and_inverse_not_elapsed_fraction(self):
+        from engine.solar_dates import AngularSolarCalendar
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        a=AngularSolarCalendar(birth);linear=SolarCalendar(birth)
+        for offset in (-2.75,-.3,0,.2,.5,1,4.81,80.125):
+            instant=a.at_offset(offset)
+            self.assertAlmostEqual(a.offset_at(instant),offset,places=8)
+            target=(a.target+(offset%1)*360)%360
+            actual=a._sun(instant)
+            self.assertLess(abs((actual-target+180)%360-180),.000002)
+        self.assertGreater(abs((a.at_offset(.5)-linear.at_offset(.5)).total_seconds()),3600)
+        self.assertEqual(a.annual_return(1),linear.annual_return(1))
+
+    def test_optional_profile_does_not_change_default_or_open_forecasts(self):
+        birth=dt.datetime(2000,1,1,9,tzinfo=dt.timezone.utc)
+        default=dated_hierarchy(birth,360/54,birth)
+        angular=dated_hierarchy(birth,360/54,birth,calendar_profile='sidereal_solar_angular_progress')
+        self.assertEqual(default['calendar_profile'],'elapsed_utc_return_interpolation')
+        self.assertEqual(angular['calendar_profile'],'sidereal_solar_angular_progress')
+        self.assertTrue(angular['modern_angular_profile_sources'])
+        self.assertEqual(default['hierarchy'][0]['lord'],angular['hierarchy'][0]['lord'])
+        self.assertNotIn('outcome',angular)
+        with self.assertRaises(ValueError):dated_hierarchy(birth,360/54,birth,calendar_profile='unverified')

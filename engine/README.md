@@ -139,3 +139,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 `historical_declination.py` uses the original III.15-16 six-part, fixed24-degree table on supplied equinox-referenced longitude. It keeps Sun Ayana double/undoubled candidates separate and is not substituted for modern equatorial declination.
 
 `planetary_war.py` exposes original minute-agreement/north-rule evidence separately from the quoted one-degree/brightness-disc rule. Supplied coordinates only; no winner, physical-disc overlap or adjustment of partial strength is inferred.
+
+`solar_dates --calendar-profile sidereal_solar_angular_progress` adds the modern software-author-documented Sun-angle time measure as an optional research profile. It solves fractional angular progress rather than interpolated elapsed UTC. Original interpolation is still default; integer returns agree, fractional dates may differ by days. This is not a uniquely mandated book interpretation, verified JHora replica/default, or Balaji setting. Calendar benchmark exposes all three date profiles without fitting and without claiming exact reference times.
