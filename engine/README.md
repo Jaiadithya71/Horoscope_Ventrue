@@ -133,3 +133,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 `bhava_strength.py` supplies only III.21-23 degree-centre house direction with explicitly grounded category/profile. Cancer/Aquarius category disagreements remain visible; no complete house strength or automatic category winner is supplied.
 
 `ishta_kashta.py` keeps the IV.5-6 root transformation and quoted Parashara average transformation separate with grounded supplied normalized components. Historical names are not calibrated good/bad probabilities or automatic outcome weights; no total-strength/aspect multiplication or profile winner is inferred.
+
+`bhava_condition_gate.py` audits the XV.25 all-three-strong condition alongside XV.26's quoted competing placements. Supplied source-grounded flags/geometry remain caller responsibility; no winner or personal forecast is selected.
