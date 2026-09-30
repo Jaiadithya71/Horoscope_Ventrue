@@ -28,6 +28,9 @@ from .ketkar_auxiliary_audit import auxiliary_audit,attraction_component_audit
 from .ketkar_solar_lookup_audit import solar_lookup_audit
 
 
+from .ketkar_solar_example_reconstruction import reconstruct_solar_example
+
+
 def validation_report():
  transcript=score(json.loads(DATA.read_text()))
  calendar=run_benchmark()
@@ -37,7 +40,7 @@ def validation_report():
  return {'status':'research_prototype_not_complete_predictor',
     'public_transcript_agreement':transcript,
     'calendar_convention_agreement':calendar,
-    'dated_source_example_audits':{'ketkar_local_mean_day_chain':dated_day_audit(),'ketkar_attraction_auxiliaries':auxiliary_audit(),'ketkar_attraction_components':attraction_component_audit(),'ketkar_solar_centre_days':solar_centre_day_audit(),'ketkar_solar_table11_candidate':solar_lookup_audit(),'historical_mean_sun_other_dasha':historical_mean_year_audit(),
+    'dated_source_example_audits':{'ketkar_local_mean_day_chain':dated_day_audit(),'ketkar_attraction_auxiliaries':auxiliary_audit(),'ketkar_attraction_components':attraction_component_audit(),'ketkar_solar_centre_days':solar_centre_day_audit(),'ketkar_solar_table11_candidate':solar_lookup_audit(),'ketkar_solar_composed_fixture':reconstruct_solar_example(),'historical_mean_sun_other_dasha':historical_mean_year_audit(),
        'modern_book_explicit_savana':audit_example50(),'secondary_time_longitude_example':secondary_example_audit()},
     'printed_source_internal_arithmetic':{'positional':positional,'seven_varga':varga,'aggregate':total},
     'pending_public_outcome_source_gates':[audit_gate(r) for r in json.loads((Path(__file__).parents[1]/'benchmarks'/'balaji_outcome_audit_pending.json').read_text())],
