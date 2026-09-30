@@ -155,8 +155,8 @@ def sign_audience_padas(sign):
     return {'moon_sign':sign,'possible_nakshatra_padas':result,'source':STAR_SOURCE,
             'notice':'Audience segmentation only; unknown birth data cannot select an individual pada or forecast.'}
 
-HIERARCHY_SOURCE = {'slug':'astrological-self-instructor-1893','pdf_pages':[111,112],
-                    'printed_pages':[97,98], 'verified_against_page_image':True}
+HIERARCHY_SOURCE = {'slug':'phaladeepika-1937','pdf_page':258,'printed_page':221,
+                    'chapter':'XXI','sloka':2,'verified_against_page_image':True}
 
 
 def dasha_at_solar_offset(moon_longitude, offset):
