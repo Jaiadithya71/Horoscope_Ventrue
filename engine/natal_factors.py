@@ -90,7 +90,9 @@ def natal_factors(ascendant_sign, placements):
     from .strength_components import components
     from .friendship import relationship_evidence
     from .vargas import varga_owner_evidence
-    return {'six_varga_owner_evidence':{p:varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
+    from .strength_precedence import condition_precedence
+    return {'scoped_strength_conditions':{p:condition_precedence(p,x['sign'],x.get('longitude'),x.get('retrograde'),x.get('overpowered_sun_rays')) for p,x in placements.items()},
+            'six_varga_owner_evidence':{p:varga_owner_evidence(p,x['longitude']) for p,x in placements.items() if x.get('longitude') is not None},
             'relationship_evidence':relationship_evidence(placements),
             'strength_components':components(ascendant_sign,placements),
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
