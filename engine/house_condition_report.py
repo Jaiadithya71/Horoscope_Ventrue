@@ -7,6 +7,7 @@ from .forecast import sign_index
 from .dusthana_strength_qualification import dusthana_strength_qualification
 from .lordship_precedence import lordship_precedence
 from .house_growth_scope import chart_house_growth_candidates
+from .lagna_house_strength_connective import chart_lagna_strength_candidates
 
 
 def house_condition_report(house,reference_sign,placements,classifications,*,
@@ -41,6 +42,7 @@ def house_condition_report(house,reference_sign,placements,classifications,*,
   raise ValueError('Unknown XV.6 clause key')
  return {'house':house,'reference_sign':reference_sign,'house_lord':lord,
    'xv3_lord_target_candidates':lord_conditions,
+   'xv27_lagna_link_strength_candidates':chart_lagna_strength_candidates(house,reference_sign,placements,bhava_strong=bhava_strong,lord_strong=lord_strong,lord_status=lord_strength_status,strength_profile=strength_profile),
    'xv18_19_house_growth_scope':chart_house_growth_candidates(house,reference_sign,placements,classifications,classification_profile=classification_profile),
    'xv9_supplied_lord_severity_candidates':severity,
    'xv10_11_lordship_emphasis':[r for r in lordship_precedence(reference_sign)['dual_owner_evidence'] if r['planet']==lord],

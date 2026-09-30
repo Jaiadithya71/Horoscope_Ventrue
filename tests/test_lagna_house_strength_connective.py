@@ -17,3 +17,21 @@ class LagnaStrengthConnectiveTests(unittest.TestCase):
   with self.assertRaises(ValueError):gate(True,bhava_status=False,strength_profile='supplied')
   with self.assertRaises(ValueError):gate(True,bhava_status='strong')
   with self.assertRaises(ValueError):gate(1)
+
+class ChartLagnaStrengthTests(unittest.TestCase):
+ def test_link_geometry_and_flags_separate(self):
+  from engine.lagna_house_strength_connective import chart_lagna_strength_candidates as chart
+  x=chart(7,'Aries',{'Mars':{'sign':'Libra'},'Venus':{'sign':'Virgo'}},bhava_strong=True,lord_strong=False,strength_profile='supplied')
+  a,b=x['candidates']
+  self.assertTrue(a['occupation_matches_target'])
+  self.assertIsNone(b['occupation_matches_target'])
+  self.assertEqual([r['condition'] for r in a['condition_evidence']['favorable_condition_candidates']],[True,None])
+  self.assertIsNone(a['condition_evidence']['supplied_lord_status'])
+ def test_same_lord_not_self_conjunction(self):
+  from engine.lagna_house_strength_connective import chart_lagna_strength_candidates as chart
+  x=chart(8,'Aries',{'Mars':{'sign':'Libra'}})
+  self.assertFalse(x['candidates'][0]['same_sign_association_candidate'])
+  self.assertFalse(x['candidates'][0]['condition_evidence']['supplied_lagna_link'])
+ def test_contradictory_strength_is_rejected(self):
+  from engine.lagna_house_strength_connective import chart_lagna_strength_candidates as chart
+  with self.assertRaises(ValueError):chart(7,'Aries',{},lord_strong=True,lord_status='weak',strength_profile='supplied')
