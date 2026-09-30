@@ -167,3 +167,7 @@ Fresh Sripati III.21-23 PDF76-79 images confirm signed quarter-aspect for Bhava 
 ## Cross-sign Bhava coverage is now geometric evidence, not chosen strength weighting
 
 Fresh PDF78/printed64 image shows Lagna Bhava combining Pisces/Jupiter1°36′30″ and Aries/Mars28°23′30″ against30° and rounded supplied lord totals. `bhava_sign_coverage.py` integrates actual Sandhi-to-Sandhi interval coverage in natal output, enumerating every sign segment and lord, conserving full360° and each house fraction across wrapping and unequal houses. `geometric_fraction_of_house` is coverage metadata only, not a selected weighting formula or a licence to combine incomplete strength. The30° example alone does not resolve an unequal-house denominator. No centre-sign shortcut, complete lord total, Bhava total, rank or outcome is emitted.
+
+## Cross-sign supplied-lord hypotheses preserve the example's incorrect Jupiter term
+
+Fresh PDF78 image gives1°36′30″/30×8.613 plus28°23′30″/30×7.731, then prints0.465+7.316=7.781. Exact displayed inputs give0.4617525+7.3165325=7.778285; Jupiter's printed term is not ordinary rounding. `audit_printed_cross_sign_example` preserves all values. `bhava_lord_candidates` requires named, declared complete externally supplied totals and emits two explicit unequal-house extensions: fixed30° denominator versus normalized actual house arc. Source's30° example cannot distinguish them. Neither becomes a selected lord/Bhava total or replaces missing source-selected Shadbala. No aspect/direction/occupant terms or outcomes are added.
