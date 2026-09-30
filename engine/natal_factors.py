@@ -99,7 +99,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .seven_varga_strength import chart_direct_owner_candidates
     from .positional_candidates import positional_candidates
     from .vargottama_period_qualification import chart_vargottama_period_qualifications
-    return {'vargottama_period_qualifications':chart_vargottama_period_qualifications(placements),
+    from .combustion_candidates import chart_combustion_candidates
+    return {'commentary_combustion_candidates':chart_combustion_candidates(placements),
+            'vargottama_period_qualifications':chart_vargottama_period_qualifications(placements),
             'base_positional_candidates':positional_candidates(placements),
             'seven_varga_numeric_candidates':chart_direct_owner_candidates(placements),
             'planetary_war_coordinate_evidence':chart_war_evidence(placements,coordinate_profile='Lahiri sidereal Swiss Ephemeris/Moshier geocentric ecliptic coordinates'),
