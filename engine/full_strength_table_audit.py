@@ -29,9 +29,12 @@ def audit_printed_full_strength_table():
      'aspect_equation_matches':s+adjustment==f,
      'component_sum_adjusted':str(computed+adjustment),
      'prior_positional_table':POSITIONAL[planet][-1],
+     'five_class_layout':{'sthana':components['sthana'],'kala':components['kala'],'dig':components['dig'],
+       'cheshta_including_ayana':str(Decimal(components['cheshta'])+Decimal(components['ayana'])),
+       'natural':components['natural']},
      'cross_table_positional_delta':str(Decimal(components['sthana'])-Decimal(POSITIONAL[planet][-1])),
      'source':source('20-21 printed full-strength table',75,61)})
  return {'rows':rows,'subtotal_matches':sum(r['subtotal_matches'] for r in rows),
     'aspect_equations_match':sum(r['aspect_equation_matches'] for r in rows),
     'computed_natal_total':None,'selected_profile':None,
-    'notice':'Exact decimal consistency only. Mars printed components sum7.350 not printed7.370; Venus/Saturn positional values shift by.001 from PDF53. No correction, rounding explanation, full-profile selection or chart-derived total inferred. III20 prose describes five classes but printed table separately includes Ayana; enumeration conflict remains.'}
+    'notice':'Exact decimal consistency only. Mars printed components sum7.350 not printed7.370; Venus/Saturn positional values shift by.001 from PDF53. No correction, rounding explanation, full-profile selection or chart-derived total inferred. III20 quoted commentary explicitly includes Ayana in Cheshta; printed table expands that class into separate rows. Layout distinction is not itself an enumeration conflict; do not add Ayana twice.'}
