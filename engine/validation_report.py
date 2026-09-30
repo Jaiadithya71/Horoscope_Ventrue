@@ -18,6 +18,9 @@ from pathlib import Path
 from .strength_profile_inventory import strength_profile_inventory
 
 
+from .luminary_motion_table_audit import luminary_motion_table_audit
+
+
 def validation_report():
  transcript=score(json.loads(DATA.read_text()))
  calendar=run_benchmark()
@@ -32,6 +35,7 @@ def validation_report():
     'printed_source_internal_arithmetic':{'positional':positional,'seven_varga':varga,'aggregate':total},
     'pending_public_outcome_source_gates':[audit_gate(r) for r in json.loads((Path(__file__).parents[1]/'benchmarks'/'balaji_outcome_audit_pending.json').read_text())],
     'printed_cancellation_illustration_audit':printed_cancellation_illustration_audit(),
+    'luminary_motion_cross_table_audit':luminary_motion_table_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
