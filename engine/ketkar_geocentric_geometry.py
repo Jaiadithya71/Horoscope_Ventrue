@@ -28,6 +28,7 @@ def geocentric_from_heliocentric(sun_longitude,planet_longitude,sun_radius,
 
 def geometry_example():
     result=geocentric_from_heliocentric(352.167,261.814,1000.7,450.4)
+    latitude_candidates={str(arcmin):geocentric_from_heliocentric(352.167,261.814,1000.7,450.4,arcmin/60) for arcmin in (-352.6,-353.4)}
     return {'source':{'url':'https://archive.org/details/jyotir-ganita-venkatesh-ramakrishna-kethkar-dattatreya-ketkar-surakant-jha',
        'pdf_pages':[267,268,269],'printed_pages':[200,201,202],
        'rule':'publisher-inserted supplement42-49, direct tangent geometry',
@@ -39,6 +40,11 @@ def geometry_example():
        'narrative_table_candidate_longitude':'327.879',
        'nyasa5_table_candidate_longitude':'327.878',
        'difference_from_narrative_degrees':result['longitude_degrees']-327.879,
+       'source_labels_input_as_ecliptic_radius':True,
        'physical_radius_vs_ecliptic_projection_verified':False,
+       'heliocentric_latitude_candidates_arcmin':latitude_candidates,
+       'supplement_corrected_heliocentric_latitude_arcmin':-353.4,
+       'supplement_printed_geocentric_latitude_arcmin':-145.8,
+       'computed_corrected_geocentric_latitude_arcmin':latitude_candidates['-353.4']['latitude_degrees']*60,
        'full_historical_ephemeris_verified':False,
-       'notice':'Source supplement explicitly provides a direct geometric route and notes alternative ordinary trigonometry. This implementation uses Cartesian sums equivalent to its signed tangent/quadrant rules. Fixture uses printed rounded radius as an explicitly assumed ecliptic projection with zero latitude, not an established physical Mercury radius.327.876015 differs from the table-correction candidates. No profile selected, no claim of external ephemeris accuracy or resolved source rounding.'}
+       'notice':"Source supplement explicitly provides a direct geometric route and notes alternative ordinary trigonometry. This implementation uses Cartesian sums equivalent to its signed tangent/quadrant rules. SupplementPDF268 explicitly labels450.4 an ecliptic manda radius, so the source-specific input convention is grounded. This is not independent certification of a physical Mercury radius. Zero-latitude fixture is retained as one candidate; supplied latitude alternatives-352.6 and supplement correction-353.4arcmin are separately computed. Corrected latitude gives-145.808054arcmin, reproducing printed-145.8 at one decimal without selecting the book's full precision policy.327.876015 differs from the table-correction candidates. No profile selected, no claim of external ephemeris accuracy or resolved source rounding."}

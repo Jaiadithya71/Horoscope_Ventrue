@@ -21,3 +21,10 @@ class GeometryTests(unittest.TestCase):
   self.assertAlmostEqual(r['computed_zero_latitude_candidate']['longitude_degrees'],327.87601476)
   self.assertFalse(r['full_historical_ephemeris_verified'])
   self.assertFalse(r['physical_radius_vs_ecliptic_projection_verified'])
+
+ def test_source_ecliptic_radius_and_corrected_latitude(self):
+  r=geometry_example()
+  self.assertTrue(r['source_labels_input_as_ecliptic_radius'])
+  self.assertAlmostEqual(r['computed_corrected_geocentric_latitude_arcmin'],-145.80805395)
+  self.assertEqual(round(r['computed_corrected_geocentric_latitude_arcmin'],1),-145.8)
+  self.assertNotEqual(r['heliocentric_latitude_candidates_arcmin']['-352.6']['latitude_degrees'],r['heliocentric_latitude_candidates_arcmin']['-353.4']['latitude_degrees'])
