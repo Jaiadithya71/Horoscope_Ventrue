@@ -36,6 +36,6 @@ def worked_ayana_audit():
         'ayana_base_floor3_matches':sum(r['base_floor3_matches'] for r in rows),
         'sources':[
             {'url':'https://archive.org/details/dli.ernet.203510','pdf_pages':[17,67,69],'printed_pages':[3,53,55],'verified_against_page_image':True},
-            {'url':'https://archive.org/details/ksu.h1304.sripatipaddhati0000vsub','pdf_page':111,'printed_page':95,'verified_against_page_image':True}],
+            {'url':'https://archive.org/details/ksu.h1304.sripatipaddhati0000vsub','pdf_page':109,'printed_page':93,'verified_against_page_image':True}],
         'selected_ayana_values':None,'selected_natal_total':None,
         'notice':'Exact six-increment table using supplied DMS plus supplied ayanamsa cross-checks actual pipeline. Six declinations and six base strengths match floor3 diagnostic, not a universal rounding policy. Sun exact declination14.879053... differs from both printed14.877; base.809980... is near printed.810 but not floor3. Explicit doubledSun1.619960... remains distinct from printed undoubled.810 and motion allocation. No modern latitude/declination model, fitted correction, multiplier winner or natal total selected.'}
