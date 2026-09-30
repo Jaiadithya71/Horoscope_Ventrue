@@ -74,7 +74,15 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     if solar_event_profile is not None:
         from .solar_intervals import solar_interval_evidence
         solar_evidence=solar_interval_evidence(utc,latitude,longitude,solar_event_profile=solar_event_profile)
-    return {'solar_interval_evidence':solar_evidence,
+    from .luminary_cheshta_rays import luminary_cheshta_rays
+    ayana_flags,ayana=swe.get_ayanamsa_ex_ut(jd,swe.FLG_MOSEPH)
+    ray_evidence=luminary_cheshta_rays(placements['Sun']['longitude'],placements['Moon']['longitude'],ayana,
+        coordinate_profile='modern Swiss Moshier Lahiri apparent sidereal longitude with extended UT ayanamsa')
+    ray_evidence['astronomy_input_source_url']='https://astrorigin.com/pyswisseph/pydoc/index.html'
+    ray_evidence['ayanamsa_returned_flags']=ayana_flags
+    ray_evidence['input_notice']='Extended UT ayanamsa, including the apparent-coordinate correction, is used rather than the non-nutated get_ayanamsa_ut value. This modern input profile is not claimed identical to the historical example ephemeris.'
+    return {'iv_luminary_cheshta_ray_evidence':ray_evidence,
+            'solar_interval_evidence':solar_evidence,
             'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,
             'longitude': longitude, 'ascendant': {'longitude': asc, 'longitude_display_5dp':round(asc,5), 'sign': SIGNS[asc_index]},
             'sripati_degree_geometry':degree_geometry,

@@ -19,3 +19,21 @@ class LuminaryRaysTests(unittest.TestCase):
             self.assertEqual(calc(0,moon,0,coordinate_profile='synthetic')['luminaries']['Moon']['cheshta_rays'],rays)
         for sun,moon,ayana,profile in ((360,0,0,'x'),(0,-1,0,'x'),(0,0,float('nan'),'x'),(0,0,0,'')):
             with self.assertRaises(ValueError):calc(sun,moon,ayana,coordinate_profile=profile)
+
+class NatalRayInputTests(unittest.TestCase):
+    def test_apparent_coordinate_model_is_not_unnamed_mean_ayana(self):
+        from engine.natal import natal_chart,birth_utc
+        from engine.forecast import swe,julian_day,FLAGS
+        for date in ('1900-01-01','2000-01-01','2026-09-30'):
+            x=natal_chart(date,'14:30','Asia/Kolkata',13.0827,80.2707,'synthetic Chennai')
+            e=x['iv_luminary_cheshta_ray_evidence'];jd=julian_day(birth_utc(date,'14:30','Asia/Kolkata'))
+            tropical=swe.calc_ut(jd,swe.SUN,FLAGS & ~swe.FLG_SIDEREAL)[0][0]%360
+            expected=(tropical+90)%360
+            actual=e['luminaries']['Sun']['cheshtakendra_degrees']
+            error=min((actual-expected)%360,(expected-actual)%360)
+            self.assertLess(error,1e-9)
+            self.assertIsNone(e['selected_shadbala_motion_component'])
+            self.assertIsNone(e['total_strength'])
+            self.assertIn('extended UT',e['coordinate_profile'])
+            self.assertAlmostEqual(e['supplied_sun_sidereal_longitude'],x['placements']['Sun']['longitude'])
+            self.assertAlmostEqual(e['supplied_moon_sidereal_longitude'],x['placements']['Moon']['longitude'])
