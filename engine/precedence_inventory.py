@@ -20,9 +20,17 @@ def precedence_inventory():
         ('angular_trinal_related_pair','angular_trinal_pair_conditions','XX.45-46',[252],'extra adverse ownership does not disqualify this related pair condition','fifth/ninth candidate scope; relation profile and independent strong-Kendra flag unresolved'),
         ('angular_trinal_period_wording','angular_trinal_period_readings','XX.49',[253],'unrelated no-harm and positive-good English readings retained separately','Trikona enumeration, relation hypothesis and translation selection unresolved'),
         ('period_school_conflict','period_school_conflict','XXI.41',[269],'Jupiter main/Mercury subperiod opposite schools retained','no school selected by strength or timing')]
-    return {'scope_records':[{'id':i,'implementation':m,'checked_scope':s,'remaining_boundary':b,
+    records=[{'id':i,'implementation':m,'checked_scope':s,'remaining_boundary':b,
         'source':{'url':'https://archive.org/details/in.ernet.dli.2015.92117','chapter_sloka':v,'pdf_pages':p},
-        'input_dependent_applicability':None} for i,m,v,p,s,b in rows],
+        'input_dependent_applicability':None} for i,m,v,p,s,b in rows]
+    from .bphs_jha_general_aspect import SOURCE_URL
+    records.append({'id':'same_house_yoga_strength','implementation':'jha_local_yoga_strength',
+        'checked_scope':'Supplied complete common-profile same-house contributor arithmetic maximum',
+        'remaining_boundary':'Caller roles/totals unverified; ties/group pooling/global rank unavailable',
+        'source':{'url':SOURCE_URL,'chapter_sloka':'28.37-38','pdf_pages':[192,193],
+            'printed_pages':[160,161],'verified_against_page_image':True},
+        'input_dependent_applicability':None})
+    return {'scope_records':records,
         'unresolved_global_arbitration':[
             'No book-verified global priority across distinct house/yoga/period/transit rules',
             'Translation discrepancies are not automatically authentic competing Sanskrit schools',
