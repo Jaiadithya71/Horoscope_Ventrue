@@ -17,5 +17,12 @@ def period_manifestation_gate(main_lord,sub_lord,*,related=None,similarly_circum
         'sources':[{'url':'https://archive.org/details/in.ernet.dli.2015.92117','pdf_page':252,'printed_page':215,'chapter':'XX','sloka':'43-44','verified_against_page_image':True},
             {'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf','pdf_pages':[190,191],'chapter':'XX','sloka':'43-44','verified_against_page_image':True}],
         'relation_definition_reference':{'url':'https://archive.org/details/in.ernet.dli.2015.92117','pdf_page':200,'printed_page':163,'chapter':'XV','sloka':30,'verified_against_page_image':True},
+        'independent_hindi_commentary':{
+            'url':'https://archive.org/details/phala-dipika-of-shri-mantreshwar-hindi-commentary-by-dr.-hari-shankar-patak-chau',
+            'pdf_page':246,'printed_page':228,'chapter':'XX','sloka':'43-44',
+            'verified_against_page_image':True,'relation_cross_reference':'XV.30',
+            'own_subperiod_owned_house_effect_nonautomatic_corroborated':True,
+            'similar_circumstances_wording':'Same qualities or attributes',
+            'similar_circumstances_algorithm_selected':None},
         'global_precedence':None,
         'notice':'Own subperiod does not automatically establish all owned-house effects;1937 all-do-not versus Kapoor no-planet wording is not expanded into universal no-effects. XX.44 calls for related or similarly circumstanced planets; self-relation and the latter classification are not inferred. Kapoor XX.44 says Chapter25 verse30 while its own nearby notes and original point toXV.30, retained as cross-reference typo not new authority. No active dates, polarity or global priority follows.'}

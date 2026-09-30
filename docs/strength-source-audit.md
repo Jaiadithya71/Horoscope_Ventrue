@@ -393,3 +393,13 @@ subperiod, without explicitly repeating the6/8/12 restriction. Whether 'other'
 refers back to the dusthana set is left unresolved, not silently fitted to
 Sastri/Kapoor booleans. `pathak_period_reading_audit` separates these exact
 scope issues from corroboration and selects no translation or global priority.
+
+PathakXX.43-49 actualPDF246-247/228-229 independently confirms XV.30 relation
+cross-reference and nonautomatic own-subperiod owned-house output. Its
+'same qualities/attributes' phrase supplies no new classification algorithm.
+XX.49 explicitly separates favorable base from no adverse effects even without
+relation, corroborating the narrow no-harm reading rather than automatically
+making unrelated pairs positive. XX.46 nearby explicitly names fifth/ninth;
+XX.49 itself does not enumerate, so that scope is not silently transferred.
+Existing manifestation/angular-trinal reports now carry these source records,
+with their candidate selections and all numeric/app defaults unchanged.

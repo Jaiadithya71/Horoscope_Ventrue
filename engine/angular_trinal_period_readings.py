@@ -33,5 +33,15 @@ def angular_trinal_period_readings(reference_sign,main_lord,sub_lord,*,related=N
             'independent_translation_vote':False,
             'critical_edition_arbitration':None,
             'notice':'Siva English repeats1937 wording/typos. Volunteer transcription is corroboration, not critical text or separate translation authority. Negative harm language is not a general positive-good assertion; full transcription is not redistributed.'},
+        'independent_hindi_commentary':{
+            'url':'https://archive.org/details/phala-dipika-of-shri-mantreshwar-hindi-commentary-by-dr.-hari-shankar-patak-chau',
+            'pdf_page':247,'printed_page':229,'chapter':'XX','sloka':49,
+            'verified_against_page_image':True,
+            'unrelated_no_harm_clause_corroborated':True,
+            'unrelated_positive_good_extension_selected':False,
+            'trikona_houses_in_this_verse_enumerated':False,
+            'nearby_xx46_explicit_trikona_houses':[5,9],
+            'nearby_enumeration_transferred_to_xx49':False,
+            'notice':'Pathak separately states favorable base then no adverse effects even without relation. NearbyXX46 explicitly says fifth/ninth, butXX49 itself does not enumerate; no automatic cross-verse transfer or universal translation winner.'},
         'selected_trikona_scope':None,'selected_translation':None,'personal_outcome':None,'global_precedence':None,
         'notice':'The base clause describes good effects for alternating Kendra/Trikona lord periods; the explicit unrelated clause differs between these English translations. No-harm is not automatically favorable. XX.49 does not enumerate Trikona houses, so fifth/ninth and Lagna-inclusive ownership candidates remain separate, not a source-selected profile. No self-pair extension, global cancellation, selected relation, active period date or forecast.'}
