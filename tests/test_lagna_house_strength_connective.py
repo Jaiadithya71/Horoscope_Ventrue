@@ -35,3 +35,19 @@ class ChartLagnaStrengthTests(unittest.TestCase):
  def test_contradictory_strength_is_rejected(self):
   from engine.lagna_house_strength_connective import chart_lagna_strength_candidates as chart
   with self.assertRaises(ValueError):chart(7,'Aries',{},lord_strong=True,lord_status='weak',strength_profile='supplied')
+
+class IndependentHindiConnectiveTests(unittest.TestCase):
+ def test_explicit_or_corroboration_not_winner(self):
+  x=gate(True,bhava_status='strong',lord_status='weak',strength_profile='supplied')
+  p=x['independent_hindi_reading']
+  self.assertTrue(p['condition'])
+  self.assertEqual(p['explicit_hindi_favorable_connective'],'or')
+  self.assertEqual(p['source']['pdf_page'],193)
+  self.assertIsNone(p['adverse_condition_selected'])
+  self.assertIsNone(x['selected_profile'])
+  self.assertEqual(len(x['favorable_condition_candidates']),2)
+ def test_unknown_lord_not_weak_or_automatic_adverse(self):
+  x=gate(True,bhava_status='strong',strength_profile='supplied')
+  self.assertTrue(x['independent_hindi_reading']['condition'])
+  self.assertIsNone(x['adverse_condition'])
+  self.assertIsNone(gate()['independent_hindi_reading']['condition'])

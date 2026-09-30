@@ -403,3 +403,12 @@ making unrelated pairs positive. XX.46 nearby explicitly names fifth/ninth;
 XX.49 itself does not enumerate, so that scope is not silently transferred.
 Existing manifestation/angular-trinal reports now carry these source records,
 with their candidate selections and all numeric/app defaults unchanged.
+
+PathakXV.27 actualPDF193/175, inspected as original pixels, explicitly says
+'house or house lord' strong for favorable linked-house condition. Existing
+OR/AND English candidates now retain a separate named Hindi OR corroboration
+without changing their count or selecting a critical-edition winner. Its
+'otherwise, weak lord' adverse wording is retained but not implemented as the
+complement of favorable strength: mixed/unknown flags are not automatically
+adverse. Same page keeps the XV.25 all-three strength and XV.26 named
+others-say context, which does not make a global override.

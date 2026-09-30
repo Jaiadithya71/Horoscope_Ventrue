@@ -17,6 +17,15 @@ def lagna_house_strength_connective(lagna_link=None,*,bhava_status=None,lord_sta
              'source':{'url':'https://archive.org/details/in.ernet.dli.2015.92117','pdf_page':199,'printed_page':162,'chapter':'XV','sloka':27,'verified_against_page_image':True}},
             {'reading':'Kapoor Bhava AND lord strong','condition':later,
              'source':{'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf','pdf_page':153,'chapter':'XV','sloka':27,'verified_against_page_image':True}}],
+        'independent_hindi_reading':{
+            'reading':'Pathak Bhava OR lord strong','condition':earlier,
+            'source':{'url':'https://archive.org/details/phala-dipika-of-shri-mantreshwar-hindi-commentary-by-dr.-hari-shankar-patak-chau',
+                'pdf_page':193,'printed_page':175,'chapter':'XV','sloka':27,
+                'verified_against_page_image':True},
+            'explicit_hindi_favorable_connective':'or',
+            'adverse_hindi_weakness_subject':'house lord',
+            'adverse_condition_selected':None,
+            'notice':'Independent Hindi explicitly says house or house lord strong. Named OR reading corroboration, not a critical-edition winner. Otherwise/weak-lord adverse wording is not made the complement of favorable condition.'},
         'favorable_connective_disagreement':None if earlier is None or later is None else earlier!=later,
         'adverse_condition':None,'selected_profile':None,'personal_outcome':None,
         'notice':'Translation connective candidates, not established Sanskrit schools. Link means Lagna lord occupies target house or conjoins its lord; caller must ground geometry. Explicit weak is not inferred from a failed strong flag, and mixed strength is not automatically adverse. Adverse weakness quantifier remains unselected. No complete total, timing or global winner is inferred.'}
