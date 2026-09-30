@@ -23,3 +23,12 @@ class MeridianClockTests(unittest.TestCase):
   with self.assertRaises(ValueError):c(t.replace(tzinfo=None),13.08,80.27,meridian_profile=PROFILE)
   y=c(t.astimezone(dt.timezone(dt.timedelta(hours=5,minutes=30))),13.08,80.27,meridian_profile=PROFILE)
   self.assertEqual(y['candidates'],c(t,13.08,80.27,meridian_profile=PROFILE)['candidates'])
+ def test_explicit_natal_optin_does_not_select_total(self):
+  from engine.natal import natal_chart
+  args=('2000-01-01','14:30','Asia/Kolkata',13.08,80.27,'synthetic fixture')
+  base=natal_chart(*args);opt=natal_chart(*args,meridian_profile=PROFILE)
+  self.assertIsNone(base['solar_meridian_clock_evidence'])
+  self.assertEqual(base['placements'],opt['placements'])
+  self.assertEqual(base['moon_periods'],opt['moon_periods'])
+  self.assertIsNone(opt['solar_meridian_clock_evidence']['selected_clock_profile'])
+  self.assertIsNone(opt['natal_factors']['continuous_strength_components']['total_strength'])

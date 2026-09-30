@@ -40,7 +40,7 @@ def birth_utc(date, time, timezone):
         raise ValueError(f'Invalid IANA timezone: {timezone}') from exc
 
 
-def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_profile=None):
+def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_profile=None,meridian_profile=None):
     """Coordinates are explicit input, not guessed from a place-name."""
     if not place or not place.strip():
         raise ValueError('Birth place label is required with verified coordinates')
@@ -76,6 +76,10 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     if solar_event_profile is not None:
         from .solar_intervals import solar_interval_evidence
         solar_evidence=solar_interval_evidence(utc,latitude,longitude,solar_event_profile=solar_event_profile)
+    meridian_evidence=None
+    if meridian_profile is not None:
+        from .solar_meridian_clock import solar_meridian_clock
+        meridian_evidence=solar_meridian_clock(utc,latitude,longitude,meridian_profile=meridian_profile)
     from .luminary_cheshta_rays import luminary_cheshta_rays
     ayana_flags,ayana=swe.get_ayanamsa_ex_ut(jd,swe.FLG_MOSEPH)
     ray_evidence=luminary_cheshta_rays(placements['Sun']['longitude'],placements['Moon']['longitude'],ayana,
@@ -83,7 +87,8 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     ray_evidence['astronomy_input_source_url']='https://astrorigin.com/pyswisseph/pydoc/index.html'
     ray_evidence['ayanamsa_returned_flags']=ayana_flags
     ray_evidence['input_notice']='Extended UT ayanamsa, including the apparent-coordinate correction, is used rather than the non-nutated get_ayanamsa_ut value. This modern input profile is not claimed identical to the historical example ephemeris.'
-    return {'bhava_sign_coverage':coverage,
+    return {'solar_meridian_clock_evidence':meridian_evidence,
+            'bhava_sign_coverage':coverage,
             'iv_luminary_cheshta_ray_evidence':ray_evidence,
             'solar_interval_evidence':solar_evidence,
             'birth_utc': utc.isoformat(), 'birth_place': place, 'latitude': latitude,

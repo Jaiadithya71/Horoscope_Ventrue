@@ -173,3 +173,5 @@ The report keeps XXI.41 competing schools, XX.22 unfavorable-house candidates, X
 Natal output now includes `bhava_sign_coverage`, listing actual Sandhi interval portions by sign and lord. Coverage fractions are geometric metadata, not chosen strength weights. A centre sign alone cannot stand in for a cross-sign house. Full Bhava/lord strength remains absent and no personal result follows.
 
 The validation report also runs three separately labeled dated-source audits: historical mean Sun in another dasha system, modern book's explicitly360-day sample, and secondary time/longitude example with inconsistent endpoint ordering. Each preserves limitations rather than selecting a calendar by print fit.
+
+Modern Natonnata meridian-clock candidates can be added with `--meridian-profile moshier_modern_solar_meridian_transits_zero_altitude`, requiring all birth/place arguments. Default stays absent. It supplies distinct actual-elapsed and normalized-half hypotheses to the checked component without choosing a solar clock or total. It may be combined with the separately explicit rise/set-third profile; neither enables a full Kala total.
