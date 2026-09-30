@@ -374,3 +374,13 @@ This equality is not a double-add instruction or general Ayana containment
 rule. The sixfold list at28.25.5 PDF190/158 does not close composition. The new
 `jha_composition_audit` keeps the identities, exact-ratio comparison and
 unselected containment/double-counting explicit. No full total or app change.
+
+Pathak PhaladeepikaXX.7/9/13, actualPDF235-236/217-218, page-verified,
+qualifies favorable sixth/eighth/twelfth owner main-period clauses by supplied
+lord strength. The sixth-owner footnote explicitly rejects the belief that its
+period is always adverse. `pathak_dusthana_lord_period` requires separate
+ownership/strength provenance, a supplied active-owner main period and strength
+flag. Missing flags remain unknown; failure of this favorable clause is not
+an adverse conclusion. Its scope does not cancel occupied-dusthana, other
+ownership, XX.14 disposition or main/subperiod-pair conditions. Inventory now19
+local scopes, still no global precedence or selected forecast. App unchanged.

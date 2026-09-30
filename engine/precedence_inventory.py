@@ -30,6 +30,14 @@ def precedence_inventory():
         'source':{'url':SOURCE_URL,'chapter_sloka':'28.37-38','pdf_pages':[192,193],
             'printed_pages':[160,161],'verified_against_page_image':True},
         'input_dependent_applicability':None})
+    from .pathak_solar_target_audit import SOURCE_URL as PATHAK_URL
+    records.append({'id':'strong_dusthana_owner_main_period_clause',
+        'implementation':'pathak_dusthana_lord_period',
+        'checked_scope':'Strength-qualified favorable owner main-period clauses6/8/12; sixth-owner always-adverse assumption explicitly rejected',
+        'remaining_boundary':'Supplied strength/active owner period required; no override of occupied-house or other clauses',
+        'source':{'url':PATHAK_URL,'chapter_sloka':'XX.7/9/13 commentary',
+            'pdf_pages':[235,236],'printed_pages':[217,218],'verified_against_page_image':True},
+        'input_dependent_applicability':None})
     return {'scope_records':records,
         'unresolved_global_arbitration':[
             'No book-verified global priority across distinct house/yoga/period/transit rules',
