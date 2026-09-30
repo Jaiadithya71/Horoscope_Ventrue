@@ -53,3 +53,18 @@ class RecoveryTests(unittest.TestCase):
   self.assertEqual([r['condition'] for r in xv6_connective_candidates(True,False,False)['candidates']],[False,True])
   self.assertEqual([r['condition'] for r in xv6_connective_candidates(None,None,True)['candidates']],[True,True])
   self.assertEqual([r['condition'] for r in xv6_connective_candidates()['candidates']],[None,None])
+
+ def test_chart_house_and_lord_targets_differ(self):
+  from engine.bhava_recovery_conditions import chart_xv3_lord_candidates,chart_xv5_candidates
+  positions={'Venus':{'sign':'Scorpio'},'Jupiter':{'sign':'Aries'}}
+  classes={p:'malefic' for p in ('Sun','Moon','Mars','Mercury','Venus','Saturn')};classes['Jupiter']='benefic'
+  lord=chart_xv3_lord_candidates(7,'Aries',positions,classes,classification_profile='synthetic',eclipsed=False,inimical_sign=False)
+  house=chart_xv5_candidates(7,'Aries',positions,classes,classification_profile='synthetic')
+  self.assertTrue(lord['candidates'][0]['condition_evidence']['adverse_lord_without_benefic_influence'])
+  self.assertTrue(house['candidates'][0]['condition_evidence']['benefic_aspect_exception'])
+  self.assertIsNone(lord['personal_outcome'])
+ def test_missing_ray_flag_not_absence(self):
+  from engine.bhava_recovery_conditions import chart_xv3_lord_candidates
+  classes={p:'malefic' for p in ('Sun','Moon','Mars','Mercury','Venus','Saturn','Jupiter')}
+  r=chart_xv3_lord_candidates(7,'Aries',{'Venus':{'sign':'Libra'}},classes,classification_profile='supplied')
+  self.assertIsNone(r['candidates'][0]['condition_evidence']['adverse_lord_without_benefic_influence'])

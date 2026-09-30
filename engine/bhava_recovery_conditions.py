@@ -122,3 +122,48 @@ def xv6_connective_candidates(all_three_weak=None,afflicted_without_benefics=Non
   'comparison_source':{'title':'Kapoor Phaladeepika','pdf_page':147,'verified_against_page_image':True},
   'selected_profile':None,'personal_outcome':None,
   'notice':'English connective candidates, not verified alternate Sanskrit schools. House/lord/karaka quantifier, hemmed/associated/aspected clauses and relative occupation reference/quantifier must be externally grounded. Text says synchrony strengthens evidence, not a calibrated count or automatic fatality. No inferred all-three weakness, karaka, strength or global polarity.'}
+
+
+def chart_xv3_lord_candidates(house,ascendant_sign,placements,classifications,*,
+ classification_profile,eclipsed=None,inimical_sign=None):
+ from .forecast import sign_index
+ from .synthesis import LORDS
+ from .natal_factors import dignity
+ from .friendship import CLASSICAL
+ _validate(eclipsed,inimical_sign)
+ # Share XV.5 input validation, without treating its house aspect as lord influence.
+ checked=chart_xv5_candidates(house,ascendant_sign,placements,classifications,
+                              classification_profile=classification_profile)
+ asc=sign_index(ascendant_sign);lord=LORDS[(asc+house-1)%12]
+ p=placements.get(lord,{});sign=p.get('sign')
+ fall=None if sign is None else dignity(lord,sign,p.get('longitude'))['flags']['fall_sign']
+ rows=[]
+ for profile in ('whole_sign_full','whole_sign_seventh_only'):
+  pairs=[]
+  for planet in CLASSICAL:
+   if planet==lord:continue  # A lord does not associate with/aspect itself.
+   other=placements.get(planet,{}).get('sign');kind=classifications.get(planet)
+   rel=None if sign is None or other is None else (sign_index(sign)-sign_index(other))%12+1
+   full={7}|({'Mars':{4,8},'Jupiter':{5,9},'Saturn':{3,10}}.get(planet,set()) if profile=='whole_sign_full' else set())
+   b=None if kind is None else kind=='benefic'
+   pairs.append({'planet':planet,'supplied_class':kind,'relative_sign_house':rel,
+     'benefic_association_candidate':_and(b,None if rel is None else rel==1),
+     'benefic_aspect_candidate':_and(b,None if rel is None else rel in full)})
+  assoc=False;aspect=False
+  for pair in pairs:
+   assoc=_or(assoc,pair['benefic_association_candidate']);aspect=_or(aspect,pair['benefic_aspect_candidate'])
+  for occupation in ('whole_sign','sripati_degree_bhava'):
+   raw=p.get('sripati_degree_house');degree=raw.get('house') if isinstance(raw,dict) else raw
+   h=None if sign is None else (sign_index(sign)-asc)%12+1
+   h=h if occupation=='whole_sign' else degree
+   for frame in ('ascendant_eighth','target_house_eighth'):
+    eighth=8 if frame=='ascendant_eighth' else (house+6)%12+1
+    rows.append({'occupation_profile':occupation,'eighth_reference':frame,
+     'lord_house_from_ascendant':h,'aspect_profile':profile,
+     'association_profile':'same_sign_candidate_not_degree_conjunction_orb',
+     'lord_target_influence_pairs':pairs,
+     'condition_evidence':xv3_lord_condition(None if h is None else h==eighth,
+        eclipsed,fall,inimical_sign,assoc,aspect)})
+ return {'house':house,'house_lord':lord,'classification_profile':classification_profile,
+  'candidates':rows,'selected_profile':None,'personal_outcome':None,
+  'notice':'Supplied ray/inimical flags, not commentary threshold or natural-friendship substitution. Same-sign association is explicit geometry hypothesis, not selected degree orb. Eighth reference and sign-aspect efficacy remain alternatives. No VII cancellation replaces raw dignity or complete strength. No global winner against XV.5.'}
