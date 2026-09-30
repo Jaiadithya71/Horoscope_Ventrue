@@ -21,6 +21,7 @@ from .sripati_worked_motion_audit import worked_motion_audit
 from .ketkar_motion_input_audit import ketkar_motion_input_audit
 from .ketkar_mean_anchor_audit import ketkar_mean_anchor_audit
 from .ketkar_mean_sun_lookup_audit import mean_sun_lookup_audit
+from .horaratna_own_varga_scope_audit import horaratna_own_varga_scope_audit
 from .modern_book_date_audit import audit_example50
 from .dated_example_audit import secondary_example_audit
 
@@ -110,6 +111,7 @@ def validation_report():
     'ketkar_motion_input_semantics':ketkar_motion_input_audit(),
     'ketkar_printed_mean_anchors':ketkar_mean_anchor_audit(),
     'ketkar_bounded_mean_sun_candidate':mean_sun_lookup_audit(),
+    'horaratna_independent_own_varga_scope':horaratna_own_varga_scope_audit(),
     'raman_motion_source_audit':raman_motion_source_audit(),
     'raman_mean_sun_example_audit':raman_mean_sun_example_audit(),
     'raman_source_validation':raman_validation_report(),
