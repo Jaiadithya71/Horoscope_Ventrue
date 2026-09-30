@@ -31,10 +31,15 @@ def run_benchmark():
         return_date=true_return.astimezone(zone).date().isoformat()
         rows.append({'lord':lord,'published_local_end_date':expected,
                      'fixed_365_25_local_end_date':fixed_date,'fixed_profile_match':fixed_date==expected,
-                     'solar_return_local_end_date':return_date,'return_profile_match':return_date==expected})
+                     'solar_return_local_end_date':return_date,'return_profile_match':return_date==expected,
+                     'fixed_365_25_utc_estimate':fixed.isoformat(),
+                     'solar_return_utc_estimate':true_return.isoformat(),
+                     'return_minus_fixed_hours':(true_return-fixed).total_seconds()/3600})
     return {'source_url':SOURCE,'source_pdf_pages':[3,4,5],'verified_against_page_images':True,
             'rows':rows,'fixed_profile_date_matches':sum(x['fixed_profile_match'] for x in rows),
             'return_profile_date_matches':sum(x['return_profile_match'] for x in rows),
+            'exact_reference_times_available':False,
+            'calendar_profiles_are_not_interchangeable':True,
             'reference_profile':'Published Moon longitude, longitude birth balance, fixed365.25-day year, Asia/Kolkata date-only endpoints',
             'notice':'Software convention agreement only. Not an exact-time reference, universal book mandate, Balaji agreement, or event-prediction accuracy. Printed truncated Ketu endpoint excluded.'}
 

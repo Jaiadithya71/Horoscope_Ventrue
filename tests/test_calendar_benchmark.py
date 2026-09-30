@@ -12,3 +12,13 @@ class CalendarBenchmarkTests(unittest.TestCase):
         self.assertEqual(result['source_pdf_pages'],[3,4,5])
         self.assertIn('Not an exact-time reference',result['notice'])
         self.assertNotIn('prediction_accuracy',result)
+
+    def test_estimate_spread_not_exact_reference(self):
+        import datetime as dt
+        result=run_benchmark()
+        self.assertFalse(result['exact_reference_times_available'])
+        self.assertTrue(result['calendar_profiles_are_not_interchangeable'])
+        for r in result['rows']:
+            seconds=(dt.datetime.fromisoformat(r['solar_return_utc_estimate'])-dt.datetime.fromisoformat(r['fixed_365_25_utc_estimate'])).total_seconds()
+            self.assertAlmostEqual(r['return_minus_fixed_hours'],seconds/3600)
+        self.assertGreater(result['rows'][-1]['return_minus_fixed_hours'],10)
