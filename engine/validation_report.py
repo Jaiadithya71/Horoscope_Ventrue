@@ -5,6 +5,9 @@ from .calendar_benchmark import run_benchmark
 from .positional_table_audit import audit_printed_positional_table
 from .seven_varga_table_audit import audit_printed_seven_varga_table
 from .full_strength_table_audit import audit_printed_full_strength_table
+from .historical_mean_year_audit import historical_mean_year_audit
+from .modern_book_date_audit import audit_example50
+from .dated_example_audit import secondary_example_audit
 
 
 def validation_report():
@@ -16,6 +19,8 @@ def validation_report():
  return {'status':'research_prototype_not_complete_predictor',
     'public_transcript_agreement':transcript,
     'calendar_convention_agreement':calendar,
+    'dated_source_example_audits':{'historical_mean_sun_other_dasha':historical_mean_year_audit(),
+       'modern_book_explicit_savana':audit_example50(),'secondary_time_longitude_example':secondary_example_audit()},
     'printed_source_internal_arithmetic':{'positional':positional,'seven_varga':varga,'aggregate':total},
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
