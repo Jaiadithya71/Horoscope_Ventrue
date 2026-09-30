@@ -384,3 +384,12 @@ flag. Missing flags remain unknown; failure of this favorable clause is not
 an adverse conclusion. Its scope does not cancel occupied-dusthana, other
 ownership, XX.14 disposition or main/subperiod-pair conditions. Inventory now19
 local scopes, still no global precedence or selected forecast. App unchanged.
+
+Independent PathakXX.14 PDF237/219 retains friendly-sign term in favorable
+list, but does not settle the any/all connective. XX.22 PDF239/221 corroborates
+fall/solar-obscuration qualifying Vargottama to mixed. Its Hindi main/subperiod
+sentence separates owner and occupant pairs but says 'other house' for the
+subperiod, without explicitly repeating the6/8/12 restriction. Whether 'other'
+refers back to the dusthana set is left unresolved, not silently fitted to
+Sastri/Kapoor booleans. `pathak_period_reading_audit` separates these exact
+scope issues from corroboration and selects no translation or global priority.
