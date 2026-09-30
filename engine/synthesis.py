@@ -30,7 +30,7 @@ def aspects(planet, from_sign, reference_sign):
     """Whole-sign aspect targets from the planet, measured against a reference sign.
 
     For the prototype only full aspects are emitted. Nodes have no rule here.
-    Phaladeepika II.9 describes a competing emphasis on seventh vs special
+    Phaladeepika IV.9 describes a competing emphasis on seventh vs special
     aspects; record both references rather than claiming universal precedence.
     """
     if planet in ('Rahu','Ketu'):
@@ -49,7 +49,7 @@ def aspects(planet, from_sign, reference_sign):
                         'special':relative!=7})
     return {'planet':planet,'from_sign':SIGNS[from_i],'reference_sign':SIGNS[ref_i],
             'targets':targets,'source':ASPECT_SOURCE,
-            'notice':'Geometric whole-sign aspects and topic tags only, not asserted outcomes or strength. II.9 (PDF p. 74) notes differing views on special-aspect efficacy.'}
+            'notice':'Geometric whole-sign aspects and topic tags only, not asserted outcomes or strength. IV.9 (PDF p. 74) notes differing views on special-aspect efficacy.'}
 
 
 def structural_factors(reference_sign, placements):

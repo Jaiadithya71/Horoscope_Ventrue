@@ -88,7 +88,9 @@ def mahapurusha(reference_sign, placements):
 
 def natal_factors(ascendant_sign, placements):
     from .strength_components import components
-    return {'strength_components':components(ascendant_sign,placements),
+    from .friendship import relationship_evidence
+    return {'relationship_evidence':relationship_evidence(placements),
+            'strength_components':components(ascendant_sign,placements),
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
             'sign_exchanges':exchanges(placements),
             'maha_purusha_conditions':mahapurusha(ascendant_sign,placements),
