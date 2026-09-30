@@ -149,3 +149,5 @@ Coordinates retain full numerical longitude for all geometry and conditions. `lo
 With complete natal birth data/place/coordinates, add `--solar-event-profile moshier_topocentric_solar_centre_no_refraction_zero_altitude` for opt-in natal solar-interval evidence. Default is absent; this does not alter positions/dashas or produce a full temporal/strength total. Geographic model inputs and polar/boundary caveats stay with the result.
 
 `solar_dates --calendar-profile fixed_365_25_day_software_comparison` uses the explicitly labeled vendor365.25-day comparison profile for hierarchy dates. Its calendar citation is the vendor sample, not XIX.4, and no solar-root tolerance is assigned. This is optional; default, separate birth-balance profiles and outcome abstention are unchanged.
+
+`python3 -m engine.calendar_comparison --birth-date 2000-01-01 --birth-time 14:30 --birth-tz Asia/Kolkata --at '2026-01-01T00:00:00+00:00'` reports the3x3 calendar/balance matrix with valid estimates and invalid reasons, without clipping, fallback, majority voting or a winner. Active-lord agreement remains convention agreement, never verified personal timing/outcomes.
