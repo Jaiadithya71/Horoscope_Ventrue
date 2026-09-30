@@ -434,3 +434,14 @@ of an alternative occupant numeric formula. No fractions are copied to that
 order, and no category/refinement addition or school selection follows.
 Pathak source-only CLI now exposes both IV.4 motion/rays and IV.8 checks along
 with the prior three, without astronomy inputs or app-default changes.
+
+PathakIV.9 actualPDF68/printed48 and1937actualPDF74/printed37 original pixels
+independently retain seventh-aspect primary emphasis beside explicitly
+attributed other-teachers special-aspect efficacy in yogas. Hindi says those
+special aspects are equally important;1937English says not less efficacious.
+The Sanskrit lower-result phrase includes negation, not an unqualified assertion
+that the attributed view weakens special aspects. New source-only
+`pathak_aspect_efficacy_audit` separates these views and their scope. This does
+not deny special-aspect geometry, assign numeric efficacy or select a qualifying
+aspect definition for VII.28/XV.5 or any other condition. PathakCLI now exposes
+six checks. No aspect-helper, app output, school winner or global priority changes.
