@@ -105,7 +105,7 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
             'dignity':{p:dignity(p,x['sign'],x.get('longitude')) for p,x in placements.items()},
             'sign_exchanges':exchanges(placements),
             'maha_purusha_conditions':mahapurusha(ascendant_sign,placements),
-            'missing_strength_components':['source-selected complete temporal profile (standalone solar-clock/declination/third/lord helpers available)','numeric motional (retrograde condition only)','automatic source-selected seven-varga numerical aggregation (explicit-input direct-owner helper available)','automatic combustion thresholds','signed aspect-strength total (unsigned degree amounts implemented)','source-selected complete positional profile','source-selected total sixfold strength'],
+            'missing_strength_components':['source-selected complete temporal profile (standalone solar-clock/declination/third/lord helpers available)','automatic traditional motional-angle generation (supplied Cheshtakendra helper available)','automatic source-selected seven-varga numerical aggregation (explicit-input direct-owner helper available)','automatic combustion thresholds','automatic signed aspect profile (explicit-classification adjustment helper available)','source-selected complete positional profile','source-selected total sixfold strength'],
             'unresolved_conventions':['phase complement and Sun/Moon multipliers','Rasi versus degree-Bhava house-category interpretation','exact Sandhi membership','global outcome precedence'],
             'sixfold_source':SOURCE_SIXFOLD,
             'notice':'No total strength score, comparative rank, or outcome is justified by these partial factors.'}
