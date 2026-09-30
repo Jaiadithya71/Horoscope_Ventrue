@@ -46,12 +46,21 @@ def main():
  a.add_argument('--birth-date',required=True);a.add_argument('--birth-time',required=True)
  a.add_argument('--birth-tz',required=True);a.add_argument('--birth-place',required=True)
  a.add_argument('--birth-lat',required=True,type=float);a.add_argument('--birth-lon',required=True,type=float)
+ a.add_argument('--include-modern-degree-geometry',action='store_true',
+   help='Explicitly evaluate the Sripati degree-geometry candidate from this chart modern Swiss Lahiri ascendant/MC; not historical profile selection')
  a.add_argument('--main-lord',required=True,choices=list(dict(PERIODS)))
  a.add_argument('--sub-lord',required=True,choices=list(dict(PERIODS)))
  args=a.parse_args()
  try:
   n=natal_chart(args.birth_date,args.birth_time,args.birth_tz,args.birth_lat,args.birth_lon,args.birth_place)
-  x=period_condition_report(n['ascendant']['sign'],n['placements'],args.main_lord,args.sub_lord)
+  g=n['sripati_degree_geometry'] if args.include_modern_degree_geometry else None
+  usable=g is not None and g.get('status')!='unavailable'
+  x=period_condition_report(n['ascendant']['sign'],n['placements'],args.main_lord,args.sub_lord,
+    geometry=g if usable else None,geometry_profile='Sripati quadrant trisection of modern Swiss Moshier Lahiri ascendant/MC candidate' if usable else None)
+  x['degree_geometry_input_context']={'requested':args.include_modern_degree_geometry,
+    'available':usable if args.include_modern_degree_geometry else None,
+    'geometry':g,'midheaven':n['midheaven'] if args.include_modern_degree_geometry else None,
+    'notice':'Explicit optional modern-anchor candidate, not source-selected historical ephemeris. Unavailable geometry is not replaced by whole-sign houses.'}
   x['chart_input_context']={k:n[k] for k in ('birth_utc','birth_place','latitude','longitude','ascendant','model')}
   print(json.dumps(x,indent=2))
  except ValueError as exc:a.error(str(exc))
