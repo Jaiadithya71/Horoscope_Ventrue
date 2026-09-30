@@ -79,3 +79,19 @@ class DeclinationAndClockTests(unittest.TestCase):
         self.assertEqual(x['candidates'][0]['rupa'],.5)
         self.assertEqual(x['later_moon_multiplier_evidence']['doubled_candidates'][0]['rupa'],1)
         self.assertIsNone(pakshabala_candidates('Mercury',0,90)['later_moon_multiplier_evidence'])
+
+class ParityTests(unittest.TestCase):
+    def test_original_worked_positions(self):
+        from engine.continuous_strength import yugmayugmabala
+        # Source's Sun17d43m30s: Aries/Virgo. Moon Capricorn/Taurus.
+        self.assertEqual(yugmayugmabala('Sun',17+43/60+30/3600)['rupa'],.25)
+        self.assertEqual(yugmayugmabala('Moon',284)['rupa'],.5)
+        self.assertEqual(yugmayugmabala('Mars',359)['rupa'],0)
+
+    def test_half_open_sign_and_navamsa_boundaries(self):
+        from engine.continuous_strength import yugmayugmabala
+        self.assertEqual(yugmayugmabala('Sun',0)['rupa'],.5)
+        self.assertEqual(yugmayugmabala('Moon',0)['rupa'],0)
+        self.assertEqual(yugmayugmabala('Venus',45)['rupa'],.5)
+        self.assertEqual(yugmayugmabala('Mercury',45)['rupa'],0)
+        with self.assertRaises(ValueError):yugmayugmabala('Rahu',0)

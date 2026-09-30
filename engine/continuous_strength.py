@@ -52,6 +52,7 @@ def continuous_components(placements,bhava_centres=None):
         if planet not in NEECHA or p.get('longitude') is None:continue
         rows[planet]={'uchchabala':uchchabala(planet,p['longitude']),
                       'naisargikabala':naisargikabala(planet),
+                      'yugmayugmabala':yugmayugmabala(planet,p['longitude']),
                       'pakshabala_candidates':pakshabala_candidates(planet,placements['Sun']['longitude'],placements['Moon']['longitude']) if placements.get('Sun',{}).get('longitude') is not None and placements.get('Moon',{}).get('longitude') is not None else None,
                       'digbala':digbala(planet,p['longitude'],bhava_centres) if bhava_centres is not None else None}
     return {'planets':rows,'status':'partial_numeric_components',
@@ -125,3 +126,19 @@ def natonnatabala(planet,hours_after_local_solar_midnight):
             'source':source('9-10 commentary',57,43),
             'classification_source':source('9-10',56,42),
             'notice':'Sripati profile: Venus day, Saturn night. Phaladeepika IV.1 assigns Venus night and Saturn day. Supplied solar clock must be independently grounded; not civil clock time.'}
+
+
+def yugmayugmabala(planet,longitude):
+    from .vargas import six_vargas
+    from .forecast import SIGNS
+    if planet not in NEECHA:raise ValueError('Classical planet required')
+    rows=six_vargas(longitude)['vargas']
+    preferred_even=planet in ('Moon','Venus')
+    signs=[rows[0]['sign'],rows[3]['sign']]
+    matches=[((SIGNS.index(sign)+1)%2==0)==preferred_even for sign in signs]
+    return {'planet':planet,'rasi':signs[0],'navamsa':signs[1],
+            'preferred_parity':'even' if preferred_even else 'odd',
+            'rasi_rupa':.25 if matches[0] else 0,'navamsa_rupa':.25 if matches[1] else 0,
+            'rupa':.25*sum(matches),'source':source('4',49,35),
+            'worked_example_source':source('4 commentary',50,36),
+            'notice':'Rasi/Navamsa parity component only, not seven-varga aggregation or total positional strength.'}
