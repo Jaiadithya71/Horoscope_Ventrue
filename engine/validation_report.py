@@ -73,6 +73,7 @@ from .bphs_jha_aspect_report import bphs_jha_source_validation
 from .jha_strength_threshold_audit import jha_strength_threshold_audit
 from .jha_dasha_balance_audit import jha_dasha_balance_audit
 from .jha_traversal_moon import jha_traversal_moon_audit
+from .jha_daily_interpolation_audit import jha_daily_interpolation_audit
 
 
 def validation_report():
@@ -110,6 +111,7 @@ def validation_report():
     'jha_strength_threshold_source_audit':jha_strength_threshold_audit(),
     'jha_dasha_balance_source_audit':jha_dasha_balance_audit(),
     'jha_traversal_moon_source_audit':jha_traversal_moon_audit(),
+    'jha_daily_interpolation_source_audit':jha_daily_interpolation_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
