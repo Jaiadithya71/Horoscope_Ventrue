@@ -4,6 +4,8 @@ from .pathak_solar_target_audit import pathak_solar_target_audit
 from .pathak_period_reading_audit import pathak_period_reading_audit
 from .lagna_house_strength_connective import lagna_house_strength_connective
 from .precedence_inventory import precedence_inventory
+from .pathak_motion_ray_audit import pathak_motion_ray_audit
+from .pathak_angular_strength_audit import pathak_angular_strength_audit
 
 
 def pathak_validation_report():
@@ -11,7 +13,9 @@ def pathak_validation_report():
     return {'status': 'source_validation_not_forecast',
             'checks': {'normalized_balance_and_angular_target': pathak_solar_target_audit(),
                        'disposition_vargottama_and_pair_scope': pathak_period_reading_audit(),
-                       'explicit_lagna_house_or_lord_connective': connective},
+                       'explicit_lagna_house_or_lord_connective': connective,
+                       'motion_ray_connective': pathak_motion_ray_audit(),
+                       'angular_strength_corroboration': pathak_angular_strength_audit()},
             'local_precedence_scope': [r for r in precedence_inventory()['scope_records']
                                       if r['id'] == 'strong_dusthana_owner_main_period_clause'],
             'additional_existing_source_reports': [
@@ -22,6 +26,7 @@ def pathak_validation_report():
                 'Angular commentary convention does not select Balaji settings or a universal critical text',
                 'XX14 favorable connective and XX22 other-house subperiod scope remain unresolved',
                 'XV27 Hindi OR is explicit but adverse weakness quantifier/global priority unselected',
+                'IV4 physical ray definition and IV8 attributed alternate lord/occupant scope unselected',
                 'Complete natal strength, relation classification and third/solar clock conventions remain open',
                 'Publisher rights reserved in2007 reprint; scan watermark is not clearance'],
             'selected_natal_total': None, 'selected_calendar_profile': None,

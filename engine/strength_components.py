@@ -1,5 +1,4 @@
 """Partial IV.2-3/8 strength evidence, never total Shadbala or an outcome."""
-from .forecast import SIGNS, sign_index
 
 
 def source(verse,page,printed):
@@ -7,6 +6,7 @@ def source(verse,page,printed):
             'pdf_page':page,'printed_page':printed,'verified_against_page_image':True}
 
 DIRECTION_HOUSES={'Sun':10,'Mars':10,'Venus':4,'Moon':4,'Mercury':1,'Jupiter':1,'Saturn':7}
+KENDRA_REFINEMENT={1:1.0,4:0.25,7:0.75,10:0.5}
 NATURAL_ORDER=('Saturn','Mars','Mercury','Jupiter','Venus','Moon','Sun')
 
 
@@ -17,6 +17,7 @@ def components(ascendant_sign,placements):
     Keep both as separate candidates rather than add them or choose a winner.
     IV.2 directional signs are evidence, not exact angular Digbala values.
     """
+    from .forecast import sign_index
     reference=sign_index(ascendant_sign)
     rows={}
     for planet,p in placements.items():
@@ -28,7 +29,7 @@ def components(ascendant_sign,placements):
         fraction={'kendra':1.0,'panaphara':0.5,'apoklima':0.25}[category]
         candidates=[{'rule':'bhava_category','rupa':fraction,'source':source('3',72,35)}]
         if category=='kendra':
-            candidates.append({'rule':'kendra_refinement','rupa':{1:1.0,4:0.25,7:0.75,10:0.5}[house],
+            candidates.append({'rule':'kendra_refinement','rupa':KENDRA_REFINEMENT[house],
                                'source':source('8',74,37)})
         motion=None
         if planet not in ('Sun','Moon'):

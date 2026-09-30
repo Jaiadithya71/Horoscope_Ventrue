@@ -423,3 +423,14 @@ and exposes simultaneous positive/negative and full-ray/obscuration evidence.
 It does not define rays, derive obscuration or numeric strength, replace existing
 IV.4/7 reports or select global priority. IV.3/7 do not settle the separate
 Sripati own-Shadvarga refinement quantifier. App and birth-input defaults unchanged.
+
+PathakIV.8 commentary actualPDF68/printed48 pixels independently confirms the
+existing Kendra refinement4th=.25,10th=.5,7th=.75,Lagna=1. New
+`pathak_angular_strength_audit` checks the existing fraction constant without astronomy; tests also run four
+synthetic house probes against that existing helper rather than duplicating it. Commentary attributes an increasing
+1/4/7/10 order to Laghu Parashari, but the quoted verse says Kendra lords.
+This attribution is not independent verification of Laghu Parashari, nor proof
+of an alternative occupant numeric formula. No fractions are copied to that
+order, and no category/refinement addition or school selection follows.
+Pathak source-only CLI now exposes both IV.4 motion/rays and IV.8 checks along
+with the prior three, without astronomy inputs or app-default changes.
