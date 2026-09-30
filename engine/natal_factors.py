@@ -94,7 +94,9 @@ def natal_factors(ascendant_sign, placements, bhava_centres=None):
     from .continuous_strength import continuous_components
     from .degree_aspects import degree_aspect_evidence
     from .friendship import compound_relationship_candidates
-    return {'compound_relationship_candidates':compound_relationship_candidates(placements),
+    from .lordship_precedence import lordship_precedence
+    return {'scoped_lordship_precedence':lordship_precedence(ascendant_sign),
+            'compound_relationship_candidates':compound_relationship_candidates(placements),
             'degree_aspect_evidence':degree_aspect_evidence(placements),
             'continuous_strength_components':continuous_components(placements,bhava_centres),
             'scoped_strength_conditions':{p:condition_precedence(p,x['sign'],x.get('longitude'),x.get('retrograde'),x.get('overpowered_sun_rays')) for p,x in placements.items()},
