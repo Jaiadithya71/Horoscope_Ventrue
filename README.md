@@ -94,3 +94,15 @@ The strict JSON fields are target, longitudes, classifications,
 coordinate_profile and classification_profile. Missing positions/classes and
 unresolved geometry endpoints stay unavailable, not automatically filled from a
 birth chart or another book. This fixture is synthetic and not a natal total.
+
+Independent JhaSudha edition checks are collected separately:
+
+```bash
+python3 -m engine.jha_validation_report > jha-source-checks.json
+```
+
+The five checks retain directed-aspect boundary disagreements, printed strength
+threshold/layout conflicts, normalized birth-balance and solar-target arithmetic,
+time-fraction Moon construction, and Sun interpolation clock/speed limitations.
+The local same-house yoga comparison is separate from global outcome precedence.
+This report is source validation, not a forecast or predictor readiness score.
