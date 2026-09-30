@@ -58,3 +58,15 @@ class HouseCliTests(unittest.TestCase):
    json.dump({'automatic_global_winner':True},f);f.flush()
    p=self.run_cli('--condition-file',f.name)
    self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
+
+ def test_input_schema_typos_not_ignored(self):
+  import tempfile,json
+  cases=[('--strength-file',{'profile':'test','bhavva':True}),
+         ('--condition-file',{'xv6_clauses':[]}),
+         ('--classification-file',{'profile':'test','classes':{},'selected_global_winner':True}),
+         ('--classification-file',{'profile':True,'classes':{}}),
+         ('--condition-file',[])]
+  for flag,value in cases:
+   with self.subTest(flag=flag,value=value), tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+    json.dump(value,f);f.flush();p=self.run_cli(flag,f.name)
+    self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')

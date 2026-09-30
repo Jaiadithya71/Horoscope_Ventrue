@@ -27,7 +27,8 @@ def house_condition_report(house,reference_sign,placements,classifications,*,
    strength_profile=strength_profile,planet_houses=houses)})
  lord_conditions=chart_xv3_lord_candidates(house,reference_sign,placements,classifications,
   classification_profile=classification_profile,eclipsed=lord_eclipsed,inimical_sign=lord_inimical_sign)
- clauses=xv6_clauses or {}
+ if xv6_clauses is not None and not isinstance(xv6_clauses,dict):raise ValueError('XV.6 clause object required')
+ clauses={} if xv6_clauses is None else xv6_clauses
  if set(clauses)-{'all_three_weak','afflicted_without_benefics','adverse_relative_occupation'}:
   raise ValueError('Unknown XV.6 clause key')
  return {'house':house,'reference_sign':reference_sign,'house_lord':lord,
@@ -55,8 +56,11 @@ def main():
  try:
   from pathlib import Path
   classes=json.loads(Path(args.classification_file).read_text())
+  if not isinstance(classes,dict) or set(classes)!={'profile','classes'} or not isinstance(classes['classes'],dict):raise ValueError('Classification requires only profile and classes objects')
   strength=json.loads(Path(args.strength_file).read_text()) if args.strength_file else {}
+  if not isinstance(strength,dict) or set(strength)-{'profile','bhava','lord','karaka'}:raise ValueError('Unknown supplied strength key or invalid object')
   conditions=json.loads(Path(args.condition_file).read_text()) if args.condition_file else {}
+  if not isinstance(conditions,dict):raise ValueError('Condition object required')
   if set(conditions)-{'lord_eclipsed','lord_inimical_sign','xv6_clauses'}:raise ValueError('Unknown supplied condition key')
   n=natal_chart(args.birth_date,args.birth_time,args.birth_tz,args.birth_lat,args.birth_lon,args.birth_place)
   r=house_condition_report(args.house,n['ascendant']['sign'],n['placements'],classes['classes'],

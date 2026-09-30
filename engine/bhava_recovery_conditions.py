@@ -43,7 +43,8 @@ def chart_xv5_candidates(house,ascendant_sign,placements,classifications,*,class
  from .synthesis import LORDS,LORD_SOURCE,ASPECT_SOURCE
  from .friendship import CLASSICAL
  if type(house) is not int or not 1<=house<=12:raise ValueError('House1..12 required')
- if not classification_profile:raise ValueError('Named supplied classification profile required')
+ if not isinstance(classification_profile,str) or not classification_profile.strip():raise ValueError('Named supplied classification profile required')
+ if not isinstance(classifications,dict):raise ValueError('Classifications object required')
  if any(p not in CLASSICAL or k not in ('benefic','malefic') for p,k in classifications.items()):
   raise ValueError('Supplied classical benefic/malefic classes required')
  asc=sign_index(ascendant_sign);target=(asc+house-1)%12
