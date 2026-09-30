@@ -12,3 +12,13 @@ class AuxiliaryTests(unittest.TestCase):
  def test_invalid_inputs(self):
   for a,b in [([0]*5,[0]*6),([True]*6,[0]*6),([1000]*6,[0]*6),([0]*6,[-1]*6),('bad',[0]*6)]:
    with self.assertRaises(ValueError):combine_auxiliaries(a,b)
+
+class ComponentTests(unittest.TestCase):
+ def test_discrepancy_is_not_fixed(self):
+  from engine.ketkar_auxiliary_audit import attraction_component_audit
+  r=attraction_component_audit()
+  self.assertFalse(r['rows']['saturn_end']['matches'])
+  self.assertEqual(r['rows']['saturn_end']['computed_sum_days'],'24.22')
+  self.assertEqual(r['rows']['saturn_end']['computed_minus_printed_days'],'0.02')
+  self.assertIsNone(r['selected_attraction_days'])
+  self.assertFalse(r['table9_lookup_reconstructed'])
