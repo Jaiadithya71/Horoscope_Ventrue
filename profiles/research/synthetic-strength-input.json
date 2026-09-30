@@ -1,0 +1,23 @@
+{
+  "birth": {
+    "date": "2000-01-01", "time": "14:30", "timezone": "Asia/Kolkata",
+    "latitude": 13.0, "longitude": 80.0,
+    "place": "Synthetic example, not a user birth record"
+  },
+  "supplied_strength": {
+    "Sun": {
+      "source_layout": "raman_art121_ayana_in_kala", "unit": "virupa",
+      "components": {"sthana": 100, "dig": 20, "kala_including_ayana": 30,
+        "chesta_excluding_ayana": 10, "natural": 5, "signed_drik": -5},
+      "declared_complete": true, "component_profile": "Synthetic supplied rows, not computed from this birth chart",
+      "war_treatment": "confirmed_no_war"
+    },
+    "Moon": {
+      "source_layout": "sripati_iii20_supplied_base", "unit": "rupa",
+      "components": {"sthana": 1, "dig": 1, "kala": null, "natural": 1,
+        "cheshta_including_ayana": 1},
+      "layout": "five_classes_inclusive_motion", "complete": false,
+      "component_profile": "Synthetic incomplete base rows, not computed from this birth chart"
+    }
+  }
+}

@@ -48,16 +48,23 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
   for planet,entry in supplied_strength.items():
    if not isinstance(entry,dict):raise ValueError('Strength declaration must be object')
    profile=entry.get('source_layout')
+   expected_unit={'raman_art121_ayana_in_kala':'virupa','sripati_iii20_supplied_base':'rupa'}.get(profile)
+   if 'unit' in entry and entry['unit']!=expected_unit:raise ValueError('Declared unit conflicts with source layout; no automatic conversion')
+   unit_explicit='unit' in entry
+   declaration={k:v for k,v in entry.items() if k!='unit'}
    if profile=='raman_art121_ayana_in_kala':
     required={'source_layout','components','declared_complete','component_profile','war_treatment'}
-    if set(entry)!=required:raise ValueError('Exact Raman declaration fields required')
-    evidence=raman_supplied_composition(**{k:v for k,v in entry.items() if k!='source_layout'})
+    if set(declaration)!=required:raise ValueError('Exact Raman declaration fields required')
+    evidence=raman_supplied_composition(**{k:v for k,v in declaration.items() if k!='source_layout'})
    elif profile=='sripati_iii20_supplied_base':
     required={'source_layout','components','layout','complete','component_profile'}
-    if set(entry)!=required:raise ValueError('Exact Sripati base declaration fields required')
-    evidence=supplied_layout_audit(**{k:v for k,v in entry.items() if k!='source_layout'})
+    if set(declaration)!=required:raise ValueError('Exact Sripati base declaration fields required')
+    evidence=supplied_layout_audit(**{k:v for k,v in declaration.items() if k!='source_layout'})
    else:raise ValueError('Known explicit source layout required; no inferred layout')
    strength.append({'planet':planet,'source_layout':profile,'evidence':evidence,
+    'input_unit':expected_unit,'unit_explicitly_declared':unit_explicit,
+    'unit_origin':'caller declaration' if unit_explicit else 'legacy source-layout contract',
+    'unit_conversion_applied':False,
     'chart_identity_match_verified':False,'converted_to_condition_strength_flag':False})
  chart=natal_chart(**birth)
  period=None if period_pair is None else period_condition_report(chart['ascendant']['sign'],chart['placements'],**period_pair)

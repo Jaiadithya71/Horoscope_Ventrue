@@ -242,3 +242,19 @@ commentary candidate when that owner's placement is present. These remain
 context, not selected XX.14 friendly/inimical flags. Self-owned signs do not
 create a self-friendship, and node applicability stays unknown. Solar-ray
 commentary thresholds likewise remain candidates, not confirmed overrides.
+
+For new strength declarations include `unit: virupa` for the Raman layout or
+`unit: rupa` for the Sripati supplied-base layout. A conflicting or unknown unit
+is rejected; nothing is silently converted. Earlier declarations without `unit`
+remain compatible with their fixed source-layout contract and are marked as
+legacy units in the report. The output always names the input unit.
+
+```bash
+python3 -m engine.research_input_report \
+  --input-json profiles/research/synthetic-strength-input.json
+```
+
+This second synthetic sample has declared Raman rows and an incomplete Sripati
+base with unknownKala. It demonstrates separate units and missing-component
+abstention, not coherent strengths calculated from the example birth chart.
+No cross-source combined sum is produced.
