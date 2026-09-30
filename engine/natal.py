@@ -60,10 +60,12 @@ def natal_chart(date, time, timezone, latitude, longitude, place):
     from .synthesis import structural_factors
     from .natal_factors import natal_factors
     from .bhava_geometry import bhava_geometry,house_membership
+    from .bhava_effectiveness import bhava_effectiveness
     try:
         degree_geometry=bhava_geometry(asc,axes[1]%360)
         for planet,p in placements.items():
             p['sripati_degree_house']=house_membership(p['longitude'],degree_geometry)
+            p['bhava_effectiveness_evidence']=bhava_effectiveness(p['longitude'],degree_geometry)
         centres=degree_geometry['centres']
     except ValueError as exc:
         degree_geometry={'status':'unavailable','reason':str(exc),'notice':'No substitute geometry inferred, e.g. for polar/reversed anchors.'}

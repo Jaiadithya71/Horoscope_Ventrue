@@ -123,3 +123,5 @@ Compound relations now expose separate Rasi-relative and Lagna-Bhava-relative ca
 `motional_strength.py` folds externally supplied traditional Cheshtakendra, not modern speed; Sun/Moon stay outside this slice. `signed_aspect_strength.py` calculates the III.20 quarter-aspect adjustment only with complete caller-grounded classifications/longitudes. Neither helper supplies a full strength total or automatic natal selection. Printed motion-table truncation/rounding differences remain explicit in the audit and output.
 
 Natal output now exposes `scoped_lordship_precedence` from page-checked Phaladeepika XV.10-11. It distinguishes Lagna/dusthana exception from general Moolatrikona dual-ownership emphasis, retaining overlapping evidence. It is not a global outcome weighting rule; half-dasha ordering translations disagree and no timing winner is selected.
+
+`bhava_effectiveness_evidence` is a separate XV.13-14 historical centre/Sandhi rule-of-three fraction in natal placements. It keeps exact boundary assignment unresolved while preserving boundary qualification despite strength. No near-boundary orb, probability, occurrence or outcome is inferred.
