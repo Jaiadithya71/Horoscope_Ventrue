@@ -37,3 +37,19 @@ class RecoveryTests(unittest.TestCase):
   r=chart_xv5_candidates(7,'Aries',{'Venus':{'sign':'Virgo'}},{},classification_profile='unresolved classes')
   self.assertIsNone(r['candidates'][0]['condition_evidence']['benefic_aspect_exception'])
   with self.assertRaises(ValueError):chart_xv5_candidates(7,'Aries',{}, {'Rahu':'benefic'},classification_profile='bad')
+
+ def test_house_aspect_does_not_protect_lord(self):
+  from engine.bhava_recovery_conditions import xv3_lord_condition
+  lord=xv3_lord_condition(True,False,False,False,False,False)
+  house=xv5_recovery_condition(True,False,True)
+  self.assertTrue(lord['adverse_lord_without_benefic_influence'])
+  self.assertTrue(house['benefic_aspect_exception'])
+  self.assertIsNone(lord['personal_outcome']);self.assertIsNone(house['selected_personal_effect'])
+ def test_missing_lord_influence_not_absence(self):
+  from engine.bhava_recovery_conditions import xv3_lord_condition
+  self.assertIsNone(xv3_lord_condition(depressed=True)['adverse_lord_without_benefic_influence'])
+ def test_xv6_connective_axes(self):
+  from engine.bhava_recovery_conditions import xv6_connective_candidates
+  self.assertEqual([r['condition'] for r in xv6_connective_candidates(True,False,False)['candidates']],[False,True])
+  self.assertEqual([r['condition'] for r in xv6_connective_candidates(None,None,True)['candidates']],[True,True])
+  self.assertEqual([r['condition'] for r in xv6_connective_candidates()['candidates']],[None,None])

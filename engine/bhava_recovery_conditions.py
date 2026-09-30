@@ -89,3 +89,36 @@ def chart_xv5_candidates(house,ascendant_sign,placements,classifications,*,class
   'candidates':rows,'geometry_sources':[LORD_SOURCE,ASPECT_SOURCE],
   'selected_profile':None,'personal_outcome':None,
   'notice':'KapoorXV.5 specifies Lagna placement, original translation leaves dusthana frame less explicit. Both reference frames remain hypotheses. Degree-Bhava occupation does not change sign ownership or make sign aspects centre-target degree aspects. Partial positions/classes can prove a supplied qualifying aspect, but cannot prove its absence. No selected benefic class, strength, global recovery or personal effect.'}
+
+
+def xv3_lord_condition(lord_in_eighth=None,eclipsed=None,depressed=None,inimical_sign=None,
+                       benefic_associated_with_lord=None,benefic_aspects_lord=None):
+ _validate(lord_in_eighth,eclipsed,depressed,inimical_sign,
+           benefic_associated_with_lord,benefic_aspects_lord)
+ adverse=_or(_or(lord_in_eighth,eclipsed),_or(depressed,inimical_sign))
+ protection=_or(benefic_associated_with_lord,benefic_aspects_lord)
+ return {'adverse_lord_state':adverse,'benefic_lord_influence':protection,
+  'adverse_lord_without_benefic_influence':_and(adverse,_not(protection)),
+  'aspect_target':'house_lord_not_house','personal_outcome':None,
+  'source':{'slug':'phaladeepika-1937','chapter':'XV','sloka':3,'pdf_page':190,
+    'printed_page':153,'verified_against_page_image':True},
+  'notice':'XV.3 lord condition only, not its separate non-lord occupant clause. Eighth reference remains externally grounded. House aspect is not lord aspect/association. Failure does not mean favorable house; no global priority overXV.5 or personal event.'}
+
+
+def xv6_connective_candidates(all_three_weak=None,afflicted_without_benefics=None,
+                             adverse_relative_occupation=None):
+ """Aggregated subclauses supplied independently; quantifiers not invented."""
+ _validate(all_three_weak,afflicted_without_benefics,adverse_relative_occupation)
+ return {'candidates':[
+  {'reading':'original_translation_linked_weakness_and_affliction',
+   'condition':_or(_and(all_three_weak,afflicted_without_benefics),adverse_relative_occupation)},
+  {'reading':'kapoor_enumerated_separate_conditions',
+   'condition':_or(_or(all_three_weak,afflicted_without_benefics),adverse_relative_occupation)}],
+  'supplied_clause_flags':{'all_three_weak':all_three_weak,
+    'afflicted_without_benefics':afflicted_without_benefics,
+    'adverse_relative_occupation':adverse_relative_occupation},
+  'source':{'slug':'phaladeepika-1937','chapter':'XV','sloka':6,'pdf_page':191,
+    'printed_page':154,'verified_against_page_image':True},
+  'comparison_source':{'title':'Kapoor Phaladeepika','pdf_page':147,'verified_against_page_image':True},
+  'selected_profile':None,'personal_outcome':None,
+  'notice':'English connective candidates, not verified alternate Sanskrit schools. House/lord/karaka quantifier, hemmed/associated/aspected clauses and relative occupation reference/quantifier must be externally grounded. Text says synchrony strengthens evidence, not a calibrated count or automatic fatality. No inferred all-three weakness, karaka, strength or global polarity.'}
