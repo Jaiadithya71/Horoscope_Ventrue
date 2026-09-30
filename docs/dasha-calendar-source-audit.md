@@ -109,3 +109,5 @@ Sripati VII.18-20 [original scan](https://archive.org/details/dli.ernet.203510),
 ## Convention uncertainty changes applicable evidence at real numerical boundaries
 
 `engine.convention_condition_report` connects all nine profiles to checked scoped main/subperiod conditions without choosing one. The synthetic fixture at one second after the fixed365.25/longitude first major endpoint routes one profile to Jupiter/Jupiter/Jupiter and others to Rahu/Mars/Moon or Rahu/Mars/Venus. Regression verifies separate pair evidence and no final outcome. Calendar agreement in another sample is not permission to assume the choice never matters. Period offsets now retain full numerical precision before calendar mapping, with9decimal display fields separately labeled.
+
+Broad half-open regression sweeps6synthetic longitudes and1200offsets each, checks4203unique nested boundaries, and excludes10expected final-horizon ends. These counts test numerical boundary consistency only, not independent astronomical or event accuracy. No observed client predictions form this suite.

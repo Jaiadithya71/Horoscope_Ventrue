@@ -21,3 +21,18 @@ class PeriodPrecisionTests(unittest.TestCase):
   after=dasha_at_solar_offset(1.23456789,e)
   self.assertEqual(before['hierarchy'][2]['lord'],x['hierarchy'][2]['lord'])
   self.assertNotEqual(after['hierarchy'][2]['lord'],x['hierarchy'][2]['lord'])
+ def test_broad_unique_boundary_sweep(self):
+  seen=set();expected_horizon=0
+  for moon in (0,1.23456789,13.333333333333332,40,119.999999999,359.9999999):
+   for step in range(1200):
+    x=dasha_at_solar_offset(moon,step/10)
+    for r in x['hierarchy']:
+     end=r['end_solar_years_after_birth'];key=(moon,r['level'],end)
+     if key in seen:continue
+     seen.add(key)
+     try:y=dasha_at_solar_offset(moon,end)
+     except ValueError as exc:
+      self.assertIn('ten-period horizon',str(exc));expected_horizon+=1;continue
+     z=next(q for q in y['hierarchy'] if q['level']==r['level'])
+     self.assertNotEqual(z['lord'],r['lord'])
+  self.assertEqual(len(seen),4203);self.assertEqual(expected_horizon,10)
