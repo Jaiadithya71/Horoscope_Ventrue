@@ -18,3 +18,22 @@ class RecoveryTests(unittest.TestCase):
   r=xv5_recovery_condition(False,False,True)
   self.assertFalse(r['benefic_aspect_exception']);self.assertIsNone(r['selected_personal_effect'])
   with self.assertRaises(ValueError):xv5_recovery_condition(1)
+
+ def test_house_frame_difference(self):
+  from engine.bhava_recovery_conditions import chart_xv5_candidates
+  r=chart_xv5_candidates(7,'Aries',{'Venus':{'sign':'Taurus'},'Mars':{'sign':'Capricorn'},'Mercury':{'sign':'Capricorn'},'Jupiter':{'sign':'Capricorn'}},{},classification_profile='caller supplied partial')
+  asc=r['candidates'][0]['condition_evidence']['adverse_base_condition']
+  target=r['candidates'][2]['condition_evidence']['adverse_base_condition']
+  self.assertFalse(asc);self.assertTrue(target)
+  self.assertFalse(r['candidates'][0]['condition_evidence']['benefic_aspect_exception'])
+ def test_no_degree_fallback_and_partial_aspect(self):
+  from engine.bhava_recovery_conditions import chart_xv5_candidates
+  r=chart_xv5_candidates(7,'Aries',{'Venus':{'sign':'Virgo'},'Jupiter':{'sign':'Aries'}},{'Jupiter':'benefic'},classification_profile='supplied')
+  self.assertTrue(r['candidates'][0]['condition_evidence']['benefic_aspect_exception'])
+  self.assertIsNone(r['candidates'][4]['lord_house_from_ascendant'])
+  self.assertIsNone(r['selected_profile'])
+ def test_missing_classes_not_no_aspect(self):
+  from engine.bhava_recovery_conditions import chart_xv5_candidates
+  r=chart_xv5_candidates(7,'Aries',{'Venus':{'sign':'Virgo'}},{},classification_profile='unresolved classes')
+  self.assertIsNone(r['candidates'][0]['condition_evidence']['benefic_aspect_exception'])
+  with self.assertRaises(ValueError):chart_xv5_candidates(7,'Aries',{}, {'Rahu':'benefic'},classification_profile='bad')
