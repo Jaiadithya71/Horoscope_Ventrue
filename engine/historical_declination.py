@@ -32,3 +32,24 @@ def historical_ayana_from_longitude(planet,tropical_longitude,*,longitude_profil
     return {'longitude_profile':longitude_profile,'historical_declination':d,
             'ayana_candidates':ayanabala_candidates(planet,d['declination_degrees']),
             'total_strength':None,'notice':'Historical table input only. Sun double/undoubled candidates remain separate. Do not mix with modern declination or silently select a complete strength profile.'}
+
+
+def ayana_zero_point_consistency_audit():
+    """III.15-16 equator sentence versus explicit zero-point arithmetic."""
+    from decimal import Decimal
+    rows=[]
+    for planet in ('Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn'):
+        candidate=ayanabala_candidates(planet,0)
+        base=Decimal(str(candidate['candidates'][0]['rupa']))
+        sentence=Decimal('1')
+        rows.append({'planet':planet,'supplied_declination_degrees':0,
+                     'base_zero_point_rupa':str(base),'equator_sentence_rupa':str(sentence),
+                     'base_matches_equator_sentence':base==sentence,
+                     'explicit_multiplier_rupa':str(base*2) if planet=='Sun' else None,
+                     'source_candidates':candidate,'selected_ayana_rupa':None})
+    return {'rows':rows,'equator_sentence_source':source('15-16 commentary equator sentence',66,52),
+            'zero_point_source':source('15-16 Kesava zero-point/48 method',67,53),
+            'worked_sun_source':source('15-16 worked Sun declination/undoubled result',67,53),
+            'equator_sentence_applies_unqualified_to_planet':True,
+            'source_selected_profile':None,'total_strength':None,
+            'notice':'PDF66 says Ayana of a planet at the equator is a Rupa. The printed zero-point/48 method gives1/2 at zero declination before the Sun-only multiplier. These statements disagree for non-Sun planets; Sun doubling alone cannot reconcile the unqualified sentence. No global doubling, offset, clipping or table-fit correction inferred. This is an internal source-consistency audit, not chart validation.'}
