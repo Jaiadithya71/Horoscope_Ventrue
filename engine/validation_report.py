@@ -70,6 +70,7 @@ from .ketkar_geocentric_geometry import geometry_example
 
 from .raman_validation_report import raman_validation_report
 from .bphs_jha_aspect_report import bphs_jha_source_validation
+from .jha_strength_threshold_audit import jha_strength_threshold_audit
 
 
 def validation_report():
@@ -104,6 +105,7 @@ def validation_report():
     'raman_mean_sun_example_audit':raman_mean_sun_example_audit(),
     'raman_source_validation':raman_validation_report(),
     'bphs_jha_aspect_source_validation':bphs_jha_source_validation(),
+    'jha_strength_threshold_source_audit':jha_strength_threshold_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
