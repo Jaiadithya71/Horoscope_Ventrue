@@ -17,3 +17,10 @@ class AngularTrinalReadingTests(unittest.TestCase):
   self.assertIsNone(gate('Aries','Jupiter','Saturn')['candidates'][0]['unrelated_pair_condition'])
   for pair in [('Mars','Mars'),('Rahu','Ketu')]:
    self.assertTrue(all(r['distinct_pair_ownership_condition'] is None for r in gate('Aries',*pair)['candidates']))
+
+ def test_crosscheck_is_not_translation_winner(self):
+  x=gate('Aries','Jupiter','Saturn')
+  self.assertTrue(x['sanskrit_crosscheck']['negative_harm_wording_corroborated'])
+  self.assertFalse(x['sanskrit_crosscheck']['independent_translation_vote'])
+  self.assertIsNone(x['sanskrit_crosscheck']['critical_edition_arbitration'])
+  self.assertIsNone(x['selected_translation'])

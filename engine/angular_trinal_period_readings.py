@@ -26,5 +26,12 @@ def angular_trinal_period_readings(reference_sign,main_lord,sub_lord,*,related=N
     return {'main_lord':main_lord,'sub_lord':sub_lord,'evidence_profile':evidence_profile,'candidates':rows,
         'sources':[{'url':'https://archive.org/details/in.ernet.dli.2015.92117','pdf_page':253,'printed_page':216,'chapter':'XX','sloka':49,'verified_against_page_image':True},
             {'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf','pdf_page':192,'chapter':'XX','sloka':49,'verified_against_page_image':True}],
+        'sanskrit_crosscheck':{'sources':['https://www.siva.sh/phaladeepika/20/49',
+            'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/phaladIpika.itx'],
+            'negative_harm_wording_corroborated':True,
+            'text_variant':'1937 page ends with dual papakritau; fetched online transcriptions end with singular papakrit',
+            'independent_translation_vote':False,
+            'critical_edition_arbitration':None,
+            'notice':'Siva English repeats1937 wording/typos. Volunteer transcription is corroboration, not critical text or separate translation authority. Negative harm language is not a general positive-good assertion; full transcription is not redistributed.'},
         'selected_trikona_scope':None,'selected_translation':None,'personal_outcome':None,'global_precedence':None,
         'notice':'The base clause describes good effects for alternating Kendra/Trikona lord periods; the explicit unrelated clause differs between these English translations. No-harm is not automatically favorable. XX.49 does not enumerate Trikona houses, so fifth/ninth and Lagna-inclusive ownership candidates remain separate, not a source-selected profile. No self-pair extension, global cancellation, selected relation, active period date or forecast.'}
