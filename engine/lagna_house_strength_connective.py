@@ -27,6 +27,8 @@ def chart_lagna_strength_candidates(house,reference_sign,placements,*,bhava_stro
     from .synthesis import LORDS
     from .forecast import sign_index
     if type(house) is not int or not 1<=house<=12:raise ValueError('Target house1..12 required')
+    from .chart_evidence_inputs import validate_sign_longitude
+    validate_sign_longitude(placements)
     for f in (bhava_strong,lord_strong):
         if f is not None and type(f) is not bool:raise ValueError('Supplied strength flags bool or unknown required')
     if lord_strong is True and lord_status=='weak':raise ValueError('Conflicting supplied lord strength declarations')

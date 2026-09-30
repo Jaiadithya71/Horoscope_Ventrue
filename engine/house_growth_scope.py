@@ -26,6 +26,9 @@ def chart_house_growth_candidates(house,reference_sign,placements,classification
     from .forecast import sign_index
     from .friendship import CLASSICAL
     if type(house) is not int or not 1<=house<=12:raise ValueError('Target house1..12 required')
+    from .chart_evidence_inputs import validate_sign_longitude
+    validate_sign_longitude(placements)
+    if not isinstance(classifications,dict) or any(p not in CLASSICAL or c not in ('benefic','malefic') for p,c in classifications.items()):raise ValueError('Classical supplied benefic/malefic classes required')
     rows=[]
     for profile in ('whole_sign','sripati_degree_bhava'):
         evidence=[];unknown=[]

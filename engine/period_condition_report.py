@@ -28,12 +28,15 @@ def period_condition_report(reference_sign,placements,main_lord,sub_lord,*,geome
                     'commentary_conditioned_candidates':candidates,'selected_result':None})
  owners=lordship_precedence(reference_sign)
  owners['dual_owner_evidence']=[r for r in owners['dual_owner_evidence'] if r['planet'] in (main_lord,sub_lord)]
+ other=dual_owner_occupation_exception(reference_sign,{p:v for p,v in placements.items() if p in (main_lord,sub_lord)})
+ other['rows']=[r for r in other['rows'] if r['planet'] in (main_lord,sub_lord)]
+ other['lord_pair_scope']={'main_lord':main_lord,'sub_lord':sub_lord,'single_owner_or_node_lords_have_no_dual_owner_row':True}
  return {'main_lord':main_lord,'sub_lord':sub_lord,
     'lord_pair_origin':'Explicit caller input, not inferred active date or selected dasha/calendar convention',
     'period_school_conflict':school,'unfavorable_house_candidates':houses,
     'exact_sandhi_period_gate':period_sandhi_gate(placements,main_lord,sub_lord,geometry=geometry,geometry_profile=geometry_profile),
     'vargottama_qualification_candidates':qualified,'lordship_emphasis':owners,
-    'xv29_own_other_house_exception':dual_owner_occupation_exception(reference_sign,{p:v for p,v in placements.items() if p in (main_lord,sub_lord)}),
+    'xv29_own_other_house_exception':other,
     'selected_strength_total':None,'selected_calendar':None,'personal_outcome':None,
     'global_precedence':None,'status':'scoped_condition_evidence_only',
     'notice':'No vote, numerical weights or global winner between these different scopes. A specific exception within one verse cannot override another verse or unchosen school. Absence of a checked conflict is not correctness or a forecast. Birth/motion/geometry uncertainty and missing source selection remain.'}

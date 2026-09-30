@@ -7,6 +7,8 @@ COMPARISON={'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladee
 
 
 def dual_owner_occupation_exception(reference_sign,placements):
+    from .chart_evidence_inputs import validate_sign_longitude
+    validate_sign_longitude(placements)
     houses=lordship(reference_sign)['houses'];rows=[]
     for planet in ('Mars','Mercury','Jupiter','Venus','Saturn'):
         owned=[h for h in houses if h['lord']==planet]
