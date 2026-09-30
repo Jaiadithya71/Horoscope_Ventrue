@@ -14,6 +14,7 @@ def precedence_inventory():
         ('three_strength_alternative','bhava_condition_gate','XV.25-26',[198],'all-three condition retained beside explicit others-say placement','no school winner from supplied strength'),
         ('lagna_strength_connective','lagna_house_strength_connective','XV.27',[199],'OR and AND English connective candidates retained','adverse weakness quantifier and Sanskrit resolution unselected'),
         ('own_other_house','dual_owner_occupation_exception','XV.29',[199,200],'other-own-house occupation excludes dusthana ownership in this clause','does not cancel all adverse chart conditions'),
+        ('lord_period_disposition','period_disposition_gate','XX.14',[241],'favorable and adverse alternatives can both apply','friendship/rays/geometry and later favorable connective remain unselected'),
         ('vargottama_qualification','vargottama_period_qualification','XX.22',[245],'fall/rays qualify favorable Vargottama reading to mixed','no universal override'),
         ('period_school_conflict','period_school_conflict','XXI.41',[269],'Jupiter main/Mercury subperiod opposite schools retained','no school selected by strength or timing')]
     return {'scope_records':[{'id':i,'implementation':m,'checked_scope':s,'remaining_boundary':b,

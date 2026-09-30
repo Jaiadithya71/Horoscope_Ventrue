@@ -21,3 +21,35 @@ def period_disposition_gate(*,retrograde=None,own_sign=None,exaltation_sign=None
             {'url':'https://jyotishvidya.com/HTMLobj-9415/Mantreswara_s__Phaladeeplka_.pdf','pdf_pages':[183,184],'chapter':'XX','sloka':14,'verified_against_page_image':True}],
         'selected_polarity':None,'personal_outcome':None,'global_precedence':None,
         'notice':'Original translation lists retrograde/own/exaltation/friendly/good-house alternatives before favorable lord-period descriptions and inimical/fall/rays/dusthana before adverse descriptions. Kapoor omits friendly in favorable list and its favorable connective wording is not selected here. Simultaneous favorable/adverse evidence remains a conflict, not resolved by one boolean. This gates condition evidence only, not chapter outcomes, strength completeness or active calendar.'}
+
+
+def chart_period_disposition_candidates(reference_sign,placements,main_lord,sub_lord):
+    from .chart_evidence_inputs import validate_sign_longitude
+    from .forecast import sign_index
+    from .natal_factors import dignity
+    from .friendship import CLASSICAL
+    validate_sign_longitude(placements)
+    asc=sign_index(reference_sign);rows=[]
+    for lord in dict.fromkeys((main_lord,sub_lord)):
+        p=placements.get(lord,{})
+        sign=p.get('sign');longitude=p.get('longitude')
+        d=None if sign is None or lord not in CLASSICAL else dignity(lord,sign,longitude)
+        flags={} if d is None else d['flags']
+        for frame in ('whole_sign','sripati_degree_bhava'):
+            if frame=='whole_sign':h=None if sign is None else (sign_index(sign)-asc)%12+1
+            else:
+                h=p.get('sripati_degree_house');h=h.get('house') if isinstance(h,dict) else h
+            if h is not None and (type(h) is not int or not 1<=h<=12):raise ValueError('House1..12 or unknown required')
+            # Node chapter applicability is not established by this checked slice.
+            classical=lord in CLASSICAL
+            condition=period_disposition_gate(
+                retrograde=p.get('retrograde') if classical else None,
+                own_sign=flags.get('own_sign'),exaltation_sign=flags.get('exaltation_sign'),
+                fall_sign=flags.get('fall_sign'),good_house=None if h is None or not classical else h not in (6,8,12),
+                overpowered_rays=p.get('overpowered_sun_rays') if classical else None,
+                input_profile='XX.14 supplied chart '+frame+' occupation and checked dignity candidate; relation flags unresolved')
+            rows.append({'lord':lord,'occupation_profile':frame,'supplied_house':h,
+                'classical_scope_applicability':classical,'condition_evidence':condition,
+                'unresolved_flags':['friendly_sign','inimical_sign']})
+    return {'rows':rows,'selected_profile':None,'personal_outcome':None,
+        'notice':'Main/sub lord conditions only. Source-specific friendship class unselected; missing rays are unknown. Raw fall/own/exaltation are not cancelled or replaced by a total. Nodes retain unknown conditions. Whole-sign/degree occupation candidates are not a selected historical frame, active period or global arbitration.'}

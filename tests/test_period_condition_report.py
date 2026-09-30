@@ -38,3 +38,10 @@ class PeriodCliGeometryTests(unittest.TestCase):
   for r in x['exact_sandhi_period_gate']['rows']:self.assertIsNone(r['selected_period_outcome'])
   self.assertTrue(x['period_school_conflict']['unresolved_school_conflict'])
   self.assertIsNone(x['global_precedence'])
+
+class PeriodDispositionBridgeTests(unittest.TestCase):
+ def test_report_retains_conflict_and_unknown_flags(self):
+  x=period_condition_report('Aries',{'Mars':{'sign':'Virgo','retrograde':True}},'Mars','Mars')
+  r=x['xx14_lord_disposition_candidates']['rows'][0]
+  self.assertTrue(r['condition_evidence']['opposed_conditions_active'])
+  self.assertIsNone(x['personal_outcome']);self.assertIsNone(x['global_precedence'])
