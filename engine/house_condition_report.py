@@ -4,17 +4,21 @@ from .debilitation_cancellation_candidates import chart_cancellation_candidates
 from .bhava_condition_gate import audit_bhava_conditions
 from .synthesis import LORDS
 from .forecast import sign_index
+from .dusthana_strength_qualification import dusthana_strength_qualification
+from .lordship_precedence import lordship_precedence
 
 
 def house_condition_report(house,reference_sign,placements,classifications,*,
   classification_profile,strength_profile=None,bhava_strong=None,lord_strong=None,karaka_strong=None,
-  lord_eclipsed=None,lord_inimical_sign=None,xv6_clauses=None):
+  lord_eclipsed=None,lord_inimical_sign=None,xv6_clauses=None,lord_strength_status=None):
  recovery=chart_xv5_candidates(house,reference_sign,placements,classifications,
                               classification_profile=classification_profile)
  cancels=chart_cancellation_candidates(reference_sign,placements)
  lord=LORDS[(sign_index(reference_sign)+house-1)%12]
  lord_cancel=next((x for x in cancels['planet_evidence'] if x['planet']==lord),None)
- checks=[]
+ if lord_strength_status is not None and (not isinstance(strength_profile,str) or not strength_profile.strip()):
+  raise ValueError("Explicit strength profile required for XV9 status")
+ checks=[];severity=[]
  for profile,field in [('whole_sign','whole_sign_house_from_ascendant'),('sripati_degree_bhava','sripati_degree_house')]:
   houses={}
   for p,v in placements.items():
@@ -22,6 +26,9 @@ def house_condition_report(house,reference_sign,placements,classifications,*,
    else:
     h=v.get(field);h=h.get('house') if isinstance(h,dict) else h
    houses[p]=h
+  severity.append({'occupation_profile':profile,'qualification':dusthana_strength_qualification(
+   houses.get(lord),supplied_strength_status=lord_strength_status,
+   strength_profile=strength_profile or 'unresolved_supplied_strength_profile',house_frame=profile)})
   checks.append({'occupation_profile':profile,'condition_evidence':audit_bhava_conditions(house,
    bhava_strong=bhava_strong,lord_strong=lord_strong,karaka_strong=karaka_strong,
    strength_profile=strength_profile,planet_houses=houses)})
@@ -33,11 +40,13 @@ def house_condition_report(house,reference_sign,placements,classifications,*,
   raise ValueError('Unknown XV.6 clause key')
  return {'house':house,'reference_sign':reference_sign,'house_lord':lord,
    'xv3_lord_target_candidates':lord_conditions,
+   'xv9_supplied_lord_severity_candidates':severity,
+   'xv10_11_lordship_emphasis':[r for r in lordship_precedence(reference_sign)['dual_owner_evidence'] if r['planet']==lord],
    'xv6_supplied_connective_candidates':xv6_connective_candidates(**clauses),
    'xv5_scoped_recovery':recovery,'house_lord_debilitation_candidates':lord_cancel,
    'xv25_26_supplied_strength_conditions':checks,'global_precedence':None,'personal_outcome':None,
    'selected_strength_total':None,'timing':None,
-   'notice':'Input flags/classes are caller supplied, not certified complete strength. VII cancellation does not substitute for XV strength or overrule XV26. XV5 recovery does not resolve unrelated competing conditions. No vote, combined polarity, probability or personal event. No active period/calendar inferred.'}
+   'notice':'Input flags/classes are caller supplied, not certified complete strength. VII cancellation does not substitute for XV strength or overrule XV26. XV5 recovery, XV9 severity and XV10/11 ownership emphasis retained separately. The lord bool flag is not translated into a strong/weak XV9 status; false does not prove weakness. No overlap is silently arbitrated. No vote, combined polarity, probability or personal event. No active period/calendar inferred.'}
 
 
 def main():
@@ -51,14 +60,14 @@ def main():
  a.add_argument('--classification-file',required=True,
    help='JSON with profile and classical planet classes; these are caller supplied, not engine certified')
  a.add_argument('--condition-file',help='Optional JSON lord_eclipsed/lord_inimical_sign and independently grounded xv6 clause flags')
- a.add_argument('--strength-file',help='Optional JSON with profile and bhava/lord/karaka bool/null flags')
+ a.add_argument('--strength-file',help='Optional JSON with profile, bhava/lord/karaka bool/null flags and separate lord_status strong/weak/null')
  args=a.parse_args()
  try:
   from pathlib import Path
   classes=json.loads(Path(args.classification_file).read_text())
   if not isinstance(classes,dict) or set(classes)!={'profile','classes'} or not isinstance(classes['classes'],dict):raise ValueError('Classification requires only profile and classes objects')
   strength=json.loads(Path(args.strength_file).read_text()) if args.strength_file else {}
-  if not isinstance(strength,dict) or set(strength)-{'profile','bhava','lord','karaka'}:raise ValueError('Unknown supplied strength key or invalid object')
+  if not isinstance(strength,dict) or set(strength)-{'profile','bhava','lord','karaka','lord_status'}:raise ValueError('Unknown supplied strength key or invalid object')
   conditions=json.loads(Path(args.condition_file).read_text()) if args.condition_file else {}
   if not isinstance(conditions,dict):raise ValueError('Condition object required')
   if set(conditions)-{'lord_eclipsed','lord_inimical_sign','xv6_clauses'}:raise ValueError('Unknown supplied condition key')
@@ -66,7 +75,7 @@ def main():
   r=house_condition_report(args.house,n['ascendant']['sign'],n['placements'],classes['classes'],
     classification_profile=classes['profile'],strength_profile=strength.get('profile'),
     bhava_strong=strength.get('bhava'),lord_strong=strength.get('lord'),karaka_strong=strength.get('karaka'),lord_eclipsed=conditions.get('lord_eclipsed'),
-    lord_inimical_sign=conditions.get('lord_inimical_sign'),xv6_clauses=conditions.get('xv6_clauses'))
+    lord_inimical_sign=conditions.get('lord_inimical_sign'),xv6_clauses=conditions.get('xv6_clauses'),lord_strength_status=strength.get('lord_status'))
   r['chart_input_context']={k:n[k] for k in ('birth_utc','birth_place','latitude','longitude','ascendant','model')}
   r['input_declaration_notice']='Classification/strength files are caller declarations, not engine-verified flags. No complete strength is calculated or certified.'
   print(json.dumps(r,indent=2))

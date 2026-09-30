@@ -70,3 +70,26 @@ class HouseCliTests(unittest.TestCase):
    with self.subTest(flag=flag,value=value), tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
     json.dump(value,f);f.flush();p=self.run_cli(flag,f.name)
     self.assertNotEqual(p.returncode,0);self.assertEqual(p.stdout,'')
+
+class HouseSeverityIntegrationTests(unittest.TestCase):
+ def report(self,**kw):
+  return house_condition_report(1,'Aries',{'Mars':{'sign':'Virgo'}},{},classification_profile='explicit fixture',**kw)
+ def test_local_rules_remain_separate(self):
+  r=self.report(strength_profile='external full profile',lord_strength_status='strong')
+  rows=r['xv9_supplied_lord_severity_candidates']
+  self.assertEqual(rows[0]['qualification']['scoped_textual_qualification'],'slight_injury_in_this_verse')
+  self.assertEqual(rows[1]['qualification']['scoped_textual_qualification'],'unresolved_house')
+  self.assertTrue(r['xv10_11_lordship_emphasis'][0]['scope_overlap'])
+  self.assertIsNone(r['global_precedence']);self.assertIsNone(r['personal_outcome'])
+ def test_false_not_weak(self):
+  r=self.report(strength_profile='supplied condition only',lord_strong=False)
+  self.assertEqual(r['xv9_supplied_lord_severity_candidates'][0]['qualification']['scoped_textual_qualification'],'unresolved_strength')
+ def test_explicit_status_needs_profile(self):
+  with self.assertRaises(ValueError):self.report(lord_strength_status='strong')
+ def test_cli_separate_status(self):
+  import tempfile,json
+  with tempfile.NamedTemporaryFile(mode='w',suffix='.json') as f:
+   json.dump({'profile':'external fixture','lord_status':'weak'},f);f.flush()
+   p=HouseCliTests().run_cli('--strength-file',f.name)
+   self.assertEqual(p.returncode,0,p.stderr)
+   self.assertEqual(json.loads(p.stdout)['xv9_supplied_lord_severity_candidates'][0]['qualification']['supplied_strength_status'],'weak')
