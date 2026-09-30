@@ -27,6 +27,7 @@ from .debilitation_cancellation_candidates import printed_cancellation_illustrat
 from pathlib import Path
 
 
+from .raman_motion_source_audit import raman_motion_source_audit
 from .own_shadvarga_refinement_audit import own_shadvarga_refinement_audit
 from .strength_profile_inventory import strength_profile_inventory
 from .precedence_inventory import precedence_inventory
@@ -94,6 +95,7 @@ def validation_report():
     'sripati_worked_ayana_audit':worked_ayana_audit(),
     'worked_three_segment_ayana_audit':worked_three_segment_ayana_audit(),
     'sripati_worked_motion_audit':worked_motion_audit(),
+    'raman_motion_source_audit':raman_motion_source_audit(),
     'empirical_outcome_accuracy':None,
     'balaji_personal_consultation_replication_verified':False,
     'unique_calendar_profile_verified':False,
