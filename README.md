@@ -72,3 +72,14 @@ illustration is separate from the1918 strength example. Raman and Sripati
 place Ayana differently; the report does not mix their component layouts.
 These commands validate source arithmetic and regression behavior, not a
 complete horoscope, Balaji's private settings or prediction accuracy.
+
+Independent JhaSudha aspect diagnostics can be run with:
+
+```bash
+python3 -m engine.bphs_jha_aspect_report
+python3 -m engine.bphs_jha_aspect_report --aspecting-planet Saturn --aspector-longitude 200 --aspected-longitude 286 --coordinate-profile 'synthetic common degree frame'
+```
+
+This is a named book-profile calculation on supplied coordinates, not a forecast.
+Exact boundary disagreements, printed arithmetic errors and source differences
+remain visible. It does not choose a universal BPHS geometry or strength total.
