@@ -41,7 +41,7 @@ def ayana_zero_point_consistency_audit():
     for planet in ('Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn'):
         candidate=ayanabala_candidates(planet,0)
         base=Decimal(str(candidate['candidates'][0]['rupa']))
-        sentence=Decimal('1')
+        sentence=Decimal('0.5')
         rows.append({'planet':planet,'supplied_declination_degrees':0,
                      'base_zero_point_rupa':str(base),'equator_sentence_rupa':str(sentence),
                      'base_matches_equator_sentence':base==sentence,
@@ -50,6 +50,7 @@ def ayana_zero_point_consistency_audit():
     return {'rows':rows,'equator_sentence_source':source('15-16 commentary equator sentence',66,52),
             'zero_point_source':source('15-16 Kesava zero-point/48 method',67,53),
             'worked_sun_source':source('15-16 worked Sun declination/undoubled result',67,53),
-            'equator_sentence_applies_unqualified_to_planet':True,
+            'clearer_1919_cross_check':{'url':'https://archive.org/details/ksu.h1304.sripatipaddhati0000vsub','pdf_page':30,'printed_page':14,'verified_against_page_image':True},
+            'prior_fraction_loss_corrected':True,
             'source_selected_profile':None,'total_strength':None,
-            'notice':'PDF66 says Ayana of a planet at the equator is a Rupa. The printed zero-point/48 method gives1/2 at zero declination before the Sun-only multiplier. These statements disagree for non-Sun planets; Sun doubling alone cannot reconcile the unqualified sentence. No global doubling, offset, clipping or table-fit correction inferred. This is an internal source-consistency audit, not chart validation.'}
+            'notice':'The small fraction in PDF66 is1/2, confirmed by clearer1919 PDF30/14 and enlarged1934 crop. The equator sentence agrees with base zero-point/48 arithmetic for all seven planets. Prior supposed endpoint conflict was a fraction-reading error and is corrected, not retained as a classical alternative. Separate Sun-only doubling and worked-table allocation remain open; no global double or selected natal total.'}
