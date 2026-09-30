@@ -21,6 +21,9 @@ from .strength_profile_inventory import strength_profile_inventory
 from .luminary_motion_table_audit import luminary_motion_table_audit
 
 
+from .ketkar_dated_day_audit import dated_day_audit
+
+
 def validation_report():
  transcript=score(json.loads(DATA.read_text()))
  calendar=run_benchmark()
@@ -30,7 +33,7 @@ def validation_report():
  return {'status':'research_prototype_not_complete_predictor',
     'public_transcript_agreement':transcript,
     'calendar_convention_agreement':calendar,
-    'dated_source_example_audits':{'historical_mean_sun_other_dasha':historical_mean_year_audit(),
+    'dated_source_example_audits':{'ketkar_local_mean_day_chain':dated_day_audit(),'historical_mean_sun_other_dasha':historical_mean_year_audit(),
        'modern_book_explicit_savana':audit_example50(),'secondary_time_longitude_example':secondary_example_audit()},
     'printed_source_internal_arithmetic':{'positional':positional,'seven_varga':varga,'aggregate':total},
     'pending_public_outcome_source_gates':[audit_gate(r) for r in json.loads((Path(__file__).parents[1]/'benchmarks'/'balaji_outcome_audit_pending.json').read_text())],
