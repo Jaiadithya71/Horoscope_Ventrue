@@ -108,3 +108,16 @@ the independently checked direct-Rasi friendship fixture, and worked
 Paksha/Ayana source-profile differences.
 The local same-house yoga comparison is separate from global outcome precedence.
 This report is source validation, not a forecast or predictor readiness score.
+
+Independent Pathak Hindi commentary evidence can be inspected without birth
+inputs or the astronomy dependency:
+
+```bash
+python3 -m engine.pathak_validation_report
+```
+
+It collects normalized balance/angular-target arithmetic, period wording
+boundaries and explicit lagna-house OR connective, plus the scoped strong
+dusthana-owner period rule. Printed errors, edition rights and unresolved
+calendar/strength/translation decisions stay visible. It is not a forecast or
+an accuracy score and does not change the app's birth-input interface.
