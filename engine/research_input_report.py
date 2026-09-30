@@ -13,6 +13,21 @@ BIRTH_KEYS={'date','time','timezone','latitude','longitude','place'}
 CLASSICAL={'Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn'}
 
 
+def period_input_coverage(placements,main_lord,sub_lord):
+ """Input presence only, not evidence that a book condition applies."""
+ rows=[]
+ for lord in dict.fromkeys((main_lord,sub_lord)):
+  p=placements.get(lord,{})
+  missing=[k for k in ('sign','longitude','whole_sign_house_from_ascendant','sripati_degree_house') if p.get(k) is None]
+  classical=lord in CLASSICAL
+  rows.append({'lord':lord,'placement_present':lord in placements,'missing_placement_fields':missing,
+   'node_ownership_dignity_strength_applicability_verified':None if classical else False,
+   'unsupported_or_unselected_conditions':['friendly_sign','inimical_sign','overpowered_sun_rays','complete_strength'],
+   'all_period_conditions_evaluable':False,
+   'notice':'Missing coordinates are unknown, not absence of a condition. Present fields do not establish book node applicability or complete strength.'})
+ return {'rows':rows,'complete_period_evidence':False,'personal_outcome':None}
+
+
 def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_instant=None):
  if not isinstance(birth,dict) or set(birth)!=BIRTH_KEYS:raise ValueError('Birth requires exactly date,time,timezone,latitude,longitude,place')
  for key in ('date','time','timezone','place'):
@@ -49,6 +64,10 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
  conventions=None if query is None else convention_condition_report(birth_utc(birth['date'],birth['time'],birth['timezone']),query,chart['ascendant']['sign'],chart['placements'])
  return {'status':'explicit_birth_research_evidence_not_personal_forecast','natal_chart':chart,
   'query_convention_condition_evidence':conventions,
+  'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
+  'query_pair_input_coverage':[] if conventions is None else [
+   {'key':r['key'],'coverage':period_input_coverage(chart['placements'],r['evidence']['main_lord'],r['evidence']['sub_lord'])}
+   for r in conventions['distinct_pair_conditions']],
   'explicit_period_pair_evidence':period,'active_period_inferred':False,
   'supplied_strength_evidence':strength,'strength_evidence_origin':'Caller declarations, not reconstructed or certified from this chart',
   'strength_requirements':strength_profile_inventory(),'precedence_requirements':precedence_inventory(),

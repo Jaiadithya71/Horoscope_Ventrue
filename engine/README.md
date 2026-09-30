@@ -227,3 +227,11 @@ majority vote or selected active period is produced, and an explicit
 timezone offset is rejected. Birth coordinates must be finite numbers, not text
 or booleans; missing place labels and malformed input produce a CLI error, not
 an incomplete report presented as success.
+
+Each explicit or convention-routed period pair now includes an input-presence
+audit. The current modern chart has meanRahu but noKetu placement; aKetu period
+therefore retains missing coordinates. Node ownership, dignity and strength
+applicability remain unverified. Even a classical pair with complete coordinates
+is not fully evaluated: source-specific friendship, solar-ray and complete
+strength conditions are still unselected. The report does not silently turn
+missing evidence into absence or derive extra coordinates merely to fill a gap.
