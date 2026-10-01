@@ -483,3 +483,25 @@ Ketkar introductory mean-anchor audit: actualPDF36-37/printed13-14 labels Saka18
 Original [Hora Ratnam scan](https://archive.org/stream/Book11.HoraRatnam10NoOCR/Book11.+Hora+ratnam-10+no+OCR_djvu.txt), titlePDF1, identifies Bala Bhadra with R. Santhanam English translation/notes, independent of Sastri's Sripati translation. PDF63-64/printed66-67, I42-44, lists the six divisions and quotes Garga: three owned divisions is the minimum for being considered in own divisions; five can occur, six cannot, according to this passage. The Sanskrit verse onPDF63 visibly includes the three/five distinction. This is stronger than an any-one/all-six guess but is not an explicit mapping into Sripati's quoted decan replacement. In the existing named six-varga geometry Jupiter owns Rasi/Drekkana/Dwadasamsa, exactly three, so the minimum-three candidate fits the explicit Jupiter refinement. Sun owns one and Mars two, distinguishing this candidate from any-one without inventing their refined scores.
 
 `horaratna_own_varga_scope_audit` records that comparison without selecting a refinement. OriginalPDF127/130 I174 orders masculine/feminine/neuter planets in decans1/2/3, whereas SripatiPDF51/37 orders masculine/neuter/feminine1/2/3. This disagreement prevents silently mixing the independent book's entire decan method with Sripati. The maximum-five statement is source text, not an independently proved geometry theorem. No general refined positional or natal total is enabled.
+
+## October 1: livelihood readings without invented strength selection
+
+Original Phaladeepika 1937 PDF79-83 (printed42-46) pixels checked anew.
+IV.23 requires examination of strength before declaring effects. V.1 gives
+alternative Lagna/Moon/Sun tenth-lord/Navamsa routes with a strongest-route
+qualification. V.2-8 supply livelihood examples, not a modern career taxonomy.
+V.9 conditions wealth acquisition/ease on the Navamsa owner's strength.
+Source: https://archive.org/details/in.ernet.dli.2015.92117
+
+`life_aspect_candidates` now supplies all three explicitly whole-sign reference
+candidates with actual tenth-lord/Navamsa owners and conditional prose. It does
+not choose the strongest reference, certify owner strength, apply a degree-bhava
+route, merge agreeing routes into a verdict, predict income, select a modern
+job/employer, forecast a foreign move, or date an event. Repeated routes remain
+three alternatives, not independent evidence of an outcome. Strength-comparison
+semantics and full coherent strength remain unresolved. Non-stigmatizing
+livelihood examples are a disclosed subset, not a complete translation: ethical
+allegations, caste labels and violent roles are not projected onto the person.
+Historical gendered examples are not assumptions about the person's gender.
+Marriage/health/timing have explicit unimplemented/unselected fields rather
+than invented generic predictions. Shell presentation is separate work.

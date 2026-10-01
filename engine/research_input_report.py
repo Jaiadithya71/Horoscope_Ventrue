@@ -8,6 +8,7 @@ from .raman_strength_composition import raman_supplied_composition
 from .strength_layout import supplied_layout_audit
 from .strength_profile_inventory import strength_profile_inventory
 from .precedence_inventory import precedence_inventory
+from .life_aspect_candidates import life_aspect_candidates
 
 BIRTH_KEYS={'date','time','timezone','latitude','longitude','place'}
 CLASSICAL={'Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn'}
@@ -70,6 +71,7 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
  period=None if period_pair is None else period_condition_report(chart['ascendant']['sign'],chart['placements'],**period_pair)
  conventions=None if query is None else convention_condition_report(birth_utc(birth['date'],birth['time'],birth['timezone']),query,chart['ascendant']['sign'],chart['placements'])
  return {'status':'explicit_birth_research_evidence_not_personal_forecast','natal_chart':chart,
+  'life_aspect_candidates':life_aspect_candidates(chart),
   'query_convention_condition_evidence':conventions,
   'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
   'query_pair_input_coverage':[] if conventions is None else [
