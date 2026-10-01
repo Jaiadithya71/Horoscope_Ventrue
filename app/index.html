@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A source-led Vedic chart research preview. Chart math, not personal predictions."><title>Horoscope | Chart research</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<header><a class="wordmark" href="/">Horoscope<span>Source-led chart research</span></a><span class="badge">Research preview</span></header>
+<section class="intro"><p class="eyebrow">Your chart, with its limits in view</p><h1>Start with the sky.<br>Keep the evidence close.</h1><p>Compute a sidereal birth chart. Explore the placements and their source references, without filling the gaps with predictions.</p></section>
+<div class="layout"><section class="input-panel" aria-labelledby="birth-title"><h2 id="birth-title">Birth details</h2><p class="muted">Use the recorded local time and verified birthplace coordinates.</p>
+<form id="birth-form"><div class="pair"><label>Date<input name="date" type="date" min="1800-01-01" max="2399-12-31" required></label><label>Local time<input name="time" type="time" required></label></div>
+<label>Birthplace<input name="place" autocomplete="off" placeholder="City or town" maxlength="120" required></label>
+<label>Timezone<input name="timezone" placeholder="e.g. Asia/Kolkata" required aria-describedby="zone-help"></label><p class="help" id="zone-help">IANA timezone name, not a fixed UTC offset. Historical clock changes matter.</p>
+<div class="pair"><label>Latitude<input name="latitude" type="number" step="any" min="-89.9999" max="89.9999" placeholder="e.g. 13.08" required></label><label>Longitude<input name="longitude" type="number" step="any" min="-180" max="180" placeholder="e.g. 80.27" required></label></div>
+<p class="help">North/east positive; south/west negative. Coordinates are not guessed from the place name.</p>
+<button type="submit" id="calculate">Calculate chart</button><button type="button" class="secondary" id="example">Use a synthetic example</button>
+<p class="help">No account. Birth details stay in memory for this session and are sent only to this app's calculation endpoint. No saved chart or analytics.</p>
+<p id="error" role="alert" hidden></p></form></section>
+<section id="workspace" aria-live="polite" aria-busy="false"><div id="empty" class="empty"><span class="orbit" aria-hidden="true"></span><p class="eyebrow">A chart, not a verdict</p><h2>The calculation comes first.</h2><p>Your ascendant, Moon sign and nakshatra will appear here. Source evidence and period arithmetic sit one step deeper.</p><div class="boundary"><h3>Not available yet</h3><p>Full strength totals, a selected historical calendar and personal forecasts remain research-gated.</p></div></div><div id="results" hidden></div></section></div>
+<footer>Astrology is a historical tradition, not scientifically validated prediction. This preview uses modern Lahiri / Moshier chart math, not a selected historical astronomical frame.</footer>
+</main><script src="/app.js"></script></body></html>

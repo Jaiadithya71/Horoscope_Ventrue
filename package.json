@@ -1,0 +1,23 @@
+{
+  "name": "horoscope",
+  "version": "1.0.0",
+  "description": "Deterministic vedic-astrology computation on top of page-cited classical texts. No AI at runtime: the engine computes chart math and cites rules extracted from the source books by (book, page).",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaiadithya71/Horoscope_Ventrue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Jaiadithya71/Horoscope_Ventrue/issues"
+  },
+  "homepage": "https://github.com/Jaiadithya71/Horoscope_Ventrue#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  },
+  "private": true
+}

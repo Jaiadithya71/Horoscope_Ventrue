@@ -121,3 +121,11 @@ boundaries and explicit lagna-house OR connective, plus the scoped strong
 dusthana-owner period rule. Printed errors, edition rights and unresolved
 calendar/strength/translation decisions stay visible. It is not a forecast or
 an accuracy score and does not change the app's birth-input interface.
+
+## Phone-first chart research preview
+
+`app/` is a working local shell over the existing explicit-birth report. It shows
+modern sidereal chart essentials, placements and source references with
+progressive disclosure. It does not infer personal forecasts, complete strength,
+selected calendars or predictive accuracy. See [app/README.md](app/README.md)
+for setup, privacy behavior, browser tests and the public-launch license gate.
