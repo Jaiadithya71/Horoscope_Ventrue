@@ -12,6 +12,7 @@ const source = s => s ? `${escape(s.slug)} · PDF page ${escape(s.pdf_page ?? (s
 function fail(message) { error.textContent = message; error.hidden = false; }
 function showResolved(candidate) {
   resolvedFromLookup = true;
+  error.hidden = true;
   form.elements.latitude.value = candidate.latitude;
   form.elements.longitude.value = candidate.longitude;
   resolved.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · ${escape(candidate.display_name)}<button type="button" id="change-place">change</button>`;
