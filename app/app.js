@@ -49,6 +49,42 @@ findButton.addEventListener('click', findCoordinates);
 form.elements.place.addEventListener('input', () => { resolvedFromLookup = false; resolved.hidden = true; candidatesBox.hidden = true; });
 form.elements.latitude.addEventListener('input', () => { resolvedFromLookup = false; });
 form.elements.longitude.addEventListener('input', () => { resolvedFromLookup = false; });
+
+const ORDINALS = ['','1st','2nd','3rd','4th','5th','6th','7th','8th','9th','10th','11th','12th'];
+const ord = n => ORDINALS[n] || `${n}th`;
+function readingParagraphs(chart) {
+  const asc = chart.ascendant.sign;
+  const star = chart.moon_nakshatra;
+  const structure = chart.structural_factors_from_ascendant;
+  const lordships = structure?.lordships?.houses || [];
+  const factors = structure?.planet_factors || [];
+  const lagnaLord = lordships.find(h => h.house === 1)?.lord;
+  const paragraphs = [];
+  paragraphs.push(`Born ${escape(chart.birth_utc.slice(0,10))}, ${escape(chart.birth_place)}. ` +
+    `Your lagna is ${escape(asc)}. Your Moon is in ${escape(chart.placements.Moon.sign)}, in ${escape(star.name)}, pada ${escape(star.pada)}.`);
+  if (lagnaLord) {
+    const owned = lordships.filter(h => h.lord === lagnaLord).map(h => ord(h.house));
+    const ownText = owned.length > 1 ? `It also rules your ${owned.slice(1).join(' and ')} house.` : '';
+    paragraphs.push(`${escape(lagnaLord)} rules your ascendant${owned.length > 1 ? ' and your ' + owned.slice(1).join(' and ') + ' house' : ''} - your lagna lord. Watch where it sits: that is the anchor of this chart.`);
+  }
+  const order = [lagnaLord, 'Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn','Rahu'].filter((v,i,a)=>v&&a.indexOf(v)===i);
+  for (const planet of order) {
+    const p = chart.placements[planet]; if (!p) continue;
+    const f = factors.find(x => x.planet === planet);
+    const house = f?.house_from_reference ?? p.whole_sign_house_from_ascendant;
+    const ruled = (f?.rules_owned || []).map(h => ord(h));
+    const ruledText = ruled.length ? ` It rules your ${ruled.join(' and ')} house.` : '';
+    const aspects = (f?.aspects || []).map(a => `your ${ord(a.target_house_from_reference)} house (${escape(a.target_sign)})`);
+    const aspectText = aspects.length ? ` From there it aspects ${aspects.join(' and ')}.` : '';
+    const retro = p.retrograde ? ', retrograde' : '';
+    const nodeNote = planet === 'Rahu' ? ' (the mean node)' : '';
+    paragraphs.push(`${escape(planet)}${nodeNote} sits in ${escape(p.sign)}${retro} - your ${ord(house)} house from the ascendant.${ruledText}${aspectText}`);
+  }
+  const periods = chart.moon_periods;
+  paragraphs.push(`Your period sequence opens with ${escape(periods.initial_lord)}, with ${Number(periods.initial_remaining_solar_years).toFixed(2)} solar-year units of it remaining at birth. The full order is listed below. The engine gives no calendar dates for these boundaries yet - that conversion is still research-gated.`);
+  return paragraphs;
+}
+
 function render(report, birth, coordsWereResolved) {
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
@@ -58,9 +94,10 @@ function render(report, birth, coordsWereResolved) {
   const sources = [star.source, periods.source, ...Object.values(chart.placements).map(p => p.sripati_degree_house?.source)].filter(Boolean);
   const unique = [...new Map(sources.map(s => [JSON.stringify(s), s])).values()];
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
-  output.innerHTML = `<div class="result-head"><p class="eyebrow">Calculated chart · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(birth.place)}</h2><p>${escape(birth.date)} · ${escape(birth.time)} · ${escape(birth.timezone)}</p><p>UTC ${escape(chart.birth_utc)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
-  <div class="summary-grid"><div><span>Ascendant</span><strong>${escape(chart.ascendant.sign)}</strong><small>${(chart.ascendant.longitude % 30).toFixed(2)}° within sign</small></div><div><span>Moon sign</span><strong>${escape(chart.placements.Moon.sign)}</strong><small>Lahiri sidereal</small></div><div><span>Nakshatra</span><strong>${escape(star.name)}</strong><small>Pada ${escape(star.pada)}</small></div></div>
-  <div class="boundary"><h3>Research-gated, not zero</h3><p>Complete strength: not selected. Historical calendar: not selected. Personal forecast: unavailable. Predictive accuracy: unscored.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
+  const reading = readingParagraphs(chart);
+  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  <section class="reading">${reading.map(t => `<p>${t}</p>`).join('')}</section>
+  <div class="boundary"><h3>Where this reading stops</h3><p>This is the structure of your chart, read the way a reader would lay it out - placements, lordships, aspects, periods. What comes next in a real consultation is judgement: strength, timing, outcomes. That layer is still research-gated, so it is not here. No strength totals, no calendar dates, no predictions.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu is the mean node. Ketu is not supplied in this engine report; no extra placement is invented.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>

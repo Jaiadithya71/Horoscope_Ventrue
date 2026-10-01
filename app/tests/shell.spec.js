@@ -16,10 +16,13 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
- await expect(page.locator('.summary-grid')).toContainText('Aries');
- await expect(page.locator('.summary-grid')).toContainText('Libra');
+ await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
+ await expect(page.locator('.reading')).toContainText('Your Moon is in Libra');
+ await expect(page.locator('.reading')).toContainText('Mars rules your ascendant');
+ await expect(page.locator('.reading')).toContainText('sits in');
+ await expect(page.locator('.reading')).toContainText('period sequence opens with');
  await expect(page.locator('.result-head')).toContainText('coordinates from place lookup');
- await expect(page.locator('.boundary').last()).toContainText('Personal forecast: unavailable');
+ await expect(page.locator('.boundary').last()).toContainText('research-gated');
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-result.png`,fullPage:true});
  await page.getByText('Planet placements',{exact:true}).click();
  await expect(page.locator('td').first()).toHaveText('Sun');
@@ -50,7 +53,7 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
  await page.goto('/');await page.getByRole('button',{name:'Use a synthetic example'}).click();
  await page.locator('[name=place]').fill('<img src=x onerror=alert(1)>');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
- await expect(page.locator('#results h2')).toHaveText('<img src=x onerror=alert(1)>');
+ await expect(page.locator('.result-head')).toContainText('<img src=x onerror=alert(1)>');
  expect(await page.locator('#results img').count()).toBe(0);
  expect(geocodeCalls).toBe(0);
  await page.locator('[name=timezone]').fill('bad-zone');await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
