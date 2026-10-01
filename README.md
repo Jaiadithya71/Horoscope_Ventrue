@@ -122,6 +122,11 @@ dusthana-owner period rule. Printed errors, edition rights and unresolved
 calendar/strength/translation decisions stay visible. It is not a forecast or
 an accuracy score and does not change the app's birth-input interface.
 
+## License
+
+AGPL-3.0 (see LICENSE). The owner chose open source on 2026-10-01, which is the
+Swiss Ephemeris option that permits public use of its AGPL-licensed ephemeris.
+
 ## Phone-first chart research preview
 
 `app/` is a working local shell over the existing explicit-birth report. It shows

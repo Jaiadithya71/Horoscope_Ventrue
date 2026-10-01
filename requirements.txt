@@ -2,3 +2,6 @@
 #   sudo apt install poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-san
 # Python: stdlib only (python3 >= 3.8)
 # Set TESSDATA_PREFIX if your .traineddata files live in a custom directory.
+
+# Web app runtime (local server + serverless deployment):
+pyswisseph==2.10.3.2

@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    {"source": "/", "destination": "/app/index.html"},
+    {"source": "/style.css", "destination": "/app/style.css"},
+    {"source": "/app.js", "destination": "/app/app.js"}
+  ]
+}

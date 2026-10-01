@@ -1,4 +1,7 @@
 """Thin, strict adapter to the existing engine. No forecasts or invented gates."""
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import json
 from http.server import BaseHTTPRequestHandler
 from engine.research_input_report import research_input_report

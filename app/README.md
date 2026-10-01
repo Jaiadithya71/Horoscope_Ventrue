@@ -21,7 +21,7 @@ public launch.
 
 Public deployment is intentionally NOT configured yet. Swiss Ephemeris license
 choice and source-rights review remain launch gates. This code does not choose
-an AGPL license or buy a professional license for the owner. The API adapter is
+an AGPL license or buy a professional license for the owner. Place lookup uses OpenStreetMap Nominatim (one request per lookup, throttled to its usage policy, no query logging by the local handler). The API adapter is
 ready for later Python hosting but must not be described as publicly deployed.
 
 Verification:
