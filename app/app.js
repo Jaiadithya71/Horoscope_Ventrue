@@ -86,6 +86,32 @@ function readingParagraphs(chart) {
   return paragraphs;
 }
 
+function sourceLink(s) {
+  if (!s) return 'Source unavailable';
+  let url;
+  try { url = new URL(s.url); } catch { return source(s); }
+  if (url.protocol !== 'https:') return source(s);
+  return `<a href="${escape(url.href)}" target="_blank" rel="noopener noreferrer">${source(s)} · chapter ${escape(s.chapter)}, verse ${escape(s.sloka)}</a>`;
+}
+function lifeAspectReading(aspects) {
+  if (!aspects?.career?.candidates?.length) return '';
+  const cards = aspects.career.candidates.map(c => `<article class="route-card">
+    <h3>${escape(c.reference)} route · not selected</h3>
+    <p class="route-reading">${escape(c.conditional_reading)}</p>
+    <p class="route-geometry">The tenth sign from ${escape(c.reference)} is ${escape(c.tenth_sign)}, ruled by ${escape(c.tenth_lord)}. That lord is in ${escape(c.navamsa_sign)} Navamsa, owned by ${escape(c.navamsa_owner)}.</p>
+    <p class="route-caveat">${escape(c.navamsa_owner)}'s strength has not been established. This route has not been ranked or selected.</p>
+    <p class="route-source">${sourceLink(c.occupation_source)}</p>
+    <details><summary>Wealth condition for this route</summary><p>${escape(c.wealth_conditional_reading)}</p><p>${sourceLink(c.wealth_source)}</p></details>
+  </article>`).join('');
+  return `<section class="life-aspects" aria-labelledby="career-title"><p class="eyebrow">Source-based alternatives</p><h2 id="career-title">Career · three possible routes</h2>
+    <p>These are conditional historical readings, not a chosen profession. The source asks for the strongest Lagna, Moon or Sun route. The engine has not made that comparison or completed the required strength examination, and the whole-sign versus degree-bhava application is unresolved.</p>
+    <div class="route-list">${cards}</div>
+    <p class="aspect-limit">${escape(aspects.career.notice)} Repeated Navamsa owners do not select a route or independently confirm a prediction. These examples are disclosed, non-stigmatizing subsets of the historical verses, not complete translations or assumptions about your gender.</p>
+    <p class="route-source">Route selection: ${sourceLink(aspects.career.selection_source)}<br>Strength requirement: ${sourceLink(aspects.strength_gate_source)}</p>
+    <div class="aspect-stop"><h3>Wealth, marriage, health and timing</h3><p>No wealth outcome is selected. Each route's wealth condition is available above, but its owner's strength is unknown. No income amount, financial advice or foreign move is predicted. Marriage has no selected reading; no medical prediction is supplied; calendar timing and outcome selection remain unresolved.</p></div>
+  </section>`;
+}
+
 function render(report, birth, coordsWereResolved) {
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
@@ -97,8 +123,10 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  ${lifeAspectReading(report.life_aspect_candidates)}
+  <h2 class="chart-structure-title">The structure of your chart</h2>
   <section class="reading">${reading.map(t => `<p>${t}</p>`).join('')}</section>
-  <div class="boundary"><h3>Where this reading stops</h3><p>This is the structure of your chart, read the way a reader would lay it out - placements, lordships, aspects, periods. What comes next in a real consultation is judgement: strength, timing, outcomes. That layer is still research-gated, so it is not here. No strength totals, no calendar dates, no predictions.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
+  <div class="boundary"><h3>Where this reading stops</h3><p>The career alternatives above add source-based conditional interpretation to the chart structure. They do not choose the strongest route or a profession. Selected strength, calendar timing and life outcomes remain research-gated. No complete personal forecast or predictive accuracy is established.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu is the mean node. Ketu is not supplied in this engine report; no extra placement is invented.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>

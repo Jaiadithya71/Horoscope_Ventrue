@@ -22,6 +22,17 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('.reading')).toContainText('sits in');
  await expect(page.locator('.reading')).toContainText('period sequence opens with');
  await expect(page.locator('.result-head')).toContainText('coordinates from place lookup');
+ await expect(page.locator('.route-card')).toHaveCount(3);
+ for (const ref of ['Lagna','Moon','Sun']) {
+   await expect(page.locator('.life-aspects')).toContainText(`If the ${ref} route is the strongest`);
+ }
+ await expect(page.locator('.route-caveat').first()).toContainText('strength has not been established');
+ await expect(page.locator('.life-aspects')).toContainText('whole-sign versus degree-bhava');
+ await expect(page.locator('.aspect-stop')).toContainText('No wealth outcome is selected');
+ await page.locator('.route-card details summary').first().click();
+ await expect(page.locator('.route-card details').first()).toContainText('Its strength is not established here');
+ await expect(page.locator('.route-card .route-source a').first()).toHaveAttribute('href','https://archive.org/details/in.ernet.dli.2015.92117');
+ await page.locator('.route-card details summary').first().click();
  await expect(page.locator('.boundary').last()).toContainText('research-gated');
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-result.png`,fullPage:true});
  await page.getByText('Planet placements',{exact:true}).click();
