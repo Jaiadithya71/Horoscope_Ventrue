@@ -51,3 +51,7 @@ wording. Do not claim a complete life reading, Balaji method match, predictive
 accuracy, source strength selection, or validated fate. This slice adds genuine
 source-based interpretation content but does not solve the requested full
 personal prediction layer. The shell is a separate owner-controlled change.
+
+## Marriage conditional readings
+
+`engine/marriage_conditional.py` evaluates the scan-checked Phaladeepika (Adh. VIII, X) and Brihat Jataka conditions on whole-sign Lagna geometry. Each rule returns met / possibly_met / not_met / unresolved with source pages, an own-words effect and what it needs. "Benefic" is undefined in the sentences, so Jupiter and Venus count as definite and Mercury and the Moon only as possible. Strength-conditioned rules take the Shadbala working-profile verdicts. Rules whose effect is an adverse marital-status text (Sun in the 7th, Moon with Saturn in the 7th, and similar) carry `ship_default: false`. Spouse-death, body, character and "wicked spouse" wording is held out. The Moon-with-Saturn rule needs the native's sex because the books differ by chart type. No timing is selected: the period-candidate row lists the lords only.
