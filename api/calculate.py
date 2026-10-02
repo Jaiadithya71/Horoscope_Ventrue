@@ -12,6 +12,11 @@ def calculate(payload):
     birth = payload['birth']
     # The engine owns exact fields, clock validation, coordinate checks and math.
     report = research_input_report(birth)
+    # Phone-first payload: the app never reads the raw per-planet factor tables
+    # (about 0.9 MB). The engine still computes them; only the HTTP response omits them.
+    chart = report.get('natal_chart')
+    if isinstance(chart, dict):
+        report = {**report, 'natal_chart': {k: v for k, v in chart.items() if k != 'natal_factors'}}
     return report
 
 def response_body(raw):
