@@ -112,6 +112,67 @@ function lifeAspectReading(aspects) {
   </section>`;
 }
 
+const STATUS_LABEL = {met:'Condition met', possibly_met:'Possibly met', unresolved:'Unresolved', not_met:'Not met', house_model_dependent:'Depends on house system'};
+const MODEL_LABEL = {whole_sign:'Whole-sign houses', sripati_degree_bhava:'Sripati degree houses'};
+const day = v => escape(String(v ?? '').slice(0, 10));
+const visibleRows = rows => (rows || []).filter(r => r.ship_default !== false);
+function conditionRow(r) {
+  const dep = r.status === 'house_model_dependent';
+  const models = dep && r.status_by_house_model ? `<p class="cond-models">${Object.entries(r.status_by_house_model).map(([k, v]) => `${escape(MODEL_LABEL[k] || k)}: ${escape(STATUS_LABEL[v] || v)}`).join(' · ')}</p>` : '';
+  return `<li class="cond-row cond-${escape(r.status)}"><p class="cond-status">${escape(STATUS_LABEL[r.status] || r.status)}</p>
+    <p class="cond-condition">${escape(r.condition)}</p>
+    <p class="cond-effect">${escape(r.effect_paraphrase)}</p>${models}
+    <p class="route-source">${escape(r.detail)} · ${sourceLink(r.source)}</p></li>`;
+}
+function conditionSection(title, id, data, intro) {
+  if (!data?.rows) return '';
+  const rows = visibleRows(data.rows);
+  const active = rows.filter(r => r.status !== 'not_met');
+  const notMet = rows.filter(r => r.status === 'not_met');
+  const dep = active.some(r => r.status === 'house_model_dependent');
+  return `<section class="life-aspects life-extra" aria-labelledby="${id}"><p class="eyebrow">Source-based conditions</p><h2 id="${id}">${escape(title)}</h2>
+    <p>${escape(intro)}${dep ? ' Some rows depend on the house system: the two models give different answers and neither is chosen.' : ''}</p>
+    ${active.length ? `<ul class="cond-list">${active.map(conditionRow).join('')}</ul>` : '<p class="route-caveat">No condition in this set is met or open for this chart.</p>'}
+    ${notMet.length ? `<details><summary>${notMet.length} conditions checked and not met</summary><ul class="cond-list">${notMet.map(conditionRow).join('')}</ul></details>` : ''}
+    <p class="aspect-limit">${escape(data.notice)}</p></section>`;
+}
+const RUPA = v => Array.isArray(v) ? (v[0] === v[1] ? v[0].toFixed(2) : `${v[0].toFixed(2)} to ${v[1].toFixed(2)}`) : 'Unavailable';
+const VERDICT = {meets_sripati_minimum_in_all_variants:'Meets the minimum in every variant', unresolved_across_variants:'Unresolved: variants disagree'};
+function strengthSection(profile) {
+  if (!profile?.planets) return '';
+  const entries = Object.entries(profile.planets);
+  const body = entries.map(([name, p]) => `<tr><td>${escape(name)}</td><td>${RUPA(p.total_rupa_interval)}</td><td>${escape(p.minimum_rupa)}</td><td>${escape(VERDICT[p.verdict] || p.verdict)}</td></tr>`).join('');
+  const clear = entries.filter(([, p]) => p.verdict === 'meets_sripati_minimum_in_all_variants').map(([n]) => n);
+  const open = entries.filter(([, p]) => p.verdict !== 'meets_sripati_minimum_in_all_variants').map(([n]) => n);
+  return `<section class="life-aspects life-extra" aria-labelledby="strength-title"><p class="eyebrow">Planet strength</p><h2 id="strength-title">Strength, as a range</h2>
+    <p>${clear.length ? `${escape(clear.join(', '))} clear the traditional minimum however the inputs are read.` : 'No planet clears the minimum under every reading.'} ${open.length ? `For ${escape(open.join(', '))} the answer changes with the inputs, so no verdict is given.` : ''}</p>
+    <details><summary>Strength table (rupas)</summary><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Total range</th><th>Minimum</th><th>Verdict</th></tr></thead><tbody>${body}</tbody></table></div><p>${escape(profile.notice)}</p><p>${sourceLink(profile.source)}</p></details></section>`;
+}
+function timingSection(t) {
+  if (!t?.timelines) return '';
+  const lords = (t.marriage_candidate_lords || []).join(', ');
+  const blocks = Object.values(t.timelines).map(tl => {
+    const label = `${tl.balance_reading === 'moon_time_in_nakshatra_bj' ? 'Moon time in nakshatra' : 'Uniform longitude'} · ${Number(tl.year_length_days).toFixed(tl.year_length_days === 360 ? 0 : 3)}-day year`;
+    const maha = tl.mahadasas.map(m => `<tr><td>${escape(m.lord)}</td><td>${day(m.start)}</td><td>${day(m.end)}</td></tr>`).join('');
+    const win = (tl.marriage_candidate_antardasa_windows || []).map(w => `<tr><td>${escape(w.maha_lord)} / ${escape(w.antar_lord)}</td><td>${day(w.start)}</td><td>${day(w.end)}</td></tr>`).join('');
+    return `<details><summary>${escape(label)}</summary><div class="table-wrap"><table><thead><tr><th>Main period</th><th>From</th><th>To</th></tr></thead><tbody>${maha}</tbody></table></div>
+      ${win ? `<h3 class="sub">Windows where both lords are marriage candidates</h3><div class="table-wrap"><table><thead><tr><th>Period</th><th>From</th><th>To</th></tr></thead><tbody>${win}</tbody></table></div>` : ''}</details>`;
+  }).join('');
+  return `<section class="life-aspects life-extra" aria-labelledby="timing-title"><p class="eyebrow">Dated periods</p><h2 id="timing-title">Timing, four ways</h2>
+    <p>The dates depend on two conventions the books leave open: how the opening balance is read and how long a year is. Four timelines are shown side by side and none is chosen. Marriage windows are where both period lords are among ${escape(lords)}; that is a source condition, not a prediction.</p>
+    ${blocks}<p class="route-source">${sourceLink(t.source)}</p><p class="aspect-limit">${escape(t.notice)}</p></section>`;
+}
+function lifeSections(report) {
+  return conditionSection('Marriage · what the sources condition', 'marriage-title', report.marriage_conditional, 'Each row is a rule from the sources, checked against this chart. Marriage timing is not selected and the spouse\'s sex is not an input.') +
+    conditionSection('Wealth · what the sources condition', 'wealth-title', report.wealth_conditional, 'Each row is a rule from the sources, checked against this chart. No income level is produced.') +
+    strengthSection(report.shadbala_working_profile) + timingSection(report.timing_conditional);
+}
+function publicReport(report) {
+  const copy = JSON.parse(JSON.stringify(report));
+  for (const k of ['marriage_conditional', 'wealth_conditional']) if (copy[k]?.rows) copy[k].rows = visibleRows(copy[k].rows);
+  return copy;
+}
+
 function render(report, birth, coordsWereResolved) {
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
@@ -124,13 +185,14 @@ function render(report, birth, coordsWereResolved) {
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   ${lifeAspectReading(report.life_aspect_candidates)}
+  ${lifeSections(report)}
   <h2 class="chart-structure-title">The structure of your chart</h2>
   <section class="reading">${reading.map(t => `<p>${t}</p>`).join('')}</section>
   <div class="boundary"><h3>Where this reading stops</h3><p>The career alternatives above add source-based conditional interpretation to the chart structure. They do not choose the strongest route or a profession. Selected strength, calendar timing and life outcomes remain research-gated. No complete personal forecast or predictive accuracy is established.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu is the mean node. Ketu is not supplied in this engine report; no extra placement is invented.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
-  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(report, null, 2))}</pre></details>`;
+  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details>`;
   document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
