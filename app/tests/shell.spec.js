@@ -10,7 +10,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await page.locator('[name=date]').fill('2000-01-01');
  await page.locator('[name=time]').fill('14:30');
  await page.locator('[name=place]').fill('Chennai');
- await page.locator('[name=timezone]').fill('Asia/Kolkata');
+ await expect(page.locator('select[name=timezone]')).toHaveValue('Asia/Kolkata');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.locator('#resolved')).toContainText('13.0827, 80.2707');
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
@@ -72,7 +72,7 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
  await expect(page.locator('.result-head')).toContainText('<img src=x onerror=alert(1)>');
  expect(await page.locator('#results img').count()).toBe(0);
  expect(geocodeCalls).toBe(0);
- await page.locator('[name=timezone]').fill('bad-zone');await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.locator('select[name=timezone]').selectOption('__other');await page.locator('[name=timezone_other]').fill('bad-zone');await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Invalid IANA timezone');
  await expect(page.locator('#results')).toBeHidden();
  await expect(page.getByRole('button',{name:'Calculate chart',exact:true})).toBeEnabled();

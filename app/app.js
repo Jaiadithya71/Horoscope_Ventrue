@@ -205,7 +205,7 @@ form.addEventListener('submit', async e => {
   }
   button.disabled = true; button.textContent = 'Calculating…'; workspace.setAttribute('aria-busy', 'true');
   const values = Object.fromEntries(new FormData(form));
-  const birth = {date: values.date, time: values.time, timezone: values.timezone, place: values.place,
+  const birth = {date: values.date, time: values.time, timezone: values.timezone === '__other' ? (values.timezone_other || '').trim() : values.timezone, place: values.place,
     latitude: Number(values.latitude), longitude: Number(values.longitude)};
   try {
     const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth}), signal:AbortSignal.timeout(30000)});
@@ -219,5 +219,13 @@ form.addEventListener('submit', async e => {
 document.querySelector('#example').addEventListener('click', () => {
   const example = {date:'2000-01-01',time:'14:30',place:'Synthetic example',timezone:'Asia/Kolkata',latitude:13,longitude:80};
   for (const [key, value] of Object.entries(example)) form.elements[key].value = value;
+  form.elements.timezone.dispatchEvent(new Event('change'));
   resolvedFromLookup = false; resolved.hidden = true; candidatesBox.hidden = true; error.hidden = true;
+});
+
+form.elements.timezone.addEventListener('change', () => {
+  const other = form.elements.timezone.value === '__other';
+  document.querySelector('#zone-other-wrap').hidden = !other;
+  form.elements.timezone_other.required = other;
+  if (other) form.elements.timezone_other.focus();
 });
