@@ -174,7 +174,7 @@ function publicReport(report) {
 }
 
 
-const CHIP = t => (t.confidence === 'tentative' || t.level === 'mixed') ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? ['strong', 'Strong indication'] : ['light', 'Light indication'];
+const CHIP = t => t.level === 'mixed' ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? (t.confidence === 'tentative' ? ['moderate', 'Moderate indication'] : ['strong', 'Strong indication']) : ['light', 'Light indication'];
 function outcomeSection(summary) {
   if (!summary?.topics?.length) return '';
   const cards = summary.topics.map(t => { const [cls, label] = CHIP(t); return `<article class="outcome-card chip-${cls}"><div class="outcome-top"><h3>${escape(t.title)}</h3><span class="chip">${label}</span></div>

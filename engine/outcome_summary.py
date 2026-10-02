@@ -65,7 +65,9 @@ def _topic_level(rows, adverse_ids):
 
 
 def _clean(text):
-    return text.strip().rstrip('.')
+    t = text.strip().rstrip('.')
+    first = t.split(' ', 1)[0]
+    return t[0].lower() + t[1:] if first in ('A', 'An', 'The', 'Benefics', 'Malefics') else t
 
 
 def _points(rows, adverse_ids, want_adverse=False):
