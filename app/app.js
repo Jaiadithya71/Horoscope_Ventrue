@@ -8,7 +8,7 @@ const candidatesBox = document.querySelector('#candidates');
 const findButton = document.querySelector('#find-place');
 let resolvedFromLookup = false;
 const escape = value => String(value ?? 'Unavailable').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const source = s => s ? `${escape(s.slug)} · PDF page ${escape(s.pdf_page ?? (s.pdf_pages || []).join(', '))}` : 'Source unavailable';
+const source = s => s ? `${escape(s.slug ?? s.book ?? s.title)} · PDF page ${escape(s.pdf_page ?? (s.pdf_pages || []).join(', '))}` : 'Source unavailable';
 function fail(message) { error.textContent = message; error.hidden = false; }
 function showResolved(candidate) {
   resolvedFromLookup = true;
@@ -91,7 +91,7 @@ function sourceLink(s) {
   let url;
   try { url = new URL(s.url); } catch { return source(s); }
   if (url.protocol !== 'https:') return source(s);
-  return `<a href="${escape(url.href)}" target="_blank" rel="noopener noreferrer">${source(s)} · chapter ${escape(s.chapter)}, verse ${escape(s.sloka)}</a>`;
+  return `<a href="${escape(url.href)}" target="_blank" rel="noopener noreferrer">${source(s)}${s.chapter ? ` · chapter ${escape(s.chapter)}${s.sloka ? `, verse ${escape(s.sloka)}` : ''}` : ''}</a>`;
 }
 function lifeAspectReading(aspects) {
   if (!aspects?.career?.candidates?.length) return '';
@@ -122,7 +122,7 @@ function conditionRow(r) {
   return `<li class="cond-row cond-${escape(r.status)}"><p class="cond-status">${escape(STATUS_LABEL[r.status] || r.status)}</p>
     <p class="cond-condition">${escape(r.condition)}</p>
     <p class="cond-effect">${escape(r.effect_paraphrase)}</p>${models}
-    <p class="route-source">${escape(r.detail)} · ${sourceLink(r.source)}</p></li>`;
+    <p class="route-source">${/^[\[{]/.test(String(r.detail ?? '')) ? '' : escape(r.detail) + ' · '}${sourceLink(r.source)}</p></li>`;
 }
 function conditionSection(title, id, data, intro) {
   if (!data?.rows) return '';
