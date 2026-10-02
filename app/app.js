@@ -173,6 +173,17 @@ function publicReport(report) {
   return copy;
 }
 
+
+const CHIP = t => (t.confidence === 'tentative' || t.level === 'mixed') ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? ['strong', 'Strong indication'] : ['light', 'Light indication'];
+function outcomeSection(summary) {
+  if (!summary?.topics?.length) return '';
+  const cards = summary.topics.map(t => { const [cls, label] = CHIP(t); return `<article class="outcome-card chip-${cls}"><div class="outcome-top"><h3>${escape(t.title)}</h3><span class="chip">${label}</span></div>
+    <p class="outcome-head">${escape(t.headline)}</p><p class="outcome-text">${escape(t.text)}</p>
+    ${t.points?.length ? `<ul class="outcome-points">${t.points.map(p => `<li>${escape(p)}</li>`).join('')}</ul>` : ''}</article>`; }).join('');
+  return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your reading in plain words</h2><div class="outcome-list">${cards}</div>
+    <p class="aspect-limit">${escape(summary.basis)}</p></section>`;
+}
+
 function render(report, birth, coordsWereResolved) {
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
@@ -184,6 +195,8 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  ${outcomeSection(report.outcome_summary)}
+  <details class="evidence-all"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
   ${lifeSections(report)}
   <h2 class="chart-structure-title">The structure of your chart</h2>
@@ -192,13 +205,15 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu is the mean node. Ketu is not supplied in this engine report; no extra placement is invented.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
-  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details>`;
+  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details>`;
   document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
 form.addEventListener('submit', async e => {
   e.preventDefault(); error.hidden = true; output.hidden = true;
   document.querySelector('#empty').hidden = false;
+  if (!form.elements.date.value) return fail('Choose the full date of birth: day, month and a four-digit year.');
+  if (!form.elements.time.value) return fail('Choose the time of birth: hour, minute and AM or PM.');
   if (form.elements.latitude.value === '' || form.elements.longitude.value === '') {
     const ok = await findCoordinates();
     if (!ok || form.elements.latitude.value === '') return;
@@ -217,11 +232,63 @@ form.addEventListener('submit', async e => {
   finally { button.disabled = false; button.textContent = 'Calculate chart'; workspace.setAttribute('aria-busy', 'false'); }
 });
 document.querySelector('#example').addEventListener('click', () => {
-  const example = {date:'2000-01-01',time:'14:30',place:'Synthetic example',timezone:'Asia/Kolkata',latitude:13,longitude:80};
+  const example = {place:'Synthetic example',timezone:'Asia/Kolkata',latitude:13,longitude:80};
   for (const [key, value] of Object.entries(example)) form.elements[key].value = value;
+  setPickers('2000-01-01', '14:30');
   form.elements.timezone.dispatchEvent(new Event('change'));
   resolvedFromLookup = false; resolved.hidden = true; candidatesBox.hidden = true; error.hidden = true;
 });
+
+
+// ---- Friendly date, time and time-zone pickers
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const dayEl = document.querySelector('#d-day'), monEl = document.querySelector('#d-mon'), yearEl = document.querySelector('#d-year');
+const hourEl = document.querySelector('#t-hour'), minEl = document.querySelector('#t-min'), ampmEl = document.querySelector('#t-ampm');
+const dateEcho = document.querySelector('#date-echo');
+const pad = n => String(n).padStart(2, '0');
+function syncDate() {
+  const d = Number(dayEl.value), m = Number(monEl.value), y = Number(yearEl.value);
+  form.elements.date.value = '';
+  if (!d || !m || !/^\d{4}$/.test(yearEl.value)) { dateEcho.textContent = ''; return; }
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  if (y < 1800 || y > 2399 || dt.getUTCMonth() !== m - 1) { dateEcho.textContent = y < 1800 || y > 2399 ? 'Year must be between 1800 and 2399.' : `${MONTHS[m - 1]} ${y} has no day ${d}.`; return; }
+  form.elements.date.value = `${y}-${pad(m)}-${pad(d)}`;
+  dateEcho.textContent = dt.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+  relabelZones();
+}
+function syncTime() {
+  const h = Number(hourEl.value), mi = minEl.value;
+  form.elements.time.value = (!h || mi === '' || !ampmEl.value) ? '' : `${pad(h % 12 + (ampmEl.value === 'PM' ? 12 : 0))}:${pad(Number(mi))}`;
+}
+for (const el of [dayEl, monEl, yearEl]) el.addEventListener('input', syncDate);
+for (const el of [hourEl, minEl, ampmEl]) el.addEventListener('input', syncTime);
+function setPickers(date, time) {
+  const [y, m, d] = date.split('-').map(Number);
+  yearEl.value = y; monEl.value = m; dayEl.value = d; syncDate();
+  const [hh, mm] = time.split(':').map(Number);
+  hourEl.value = hh % 12 || 12; minEl.value = mm; ampmEl.value = hh >= 12 ? 'PM' : 'AM'; syncTime();
+}
+function zoneOffset(zone) {
+  try {
+    const iso = form.elements.date.value;
+    const at = iso ? new Date(`${iso}T12:00:00Z`) : new Date();
+    const part = new Intl.DateTimeFormat('en', {timeZone: zone, timeZoneName: 'shortOffset'}).formatToParts(at).find(p => p.type === 'timeZoneName');
+    return part ? part.value.replace('GMT', 'UTC') : '';
+  } catch { return ''; }
+}
+function relabelZones() {
+  for (const o of form.elements.timezone.options) {
+    if (o.value === '__other') continue;
+    o.dataset.base ??= o.textContent.replace(/ \(.*\)$/, '');
+    const off = zoneOffset(o.value);
+    o.textContent = off ? `${o.dataset.base} · ${off}` : o.dataset.base;
+  }
+}
+function fillZoneList() {
+  const zones = typeof Intl.supportedValuesOf === 'function' ? Intl.supportedValuesOf('timeZone') : [];
+  document.querySelector('#zone-list').innerHTML = zones.map(z => `<option value="${escape(z)}">${escape(zoneOffset(z))}</option>`).join('');
+}
+relabelZones(); fillZoneList();
 
 form.elements.timezone.addEventListener('change', () => {
   const other = form.elements.timezone.value === '__other';

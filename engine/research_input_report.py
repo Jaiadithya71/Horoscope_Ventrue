@@ -29,7 +29,7 @@ def period_input_coverage(placements,main_lord,sub_lord):
  return {'rows':rows,'complete_period_evidence':False,'personal_outcome':None}
 
 
-def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_instant=None,native_sex=None):
+def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,query_instant=None,native_sex=None):
  if not isinstance(birth,dict) or set(birth)!=BIRTH_KEYS:raise ValueError('Birth requires exactly date,time,timezone,latitude,longitude,place')
  for key in ('date','time','timezone','place'):
   if not isinstance(birth[key],str) or not birth[key].strip():raise ValueError('Nonempty birth text fields required')
@@ -97,6 +97,13 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
   'strength_requirements':strength_profile_inventory(),'precedence_requirements':precedence_inventory(),
   'selected_complete_strength':None,'selected_calendar_profile':None,'global_outcome':None,'empirical_accuracy':None,
   'notice':'Existing modern Moshier/Lahiri chart model is labeled, not a selected historical frame. Birth, source arithmetic and explicit period-pair evidence are separate lanes. Caller-supplied strengths do not create strong/weak flags, change chart coordinates or select an active calendar. Sripati base excludes signed-aspect assembly; Raman layout already includes signedDrik and Ayana withinKala. No cross-source sum, rank or personal forecast. Research licensing and source-rights gates still apply.'}
+
+
+def research_input_report(*args,**kwargs):
+ from .outcome_summary import outcome_summary
+ report=_research_input_report_base(*args,**kwargs)
+ report['outcome_summary']=outcome_summary(report)
+ return report
 
 
 def main():

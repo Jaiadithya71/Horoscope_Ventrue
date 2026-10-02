@@ -1,4 +1,8 @@
 const {test,expect} = require('@playwright/test');
+async function setBirth(page,y,m,d,hh,mm,ap){
+ await page.locator('#d-day').selectOption(String(d));await page.locator('#d-mon').selectOption(String(m));await page.locator('#d-year').fill(String(y));
+ await page.locator('#t-hour').selectOption(String(hh));await page.locator('#t-min').selectOption(String(mm));await page.locator('#t-ampm').selectOption(ap);
+}
 const chennai = {candidates:[{display_name:'Chennai, Tamil Nadu, India',latitude:13.0827,longitude:80.2707,category:'place',type:'city'}]};
 const multi = {candidates:[
  {display_name:'Salem, Tamil Nadu, India',latitude:11.6643,longitude:78.146,category:'place',type:'city'},
@@ -7,8 +11,9 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:chennai}));
  await page.goto('/');
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-start.png`,fullPage:true});
- await page.locator('[name=date]').fill('2000-01-01');
- await page.locator('[name=time]').fill('14:30');
+ await setBirth(page,2000,1,1,2,30,'PM');
+ await expect(page.locator('#date-echo')).toContainText('Saturday, 1 January 2000');
+ await expect(page.locator('[name=time]')).toHaveValue('14:30');
  await page.locator('[name=place]').fill('Chennai');
  await expect(page.locator('select[name=timezone]')).toHaveValue('Asia/Kolkata');
  await page.getByRole('button',{name:'Find coordinates'}).click();
@@ -16,6 +21,9 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
+ await expect(page.locator('.outcome-card')).toHaveCount(5);
+ await expect(page.locator('.outcomes')).not.toContainText('Not met');
+ await page.locator('.evidence-all > summary').click();
  await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
  await expect(page.locator('.reading')).toContainText('Your Moon is in Libra');
  await expect(page.locator('.reading')).toContainText('Mars rules your ascendant');
