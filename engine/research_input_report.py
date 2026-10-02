@@ -71,16 +71,20 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
  from .shadbala_working_profile import shadbala_working_profile
  from .marriage_conditional import marriage_conditional
  from .wealth_conditional import wealth_conditional
+ from .timing_conditional import timing_conditional
  try:shadbala=shadbala_working_profile(chart,timezone=birth['timezone'])
  except ValueError as exc:shadbala={'status':'unavailable','reason':str(exc)}
  verdicts={p:r['verdict'] for p,r in shadbala['planets'].items()} if 'planets' in shadbala else {}
+ marriage=marriage_conditional(chart,strength_verdicts=verdicts,native_sex=native_sex)
+ marriage_rows=marriage['rows']
  period=None if period_pair is None else period_condition_report(chart['ascendant']['sign'],chart['placements'],**period_pair)
  conventions=None if query is None else convention_condition_report(birth_utc(birth['date'],birth['time'],birth['timezone']),query,chart['ascendant']['sign'],chart['placements'])
  return {'status':'explicit_birth_research_evidence_not_personal_forecast','natal_chart':chart,
   'life_aspect_candidates':life_aspect_candidates(chart),
   'shadbala_working_profile':shadbala,
+  'timing_conditional':timing_conditional(chart,marriage_rows=marriage_rows),
   'wealth_conditional':wealth_conditional(chart,strength_verdicts=verdicts),
-  'marriage_conditional':marriage_conditional(chart,strength_verdicts=verdicts,native_sex=native_sex),
+  'marriage_conditional':marriage,
   'query_convention_condition_evidence':conventions,
   'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
   'query_pair_input_coverage':[] if conventions is None else [
