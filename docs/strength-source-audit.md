@@ -505,3 +505,11 @@ allegations, caste labels and violent roles are not projected onto the person.
 Historical gendered examples are not assumptions about the person's gender.
 Marriage/health/timing have explicit unimplemented/unselected fields rather
 than invented generic predictions. Shell presentation is separate work.
+
+## Interval-valued working profile (Sripati III, assembled)
+
+`engine/shadbala_working_profile.py` assembles the existing page-checked components into a per-planet Shadbala **interval** for a modern chart. Newly re-read from the scan this pass (PDF 52-80, printed 38-66): the Natonnata/Pakshabala/Tribhaga/Varsha-Masa-Dina-Hora weights (15/30/45/60 virupa), the Ayana arithmetic (recomputes all seven printed worked values), Cheshtakendra, Naisargika, the III.20 aspect step, Bhavabala, and the printed minimum Shadbala (Sun 390, Moon 360, Mars 300, Mercury 420, Jupiter 390, Venus 330, Saturn 300 virupa, printed p66).
+
+Every unresolved reading stays a bound, not a pick: four positional variants, two meridian clocks, two Paksha readings, Sun Ayana doubled/undoubled, Moon multiplier, Mercury benefic/malefic in the aspect step, hora candidates, year/month lords (0 to 0.75 each planet, since the historical epoch count is not inferred). Modern mean heliocentric elements stand in for the traditional mean planet in Cheshta; that is a labeled modern input, checked only to lie within the equation of centre of Swiss Ephemeris heliocentric longitude. A planet is reported as meeting or below the Sripati minimum only when both ends of the interval agree; otherwise 'unresolved'. Planetary war (Yuddha) is flagged for planets within 1 degree but not applied. Bhavabala is documented but not coded (the book's Sl.22 and the later quoted rule disagree on which sign class takes which bhava).
+
+Tests are source arithmetic only. They do not measure forecast accuracy.
