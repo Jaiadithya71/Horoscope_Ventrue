@@ -29,7 +29,7 @@ def period_input_coverage(placements,main_lord,sub_lord):
  return {'rows':rows,'complete_period_evidence':False,'personal_outcome':None}
 
 
-def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_instant=None):
+def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_instant=None,native_sex=None):
  if not isinstance(birth,dict) or set(birth)!=BIRTH_KEYS:raise ValueError('Birth requires exactly date,time,timezone,latitude,longitude,place')
  for key in ('date','time','timezone','place'):
   if not isinstance(birth[key],str) or not birth[key].strip():raise ValueError('Nonempty birth text fields required')
@@ -68,10 +68,17 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
     'unit_conversion_applied':False,
     'chart_identity_match_verified':False,'converted_to_condition_strength_flag':False})
  chart=natal_chart(**birth)
+ from .shadbala_working_profile import shadbala_working_profile
+ from .marriage_conditional import marriage_conditional
+ try:shadbala=shadbala_working_profile(chart,timezone=birth['timezone'])
+ except ValueError as exc:shadbala={'status':'unavailable','reason':str(exc)}
+ verdicts={p:r['verdict'] for p,r in shadbala['planets'].items()} if 'planets' in shadbala else {}
  period=None if period_pair is None else period_condition_report(chart['ascendant']['sign'],chart['placements'],**period_pair)
  conventions=None if query is None else convention_condition_report(birth_utc(birth['date'],birth['time'],birth['timezone']),query,chart['ascendant']['sign'],chart['placements'])
  return {'status':'explicit_birth_research_evidence_not_personal_forecast','natal_chart':chart,
   'life_aspect_candidates':life_aspect_candidates(chart),
+  'shadbala_working_profile':shadbala,
+  'marriage_conditional':marriage_conditional(chart,strength_verdicts=verdicts,native_sex=native_sex),
   'query_convention_condition_evidence':conventions,
   'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
   'query_pair_input_coverage':[] if conventions is None else [

@@ -66,3 +66,14 @@ class MarriageConditionalTests(unittest.TestCase):
 
 
 if __name__=='__main__':unittest.main()
+
+
+class ReportWiringTests(unittest.TestCase):
+    def test_report_carries_strength_and_marriage_and_is_json_serialisable(self):
+        import json
+        from engine.research_input_report import research_input_report
+        x=research_input_report({'date':'1990-05-15','time':'10:30:00','timezone':'Asia/Calcutta',
+                                 'latitude':13.08,'longitude':80.27,'place':'Chennai'})
+        json.dumps(x)
+        self.assertEqual(len(x['shadbala_working_profile']['planets']),7)
+        self.assertIsNone(x['marriage_conditional']['selected_outcome'])
