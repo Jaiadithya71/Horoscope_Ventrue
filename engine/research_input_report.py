@@ -70,6 +70,7 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
  chart=natal_chart(**birth)
  from .shadbala_working_profile import shadbala_working_profile
  from .marriage_conditional import marriage_conditional
+ from .wealth_conditional import wealth_conditional
  try:shadbala=shadbala_working_profile(chart,timezone=birth['timezone'])
  except ValueError as exc:shadbala={'status':'unavailable','reason':str(exc)}
  verdicts={p:r['verdict'] for p,r in shadbala['planets'].items()} if 'planets' in shadbala else {}
@@ -78,6 +79,7 @@ def research_input_report(birth,*,period_pair=None,supplied_strength=None,query_
  return {'status':'explicit_birth_research_evidence_not_personal_forecast','natal_chart':chart,
   'life_aspect_candidates':life_aspect_candidates(chart),
   'shadbala_working_profile':shadbala,
+  'wealth_conditional':wealth_conditional(chart,strength_verdicts=verdicts),
   'marriage_conditional':marriage_conditional(chart,strength_verdicts=verdicts,native_sex=native_sex),
   'query_convention_condition_evidence':conventions,
   'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
