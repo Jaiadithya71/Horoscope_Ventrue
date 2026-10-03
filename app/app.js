@@ -351,28 +351,31 @@ function storyCards(report) {
   const why = rules => rules?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${rules.map(r => `<li>${escape(r.sign ? r.sign + ': ' : '')}${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details>` : '';
   const add = (eyebrow, title, body, extra) => cards.push({eyebrow, title, body, extra: extra || ''});
   const w = report.who_you_are, lp = report.life_periods;
-  add('Your reading', 'Your life, one card at a time', '<p>Tap Next or swipe left to go on, Back or swipe right to return. Each card is one piece: who you are, then each stretch of life, the phases inside, and every area of life. Read as themes from classical texts, not fixed events.</p>');
+  add('Your reading', 'Your life in about a minute', '<p>A short read: who you are, the stretch of life you are in, the phase you are in right now and what helps. Tap Next or swipe. Everything else is one tap away at the end.</p>');
   if (w) {
-    add('Who you are', 'How you come across', `<p>${escape(w.outer_you.text)}</p><p class="p-hl">${w.outer_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.outer_you.rules));
-    if (!w.same_sign) add('Who you are', 'Your inner nature', `<p>${escape(w.inner_you.text)}</p><p class="p-hl">${w.inner_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.inner_you.rules));
+    const pt = o => `<p class="p-hl">${o.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`;
+    add('Who you are', 'The person behind the chart', `<p><strong>How you come across.</strong> ${escape(w.outer_you.text)}</p>${w.same_sign ? '<p class="muted">Your inner nature points the same way.</p>' : `<p><strong>Your inner nature.</strong> ${escape(w.inner_you.text)}</p>`}${pt(w.outer_you)}`, why(w.outer_you.rules.concat(w.same_sign ? [] : w.inner_you.rules)));
   }
-  const ps = (lp?.periods || []).filter(p => p.when !== 'past');
   const toneCls = t => ({strong: 'tone-strong', weak: 'tone-weak', mixed: 'tone-mixed'}[t] || 'tone-mixed');
-  ps.forEach(p => {
-    const yrs = `${p.years_about[0]} to ${p.years_about[1]}`;
-    const tag = p.when === 'now' ? 'Right now' : p.when === 'next' ? 'Coming next' : 'Further ahead';
-    const rulesWhy = why((p.rules || []).map(r => ({effect: r.effect, source: r.source})));
-    const basis = `<details class="why"><summary>The chart basis</summary><p class="route-caveat">Ruling planet: ${escape(p.lord)}. ${escape((p.basis || []).join('; '))}.</p></details>`;
-    add(tag, yrs, `<p>${chip(p.label, toneCls(p.tone))}</p><p>${escape(p.you_text || p.summary)}</p>${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}`, rulesWhy + basis);
-    if (p.depth === 'full') {
-      Object.values(p.aspects || {}).forEach(a => add(`${yrs} · ${a.label}`, a.label, `<p>${chip(a.status === 'quiet' ? 'nothing specific' : a.status, 'asp-' + a.status)}</p><p>${escape(a.text)}</p>${a.guidance ? `<p class="guide">${escape(a.guidance)}</p>` : ''}`, a.items?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${a.items.map(i => `<li>${escape(i.effect)} <span class="route-source">${sourceLink(i.source)}</span></li>`).join('')}</ul></details>` : ''));
-      p.bhuktis.forEach(b => add(`${yrs} · phase`, `${b.years_about[0]} to ${b.years_about[1]}`, `<p>${chip(b.label)}</p>${(b.phase_areas || []).length ? b.phase_areas.map(x => `<p><strong>${escape(x.label)}.</strong> ${escape(x.text)}</p><p class="guide">${escape(x.guidance)}</p>`).join('') + '<p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>' : '<p>No area stands out for this phase, so the overall feel of the stretch applies.</p>'}`, `<details class="why"><summary>Why the chart says this</summary><p class="route-caveat">${escape(b.basis)}</p></details>`));
-    } else {
-      const chips = Object.values(p.aspects || {}).filter(a => a.status !== 'quiet').map(a => `<span class="hl">${escape(a.label)}: ${escape(a.status)}</span>`).join('');
-      if (chips) cards[cards.length - 1].body += `<p class="p-hl">${chips}</p>`;
-    }
-  });
-  add('The fine print', 'What this is, and is not', `<p>${escape(lp?.notice || '')}</p><p>These are broad themes from one classical text. They were not tested against real outcomes, and nothing here is medical, legal or financial advice.</p>`);
+  const periods = lp?.periods || [];
+  const cur = periods.find(p => p.when === 'now'), nxt = periods.find(p => p.when === 'next');
+  const yrOf = p => `${p.years_about[0]} to ${p.years_about[1]}`;
+  if (cur) {
+    const rulesWhy = why((cur.rules || []).map(r => ({effect: r.effect, source: r.source})));
+    const basis = `<details class="why"><summary>The chart basis</summary><p class="route-caveat">Ruling planet: ${escape(cur.lord)}. ${escape((cur.basis || []).join('; '))}.</p></details>`;
+    const chips = Object.values(cur.aspects || {}).filter(a => a.status !== 'quiet').map(a => `<span class="hl">${escape(a.label)}: ${escape(a.status)}</span>`).join('');
+    add('Right now', yrOf(cur), `<p>${chip(cur.label, toneCls(cur.tone))}</p><p>${escape(cur.you_text || cur.summary)}</p>${chips ? `<p class="p-hl">${chips}</p>` : ''}${cur.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}`, rulesWhy + basis);
+    const yr = new Date().getFullYear();
+    const ph = [...(cur.bhuktis || [])].filter(b => b.years_about[0] <= yr && yr <= b.years_about[1]).sort((x, y) => y.years_about[0] - x.years_about[0])[0];
+    if (ph) add('Your current phase', `About ${ph.years_about[0]} to ${ph.years_about[1]}`, `<p>${chip(ph.label)}</p>${(ph.phase_areas || []).length ? ph.phase_areas.map(x => `<p><strong>${escape(x.label)}.</strong> ${escape(x.text)}</p>`).join('') + '<p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>' : '<p>No single area stands out in this phase, so the overall feel of your stretch applies.</p>'}`, `<details class="why"><summary>Why the chart says this</summary><p class="route-caveat">${escape(ph.basis)}</p></details>`);
+    const gl = Object.values(cur.aspects || {}).filter(a => a.guidance).sort((x, y) => (x.status === 'testing' ? 0 : 1) - (y.status === 'testing' ? 0 : 1)).slice(0, 3);
+    if (gl.length) add('What helps', 'What to lean on, what to watch', gl.map(a => `<p><strong>${escape(a.label)}.</strong> ${escape(a.text)}</p><p class="guide">${escape(a.guidance)}</p>`).join(''), `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${gl.flatMap(a => a.items || []).map(i => `<li>${escape(i.effect)} <span class="route-source">${sourceLink(i.source)}</span></li>`).join('')}</ul></details>`);
+  }
+  if (nxt) {
+    const chips = Object.values(nxt.aspects || {}).filter(a => a.status !== 'quiet').map(a => `<span class="hl">${escape(a.label)}: ${escape(a.status)}</span>`).join('');
+    add('Coming next', yrOf(nxt), `<p>${chip(nxt.label, toneCls(nxt.tone))}</p><p>${escape(nxt.you_text || nxt.summary)}</p>${chips ? `<p class="p-hl">${chips}</p>` : ''}`, why((nxt.rules || []).map(r => ({effect: r.effect, source: r.source}))));
+  }
+  add('The fine print', 'There is more', `<p>${escape(lp?.notice || 'Themes from one classical text, not fixed events.')}</p><p>Not tested against real outcomes. Not medical, legal or financial advice.</p><p><button type="button" class="story-jump" data-jump="periods-title">See every stretch, phase and area</button></p>`);
   return cards;
 }
 
@@ -398,4 +401,8 @@ function openStory() {
   ov.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); });
   show(0); card.focus();
 }
-document.addEventListener('click', e => { if (e.target.closest('#story-open')) openStory(); });
+document.addEventListener('click', e => {
+  if (e.target.closest('#story-open')) openStory();
+  const j = e.target.closest('.story-jump');
+  if (j) { document.querySelector('.story .story-close')?.click(); setTimeout(() => document.getElementById(j.dataset.jump)?.scrollIntoView({behavior: 'smooth'}), 50); }
+});
