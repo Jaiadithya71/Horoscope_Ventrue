@@ -351,7 +351,7 @@ function storyCards(report) {
   const why = rules => rules?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${rules.map(r => `<li>${escape(r.sign ? r.sign + ': ' : '')}${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details>` : '';
   const add = (eyebrow, title, body, extra) => cards.push({eyebrow, title, body, extra: extra || ''});
   const w = report.who_you_are, lp = report.life_periods;
-  add('Your reading', 'Your life, one card at a time', '<p>Tap the right side to go on, the left to go back. Each card is one piece: who you are, then each stretch of life, the phases inside, and every area of life. Read as themes from classical texts, not fixed events.</p>');
+  add('Your reading', 'Your life, one card at a time', '<p>Tap Next or swipe left to go on, Back or swipe right to return. Each card is one piece: who you are, then each stretch of life, the phases inside, and every area of life. Read as themes from classical texts, not fixed events.</p>');
   if (w) {
     add('Who you are', 'How you come across', `<p>${escape(w.outer_you.text)}</p><p class="p-hl">${w.outer_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.outer_you.rules));
     if (!w.same_sign) add('Who you are', 'Your inner nature', `<p>${escape(w.inner_you.text)}</p><p class="p-hl">${w.inner_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.inner_you.rules));
