@@ -106,6 +106,8 @@ def research_input_report(*args,**kwargs):
  report=_research_input_report_base(*args,**kwargs)
  from .dasa_period_readings import life_periods
  report['life_periods']=life_periods(report)
+ from .who_you_are import who_you_are
+ report['who_you_are']=who_you_are(report)
  report['outcome_summary']=outcome_summary(report)
  return report
 

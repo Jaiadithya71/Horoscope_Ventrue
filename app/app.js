@@ -186,6 +186,15 @@ function outcomeSection(summary) {
 
 const TONE = {strong:['strong','Supportive'], weak:['weak','Testing'], mixed:['mixed','Mixed']};
 const KIND = {money:'money', career:'career', partnership:'partnership', children:'children'};
+function whoSection(w) {
+  if (!w) return '';
+  const card = (title, o) => `<div class="who-card"><h3>${escape(title)}</h3><p class="outcome-text">${escape(o.text)}</p><p class="p-hl">${o.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>
+    <details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${o.rules.map(r => `<li>${escape(r.sign)}: ${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details></div>`;
+  return `<section class="who" aria-labelledby="who-title"><p class="eyebrow">Who you are</p><h2 id="who-title">The person behind the chart</h2>
+    ${card('How you come across', w.outer_you)}${w.same_sign ? '<p class="muted">Your outer and inner nature point the same way, so the same sketch applies to both.</p>' : card('Your inner nature', w.inner_you)}
+    <p class="aspect-limit">${escape(w.notice)}</p></section>`;
+}
+
 function periodsSection(lp) {
   if (!lp?.periods?.length) return '';
   const now = new Date().getFullYear();
@@ -218,6 +227,7 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  ${whoSection(report.who_you_are)}
   ${outcomeSection(report.outcome_summary)}
   ${periodsSection(report.life_periods)}
   <details class="evidence-all"><summary>See the evidence and calculations behind this</summary>
