@@ -22,6 +22,7 @@ from datetime import datetime, timedelta
 from .forecast import SIGNS
 from .synthesis import LORDS
 from .friendship import natural_relation
+from .period_aspects import period_aspects, phase_chips, ASPECTS
 
 PHALA = 'https://archive.org/details/in.ernet.dli.2015.92117'
 SRC19 = {'book': 'phaladeepika-1937', 'chapter': 'XIX', 'sloka': '5-26', 'pdf_pages': list(range(229, 238)), 'verified_against_page_image': True, 'url': PHALA}
@@ -226,7 +227,8 @@ def life_periods(report, today=None):
             if btone != 'testing' and tone != 'weak':
                 kind = sorted({d for d in note if d in ('money', 'career', 'partnership', 'children')})
             if lord in cand and b in cand and 'partnership' not in kind: kind.append('partnership')
-            bhuktis.append({'label': {'supportive': 'An easier phase', 'testing': 'A harder phase', 'mixed': 'A mixed phase'}[btone], 'highlight_words': [KIND_YOU[k] for k in kind if k in KIND_YOU], 'lord': b, 'years_about': _span(sub[b]), 'tone': btone, 'highlights': kind,
+            pchips = phase_chips(_owned(chart, b) if b not in ('Rahu', 'Ketu') else [], btone)
+            bhuktis.append({'phase_areas': pchips, 'label': {'supportive': 'An easier phase', 'testing': 'A harder phase', 'mixed': 'A mixed phase'}[btone], 'highlight_words': [KIND_YOU[k] for k in kind if k in KIND_YOU], 'lord': b, 'years_about': _span(sub[b]), 'tone': btone, 'highlights': kind,
                             'basis': ((f'{b} sits in the {_ord(pos1)} from {lord}' if b != lord else f'{b} is the period lord itself') + (', an unhappy position' if bad1 else ', a good position' if b != lord else '') + ('; natural enemy of the period lord' if enemy else ''))})
         pdk = sorted({d for b in bhuktis for d in b['highlights']})
         lead = {'strong': 'A supportive period.', 'weak': 'A testing period.', 'mixed': 'A mixed period.'}[tone]
@@ -240,11 +242,17 @@ def life_periods(report, today=None):
             you_text = f'{NATURE_YOU[lord]} Good side: {reads[0]} Hard side: {reads[1]}'
         else:
             you_text = ' '.join([NATURE_YOU[lord]] + reads[:2])
-        periods.append({'lord': lord, 'label': you_lead, 'you_text': you_text, 'summary': summary, 'years_about': _span(spans), 'tone': tone, 'confidence': conf,
+        periods.append({'aspects': period_aspects(lord, owned, tone), 'lord': lord, 'label': you_lead, 'you_text': you_text, 'summary': summary, 'years_about': _span(spans), 'tone': tone, 'confidence': conf,
                         'houses_owned': owned, 'basis': basis, 'themes': sorted(themes),
                         'reading': NATURE[lord][0], 'house_lord_reading': reads,
                         'rules': rules, 'bhuktis': bhuktis, 'highlight_kinds': sorted({DOMAIN[h] for h in owned if h in DOMAIN and DOMAIN[h] in ('money','career','partnership','children')}) if tone != 'weak' else [], 'bhukti_highlight_kinds': pdk, 'highlight_words': [KIND_YOU[k] for k in sorted({DOMAIN[h] for h in owned if h in DOMAIN and DOMAIN[h] in KIND_YOU}) if tone != 'weak'],
                         'sub_rule_source': SRC20_SUB})
+    yr = (today or datetime.now()).year
+    cur = next((i for i, q in enumerate(periods) if q['years_about'][0] <= yr <= q['years_about'][1]), None)
+    if cur is None: cur = next((i for i, q in enumerate(periods) if q['years_about'][0] > yr), -1) - 1
+    for i, q in enumerate(periods):
+        q['depth'] = 'full' if i in (cur, cur + 1) else 'short'
+        q['when'] = 'now' if i == cur else 'next' if i == cur + 1 else 'past' if i < cur else 'later'
     return {'status': 'periods_broad_themes_not_events', 'periods': periods,
             'held_out': ['death and demise clauses', 'character and "wicked" wording', 'combustion strength (limits not defined on these pages)', 'XX.23 birth-star sub-period rule', 'XX.24 dangerous ordinal rule'],
             'notice': 'Each period is a broad theme from the ruling planet (Phaladeepika Adh. XIX, XX), not an event or a date of an event. Dates are the union of four timing conventions, rounded to years.'}

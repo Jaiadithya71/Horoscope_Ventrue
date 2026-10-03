@@ -200,15 +200,21 @@ function periodsSection(lp) {
   const now = new Date().getFullYear();
   const items = lp.periods.map(p => {
     const [cls, label] = TONE[p.tone] || TONE.mixed;
-    const current = p.years_about[0] <= now && now <= p.years_about[1];
+    const current = p.when === 'now' || (!p.when && p.years_about[0] <= now && now <= p.years_about[1]);
     const hl = (p.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
-    const subs = p.bhuktis.map(b => `<tr class="sub-${escape(b.tone)}"><td>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</td><td>${escape(b.label)}${b.highlight_words?.length ? ' · ' + escape(b.highlight_words.join(', ')) : ''}</td></tr>`).join('');
+    const subs = p.bhuktis.map(b => { const areas = b.phase_areas || []; const chips = (b.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
+      const detail = areas.length ? `<ul class="cond-list">${areas.map(x => `<li><strong>${escape(x.label)}:</strong> ${escape(x.text)}</li>`).join('')}</ul><p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>` : '<p class="route-caveat">No area stands out for this phase, so the overall feel of the stretch applies.</p>';
+      return `<details class="phase sub-${escape(b.tone)}"><summary><span>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</span> <span class="chip">${escape(b.label)}</span> ${chips}</summary>${detail}</details>`; }).join('');
+    const asp = Object.values(p.aspects || {});
+    const aspChips = asp.filter(x => x.status !== 'quiet').map(x => `<span class="hl asp-${escape(x.status)}">${escape(x.label)}: ${escape(x.status)}</span>`).join('');
+    const full = p.depth === 'full';
+    const aspects = full ? `<div class="aspects">${asp.map(x => `<details class="aspect asp-${escape(x.status)}"><summary><span class="a-name">${escape(x.label)}</span><span class="chip">${escape(x.status === 'quiet' ? 'nothing specific' : x.status)}</span></summary><p>${escape(x.text)}</p>${x.guidance ? `<p class="guide">${escape(x.guidance)}</p>` : ''}</details>`).join('')}</div>` : (aspChips ? `<p class="p-hl">${aspChips}</p>` : '');
     const reasons = p.bhuktis.map(b => `<li>${escape(b.years_about[0])} to ${escape(b.years_about[1])}: ${escape(b.lord)}. ${escape(b.basis)}</li>`).join('');
     const rules = p.rules.map(r => `<li>${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('');
-    return `<details class="period period-${cls}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span></summary>
+    return `<details class="period period-${cls} depth-${escape(p.depth || "short")}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : p.when === 'next' ? '<span class="chip">Next</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span></summary>
       <p class="outcome-text">${escape(p.you_text || p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
       ${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}
-      <details><summary>Smaller phases inside it</summary><div class="table-wrap"><table><thead><tr><th>Years</th><th>Feel</th></tr></thead><tbody>${subs}</tbody></table></div></details>
+      ${aspects}<details class="phases"><summary>Smaller phases inside it</summary><div class="phase-list">${subs}</div></details>
       <details class="why"><summary>Why the chart says this</summary><p class="route-caveat">Ruling planet for this stretch: ${escape(p.lord)}. ${escape(p.basis.join('; '))}.</p><ul class="cond-list">${rules}</ul><p class="route-caveat">Smaller phases:</p><ul class="cond-list">${reasons}</ul></details></details>`;
   }).join('');
   return `<section class="periods" aria-labelledby="periods-title"><p class="eyebrow">What happens when</p><h2 id="periods-title">Your life, period by period</h2>
@@ -227,10 +233,11 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${whoSection(report.who_you_are)}
   ${outcomeSection(report.outcome_summary)}
   ${periodsSection(report.life_periods)}
-  <details class="evidence-all"><summary>See the evidence and calculations behind this</summary>
+  <details class="evidence-all" id="evidence"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
   ${lifeSections(report)}
   <h2 class="chart-structure-title">The structure of your chart</h2>
