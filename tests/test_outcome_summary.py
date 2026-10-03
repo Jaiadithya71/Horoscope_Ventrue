@@ -30,9 +30,16 @@ class OutcomeSummaryTest(unittest.TestCase):
         self.assertEqual(lv['wealth'], 'some')
         self.assertEqual(lv['strength'], 'strong')
 
-    def test_timing_uses_agreed_current_period(self):
-        t = next(x for x in self.out['topics'] if x['id'] == 'timing')
-        self.assertIn('Rahu', t['points'][0])
+    def test_periods_topic_speaks_about_the_person(self):
+        t = next(x for x in self.out['topics'] if x['id'] == 'periods')
+        self.assertIn('Right now', t['points'][0])
+
+    def test_surface_text_has_no_astrology_jargon(self):
+        words = ('rahu', 'ketu', 'dasa', 'bhukti', 'lord', 'exalt', 'malefic', 'benefic', 'lagna', 'navamsa', 'classical', 'saturn', 'jupiter', 'mars', 'venus', 'mercury', 'moon ', 'sun ')
+        for t in self.out['topics']:
+            surface = (t['title'] + ' ' + t['headline'] + ' ' + t['text'] + ' ' + ' '.join(t['points'])).lower()
+            for w in words:
+                self.assertNotIn(w, surface, (t['id'], w))
 
     def test_house_model_disagreement_lowers_confidence_not_hides(self):
         import copy

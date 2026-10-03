@@ -59,6 +59,20 @@ NATURE = {
  'Ketu': ('sorrow and confusion, trouble from powerful people and time away from home', 'conflict'),
  'Venus': ('a partner, jewels, comforts, trade and travel gains, with anxiety and separation from elders', 'partnership wealth'),
 }
+# Second-person wording for the surface layer. Same rules (Adh. XIX 18-26), no planet talk.
+NATURE_YOU = {
+ 'Sun': 'Money can come, but through forceful or risky routes. Expect friction with authority figures and seniors, and take care over property.',
+ 'Moon': 'Comforts and money come through goodwill and trust, with some friction from difficult people.',
+ 'Mars': 'Land, property and income come through effort. Disputes with brothers or rivals are likely, and heat-related health strain.',
+ 'Rahu': 'A restless, unsettled mind and friction with authority and rivals. Guard family matters.',
+ 'Jupiter': 'Standing, children, money and friends improve, and people respect how you speak.',
+ 'Saturn': 'Income comes through steady effort, with helpers and workers around you, and some worry over spouse and children.',
+ 'Mercury': 'Learning, good advisers and money through knowledgeable people. Wealth builds over time.',
+ 'Ketu': 'A heavy, confusing stretch, with friction with powerful people and time away from home.',
+ 'Venus': 'Partnership, comforts, travel and trade gains, with some anxiety and distance from elders.',
+}
+LABEL = {'strong': 'A supportive stretch', 'weak': 'A testing stretch', 'mixed': 'A mixed stretch'}
+KIND_YOU = {'money': 'money', 'career': 'work', 'partnership': 'relationships', 'children': 'children'}
 DOMAIN = {2: 'money', 11: 'money', 10: 'career', 7: 'partnership', 5: 'children', 4: 'home', 9: 'luck'}
 
 
@@ -212,7 +226,7 @@ def life_periods(report, today=None):
             if btone != 'testing' and tone != 'weak':
                 kind = sorted({d for d in note if d in ('money', 'career', 'partnership', 'children')})
             if lord in cand and b in cand and 'partnership' not in kind: kind.append('partnership')
-            bhuktis.append({'lord': b, 'years_about': _span(sub[b]), 'tone': btone, 'highlights': kind,
+            bhuktis.append({'label': {'supportive': 'An easier phase', 'testing': 'A harder phase', 'mixed': 'A mixed phase'}[btone], 'highlight_words': [KIND_YOU[k] for k in kind if k in KIND_YOU], 'lord': b, 'years_about': _span(sub[b]), 'tone': btone, 'highlights': kind,
                             'basis': ((f'{b} sits in the {_ord(pos1)} from {lord}' if b != lord else f'{b} is the period lord itself') + (', an unhappy position' if bad1 else ', a good position' if b != lord else '') + ('; natural enemy of the period lord' if enemy else ''))})
         pdk = sorted({d for b in bhuktis for d in b['highlights']})
         lead = {'strong': 'A supportive period.', 'weak': 'A testing period.', 'mixed': 'A mixed period.'}[tone]
@@ -221,11 +235,16 @@ def life_periods(report, today=None):
         else:
             summary = ' '.join([lead] + reads[:2]) if reads else lead
         summary += f' In general this planet\'s period brings {NATURE[lord][0]}.'
-        periods.append({'lord': lord, 'summary': summary, 'years_about': _span(spans), 'tone': tone, 'confidence': conf,
+        you_lead = LABEL[tone]
+        if tone == 'mixed' and len(reads) >= 2:
+            you_text = f'{NATURE_YOU[lord]} Good side: {reads[0]} Hard side: {reads[1]}'
+        else:
+            you_text = ' '.join([NATURE_YOU[lord]] + reads[:2])
+        periods.append({'lord': lord, 'label': you_lead, 'you_text': you_text, 'summary': summary, 'years_about': _span(spans), 'tone': tone, 'confidence': conf,
                         'houses_owned': owned, 'basis': basis, 'themes': sorted(themes),
                         'reading': NATURE[lord][0], 'house_lord_reading': reads,
-                        'rules': rules, 'bhuktis': bhuktis, 'highlight_kinds': sorted({DOMAIN[h] for h in owned if h in DOMAIN and DOMAIN[h] in ('money','career','partnership','children')}) if tone != 'weak' else [], 'bhukti_highlight_kinds': pdk,
+                        'rules': rules, 'bhuktis': bhuktis, 'highlight_kinds': sorted({DOMAIN[h] for h in owned if h in DOMAIN and DOMAIN[h] in ('money','career','partnership','children')}) if tone != 'weak' else [], 'bhukti_highlight_kinds': pdk, 'highlight_words': [KIND_YOU[k] for k in sorted({DOMAIN[h] for h in owned if h in DOMAIN and DOMAIN[h] in KIND_YOU}) if tone != 'weak'],
                         'sub_rule_source': SRC20_SUB})
     return {'status': 'periods_broad_themes_not_events', 'periods': periods,
             'held_out': ['death and demise clauses', 'character and "wicked" wording', 'combustion strength (limits not defined on these pages)', 'XX.23 birth-star sub-period rule', 'XX.24 dangerous ordinal rule'],
-            'notice': 'Each period is a broad theme from the Dasa lord (Adh. XIX, XX), not an event or a date of an event. Dates are the union of four timing conventions, rounded to years.'}
+            'notice': 'Each period is a broad theme from the ruling planet (Phaladeepika Adh. XIX, XX), not an event or a date of an event. Dates are the union of four timing conventions, rounded to years.'}

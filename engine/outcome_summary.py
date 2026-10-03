@@ -92,20 +92,11 @@ def _marriage(report):
     level, agree = _topic_level(rows, set())
     good = _points([r for r in rows if not _adverse(r, set())], set())
     hard = _points([r for r in rows if _adverse(r, set())], set(), True)
-    heads = {'strong': 'A strong indication of a supportive partnership',
-             'good': 'Encouraging for partnership',
-             'some': 'A few supportive signs for partnership',
-             'quiet': 'Nothing in particular stands out for marriage',
-             'mixed': 'Mixed signals on partnership'}
-    text = {'strong': 'Many of the classical marriage combinations are present in your chart.',
-            'good': 'Several classical marriage combinations are present in your chart, and they point towards a good partnership.',
-            'some': 'A small number of classical marriage combinations are present. They lean favourable but are not many.',
-            'quiet': 'Your chart shows none of the classical marriage combinations strongly, so it leans neither way.',
-            'mixed': 'Your chart carries both favourable and testing combinations, so expect a partnership that takes some work and patience.'}[level]
-    pts = [f'In your favour: {p}' for p in good[:3]]
-    if hard:
-        pts.append('Needs care: ' + hard[0])
-    return {'id': 'marriage', 'title': 'Marriage and partnership', 'level': level, 'headline': heads[level], 'text': text,
+    heads = {'strong': 'Your chart strongly supports a happy partnership', 'good': 'Encouraging for partnership', 'some': 'A few supportive signs for partnership', 'quiet': 'Nothing in particular stands out for marriage', 'mixed': 'Mixed signals on partnership'}
+    text = {'strong': 'Close relationships are a real source of happiness and support for you.', 'good': 'Partnership tends to bring you comfort, goodwill and support.', 'some': 'Expect warmth and goodwill in close relationships, without anything outsized promised.', 'quiet': 'Your chart leans neither way on partnership, so it rests largely on the choices you make.', 'mixed': 'Partnership brings both comfort and testing moments, so expect it to take some work and patience.'}[level]
+    ev = [f'Supports: {p}' for p in good[:6]] + [f'Needs care: {p}' for p in hard[:3]]
+    pts = []
+    return {'id': 'marriage', 'evidence': ev, 'title': 'Marriage and partnership', 'level': level, 'headline': heads[level], 'text': text,
             'confidence': 'steady' if agree else 'tentative', 'points': pts}
 
 
@@ -117,21 +108,16 @@ def _wealth(report):
     level, agree = _topic_level(rows, ADVERSE_WEALTH)
     good = _points([r for r in rows if not _adverse(r, ADVERSE_WEALTH)], ADVERSE_WEALTH)
     hard = _points([r for r in rows if _adverse(r, ADVERSE_WEALTH)], ADVERSE_WEALTH, True)
-    heads = {'strong': 'A strong indication of comfortable earnings',
-             'good': 'Good signs for money',
-             'some': 'Some supportive signs for money',
-             'quiet': 'Steady, with no special wealth combination',
-             'mixed': 'Mixed signals on money'}
-    text = {'strong': 'Many of the classical wealth combinations are present in your chart.',
-            'good': 'Several classical wealth combinations are present in your chart.',
-            'some': 'A few classical wealth combinations are present. Expect earnings to build gradually through your own effort rather than arrive in a rush.',
-            'quiet': 'None of the classical wealth combinations show strongly, so the chart leans neither towards unusual wealth nor towards hardship.',
-            'mixed': 'Your chart carries both supportive and limiting money combinations, so earnings are likely to come in phases.'}[level]
-    pts = [f'In your favour: {p}' for p in good[:3]]
-    if hard:
-        pts.append('Needs care: ' + hard[0])
-    return {'id': 'wealth', 'title': 'Money and earnings', 'level': level, 'headline': heads[level], 'text': text,
+    heads = {'strong': 'Comfortable earnings look likely', 'good': 'Good signs for money', 'some': 'Some supportive signs for money', 'quiet': 'Steady, with no special windfall', 'mixed': 'Mixed signals on money'}
+    text = {'strong': 'Money tends to come readily and stay with you.', 'good': 'Money tends to come steadily, with several things working in your favour.', 'some': 'Expect earnings to build gradually through your own effort rather than arrive in a rush.', 'quiet': 'Nothing in your chart pushes money strongly up or down, so it follows your effort.', 'mixed': 'Earnings are likely to come in phases, with good and lean stretches.'}[level]
+    ev = [f'Supports: {p}' for p in good[:6]] + [f'Needs care: {p}' for p in hard[:3]]
+    pts = []
+    return {'id': 'wealth', 'evidence': ev, 'title': 'Money and earnings', 'level': level, 'headline': heads[level], 'text': text,
             'confidence': 'steady' if agree else 'tentative', 'points': pts}
+
+
+AREA = {'Sun': 'confidence and standing', 'Moon': 'emotional steadiness', 'Mars': 'drive and courage', 'Mercury': 'thinking and communication',
+        'Jupiter': 'judgement and good fortune', 'Venus': 'relationships and comfort', 'Saturn': 'discipline and endurance'}
 
 
 def _strength(report):
@@ -142,12 +128,13 @@ def _strength(report):
     open_ = [n for n in planets if n not in strong]
     n, k = len(planets), len(strong)
     level = 'strong' if k >= n - 1 and k >= 5 else 'good' if k >= n / 2 else 'some' if k else 'quiet'
-    head = {'strong': 'Most of your planets are strong', 'good': 'Your planets are fairly strong', 'some': 'Your planets are modest in strength', 'quiet': 'Your planets are on the weaker side'}[level]
-    text = f'{k} of {n} planets clear the classical strength minimum, so their results should be able to show up.'
+    head = {'strong': 'You have a lot to draw on', 'good': 'You have solid inner resources', 'some': 'Some of your inner resources are modest', 'quiet': 'You may have to build your inner resources'}[level]
+    text = 'Your strongest areas: ' + ', '.join(AREA[x] for x in strong[:5]) + '.' if strong else ''
     if open_:
-        text += f' {", ".join(open_)} sits close to the line, so treat its results as milder.'
-    return {'id': 'strength', 'title': 'Planetary strength', 'level': level, 'headline': head, 'text': text,
-            'confidence': 'steady' if not open_ else 'tentative', 'points': [f'Strong: {", ".join(strong)}'] if strong else []}
+        text += ' The softer side is ' + ' and '.join(AREA[x] for x in open_) + ', so give it some care.'
+    ev = [f'{x}: meets the classical strength minimum in every variant' for x in strong] + [f'{x}: variants disagree' for x in open_]
+    return {'id': 'strength', 'evidence': ev, 'title': 'Your inner resources', 'level': level, 'headline': head, 'text': text.strip(),
+            'confidence': 'steady' if not open_ else 'tentative', 'points': []}
 
 
 def _career(report):
@@ -160,7 +147,7 @@ def _career(report):
             if t not in themes:
                 themes.append(t)
     return {'id': 'career', 'title': 'Work and livelihood', 'level': 'mixed', 'headline': 'Several kinds of work show up',
-            'text': 'Your chart points to more than one livelihood theme, with no single one clearly ahead. Older texts mention: ' + ', '.join(themes[:8]) + '. Read these as flavours of work you may be drawn to, not a job title.',
+            'text': 'Your chart points to more than one livelihood theme, with no single one clearly ahead. Traditional readings mention: ' + ', '.join(themes[:8]) + '. Read these as flavours of work you may be drawn to, not a job title.',
             'confidence': 'tentative', 'points': []}
 
 
@@ -174,54 +161,37 @@ def _timing(report, as_of):
     if not tls:
         return None
     now = as_of.astimezone(timezone.utc).isoformat()
-    cur = []
-    for tl in tls:
-        for i, m in enumerate(tl['mahadasas']):
-            if m['start'] <= now < m['end']:
-                nxt = tl['mahadasas'][i + 1] if i + 1 < len(tl['mahadasas']) else None
-                cur.append((m, nxt))
-                break
-    pts = []
-    if cur:
-        lords = {m['lord'] for m, _ in cur}
-        if len(lords) == 1:
-            lo = min(_year(m['start']) for m, _ in cur); hi = max(_year(m['end']) for m, _ in cur)
-            pts.append(f'Current main period: {cur[0][0]["lord"]}, {_span(lo, hi)}.')
-            nxts = [n for _, n in cur if n]
-            if nxts and len({n['lord'] for n in nxts}) == 1:
-                lo = min(_year(n['start']) for n in nxts); hi = max(_year(n['end']) for n in nxts)
-                pts.append(f'Next: {nxts[0]["lord"]}, {_span(lo, hi)}.')
     wins = []
     for tl in tls:
         for w in tl.get('marriage_candidate_antardasa_windows') or []:
             if w['end'] > now:
-                wins.append((w['maha_lord'], w['antar_lord'], _year(w['start']), _year(w['end'])))
-    text = 'All four ways of reading the timing agree on the main periods, within a few months.' if len({tuple(m['lord'] for m in tl['mahadasas']) for tl in tls}) == 1 else 'The timing readings differ on the main periods.'
+                wins.append((_year(w['start']), _year(w['end'])))
+    text = 'Years are rounded, because the traditional sources count them in more than one way.'
     if wins:
-        lo = min(w[2] for w in wins); hi = max(w[3] for w in wins)
-        text += f' The classical marriage-period rule points to {_span(lo, hi)}. It is one narrow rule, so treat it as a pointer and not a date.'
+        text += f" The traditional rule for the time of marriage points to {_span(min(w[0] for w in wins), max(w[1] for w in wins))}. It is one narrow rule, so treat it as a pointer and not a date."
     else:
-        text += ' The classical marriage-period rule finds no window still ahead.'
-    return {'id': 'timing', 'title': 'Timing', 'level': 'some', 'headline': 'Your life periods at a glance', 'text': text,
-            'confidence': 'steady' if len({tuple(m['lord'] for m in tl['mahadasas']) for tl in tls}) == 1 else 'tentative', 'points': pts}
+        text += ' The traditional rule for the time of marriage finds no window still ahead.'
+    return {'id': 'timing', 'title': 'Timing', 'level': 'some', 'headline': 'Your life in stretches', 'text': text,
+            'confidence': 'steady', 'points': [], 'evidence': ['Dated from the four timing conventions; marriage window from Phaladeepika X.13 with the sub-period rule.']}
 
 
 def _periods(report, as_of):
-    lp = report.get('life_periods') or {}
-    ps = lp.get('periods') or []
+    ps = ((report.get('life_periods') or {}).get('periods')) or []
     if not ps:
         return None
     y = as_of.year
+    cur = next((p for p in ps if p['years_about'][0] <= y <= p['years_about'][1]), None)
+    nxt = next((p for p in ps if p['years_about'][0] > (cur['years_about'][0] if cur else y)), None)
+    word = lambda p: {'strong': 'a supportive stretch', 'weak': 'a testing stretch', 'mixed': 'a mixed stretch'}[p['tone']]
+    pts = []
+    if cur: pts.append(f"Right now (about {cur['years_about'][0]} to {cur['years_about'][1]}): {word(cur)}.")
+    if nxt: pts.append(f"Next (about {nxt['years_about'][0]} to {nxt['years_about'][1]}): {word(nxt)}.")
     good = [p for p in ps if p['tone'] == 'strong' and p['years_about'][1] >= y]
     hard = [p for p in ps if p['tone'] == 'weak' and p['years_about'][1] >= y]
-    pts = []
-    if good:
-        pts.append('Supportive: ' + '; '.join(f"{p['lord']} period, about {p['years_about'][0]} to {p['years_about'][1]}" for p in good[:3]))
-    if hard:
-        pts.append('Testing: ' + '; '.join(f"{p['lord']} period, about {p['years_about'][0]} to {p['years_about'][1]}" for p in hard[:3]))
     return {'id': 'periods', 'title': 'Life stretches ahead', 'level': 'mixed' if good and hard else 'good' if good else 'some',
-            'headline': 'Some stretches ahead help, others test', 'text': 'Each major period of your life has a broad flavour from the planet that rules it. Open the period-by-period section below for what each stretch tends to bring.',
-            'confidence': 'tentative', 'points': pts}
+            'headline': 'Some stretches ahead help, others test', 'confidence': 'tentative',
+            'text': 'Your life moves through long stretches, each with its own flavour. Open the section below to see what each one tends to bring for you.',
+            'points': pts, 'evidence': [f"{p['years_about'][0]} to {p['years_about'][1]}: {p['lord']} period, {p['tone']}" for p in ps]}
 
 
 def outcome_summary(report, as_of=None):

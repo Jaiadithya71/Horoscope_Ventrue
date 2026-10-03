@@ -179,7 +179,7 @@ function outcomeSection(summary) {
   if (!summary?.topics?.length) return '';
   const cards = summary.topics.map(t => { const [cls, label] = CHIP(t); return `<article class="outcome-card chip-${cls}"><div class="outcome-top"><h3>${escape(t.title)}</h3><span class="chip">${label}</span></div>
     <p class="outcome-head">${escape(t.headline)}</p><p class="outcome-text">${escape(t.text)}</p>
-    ${t.points?.length ? `<ul class="outcome-points">${t.points.map(p => `<li>${escape(p)}</li>`).join('')}</ul>` : ''}</article>`; }).join('');
+    ${t.points?.length ? `<ul class="outcome-points">${t.points.map(p => `<li>${escape(p)}</li>`).join('')}</ul>` : ''}${t.evidence?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="outcome-points">${t.evidence.map(p => `<li>${escape(p)}</li>`).join('')}</ul></details>` : ''}</article>`; }).join('');
   return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your reading in plain words</h2><div class="outcome-list">${cards}</div>
     <p class="aspect-limit">${escape(summary.basis)}</p></section>`;
 }
@@ -192,17 +192,18 @@ function periodsSection(lp) {
   const items = lp.periods.map(p => {
     const [cls, label] = TONE[p.tone] || TONE.mixed;
     const current = p.years_about[0] <= now && now <= p.years_about[1];
-    const hl = (p.highlight_kinds || []).map(k => `<span class="hl">${escape(KIND[k] || k)}</span>`).join('');
-    const subs = p.bhuktis.map(b => `<tr class="sub-${escape(b.tone)}"><td>${escape(b.lord)}</td><td>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</td><td>${escape(b.tone === 'supportive' ? 'Supportive' : b.tone === 'testing' ? 'Testing' : 'Mixed')}${b.highlights?.length ? ' · ' + escape(b.highlights.join(', ')) : ''}</td></tr>`).join('');
+    const hl = (p.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
+    const subs = p.bhuktis.map(b => `<tr class="sub-${escape(b.tone)}"><td>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</td><td>${escape(b.label)}${b.highlight_words?.length ? ' · ' + escape(b.highlight_words.join(', ')) : ''}</td></tr>`).join('');
+    const reasons = p.bhuktis.map(b => `<li>${escape(b.years_about[0])} to ${escape(b.years_about[1])}: ${escape(b.lord)}. ${escape(b.basis)}</li>`).join('');
     const rules = p.rules.map(r => `<li>${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('');
-    return `<details class="period period-${cls}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.lord)}</span><span class="p-years">about ${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : ''}<span class="chip tone-${cls}">${label}</span></summary>
-      <p class="outcome-text">${escape(p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
-      ${p.confidence === 'tentative' ? '<p class="route-caveat">The two house systems disagree on this planet, so read this period as a softer signal.</p>' : ''}
-      <details><summary>Sub-periods</summary><div class="table-wrap"><table><thead><tr><th>Sub-period</th><th>Years</th><th>Tone</th></tr></thead><tbody>${subs}</tbody></table></div></details>
-      <details><summary>Rules behind this period</summary><ul class="cond-list">${rules}</ul><p class="route-caveat">${escape(p.basis.join('; '))}</p></details></details>`;
+    return `<details class="period period-${cls}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span></summary>
+      <p class="outcome-text">${escape(p.you_text || p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
+      ${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}
+      <details><summary>Smaller phases inside it</summary><div class="table-wrap"><table><thead><tr><th>Years</th><th>Feel</th></tr></thead><tbody>${subs}</tbody></table></div></details>
+      <details class="why"><summary>Why the chart says this</summary><p class="route-caveat">Ruling planet for this stretch: ${escape(p.lord)}. ${escape(p.basis.join('; '))}.</p><ul class="cond-list">${rules}</ul><p class="route-caveat">Smaller phases:</p><ul class="cond-list">${reasons}</ul></details></details>`;
   }).join('');
   return `<section class="periods" aria-labelledby="periods-title"><p class="eyebrow">What happens when</p><h2 id="periods-title">Your life, period by period</h2>
-    <p class="muted">Each major period carries a broad flavour from the planet that rules it. These are themes, not dated events. Years are rounded, because the sources give more than one way to count.</p>
+    <p class="muted">Your life moves through long stretches, each with its own flavour. These are themes, not dated events. Years are rounded, because the traditional sources count them in more than one way.</p>
     <div class="period-list">${items}</div><p class="aspect-limit">${escape(lp.notice)}</p></section>`;
 }
 

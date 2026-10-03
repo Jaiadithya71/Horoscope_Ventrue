@@ -31,6 +31,12 @@ class DasaPeriodTest(unittest.TestCase):
         for bad in ('death', 'demise', 'wicked'):
             self.assertNotIn(bad, text)
 
+    def test_user_facing_period_text_has_no_planet_talk(self):
+        for p in self.lp['periods']:
+            low = (p['label'] + ' ' + p['you_text']).lower()
+            for w in ('rahu', 'ketu', 'saturn', 'jupiter', 'mars', 'venus', 'mercury', 'sun ', 'moon ', 'dasa', 'lord', 'house'):
+                self.assertNotIn(w, low, (p['lord'], w))
+
     def test_ordinal(self):
         self.assertEqual([_ord(n) for n in (1, 2, 3, 6, 11, 12)], ['1st', '2nd', '3rd', '6th', '11th', '12th'])
 
