@@ -227,7 +227,7 @@ def life_periods(report, today=None):
             if btone != 'testing' and tone != 'weak':
                 kind = sorted({d for d in note if d in ('money', 'career', 'partnership', 'children')})
             if lord in cand and b in cand and 'partnership' not in kind: kind.append('partnership')
-            pchips = phase_chips(_owned(chart, b) if b not in ('Rahu', 'Ketu') else [], btone)
+            pchips = phase_chips(_owned(chart, b) if b not in ('Rahu', 'Ketu') else [], btone, b)
             bhuktis.append({'phase_areas': pchips, 'label': {'supportive': 'An easier phase', 'testing': 'A harder phase', 'mixed': 'A mixed phase'}[btone], 'highlight_words': [KIND_YOU[k] for k in kind if k in KIND_YOU], 'lord': b, 'years_about': _span(sub[b]), 'tone': btone, 'highlights': kind,
                             'basis': ((f'{b} sits in the {_ord(pos1)} from {lord}' if b != lord else f'{b} is the period lord itself') + (', an unhappy position' if bad1 else ', a good position' if b != lord else '') + ('; natural enemy of the period lord' if enemy else ''))})
         pdk = sorted({d for b in bhuktis for d in b['highlights']})

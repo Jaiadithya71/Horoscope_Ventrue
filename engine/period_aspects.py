@@ -85,11 +85,19 @@ def period_aspects(lord, owned, tone):
     return out
 
 
-def phase_chips(owned_b, btone):
-    """Extension: areas for a smaller phase from the houses the phase planet rules."""
-    chips = []
-    for h in owned_b:
-        for a, pair in HOUSE_ASPECT.get(h, {}).items():
-            txt = pair[0] if btone == 'supportive' else pair[1] if btone == 'testing' else None
-            if txt and a not in [c[0] for c in chips]: chips.append((a, txt))
-    return [{'aspect': a, 'label': LABELS[a], 'text': t} for a, t in chips]
+def phase_chips(owned_b, btone, planet=None):
+    """Extension: areas for a smaller phase. Houses the phase planet rules (XX) plus that planet's
+    own period nature (XIX), filtered by the phase tone (XX.28-29). Not stated by the book for phases."""
+    want = {'supportive': (1,), 'testing': (-1,), 'mixed': (1, -1, 0)}[btone]
+    found = {}
+    for a in ASPECTS:
+        lines = []
+        t, v = PLANET_ASPECT.get(planet, {}).get(a, (None, 0))
+        if t and (v in want or (v == 0 and btone != 'testing' and btone != 'supportive')): lines.append(t)
+        for h in owned_b:
+            pair = HOUSE_ASPECT.get(h, {}).get(a)
+            if not pair: continue
+            if 1 in want and pair[0]: lines.append(pair[0])
+            if -1 in want and pair[1]: lines.append(pair[1])
+        if lines: found[a] = lines
+    return [{'aspect': a, 'label': LABELS[a], 'text': ' '.join(dict.fromkeys(l)), 'guidance': GUIDE[a]['good' if btone == 'supportive' else 'hard' if btone == 'testing' else 'mixed']} for a, l in found.items()]

@@ -44,7 +44,11 @@ class PeriodAspectsTest(unittest.TestCase):
 
     def test_phase_areas_labelled_extension_data(self):
         for p in self.lp['periods']:
-            for b in p['bhuktis']: self.assertIsInstance(b['phase_areas'], list)
+            for b in p['bhuktis']:
+                self.assertIsInstance(b['phase_areas'], list)
+                for x in b['phase_areas']:
+                    low = (x['text'] + ' ' + x['guidance']).lower()
+                    for w in JARGON + BANNED: self.assertNotIn(w, low, (x, w))
 
 
 if __name__ == '__main__':

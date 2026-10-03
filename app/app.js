@@ -202,9 +202,12 @@ function periodsSection(lp) {
     const [cls, label] = TONE[p.tone] || TONE.mixed;
     const current = p.when === 'now' || (!p.when && p.years_about[0] <= now && now <= p.years_about[1]);
     const hl = (p.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
-    const subs = p.bhuktis.map(b => { const areas = b.phase_areas || []; const chips = (b.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
-      const detail = areas.length ? `<ul class="cond-list">${areas.map(x => `<li><strong>${escape(x.label)}:</strong> ${escape(x.text)}</li>`).join('')}</ul><p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>` : '<p class="route-caveat">No area stands out for this phase, so the overall feel of the stretch applies.</p>';
-      return `<details class="phase sub-${escape(b.tone)}"><summary><span>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</span> <span class="chip">${escape(b.label)}</span> ${chips}</summary>${detail}</details>`; }).join('');
+    const phaseHead = b => `<span class="ph-years">${escape(b.years_about[0])} to ${escape(b.years_about[1])}</span> <span class="chip">${escape(b.label)}</span>`;
+    const phaseAreas = b => (b.phase_areas || []).length ? (b.phase_areas).map(x => `<div class="ph-area"><strong>${escape(x.label)}.</strong> ${escape(x.text)} <span class="guide-inline">${escape(x.guidance)}</span></div>`).join('') + '<p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>' : '<p class="route-caveat">No area stands out for this phase, so the overall feel of the stretch applies.</p>';
+    const subs = p.bhuktis.map(b => { const chips = (b.phase_areas || []).map(x => `<span class="hl">${escape(x.label)}</span>`).join('');
+      return p.depth === 'full'
+        ? `<section class="phase-open sub-${escape(b.tone)}"><h4>${phaseHead(b)}</h4><p class="p-hl">${chips}</p>${phaseAreas(b)}</section>`
+        : `<details class="phase sub-${escape(b.tone)}"><summary>${phaseHead(b)} ${chips}</summary>${phaseAreas(b)}</details>`; }).join('');
     const asp = Object.values(p.aspects || {});
     const aspChips = asp.filter(x => x.status !== 'quiet').map(x => `<span class="hl asp-${escape(x.status)}">${escape(x.label)}: ${escape(x.status)}</span>`).join('');
     const full = p.depth === 'full';
@@ -214,7 +217,7 @@ function periodsSection(lp) {
     return `<details class="period period-${cls} depth-${escape(p.depth || "short")}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : p.when === 'next' ? '<span class="chip">Next</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span></summary>
       <p class="outcome-text">${escape(p.you_text || p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
       ${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}
-      ${aspects}<details class="phases"><summary>Smaller phases inside it</summary><div class="phase-list">${subs}</div></details>
+      ${aspects}${full ? `<h3 class="phases-title">Phase by phase</h3><div class="phase-list open">${subs}</div>` : `<details class="phases"><summary>Smaller phases inside it</summary><div class="phase-list">${subs}</div></details>`}
       <details class="why"><summary>Why the chart says this</summary><p class="route-caveat">Ruling planet for this stretch: ${escape(p.lord)}. ${escape(p.basis.join('; '))}.</p><ul class="cond-list">${rules}</ul><p class="route-caveat">Smaller phases:</p><ul class="cond-list">${reasons}</ul></details></details>`;
   }).join('');
   return `<section class="periods" aria-labelledby="periods-title"><p class="eyebrow">What happens when</p><h2 id="periods-title">Your life, period by period</h2>
