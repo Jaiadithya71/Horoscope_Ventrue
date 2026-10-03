@@ -1,8 +1,29 @@
 {
   "version": 2,
   "rewrites": [
-    {"source": "/", "destination": "/app/index.html"},
-    {"source": "/style.css", "destination": "/app/style.css"},
-    {"source": "/app.js", "destination": "/app/app.js"}
+    {
+      "source": "/",
+      "destination": "/app/index.html"
+    },
+    {
+      "source": "/style.css",
+      "destination": "/app/style.css"
+    },
+    {
+      "source": "/app.js",
+      "destination": "/app/app.js"
+    },
+    {
+      "source": "/builder",
+      "destination": "/app/builder.html"
+    },
+    {
+      "source": "/builder.css",
+      "destination": "/app/builder.css"
+    },
+    {
+      "source": "/fonts/:f",
+      "destination": "/app/fonts/:f"
+    }
   ]
 }
