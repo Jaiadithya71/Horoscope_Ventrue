@@ -12,18 +12,6 @@
     {
       "source": "/app.js",
       "destination": "/app/app.js"
-    },
-    {
-      "source": "/builder",
-      "destination": "/app/builder.html"
-    },
-    {
-      "source": "/builder.css",
-      "destination": "/app/builder.css"
-    },
-    {
-      "source": "/fonts/:f",
-      "destination": "/app/fonts/:f"
     }
   ]
 }
