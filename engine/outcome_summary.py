@@ -206,8 +206,26 @@ def _timing(report, as_of):
             'confidence': 'steady' if len({tuple(m['lord'] for m in tl['mahadasas']) for tl in tls}) == 1 else 'tentative', 'points': pts}
 
 
+def _periods(report, as_of):
+    lp = report.get('life_periods') or {}
+    ps = lp.get('periods') or []
+    if not ps:
+        return None
+    y = as_of.year
+    good = [p for p in ps if p['tone'] == 'strong' and p['years_about'][1] >= y]
+    hard = [p for p in ps if p['tone'] == 'weak' and p['years_about'][1] >= y]
+    pts = []
+    if good:
+        pts.append('Supportive: ' + '; '.join(f"{p['lord']} period, about {p['years_about'][0]} to {p['years_about'][1]}" for p in good[:3]))
+    if hard:
+        pts.append('Testing: ' + '; '.join(f"{p['lord']} period, about {p['years_about'][0]} to {p['years_about'][1]}" for p in hard[:3]))
+    return {'id': 'periods', 'title': 'Life stretches ahead', 'level': 'mixed' if good and hard else 'good' if good else 'some',
+            'headline': 'Some stretches ahead help, others test', 'text': 'Each major period of your life has a broad flavour from the planet that rules it. Open the period-by-period section below for what each stretch tends to bring.',
+            'confidence': 'tentative', 'points': pts}
+
+
 def outcome_summary(report, as_of=None):
     as_of = as_of or datetime.now(timezone.utc)
-    topics = [x for x in (_career(report), _marriage(report), _wealth(report), _strength(report), _timing(report, as_of)) if x]
+    topics = [x for x in (_career(report), _marriage(report), _wealth(report), _strength(report), _timing(report, as_of), _periods(report, as_of)) if x]
     return {'topics': topics,
             'basis': 'Levels count how many of the classical books\' own combinations your chart shows. They are not tested forecasts.'}

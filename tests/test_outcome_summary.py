@@ -14,7 +14,7 @@ class OutcomeSummaryTest(unittest.TestCase):
         cls.out = outcome_summary(cls.report, AS_OF)
 
     def test_report_carries_summary(self):
-        self.assertEqual([t['id'] for t in self.report['outcome_summary']['topics']], ['career', 'marriage', 'wealth', 'strength', 'timing'])
+        self.assertEqual([t['id'] for t in self.report['outcome_summary']['topics']], ['career', 'marriage', 'wealth', 'strength', 'timing', 'periods'])
 
     def test_each_topic_has_plain_fields_and_no_conditionals_in_headline(self):
         for t in self.out['topics']:

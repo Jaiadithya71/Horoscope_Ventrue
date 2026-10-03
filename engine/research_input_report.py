@@ -100,8 +100,12 @@ def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,
 
 
 def research_input_report(*args,**kwargs):
+ import swisseph as swe
+ swe.set_sid_mode(swe.SIDM_LAHIRI)  # swisseph state is process-global; the model string promises Lahiri
  from .outcome_summary import outcome_summary
  report=_research_input_report_base(*args,**kwargs)
+ from .dasa_period_readings import life_periods
+ report['life_periods']=life_periods(report)
  report['outcome_summary']=outcome_summary(report)
  return report
 

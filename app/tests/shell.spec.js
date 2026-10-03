@@ -85,3 +85,13 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
  await expect(page.locator('#results')).toBeHidden();
  await expect(page.getByRole('button',{name:'Calculate chart',exact:true})).toBeEnabled();
 });
+
+test('life periods render as collapsible period cards',async({page})=>{
+ await page.goto('/');
+ await page.getByRole('button',{name:'Use a synthetic example'}).click();
+ await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await expect(page.locator('#periods-title')).toContainText('period by period');
+ await expect(page.locator('.period')).toHaveCount(9);
+ await expect(page.locator('.period').first().locator('table')).toBeHidden();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

@@ -184,6 +184,28 @@ function outcomeSection(summary) {
     <p class="aspect-limit">${escape(summary.basis)}</p></section>`;
 }
 
+const TONE = {strong:['strong','Supportive'], weak:['weak','Testing'], mixed:['mixed','Mixed']};
+const KIND = {money:'money', career:'career', partnership:'partnership', children:'children'};
+function periodsSection(lp) {
+  if (!lp?.periods?.length) return '';
+  const now = new Date().getFullYear();
+  const items = lp.periods.map(p => {
+    const [cls, label] = TONE[p.tone] || TONE.mixed;
+    const current = p.years_about[0] <= now && now <= p.years_about[1];
+    const hl = (p.highlight_kinds || []).map(k => `<span class="hl">${escape(KIND[k] || k)}</span>`).join('');
+    const subs = p.bhuktis.map(b => `<tr class="sub-${escape(b.tone)}"><td>${escape(b.lord)}</td><td>${escape(b.years_about[0])} to ${escape(b.years_about[1])}</td><td>${escape(b.tone === 'supportive' ? 'Supportive' : b.tone === 'testing' ? 'Testing' : 'Mixed')}${b.highlights?.length ? ' · ' + escape(b.highlights.join(', ')) : ''}</td></tr>`).join('');
+    const rules = p.rules.map(r => `<li>${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('');
+    return `<details class="period period-${cls}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.lord)}</span><span class="p-years">about ${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : ''}<span class="chip tone-${cls}">${label}</span></summary>
+      <p class="outcome-text">${escape(p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
+      ${p.confidence === 'tentative' ? '<p class="route-caveat">The two house systems disagree on this planet, so read this period as a softer signal.</p>' : ''}
+      <details><summary>Sub-periods</summary><div class="table-wrap"><table><thead><tr><th>Sub-period</th><th>Years</th><th>Tone</th></tr></thead><tbody>${subs}</tbody></table></div></details>
+      <details><summary>Rules behind this period</summary><ul class="cond-list">${rules}</ul><p class="route-caveat">${escape(p.basis.join('; '))}</p></details></details>`;
+  }).join('');
+  return `<section class="periods" aria-labelledby="periods-title"><p class="eyebrow">What happens when</p><h2 id="periods-title">Your life, period by period</h2>
+    <p class="muted">Each major period carries a broad flavour from the planet that rules it. These are themes, not dated events. Years are rounded, because the sources give more than one way to count.</p>
+    <div class="period-list">${items}</div><p class="aspect-limit">${escape(lp.notice)}</p></section>`;
+}
+
 function render(report, birth, coordsWereResolved) {
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
@@ -196,6 +218,7 @@ function render(report, birth, coordsWereResolved) {
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   ${outcomeSection(report.outcome_summary)}
+  ${periodsSection(report.life_periods)}
   <details class="evidence-all"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
   ${lifeSections(report)}
