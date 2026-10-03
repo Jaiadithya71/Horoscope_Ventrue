@@ -226,6 +226,7 @@ function periodsSection(lp) {
 }
 
 function render(report, birth, coordsWereResolved) {
+  window.__lastReport = report;
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
   const rows = Object.entries(chart.placements).map(([name, p]) => `<tr><td>${escape(name)}</td><td>${escape(p.sign)}<br><small>${(p.longitude % 30).toFixed(2)}° ${p.retrograde ? 'retrograde' : ''}</small></td><td>${escape(p.whole_sign_house_from_ascendant)}</td><td>${escape(p.sripati_degree_house?.house)}${p.sripati_degree_house?.at_sandhi ? ' (sandhi)' : ''}</td></tr>`).join('');
@@ -236,6 +237,7 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${whoSection(report.who_you_are)}
   ${outcomeSection(report.outcome_summary)}
@@ -340,3 +342,60 @@ form.elements.timezone.addEventListener('change', () => {
   form.elements.timezone_other.required = other;
   if (other) form.elements.timezone_other.focus();
 });
+
+
+/* ---------- Story view: swipeable cards, one beat per card ---------- */
+function storyCards(report) {
+  const cards = [];
+  const chip = (t, k) => `<span class="chip ${k || ''}">${escape(t)}</span>`;
+  const why = rules => rules?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${rules.map(r => `<li>${escape(r.sign ? r.sign + ': ' : '')}${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details>` : '';
+  const add = (eyebrow, title, body, extra) => cards.push({eyebrow, title, body, extra: extra || ''});
+  const w = report.who_you_are, lp = report.life_periods;
+  add('Your reading', 'Your life, one card at a time', '<p>Tap the right side to go on, the left to go back. Each card is one piece: who you are, then each stretch of life, the phases inside, and every area of life. Read as themes from classical texts, not fixed events.</p>');
+  if (w) {
+    add('Who you are', 'How you come across', `<p>${escape(w.outer_you.text)}</p><p class="p-hl">${w.outer_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.outer_you.rules));
+    if (!w.same_sign) add('Who you are', 'Your inner nature', `<p>${escape(w.inner_you.text)}</p><p class="p-hl">${w.inner_you.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>`, why(w.inner_you.rules));
+  }
+  const ps = (lp?.periods || []).filter(p => p.when !== 'past');
+  const toneCls = t => ({strong: 'tone-strong', weak: 'tone-weak', mixed: 'tone-mixed'}[t] || 'tone-mixed');
+  ps.forEach(p => {
+    const yrs = `${p.years_about[0]} to ${p.years_about[1]}`;
+    const tag = p.when === 'now' ? 'Right now' : p.when === 'next' ? 'Coming next' : 'Further ahead';
+    const rulesWhy = why((p.rules || []).map(r => ({effect: r.effect, source: r.source})));
+    const basis = `<details class="why"><summary>The chart basis</summary><p class="route-caveat">Ruling planet: ${escape(p.lord)}. ${escape((p.basis || []).join('; '))}.</p></details>`;
+    add(tag, yrs, `<p>${chip(p.label, toneCls(p.tone))}</p><p>${escape(p.you_text || p.summary)}</p>${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}`, rulesWhy + basis);
+    if (p.depth === 'full') {
+      Object.values(p.aspects || {}).forEach(a => add(`${yrs} · ${a.label}`, a.label, `<p>${chip(a.status === 'quiet' ? 'nothing specific' : a.status, 'asp-' + a.status)}</p><p>${escape(a.text)}</p>${a.guidance ? `<p class="guide">${escape(a.guidance)}</p>` : ''}`, a.items?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${a.items.map(i => `<li>${escape(i.effect)} <span class="route-source">${sourceLink(i.source)}</span></li>`).join('')}</ul></details>` : ''));
+      p.bhuktis.forEach(b => add(`${yrs} · phase`, `${b.years_about[0]} to ${b.years_about[1]}`, `<p>${chip(b.label)}</p>${(b.phase_areas || []).length ? b.phase_areas.map(x => `<p><strong>${escape(x.label)}.</strong> ${escape(x.text)}</p><p class="guide">${escape(x.guidance)}</p>`).join('') + '<p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>' : '<p>No area stands out for this phase, so the overall feel of the stretch applies.</p>'}`, `<details class="why"><summary>Why the chart says this</summary><p class="route-caveat">${escape(b.basis)}</p></details>`));
+    } else {
+      const chips = Object.values(p.aspects || {}).filter(a => a.status !== 'quiet').map(a => `<span class="hl">${escape(a.label)}: ${escape(a.status)}</span>`).join('');
+      if (chips) cards[cards.length - 1].body += `<p class="p-hl">${chips}</p>`;
+    }
+  });
+  add('The fine print', 'What this is, and is not', `<p>${escape(lp?.notice || '')}</p><p>These are broad themes from one classical text. They were not tested against real outcomes, and nothing here is medical, legal or financial advice.</p>`);
+  return cards;
+}
+
+function openStory() {
+  const report = window.__lastReport; if (!report) return;
+  const cards = storyCards(report); let i = 0;
+  const ov = document.createElement('div'); ov.className = 'story'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Your life as a story');
+  ov.innerHTML = '<div class="story-bars"></div><button type="button" class="story-close" aria-label="Close story">×</button><div class="story-card" tabindex="0"></div><button type="button" class="story-prev" aria-label="Previous card">Back</button><button type="button" class="story-next" aria-label="Next card">Next</button><p class="story-count"></p>';
+  document.body.appendChild(ov); document.body.classList.add('story-on');
+  const bars = ov.querySelector('.story-bars'), card = ov.querySelector('.story-card'), count = ov.querySelector('.story-count');
+  bars.innerHTML = cards.map(() => '<i></i>').join('');
+  const close = () => { ov.remove(); document.body.classList.remove('story-on'); document.removeEventListener('keydown', key); document.querySelector('#story-open')?.focus(); };
+  const show = n => { i = Math.max(0, Math.min(cards.length - 1, n)); const c = cards[i];
+    card.innerHTML = `<p class="eyebrow">${escape(c.eyebrow)}</p><h2>${escape(c.title)}</h2><div class="story-body">${c.body}</div>${c.extra}`; card.scrollTop = 0;
+    [...bars.children].forEach((b, k) => b.className = k < i ? 'done' : k === i ? 'cur' : '');
+    count.textContent = `${i + 1} of ${cards.length}`; };
+  const key = e => { if (e.key === 'ArrowRight') show(i + 1); else if (e.key === 'ArrowLeft') show(i - 1); else if (e.key === 'Escape') close(); };
+  document.addEventListener('keydown', key);
+  ov.querySelector('.story-next').onclick = () => i === cards.length - 1 ? close() : show(i + 1);
+  ov.querySelector('.story-prev').onclick = () => show(i - 1);
+  ov.querySelector('.story-close').onclick = close;
+  let x0 = null; ov.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive: true});
+  ov.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); });
+  show(0); card.focus();
+}
+document.addEventListener('click', e => { if (e.target.closest('#story-open')) openStory(); });
