@@ -255,27 +255,77 @@ function render(report, birth, coordsWereResolved) {
   document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
-form.addEventListener('submit', async e => {
-  e.preventDefault(); error.hidden = true; output.hidden = true;
-  document.querySelector('#empty').hidden = false;
-  if (!form.elements.date.value) return fail('Choose the full date of birth: day, month and a four-digit year.');
-  if (!form.elements.time.value) return fail('Choose the time of birth: hour, minute and AM or PM.');
-  if (form.elements.latitude.value === '' || form.elements.longitude.value === '') {
-    const ok = await findCoordinates();
-    if (!ok || form.elements.latitude.value === '') return;
-  }
+const timeMode = () => form.elements.timemode.value;
+const choicesBox = document.querySelector('#lagna-choices');
+function applyMode() {
+  const m = timeMode();
+  document.querySelector('#time-pick').hidden = m !== 'sure';
+  document.querySelector('#window-pick').hidden = m !== 'window';
+  document.querySelector('#known-pick').hidden = m !== 'known';
+  choicesBox.hidden = true;
+}
+for (const r of form.elements.timemode) r.addEventListener('change', applyMode);
+const clock = t => { const [h, m] = t.split(':').map(Number); return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`; };
+async function runCalc(birth, note) {
   button.disabled = true; button.textContent = 'Calculating…'; workspace.setAttribute('aria-busy', 'true');
-  const values = Object.fromEntries(new FormData(form));
-  const birth = {date: values.date, time: values.time, timezone: values.timezone === '__other' ? (values.timezone_other || '').trim() : values.timezone, place: values.place,
-    latitude: Number(values.latitude), longitude: Number(values.longitude)};
   try {
     const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth}), signal:AbortSignal.timeout(30000)});
     const report = await response.json();
     if (!response.ok) throw new Error(report.error || 'Calculation is unavailable.');
     render(report, birth, resolvedFromLookup);
+    if (note) output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(note)}</p>`);
     if (matchMedia('(max-width:700px)').matches) workspace.scrollIntoView({behavior:'smooth', block:'start'});
   } catch (e) { fail(e.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : e.message); }
   finally { button.disabled = false; button.textContent = 'Calculate chart'; workspace.setAttribute('aria-busy', 'false'); }
+}
+function spanText(s) {
+  const f = s.from.slice(11), t = s.to.slice(11), next = s.to.slice(0, 10) !== s.from.slice(0, 10) ? ' (next day)' : '';
+  return `${clock(f)} to ${clock(t)}${next}`;
+}
+function chooseSpan(base, span, how) {
+  choicesBox.hidden = true;
+  const birth = {...base, date: span.stand_in_date, time: span.stand_in_time};
+  const steady = span.moon_sign_steady && span.moon_star_steady ? 'Your Moon sign and star stay the same across this stretch.' : 'Your Moon moves to another sign or star during this stretch, so the Moon-based parts are less certain.';
+  runCalc(birth, `${span.lagna} lagna, ${how}. The chart is read from ${clock(span.stand_in_time)}, the middle of the stretch ${spanText(span)}. That is a stand-in, not your birth time. ${steady}`);
+}
+async function lagnaOptions(base) {
+  const m = timeMode(), body = {date: base.date, timezone: base.timezone, latitude: base.latitude, longitude: base.longitude};
+  if (m === 'window') {
+    if (!form.elements.win_start.value || !form.elements.win_end.value) return fail('Choose the earliest and latest time it could have been.');
+    Object.assign(body, {mode:'window', start: form.elements.win_start.value, end: form.elements.win_end.value});
+  } else {
+    if (!form.elements.known_lagna.value) return fail('Choose your lagna.');
+    Object.assign(body, {mode:'known', lagna: form.elements.known_lagna.value, around: form.elements.known_around.value || ''});
+  }
+  button.disabled = true; button.textContent = 'Checking…';
+  try {
+    const response = await fetch('/api/lagna', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body), signal:AbortSignal.timeout(20000)});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Lagna options are unavailable.');
+    const spans = data.spans;
+    if (!spans.length) return fail('That lagna does not rise at your birthplace on that date. Check the date, place and time zone.');
+    const how = m === 'known' ? 'chosen by you' : 'the only one that fits your time window';
+    if (spans.length === 1) return chooseSpan(base, spans[0], how);
+    choicesBox.innerHTML = `<p class="eyebrow">${m === 'known' ? 'Your lagna rises twice on this date' : 'Which of these fits you?'}</p>` + spans.map((s, i) => `<button type="button" class="secondary choice" data-i="${i}"><b>${escape(s.lagna)} lagna</b><br><small>${escape(spanText(s))}${s.cut_by_window && m === 'window' ? ' · continues past your window' : ''}</small></button>`).join('') + '<p class="help">If you can narrow your time window, you get fewer options. Pick the one that matches what your family remembers.</p>';
+    choicesBox.hidden = false;
+    choicesBox.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => chooseSpan(base, spans[Number(b.dataset.i)], 'chosen by you from the options')));
+  } catch (e) { fail(e.name === 'TimeoutError' ? 'That took too long. Try again.' : e.message); }
+  finally { button.disabled = false; button.textContent = 'Calculate chart'; }
+}
+form.addEventListener('submit', async e => {
+  e.preventDefault(); error.hidden = true; output.hidden = true; choicesBox.hidden = true;
+  document.querySelector('#empty').hidden = false;
+  if (!form.elements.date.value) return fail('Choose the full date of birth: day, month and a four-digit year.');
+  if (timeMode() === 'sure' && !form.elements.time.value) return fail('Choose the time of birth: hour, minute and AM or PM.');
+  if (form.elements.latitude.value === '' || form.elements.longitude.value === '') {
+    const ok = await findCoordinates();
+    if (!ok || form.elements.latitude.value === '') return;
+  }
+  const values = Object.fromEntries(new FormData(form));
+  const birth = {date: values.date, time: values.time, timezone: values.timezone === '__other' ? (values.timezone_other || '').trim() : values.timezone, place: values.place,
+    latitude: Number(values.latitude), longitude: Number(values.longitude)};
+  if (timeMode() !== 'sure') return lagnaOptions(birth);
+  runCalc(birth, '');
 });
 document.querySelector('#example').addEventListener('click', () => {
   const example = {place:'Synthetic example',timezone:'Asia/Kolkata',latitude:13,longitude:80};

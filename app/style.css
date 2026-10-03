@@ -25,3 +25,5 @@ body.story-on{overflow:hidden}.story{position:fixed;inset:0;z-index:50;backgroun
 @media(prefers-reduced-motion:no-preference){.story-card{animation:sfade .2s}@keyframes sfade{from{opacity:.4}to{opacity:1}}}
 .story-jump{width:100%;margin-top:6px}
 .builder-link{margin:0 0 10px;font-size:12px}.builder-link a{color:var(--muted)}
+
+.radio{display:flex;gap:10px;align-items:center;font-size:15px;min-height:44px;margin:0}.radio input{width:20px;height:20px;margin:0}.choice{display:block;width:100%;text-align:left;margin:8px 0;padding:12px}.lagna-note{margin-top:10px;padding:10px 12px;border-left:3px solid var(--teal);background:#f3f7f6;font-size:14px}[hidden]{display:none!important}
