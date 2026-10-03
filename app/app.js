@@ -236,7 +236,7 @@ function render(report, birth, coordsWereResolved) {
   const unique = [...new Map(sources.map(s => [JSON.stringify(s), s])).values()];
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
-  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(chart.ascendant.sign)} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${whoSection(report.who_you_are)}
@@ -255,6 +255,8 @@ function render(report, birth, coordsWereResolved) {
   document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
+const LAGNA_TA = {"Aries": "மேஷம்", "Taurus": "ரிஷபம்", "Gemini": "மிதுனம்", "Cancer": "கடகம்", "Leo": "சிம்மம்", "Virgo": "கன்னி", "Libra": "துலாம்", "Scorpio": "விருச்சிகம்", "Sagittarius": "தனுசு", "Capricorn": "மகரம்", "Aquarius": "கும்பம்", "Pisces": "மீனம்"};
+const lagnaName = s => LAGNA_TA[s] ? `${s} (${LAGNA_TA[s]})` : s;
 const timeMode = () => form.elements.timemode.value;
 const choicesBox = document.querySelector('#lagna-choices');
 function applyMode() {
@@ -286,7 +288,7 @@ function chooseSpan(base, span, how) {
   choicesBox.hidden = true;
   const birth = {...base, date: span.stand_in_date, time: span.stand_in_time};
   const steady = span.moon_sign_steady && span.moon_star_steady ? 'Your Moon sign and star stay the same across this stretch.' : 'Your Moon moves to another sign or star during this stretch, so the Moon-based parts are less certain.';
-  runCalc(birth, `${span.lagna} lagna, ${how}. The chart is read from ${clock(span.stand_in_time)}, the middle of the stretch ${spanText(span)}. That is a stand-in, not your birth time. ${steady}`);
+  runCalc(birth, `${lagnaName(span.lagna)} lagna, ${how}. The chart is read from ${clock(span.stand_in_time)}, the middle of the stretch ${spanText(span)}. That is a stand-in, not your birth time. ${steady}`);
 }
 async function lagnaOptions(base) {
   const m = timeMode(), body = {date: base.date, timezone: base.timezone, latitude: base.latitude, longitude: base.longitude};
@@ -306,7 +308,7 @@ async function lagnaOptions(base) {
     if (!spans.length) return fail('That lagna does not rise at your birthplace on that date. Check the date, place and time zone.');
     const how = m === 'known' ? 'chosen by you' : 'the only one that fits your time window';
     if (spans.length === 1) return chooseSpan(base, spans[0], how);
-    choicesBox.innerHTML = `<p class="eyebrow">${m === 'known' ? 'Your lagna rises twice on this date' : 'Which of these fits you?'}</p>` + spans.map((s, i) => `<button type="button" class="secondary choice" data-i="${i}"><b>${escape(s.lagna)} lagna</b><br><small>${escape(spanText(s))}${s.cut_by_window && m === 'window' ? ' · continues past your window' : ''}</small></button>`).join('') + '<p class="help">If you can narrow your time window, you get fewer options. Pick the one that matches what your family remembers.</p>';
+    choicesBox.innerHTML = `<p class="eyebrow">${m === 'known' ? 'Your lagna rises twice on this date' : 'Which of these fits you?'}</p>` + spans.map((s, i) => `<button type="button" class="secondary choice" data-i="${i}"><b>${escape(lagnaName(s.lagna))} lagna</b><br><small>${escape(spanText(s))}${s.cut_by_window && m === 'window' ? ' · continues past your window' : ''}</small></button>`).join('') + '<p class="help">If you can narrow your time window, you get fewer options. Pick the one that matches what your family remembers.</p>';
     choicesBox.hidden = false;
     choicesBox.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => chooseSpan(base, spans[Number(b.dataset.i)], 'chosen by you from the options')));
   } catch (e) { fail(e.name === 'TimeoutError' ? 'That took too long. Try again.' : e.message); }
