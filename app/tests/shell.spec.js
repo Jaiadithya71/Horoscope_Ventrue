@@ -21,10 +21,10 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
- await expect(page.locator('.outcome-card')).toHaveCount(5);
+ await expect(page.locator('.outcome-card')).toHaveCount(6);
  await expect(page.locator('.outcomes')).not.toContainText('Not met');
  await page.locator('.evidence-all > summary').click();
- await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
+ await expect(page.locator('.result-head h2')).toContainText('Aries (மேஷம்) lagna');
  await expect(page.locator('.reading')).toContainText('Your Moon is in Libra');
  await expect(page.locator('.reading')).toContainText('Mars rules your ascendant');
  await expect(page.locator('.reading')).toContainText('sits in');
@@ -34,7 +34,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  for (const ref of ['Lagna','Moon','Sun']) {
    await expect(page.locator('.life-aspects:not(.life-extra)')).toContainText(`If the ${ref} route is the strongest`);
  }
- await expect(page.locator('.route-caveat').first()).toContainText('strength has not been established');
+ await expect(page.locator('.route-caveat', {hasText: 'strength has not been established'}).first()).toBeVisible();
  await expect(page.locator('.life-aspects:not(.life-extra)')).toContainText('whole-sign versus degree-bhava');
  await expect(page.locator('.aspect-stop')).toContainText('No wealth outcome is selected');
  await page.locator('.route-card details summary').first().click();
@@ -94,4 +94,51 @@ test('life periods render as collapsible period cards',async({page})=>{
  await expect(page.locator('.period')).toHaveCount(9);
  await expect(page.locator('.period').first().locator('table')).toBeHidden();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('story view: 7 cards, next/back, jump to full page',async({page})=>{
+ await page.goto('/');
+ await page.getByRole('button',{name:'Use a synthetic example'}).click();
+ await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.locator('#story-open').click();
+ await expect(page.locator('.story')).toBeVisible();
+ await expect(page.locator('.story-count')).toContainText('1');
+ await expect(page.locator('.story-bars > *')).toHaveCount(7);
+ await page.locator('.story-next').click();
+ await expect(page.locator('.story-count')).toContainText('2');
+ await page.locator('.story-prev').click();
+ await expect(page.locator('.story-count')).toContainText('1');
+ await page.locator('.story-close').click();
+ await expect(page.locator('.story')).toHaveCount(0);
+});
+test('lagna options: uncertain time window lists lagnas and the chosen one calculates',async({page})=>{
+ await page.goto('/');
+ await setBirth(page,2000,1,1,2,30,'PM');
+ await page.locator('[name=place]').fill('Chennai');
+ await page.locator('details.manual summary').click();
+ await page.locator('[name=latitude]').fill('13.08');await page.locator('[name=longitude]').fill('80.27');
+ await page.locator('input[name=timemode][value=window]').check();
+ await expect(page.locator('#time-pick')).toBeHidden();
+ await page.locator('[name=win_start]').fill('06:00');await page.locator('[name=win_end]').fill('10:00');
+ await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await expect(page.locator('.choice')).toHaveCount(3);
+ await expect(page.locator('#lagna-choices')).toContainText('மகரம்');
+ await page.locator('.choice').nth(1).click();
+ await expect(page.locator('.result-head h2')).toContainText('Capricorn');
+ await expect(page.locator('.lagna-note')).toContainText('stand-in, not your birth time');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+test('lagna options: known lagna picks its clock hours',async({page})=>{
+ await page.goto('/');
+ await setBirth(page,2000,1,1,2,30,'PM');
+ await page.locator('[name=place]').fill('Chennai');
+ await page.locator('details.manual summary').click();
+ await page.locator('[name=latitude]').fill('13.08');await page.locator('[name=longitude]').fill('80.27');
+ await page.locator('input[name=timemode][value=known]').check();
+ await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await expect(page.getByRole('alert')).toContainText('Choose your lagna');
+ await page.locator('select[name=known_lagna]').selectOption('Leo');
+ await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await expect(page.locator('.result-head h2')).toContainText('Leo');
+ await expect(page.locator('.lagna-note')).toContainText('chosen by you');
 });
