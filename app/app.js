@@ -458,3 +458,101 @@ document.addEventListener('click', e => {
   const j = e.target.closest('.story-jump');
   if (j) { document.querySelector('.story .story-close')?.click(); setTimeout(() => document.getElementById(j.dataset.jump)?.scrollIntoView({behavior: 'smooth'}), 50); }
 });
+
+/* Client notebook. Explicit save only. Never sends records or notes to a server. */
+(() => {
+  const KEY = 'horoscope-client-notebook-v1';
+  let selected = null, editingConsult = null, records = [], ready = true, storedRaw = null;
+  const panel = document.createElement('section');
+  panel.className = 'client-panel'; panel.setAttribute('aria-labelledby','clients-title');
+  panel.innerHTML = `<details><summary id="clients-title">Client notebook</summary>
+  <p class="muted">Saved only in this browser on this device. Not encrypted, not synced and not a cloud backup. Anyone using this browser can read the records. Save only with the client's permission. Clearing browser data deletes them.</p>
+  <label>Find a client<input id="client-search" maxlength="120" type="search"></label><div id="client-list"></div>
+  <button type="button" class="secondary" id="client-new">New client</button>
+  <form id="client-form"><label>Client name or private label<input id="client-name" maxlength="120" required autocomplete="off"></label>
+  <p id="client-birth" class="help">Fill the birth form, then save it here. An uncertain time stays uncertain.</p>
+  <button type="submit">Save birth details to this browser</button></form>
+  <div id="client-detail" hidden><div class="pair"><button type="button" class="secondary" id="client-load">Load birth details</button><button type="button" class="secondary" id="client-delete">Delete client</button></div>
+  <h3>Consultation history</h3><p class="help">Keep the astrologer's reading separate from what the client later reports. These notes are not proof that a forecast is accurate. Nothing is submitted for benchmarking.</p>
+  <form id="consult-form"><label>Consultation date<input id="consult-date" type="date" required></label>
+  <label>Astrologer's reading<textarea id="consult-reading" maxlength="8000" rows="3"></textarea></label>
+  <label>Client-reported events / follow-up<textarea id="consult-observed" maxlength="8000" rows="3"></textarea></label>
+  <label>Private notes<textarea id="consult-notes" maxlength="8000" rows="3"></textarea></label>
+  <button type="submit">Save consultation</button></form><div id="consult-list"></div></div>
+  <details><summary>Private backup</summary><p class="help">Backup files include all birth details and private notes. Keep them somewhere private. Import adds records, never overwrites existing ones.</p>
+  <button type="button" class="secondary" id="clients-export">Download private backup</button><label>Import a notebook backup<input id="clients-import" type="file" accept="application/json,.json"></label></details>
+  <p id="client-status" role="status"></p></details>`;
+  document.querySelector('.layout').after(panel);
+  const style = document.createElement('style'); style.textContent = '.client-panel{margin-top:30px;border-top:1px solid var(--line);max-width:720px}.client-panel textarea{width:100%;min-height:90px;font:14px Arial;padding:10px;border:1px solid #cdc9ca;border-radius:4px;margin-top:6px}.client-panel textarea:focus{outline:2px solid var(--teal)}.client-item,.consult-item{border:1px solid var(--line);padding:14px;margin-top:12px;border-radius:4px;overflow-wrap:anywhere}.consult-item p{white-space:pre-wrap;font-size:13px}.client-panel h3{margin-top:24px}#client-status{font-size:13px;color:var(--teal)}'; document.head.append(style);
+  const $ = id => panel.querySelector('#'+id);
+  const say = msg => { $('client-status').textContent = msg; };
+  const id = () => crypto.randomUUID();
+  const current = () => records.find(r => r.id === selected);
+  function validate(data) {
+    if (!data || data.version !== 1 || !Array.isArray(data.records) || data.records.length > 500) throw Error('Not a supported notebook backup.');
+    const seen = new Set();
+    for (const r of data.records) {
+      if (!r || typeof r.id !== 'string' || seen.has(r.id) || typeof r.name !== 'string' || !r.name.trim() || r.name.length > 120 || !r.input || !Array.isArray(r.consultations) || r.consultations.length > 1000) throw Error('Invalid client record. Nothing was imported.');
+      seen.add(r.id);
+      const b = r.input;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date) || !['sure','window','known'].includes(b.timemode) || typeof b.place !== 'string' || b.place.length > 120 || typeof b.timezone !== 'string' || b.timezone.length > 120 || !Number.isFinite(b.latitude) || !Number.isFinite(b.longitude) || Math.abs(b.latitude)>=90 || Math.abs(b.longitude)>180) throw Error('Invalid birth details. Nothing was imported.');
+      const dateObj=new Date(b.date+'T12:00:00Z'); if(!Number.isFinite(dateObj.getTime())||dateObj.toISOString().slice(0,10)!==b.date||Number(b.date.slice(0,4))<1800||Number(b.date.slice(0,4))>2399)throw Error('Invalid birth date.');
+      try{new Intl.DateTimeFormat('en',{timeZone:b.timezone});}catch{throw Error('Invalid birth time zone.');}
+      const clockOk=t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(t);
+      if(b.timemode==='sure'&&!clockOk(b.time)||b.timemode==='window'&&(!clockOk(b.win_start)||!clockOk(b.win_end))||b.timemode==='known'&&!['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'].includes(b.known_lagna))throw Error('Invalid birth-time choice.');
+      for (const key of ['time','win_start','win_end','known_lagna','known_around']) if (typeof b[key] !== 'string' || b[key].length > 30) throw Error('Invalid birth-time fields.');
+      for (const c of r.consultations) if (!c || typeof c.id !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(c.date) || ['reading','observed','notes'].some(k => typeof c[k] !== 'string' || c[k].length > 8000)) throw Error('Invalid consultation. Nothing was imported.');
+    }
+    // Whitelist fields: untrusted backup content never becomes markup or executable code.
+    return data.records.map(r=>({id:r.id,name:r.name,input:{...Object.fromEntries(['date','time','timezone','place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'].map(k=>[k,r.input[k]]))},consultations:r.consultations.map(c=>({id:c.id,date:c.date,reading:c.reading,observed:c.observed,notes:c.notes})),updated:typeof r.updated==='string'?r.updated:''}));
+  }
+  try { const raw = localStorage.getItem(KEY); storedRaw = raw; if (raw) records = validate(JSON.parse(raw)); }
+  catch { ready = false; say('Saved records could not be read. They have not been overwritten. Download the stored backup before repairing browser data.'); }
+  function persist(next) {
+    if (!ready) throw Error('Storage is unavailable or unreadable. No records were changed.');
+    if (localStorage.getItem(KEY) !== storedRaw) throw Error("Notebook changed in another tab. Reload before saving; nothing was overwritten.");
+    validate({version:1,records:next});
+    try { const raw = JSON.stringify({version:1,records:next}); localStorage.setItem(KEY, raw); storedRaw = raw; }
+    catch { throw Error('Browser storage is full or unavailable. Nothing was saved. Download a backup and try again.'); }
+    records = next;
+  }
+  function renderNotebook() {
+    $('client-list').replaceChildren();
+    const q = $('client-search').value.toLowerCase();
+    records.filter(r=>r.name.toLowerCase().includes(q)).forEach(r=>{
+      const b=document.createElement('button'); b.type='button';b.className='secondary client-item';b.textContent=`${r.name} · ${r.input.date} · ${r.input.place}`;
+      b.onclick=()=>{editingConsult=null; $('consult-form button').textContent='Save consultation'; for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';selected=r.id; $('client-name').value=r.name;renderNotebook();};$('client-list').append(b);
+    });
+    const r=current(); $('client-detail').hidden=!r;
+    $('client-birth').textContent=r ? `Saved: ${r.input.date} · ${r.input.timemode==='sure'?r.input.time:r.input.timemode==='window'?`uncertain, ${r.input.win_start} to ${r.input.win_end}`:`known lagna: ${r.input.known_lagna}`} · ${r.input.place}. Saving again replaces these birth details with the current form; consultation notes stay.` : 'Fill the birth form, then save it here. An uncertain time stays uncertain.';
+    $('consult-list').replaceChildren();
+    if(r) [...r.consultations].reverse().forEach(c=>{
+      const card=document.createElement('article');card.className='consult-item';
+      const title=document.createElement('h3');title.textContent=c.date;card.append(title);
+      for(const [key,label] of [['reading',"Astrologer's reading"],['observed','Client-reported events / follow-up'],['notes','Private notes']]) if(c[key]) {const p=document.createElement('p');p.textContent=`${label}:\n${c[key]}`;card.append(p);}
+      const edit=document.createElement('button');edit.type='button';edit.className='secondary';edit.textContent='Edit consultation';edit.onclick=()=>{editingConsult=c.id; $('consult-date').value=c.date;for(const [k,v] of [['consult-reading',c.reading],['consult-observed',c.observed],['consult-notes',c.notes]])$(k).value=v;$('consult-form button').textContent='Update consultation';$('consult-date').focus();};card.append(edit);
+      const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Delete consultation';del.onclick=()=>{if(!confirm('Delete this consultation permanently from this browser?'))return;try{persist(records.map(x=>x.id===r.id?{...x,consultations:x.consultations.filter(z=>z.id!==c.id)}:x));renderNotebook();say('Consultation deleted.');}catch(e){say(e.message);}};card.append(del);$('consult-list').append(card);
+    });
+  }
+  function inputSnapshot() {
+    const v=Object.fromEntries(new FormData(form));
+    if(!v.date || !v.place.trim() || v.latitude==='' || v.longitude==='')throw Error('Complete the birth date, birthplace and coordinates first.');
+    if(v.timemode==='sure'&&!v.time)throw Error('Choose the birth time first.');
+    if(v.timemode==='window'&&(!v.win_start||!v.win_end))throw Error('Choose the earliest and latest possible time.');
+    if(v.timemode==='known'&&!v.known_lagna)throw Error('Choose the known lagna.');
+    return {date:v.date,time:v.time,timezone:v.timezone==='__other'?v.timezone_other.trim():v.timezone,place:v.place.trim(),latitude:Number(v.latitude),longitude:Number(v.longitude),timemode:v.timemode,win_start:v.win_start,win_end:v.win_end,known_lagna:v.known_lagna,known_around:v.known_around};
+  }
+  $('client-form').onsubmit=e=>{e.preventDefault();try{const input=inputSnapshot(),name=$('client-name').value.trim();if(!name)throw Error('Give this client a name or private label.');const r=current();if(r&&!confirm('Replace the saved birth details for '+r.name+' with the current birth form?'))return;const saved={id:r?.id||id(),name,input,consultations:r?.consultations||[],updated:new Date().toISOString()};persist(r?records.map(x=>x.id===r.id?saved:x):[...records,saved]);selected=saved.id;renderNotebook();say('Birth details saved in this browser only.');}catch(e){say(e.message);}};
+  $('client-new').onclick=()=>{selected=null;editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';$('client-name').value='';renderNotebook();say('New client. Fill or check the birth form before saving.');$('client-name').focus();};
+  $('client-search').oninput=renderNotebook;
+  $('client-load').onclick=()=>{const r=current();if(!r)return;if(!confirm('Replace the current birth form with '+r.name+"'s saved details?"))return;const b=r.input;setPickers(b.date,b.time||'00:00');if(!b.time){hourEl.value='';minEl.value='';ampmEl.value='';syncTime();}for(const k of ['place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'])form.elements[k].value=b[k];const available=[...form.elements.timezone.options].some(o=>o.value===b.timezone);form.elements.timezone.value=available?b.timezone:'__other';form.elements.timezone_other.value=available?'':b.timezone;form.elements.timezone.dispatchEvent(new Event('change'));applyMode();resolvedFromLookup=false;resolved.hidden=true;candidatesBox.hidden=true;choicesBox.hidden=true;output.hidden=true;document.querySelector('#empty').hidden=false;say('Saved details loaded. Check them, then calculate a fresh chart.');document.querySelector('#birth-title').scrollIntoView({behavior:'smooth'});};
+  $('client-delete').onclick=()=>{const r=current();if(!r||!confirm('Delete '+r.name+' and all their consultation notes permanently from this browser?'))return;try{persist(records.filter(x=>x.id!==r.id));selected=null;$('client-name').value='';renderNotebook();say('Client and consultation history deleted.');}catch(e){say(e.message);}};
+  $('consult-date').value=new Date().toLocaleDateString('en-CA');
+  $('consult-form').onsubmit=e=>{e.preventDefault();try{const r=current();if(!r)throw Error('Select a client first.');const c={id:editingConsult||id(),date:$('consult-date').value,reading:$('consult-reading').value.trim(),observed:$('consult-observed').value.trim(),notes:$('consult-notes').value.trim()};if(!c.reading&&!c.observed&&!c.notes)throw Error('Add a reading, follow-up or note first.');persist(records.map(x=>x.id===r.id?{...x,consultations:editingConsult?x.consultations.map(z=>z.id===editingConsult?c:z):[...x.consultations,c],updated:new Date().toISOString()}:x));editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';renderNotebook();say('Consultation saved locally. Nothing was sent for benchmarking.');}catch(e){say(e.message);}};
+  $('clients-export').onclick=()=>{try{const raw=ready?JSON.stringify({version:1,records},null,2):localStorage.getItem(KEY);if(!raw)throw Error('No saved backup is available.');const blob=new Blob([raw],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='horoscope-private-notebook.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);say('Private backup downloaded. It contains client birth details and notes.');}catch(e){say(e.message);}};
+  $('clients-import').onchange=async()=>{try{const file=$('clients-import').files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('Backup exceeds the 5 MB limit.');const added=validate(JSON.parse(await file.text()));if(!confirm(`Add ${added.length} client records from this private backup? Existing records will stay unchanged.`))return;persist([...records,...added.map(r=>({...r,id:id(),consultations:r.consultations.map(c=>({...c,id:id()}))}))]);renderNotebook();say(`${added.length} client records imported. Existing records were not overwritten.`);}catch(e){say(e.message);}finally{$('clients-import').value='';}};
+  window.addEventListener('storage',e=>{if(e.key!==KEY)return;try{storedRaw=e.newValue;records=e.newValue?validate(JSON.parse(e.newValue)):[];ready=true;selected=null;$('client-name').value='';renderNotebook();say('Notebook updated in another tab. Select a client again before editing.');}catch{ready=false;say('Notebook changed in another tab and could not be read. Writes are paused.');}});
+  const privacy=[...form.querySelectorAll('.help')].find(e=>e.textContent.startsWith('No account.'));
+  if(privacy) privacy.textContent="No account. Birth details are sent only to this app's own calculation endpoints. The place name goes to OpenStreetMap's Nominatim for lookup. Nothing is saved unless you choose Save in the client notebook. Notes stay in this browser; no analytics or automatic benchmarking.";
+  renderNotebook();
+})();
