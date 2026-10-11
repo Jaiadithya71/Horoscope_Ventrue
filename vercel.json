@@ -12,6 +12,10 @@
     {
       "source": "/app.js",
       "destination": "/app/app.js"
+    },
+    {
+      "source": "/i18n.js",
+      "destination": "/app/i18n.js"
     }
   ]
 }
