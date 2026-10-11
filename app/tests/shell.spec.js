@@ -1,4 +1,5 @@
 const {test,expect} = require('@playwright/test');
+test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('horoscope-language','en'));});
 async function setBirth(page,y,m,d,hh,mm,ap){
  await page.locator('#d-day').selectOption(String(d));await page.locator('#d-mon').selectOption(String(m));await page.locator('#d-year').fill(String(y));
  await page.locator('#t-hour').selectOption(String(hh));await page.locator('#t-min').selectOption(String(mm));await page.locator('#t-ampm').selectOption(ap);
@@ -24,7 +25,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('.outcome-card')).toHaveCount(6);
  await expect(page.locator('.outcomes')).not.toContainText('Not met');
  await page.locator('.evidence-all > summary').click();
- await expect(page.locator('.result-head h2')).toContainText('Aries (மேஷம்) lagna');
+ await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
  await expect(page.locator('.reading')).toContainText('Your Moon is in Libra');
  await expect(page.locator('.reading')).toContainText('Mars rules your ascendant');
  await expect(page.locator('.reading')).toContainText('sits in');
@@ -122,7 +123,7 @@ test('lagna options: uncertain time window lists lagnas and the chosen one calcu
  await page.locator('[name=win_start]').fill('06:00');await page.locator('[name=win_end]').fill('10:00');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('.choice')).toHaveCount(3);
- await expect(page.locator('#lagna-choices')).toContainText('மகரம்');
+ await expect(page.locator('#lagna-choices')).toContainText('Capricorn');
  await page.locator('.choice').nth(1).click();
  await expect(page.locator('.result-head h2')).toContainText('Capricorn');
  await expect(page.locator('.lagna-note')).toContainText('stand-in, not your birth time');
