@@ -29,7 +29,7 @@ def period_input_coverage(placements,main_lord,sub_lord):
  return {'rows':rows,'complete_period_evidence':False,'personal_outcome':None}
 
 
-def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,query_instant=None,native_sex=None):
+def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,query_instant=None,native_sex=None,node_mode="mean"):
  if not isinstance(birth,dict) or set(birth)!=BIRTH_KEYS:raise ValueError('Birth requires exactly date,time,timezone,latitude,longitude,place')
  for key in ('date','time','timezone','place'):
   if not isinstance(birth[key],str) or not birth[key].strip():raise ValueError('Nonempty birth text fields required')
@@ -67,7 +67,7 @@ def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,
     'unit_origin':'caller declaration' if unit_explicit else 'legacy source-layout contract',
     'unit_conversion_applied':False,
     'chart_identity_match_verified':False,'converted_to_condition_strength_flag':False})
- chart=natal_chart(**birth)
+ chart=natal_chart(**birth,node_mode=node_mode)
  from .shadbala_working_profile import shadbala_working_profile
  from .marriage_conditional import marriage_conditional
  from .wealth_conditional import wealth_conditional
