@@ -1,37 +1,45 @@
-# Local chart research preview
+# Horoscope chart research app
 
-Run from the repository root:
+Live: https://horoscope-ventrue.vercel.app/
+
+Phone-first UI over the source-led rule engine. Modern Moshier/Lahiri chart
+math is explicitly labelled; historical astronomical frame, calendar and
+strength choices remain separate research lanes. Passing tests verify code
+and arithmetic, not predictive accuracy. No book scans or copied competitor
+interpretation content are added by the client-notebook work.
+
+## Local preview and tests
 
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install -r engine/requirements-research.txt
-.venv/bin/python app/server.py
-# Open http://127.0.0.1:8000
-```
-
-This is a phone-first UI over `engine.research_input_report`, not a new astrology
-engine. It shows explicit modern chart placements, Moon nakshatra, source
-reference metadata and period arithmetic in solar-year units. Complete strength,
-selected historical calendar, personal outcomes and predictive accuracy stay
-unavailable. Source text interpretations are not displayed without scanned-page
-verification in the app. There are no accounts, analytics, stored charts or
-third-party geocoding. Request bodies are not logged by the local/API handler.
-Hosting providers may retain operational metadata; review their policy before
-public launch.
-
-Public deployment is intentionally NOT configured yet. Swiss Ephemeris license
-choice and source-rights review remain launch gates. This code does not choose
-an AGPL license or buy a professional license for the owner. Place lookup uses OpenStreetMap Nominatim (one request per lookup, throttled to its usage policy, no query logging by the local handler). The API adapter is
-ready for later Python hosting but must not be described as publicly deployed.
-
-Verification:
-
-```sh
-.venv/bin/python -m unittest discover -s tests -q
+.venv/bin/pip install -r requirements.txt
 npm ci
 npx playwright install chromium
+.venv/bin/python app/server.py
+# http://127.0.0.1:8000
+.venv/bin/python -m unittest discover -s tests -q
 npx playwright test
 ```
 
-Playwright starts the local server and tests phone/desktop widths, real engine
-results, errors, input escaping, research gates and accessible disclosure.
+Place lookup uses OpenStreetMap Nominatim, with one throttled request per
+lookup. Birth details go only to this app's calculator endpoints when Calculate
+is chosen. Request bodies are not logged by the local/API handler. Hosting
+providers can retain operational metadata. No analytics or accounts are added.
+
+## Client notebook
+
+Opt-in local-browser client records keep the exact/uncertain/known-lagna input
+mode, birth coordinates/timezone, dated astrologer readings, client-reported
+follow-up and private notes. Nothing is automatically saved, uploaded, synced
+or submitted for benchmarking. Names and notes are rendered as text, not markup.
+The user must obtain client permission.
+
+Storage is not encrypted. Anyone with access to the browser can read it.
+Clearing browser data deletes the records; explicit JSON download/import is
+available as a private backup. Import validates the format and adds records
+without overwriting existing clients. Notes never enter calculation requests.
+No new database, paid service or default astrology convention was introduced.
+
+Tests cover notebook persistence, editing, deletion, unsafe text, uncertain time,
+corrupt storage and private backup handling, alongside the existing chart tests.
+See docs/srirangam-spot-checks.md for the limited external arithmetic comparison.
