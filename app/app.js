@@ -21,7 +21,7 @@ function showResolved(candidate) {
   error.hidden = true;
   form.elements.latitude.value = candidate.latitude;
   form.elements.longitude.value = candidate.longitude;
-  resolved.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · ${escape(candidate.display_name)}${candidate.timezone ? ` · ${escape(candidate.timezone)} (check birth-date zone)` : " · choose time zone manually"}<button type="button" id="change-place">change</button>`;
+  resolved.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · <span data-private>${escape(candidate.display_name)}</span>${candidate.timezone ? ` · ${escape(candidate.timezone)} (check birth-date zone)` : " · choose time zone manually"}<button type="button" id="change-place">change</button>`;
   resolved.hidden = false;
   candidatesBox.hidden = true;
   resolved.querySelector('#change-place').addEventListener('click', () => {
@@ -43,7 +43,7 @@ async function findCoordinates() {
     }
     if (data.candidates.length === 1) { showResolved(data.candidates[0]); return true; }
     candidatesBox.innerHTML = data.candidates.map((c, i) =>
-      `<label><input type="radio" name="candidate" value="${i}">${escape(c.display_name)}</label>`).join('');
+      `<label><input type="radio" name="candidate" value="${i}"><span data-private>${escape(c.display_name)}</span></label>`).join('');
     candidatesBox.hidden = false; resolved.hidden = true;
     candidatesBox.querySelectorAll('input').forEach(input =>
       input.addEventListener('change', () => showResolved(data.candidates[Number(input.value)])));
@@ -67,7 +67,7 @@ function readingParagraphs(chart) {
   const factors = structure?.planet_factors || [];
   const lagnaLord = lordships.find(h => h.house === 1)?.lord;
   const paragraphs = [];
-  paragraphs.push(`Born ${escape(chart.birth_utc.slice(0,10))}, ${escape(chart.birth_place)}. ` +
+  paragraphs.push(`Born ${escape(chart.birth_utc.slice(0,10))}, <span data-private>${escape(chart.birth_place)}</span>. ` +
     `Your lagna is ${escape(asc)}. Your Moon is in ${escape(chart.placements.Moon.sign)}, in ${escape(star.name)}, pada ${escape(star.pada)}.`);
   if (lagnaLord) {
     const owned = lordships.filter(h => h.lord === lagnaLord).map(h => ord(h.house));
@@ -84,11 +84,11 @@ function readingParagraphs(chart) {
     const aspects = (f?.aspects || []).map(a => `your ${ord(a.target_house_from_reference)} house (${escape(a.target_sign)})`);
     const aspectText = aspects.length ? ` From there it aspects ${aspects.join(' and ')}.` : '';
     const retro = p.retrograde ? ', retrograde' : '';
-    const nodeNote = planet === 'Rahu' ? ' (the mean node)' : '';
+    const nodeNote = planet === 'Rahu' ? ` (${chart.node_mode||'mean'} node)` : '';
     paragraphs.push(`${escape(planet)}${nodeNote} sits in ${escape(p.sign)}${retro} - your ${ord(house)} house from the ascendant.${ruledText}${aspectText}`);
   }
   const periods = chart.moon_periods;
-  paragraphs.push(`Your period sequence opens with ${escape(periods.initial_lord)}, with ${Number(periods.initial_remaining_solar_years).toFixed(2)} solar-year units of it remaining at birth. The full order is listed below. The engine gives no calendar dates for these boundaries yet - that conversion is still research-gated.`);
+  paragraphs.push(`Your period sequence opens with ${escape(periods.initial_lord)}, with ${Number(periods.initial_remaining_solar_years).toFixed(2)} solar-year units of it remaining at birth. The full order is listed below. These offsets are not calendar dates. The four dated alternatives are shown separately above; no one convention is selected.`);
   return paragraphs;
 }
 
@@ -232,7 +232,7 @@ function periodsSection(lp) {
 }
 
 function render(report, birth, coordsWereResolved) {
-  window.__lastReport = report;
+  window.__lastReport = report; window.__lastBirth = birth; window.__lastCoords = coordsWereResolved;
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
   const rows = Object.entries(chart.placements).map(([name, p]) => `<tr><td>${escape(name)}</td><td>${escape(p.sign)}<br><small>${(p.longitude % 30).toFixed(5)}° ${p.retrograde ? 'retrograde' : ''}</small></td><td>${escape(p.whole_sign_house_from_ascendant)}</td><td>${escape(p.sripati_degree_house?.house)}${p.sripati_degree_house?.at_sandhi ? ' (sandhi)' : ''}</td></tr>`).join('');
@@ -242,7 +242,7 @@ function render(report, birth, coordsWereResolved) {
   const unique = [...new Map(sources.map(s => [JSON.stringify(s), s])).values()];
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
-  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${tamilSheet(report, birth)}
@@ -259,7 +259,7 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
   <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details>`;
-  document.querySelector('#empty').hidden = true;
+  if(window.__lastNote)output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
 const LAGNA_TA = {"Aries": "மேஷம்", "Taurus": "ரிஷபம்", "Gemini": "மிதுனம்", "Cancer": "கடகம்", "Leo": "சிம்மம்", "Virgo": "கன்னி", "Libra": "துலாம்", "Scorpio": "விருச்சிகம்", "Sagittarius": "தனுசு", "Capricorn": "மகரம்", "Aquarius": "கும்பம்", "Pisces": "மீனம்"};
@@ -281,8 +281,8 @@ async function runCalc(birth, note) {
     const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth,tamil_view:document.querySelector("#tamil-view").checked,node_mode:form.elements.node_mode.value}), signal:AbortSignal.timeout(30000)});
     const report = await response.json();
     if (!response.ok) throw new Error(report.error || 'Calculation is unavailable.');
-    render(report, birth, resolvedFromLookup);
-    if (note) output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(note)}</p>`);
+    window.__lastNote=note||'';render(report, birth, resolvedFromLookup);
+
     if (matchMedia('(max-width:700px)').matches) workspace.scrollIntoView({behavior:'smooth', block:'start'});
   } catch (e) { fail(e.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : e.message); }
   finally { button.disabled = false; button.textContent = 'Calculate chart'; workspace.setAttribute('aria-busy', 'false'); }
@@ -358,7 +358,7 @@ function syncDate() {
   const dt = new Date(Date.UTC(y, m - 1, d));
   if (y < 1800 || y > 2399 || dt.getUTCMonth() !== m - 1) { dateEcho.textContent = y < 1800 || y > 2399 ? 'Year must be between 1800 and 2399.' : `${MONTHS[m - 1]} ${y} has no day ${d}.`; return; }
   form.elements.date.value = `${y}-${pad(m)}-${pad(d)}`;
-  dateEcho.textContent = dt.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
+  dateEcho.textContent = dt.toLocaleDateString(interfaceLanguage==='ta'?'ta-IN':'en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric', timeZone:'UTC'});
   relabelZones();
 }
 function syncTime() {
@@ -440,13 +440,13 @@ function storyCards(report) {
 
 function openStory() {
   const report = window.__lastReport; if (!report) return;
-  const cards = storyCards(report); let i = 0;
+  let cards = storyCards(report); let i = 0;
   const ov = document.createElement('div'); ov.className = 'story'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', 'Your life as a story');
-  ov.innerHTML = '<div class="story-bars"></div><button type="button" class="story-close" aria-label="Close story">×</button><div class="story-card" tabindex="0"></div><button type="button" class="story-prev" aria-label="Previous card">Back</button><button type="button" class="story-next" aria-label="Next card">Next</button><p class="story-count"></p>';
+  ov.innerHTML = '<button type="button" class="story-language">தமிழ் / English</button><div class="story-bars"></div><button type="button" class="story-close" aria-label="Close story">×</button><div class="story-card" tabindex="0"></div><button type="button" class="story-prev" aria-label="Previous card">Back</button><button type="button" class="story-next" aria-label="Next card">Next</button><p class="story-count"></p>';
   document.body.appendChild(ov); document.body.classList.add('story-on');
   const bars = ov.querySelector('.story-bars'), card = ov.querySelector('.story-card'), count = ov.querySelector('.story-count');
   bars.innerHTML = cards.map(() => '<i></i>').join('');
-  const close = () => { ov.remove(); document.body.classList.remove('story-on'); document.removeEventListener('keydown', key); document.querySelector('#story-open')?.focus(); };
+  const close = () => { ov.remove(); document.body.classList.remove('story-on'); document.removeEventListener('keydown', key); document.removeEventListener('languagechange', languageChanged); document.querySelector('#story-open')?.focus(); };
   const show = n => { i = Math.max(0, Math.min(cards.length - 1, n)); const c = cards[i];
     card.innerHTML = `<p class="eyebrow">${escape(c.eyebrow)}</p><h2>${escape(c.title)}</h2><div class="story-body">${c.body}</div>${c.extra}`; card.scrollTop = 0;
     [...bars.children].forEach((b, k) => b.className = k < i ? 'done' : k === i ? 'cur' : '');
@@ -458,7 +458,7 @@ function openStory() {
   ov.querySelector('.story-close').onclick = close;
   let x0 = null; ov.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive: true});
   ov.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); });
-  show(0); card.focus();
+  const languageChanged=()=>{cards=storyCards(report);show(i);};document.addEventListener('languagechange',languageChanged);ov.querySelector('.story-language').onclick=()=>document.querySelector(`[data-language=${interfaceLanguage==='ta'?'en':'ta'}]`).click();show(0); card.focus();
 }
 document.addEventListener('click', e => {
   if (e.target.closest('#story-open')) openStory();
@@ -527,16 +527,17 @@ document.addEventListener('click', e => {
     $('client-list').replaceChildren();
     const q = $('client-search').value.toLowerCase();
     records.filter(r=>r.name.toLowerCase().includes(q)).forEach(r=>{
-      const b=document.createElement('button'); b.type='button';b.className='secondary client-item';b.textContent=`${r.name} · ${r.input.date} · ${r.input.place}`;
+      const b=document.createElement('button'); b.type='button';b.className='secondary client-item';b.dataset.private='';b.textContent=`${r.name} · ${r.input.date} · ${r.input.place}`;
       b.onclick=()=>{editingConsult=null; $('consult-form button').textContent='Save consultation'; for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';selected=r.id; $('client-name').value=r.name;renderNotebook();};$('client-list').append(b);
     });
     const r=current(); $('client-detail').hidden=!r;
     $('client-birth').textContent=r ? `Saved: ${r.input.date} · ${r.input.timemode==='sure'?r.input.time:r.input.timemode==='window'?`uncertain, ${r.input.win_start} to ${r.input.win_end}`:`known lagna: ${r.input.known_lagna}`} · ${r.input.place}. Saving again replaces these birth details with the current form; consultation notes stay.` : 'Fill the birth form, then save it here. An uncertain time stays uncertain.';
+    if(r){const line=$('client-birth'),raw=line.textContent,place=r.input.place,pos=raw.lastIndexOf(place);if(pos>=0){line.replaceChildren(document.createTextNode(raw.slice(0,pos)));const privatePlace=document.createElement('span');privatePlace.dataset.private='';privatePlace.textContent=place;line.append(privatePlace,document.createTextNode(raw.slice(pos+place.length)));}}
     $('consult-list').replaceChildren();
     if(r) [...r.consultations].reverse().forEach(c=>{
       const card=document.createElement('article');card.className='consult-item';
       const title=document.createElement('h3');title.textContent=c.date;card.append(title);
-      for(const [key,label] of [['reading',"Astrologer's reading"],['observed','Client-reported events / follow-up'],['notes','Private notes']]) if(c[key]) {const p=document.createElement('p');p.textContent=`${label}:\n${c[key]}`;card.append(p);}
+      for(const [key,label] of [['reading',"Astrologer's reading"],['observed','Client-reported events / follow-up'],['notes','Private notes']]) if(c[key]) {const p=document.createElement('p');const heading=document.createElement('strong');heading.textContent=label+': ';const note=document.createElement('span');note.dataset.private='';note.textContent=c[key];p.append(heading,note);card.append(p);}
       const edit=document.createElement('button');edit.type='button';edit.className='secondary';edit.textContent='Edit consultation';edit.onclick=()=>{editingConsult=c.id; $('consult-date').value=c.date;for(const [k,v] of [['consult-reading',c.reading],['consult-observed',c.observed],['consult-notes',c.notes]])$(k).value=v;$('consult-form button').textContent='Update consultation';$('consult-date').focus();};card.append(edit);
       const del=document.createElement('button');del.type='button';del.className='secondary';del.textContent='Delete consultation';del.onclick=()=>{if(!confirm('Delete this consultation permanently from this browser?'))return;try{persist(records.map(x=>x.id===r.id?{...x,consultations:x.consultations.filter(z=>z.id!==c.id)}:x));renderNotebook();say('Consultation deleted.');}catch(e){say(e.message);}};card.append(del);$('consult-list').append(card);
     });
@@ -576,7 +577,7 @@ function tamilSheet(report,birth){
   const d=p.tamil_solar_date, c=report.natal_chart;
   const naz=p.udayadi_nazhikai==null?'Unavailable':`${Math.floor(p.udayadi_nazhikai)} நா. ${p.udayadi_vinadi.toFixed(2)} வி.`;
   const tithi=p.tithi_in_paksha===15?(p.tithi_index_1_based===15?'பௌர்ணமி':'அமாவாசை'):TITHI_TA[p.tithi_in_paksha-1];
-  const fields=[['தமிழ் தேதி / Solar date',d.status==='computed_profile'?`${d.year_name} · ${d.month} ${d.day}`:'Unavailable'],['கிழமை / Weekday',p.weekday],['நட்சத்திரம் / Star',`${p.nakshatra_tamil} · ${p.pada} பாதம்`],['உதயம் / Sunrise',localStamp(p.sunrise,p.timezone)],['அஸ்தமனம் / Sunset',localStamp(p.sunset,p.timezone)],['உதயாதி / From last sunrise',naz],['நட்சத்திர மணி / Sidereal clock',p.local_apparent_sidereal_time],['திதி / Tithi',`${tithi} · ${p.paksha}`],['யோகம் / Yoga',YOGA_TA[p.yoga_index_1_based-1]],['கரணம் / Karana',karanaName(p.karana_half_index_1_based)],['அயனாம்சம் / Lahiri',`${p.ayanamsa_degrees.toFixed(6)}°`],['நேர மண்டலம் / Time zone',`${p.timezone} · UTC ${p.utc_offset_seconds/3600>=0?'+':''}${(p.utc_offset_seconds/3600).toFixed(4)} h`]];
+  const fields=[['தமிழ் தேதி / Solar date',d.status==='computed_profile'?`${d.year_name} · ${interfaceLanguage==='en'?['Chithirai','Vaikasi','Aani','Aadi','Aavani','Purattasi','Aippasi','Karthigai','Margazhi','Thai','Maasi','Panguni'][d.month_index_1_based-1]:d.month} ${d.day}`:'Unavailable'],['கிழமை / Weekday',p.weekday],['நட்சத்திரம் / Star',`${p.nakshatra_tamil} · ${p.pada} பாதம்`],['உதயம் / Sunrise',localStamp(p.sunrise,p.timezone)],['அஸ்தமனம் / Sunset',localStamp(p.sunset,p.timezone)],['உதயாதி / From last sunrise',naz],['நட்சத்திர மணி / Sidereal clock',p.local_apparent_sidereal_time],['திதி / Tithi',`${tithi} · ${p.paksha}`],['யோகம் / Yoga',YOGA_TA[p.yoga_index_1_based-1]],['கரணம் / Karana',karanaName(p.karana_half_index_1_based)],['அயனாம்சம் / Lahiri',`${p.ayanamsa_degrees.toFixed(6)}°`],['நேர மண்டலம் / Time zone',`${p.timezone} · UTC ${p.utc_offset_seconds/3600>=0?'+':''}${(p.utc_offset_seconds/3600).toFixed(4)} h`]];
   const longitudeRows=[...Object.entries(c.placements),['Ketu',{longitude:p.ketu_longitude,sign:Object.keys(LAGNA_TA)[Math.floor(p.ketu_longitude/30)]}]];
   const charts=['rasi','navamsa'].map(kind=>southChart(p.chart_signs,kind)).join('');
   const planets=longitudeRows.map(([name,x])=>`<div class="tamil-position"><strong>${escape(tamilLord(name))}</strong><span>${escape(LAGNA_TA[x.sign]||x.sign)} · ${(x.longitude%30).toFixed(5)}°</span></div>`).join('');
@@ -587,5 +588,5 @@ function tamilSheet(report,birth){
 function southChart(signs,kind){
   const layout=['Pisces','Aries','Taurus','Gemini','Aquarius',null,null,'Cancer','Capricorn',null,null,'Leo','Sagittarius','Scorpio','Libra','Virgo'];
   const short={Sun:'சூ',Moon:'சந்',Mars:'செ',Mercury:'பு',Jupiter:'கு',Venus:'சு',Saturn:'சனி',Rahu:'ரா',Ketu:'கே',Lagna:'லக்'};
-  return `<div class="south-chart" role="img" aria-label="${kind==='rasi'?'South Indian rasi chart':'South Indian navamsa chart'}"><div class="south-centre">${kind==='rasi'?'இராசி / Rasi':'நவாம்சம் / Navamsa'}<small>Fixed signs<br>லக் = lagna</small></div>${layout.map((sign,i)=>sign?`<div class="south-cell" style="grid-column:${i%4+1};grid-row:${Math.floor(i/4)+1}"><span>${escape(LAGNA_TA[sign])}</span><strong>${Object.entries(signs).filter(([name,x])=>x[kind]===sign).map(([n])=>short[n]).join(' · ')}</strong></div>`:'').join('')}</div>`;
-        }
+  return `<div class="south-chart" role="img" aria-label="${kind==='rasi'?'South Indian rasi chart':'South Indian navamsa chart'}"><div class="south-centre">${kind==='rasi'?'இராசி / Rasi':'நவாம்சம் / Navamsa'}<small>Fixed signs<br>லக் = lagna</small></div>${layout.map((sign,i)=>sign?`<div class="south-cell" style="grid-column:${i%4+1};grid-row:${Math.floor(i/4)+1}"><span>${escape(LAGNA_TA[sign])}</span><strong>${Object.entries(signs).filter(([name,x])=>x[kind]===sign).map(([n])=>interfaceLanguage==='en'?({Sun:'Su',Moon:'Mo',Mars:'Ma',Mercury:'Me',Jupiter:'Ju',Venus:'Ve',Saturn:'Sa',Rahu:'Ra',Ketu:'Ke',Lagna:'Asc'}[n]):short[n]).join(' · ')}</strong></div>`:'').join('')}</div>`;
+                                             }
