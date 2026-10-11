@@ -40,13 +40,14 @@ def birth_utc(date, time, timezone):
         raise ValueError(f'Invalid IANA timezone: {timezone}') from exc
 
 
-def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_profile=None,meridian_profile=None):
+def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_profile=None,meridian_profile=None,node_mode="mean"):
     """Coordinates are explicit input, not guessed from a place-name."""
     if not place or not place.strip():
         raise ValueError('Birth place label is required with verified coordinates')
     latitude, longitude = float(latitude), float(longitude)
     if not (-90 < latitude < 90 and -180 <= longitude <= 180):
         raise ValueError('Latitude must be strictly between -90 and 90; longitude between -180 and 180')
+    if node_mode not in ("mean", "true"): raise ValueError("Node mode must be mean or true")
     utc = birth_utc(date, time, timezone)
     jd = julian_day(utc)
     # Swiss Ephemeris explicitly requests sidereal houses, with Lahiri set in forecast.py.
@@ -55,6 +56,9 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     asc_index = int(asc // 30)
     moon_precise=swe.calc_ut(jd,swe.MOON,FLAGS)[0][0] % 360
     positions = {name: position(utc, name) for name in ('Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Rahu')}
+    if node_mode == 'true':
+        values=swe.calc_ut(jd,swe.TRUE_NODE,FLAGS)[0]
+        positions['Rahu']={'longitude':values[0], 'longitude_display_5dp':round(values[0],5), 'ecliptic_latitude_degrees':values[1], 'ecliptic_latitude_display_5dp':round(values[1],5), 'sign':SIGNS[int(values[0]//30)], 'retrograde':values[3]<0}
     placements = {name: {**p, 'whole_sign_house_from_ascendant': (int(p['longitude'] // 30) - asc_index) % 12 + 1}
                   for name, p in positions.items()}
     from .synthesis import structural_factors
@@ -87,7 +91,7 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
     ray_evidence['astronomy_input_source_url']='https://astrorigin.com/pyswisseph/pydoc/index.html'
     ray_evidence['ayanamsa_returned_flags']=ayana_flags
     ray_evidence['input_notice']='Extended UT ayanamsa, including the apparent-coordinate correction, is used rather than the non-nutated get_ayanamsa_ut value. This modern input profile is not claimed identical to the historical example ephemeris.'
-    return {'solar_meridian_clock_evidence':meridian_evidence,
+    return {'node_mode':node_mode,'solar_meridian_clock_evidence':meridian_evidence,
             'bhava_sign_coverage':coverage,
             'iv_luminary_cheshta_ray_evidence':ray_evidence,
             'solar_interval_evidence':solar_evidence,
@@ -102,7 +106,7 @@ def natal_chart(date, time, timezone, latitude, longitude, place,*,solar_event_p
             'reference_rules': natal_references(placements),
             'structural_factors_from_ascendant': structural_factors(SIGNS[asc_index],placements),
             'natal_factors': natal_factors(SIGNS[asc_index],placements,centres),
-            'model': 'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; mean Rahu',
+            'model': f'Lahiri sidereal Swiss Ephemeris/Moshier; W house calculation used for ascendant, whole-sign houses reported; {node_mode} Rahu',
             'notice': 'Time/location uncertainty can change ascendant and period boundaries. Historical astrology is not validated prediction.'}
 
 

@@ -7,11 +7,17 @@ from http.server import BaseHTTPRequestHandler
 from engine.research_input_report import research_input_report
 
 def calculate(payload):
-    if not isinstance(payload, dict) or set(payload) != {'birth'}:
+    if not isinstance(payload, dict) or (set(payload)-{'birth','tamil_view','node_mode'} or 'birth' not in payload):
         raise ValueError('Supply birth details only.')
     birth = payload['birth']
     # The engine owns exact fields, clock validation, coordinate checks and math.
-    report = research_input_report(birth)
+    if 'tamil_view' in payload and type(payload['tamil_view']) is not bool: raise ValueError('Tamil view must be a boolean')
+    mode=payload.get('node_mode','mean')
+    if mode not in ('mean','true'): raise ValueError('Node mode must be mean or true')
+    report = research_input_report(birth,node_mode=mode)
+    if payload.get('tamil_view'):
+        from engine.tamil_panchangam import tamil_panchangam
+        report['tamil_panchangam']=tamil_panchangam(birth,report['natal_chart'])
     # Phone-first payload: the app never reads the raw per-planet factor tables
     # (about 0.9 MB). The engine still computes them; only the HTTP response omits them.
     chart = report.get('natal_chart')

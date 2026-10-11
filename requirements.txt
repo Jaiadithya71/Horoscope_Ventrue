@@ -5,3 +5,7 @@
 
 # Web app runtime (local server + serverless deployment):
 pyswisseph==2.10.3.2
+
+# Coordinate-to-IANA-zone hint, explicit and user-editable; historical offsets use ZoneInfo.
+tzfpy==2.1.1
+tzdata==2026.5

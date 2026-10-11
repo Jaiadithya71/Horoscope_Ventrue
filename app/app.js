@@ -12,10 +12,16 @@ const source = s => s ? `${escape(s.slug ?? s.book ?? s.title)} · PDF page ${es
 function fail(message) { error.textContent = message; error.hidden = false; }
 function showResolved(candidate) {
   resolvedFromLookup = true;
+  if (candidate.timezone) {
+    const listed=[...form.elements.timezone.options].some(o=>o.value===candidate.timezone);
+    form.elements.timezone.value=listed?candidate.timezone:'__other';
+    form.elements.timezone_other.value=listed?'':candidate.timezone;
+    form.elements.timezone.dispatchEvent(new Event('change'));
+  }
   error.hidden = true;
   form.elements.latitude.value = candidate.latitude;
   form.elements.longitude.value = candidate.longitude;
-  resolved.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · ${escape(candidate.display_name)}<button type="button" id="change-place">change</button>`;
+  resolved.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · ${escape(candidate.display_name)}${candidate.timezone ? ` · ${escape(candidate.timezone)} (check birth-date zone)` : " · choose time zone manually"}<button type="button" id="change-place">change</button>`;
   resolved.hidden = false;
   candidatesBox.hidden = true;
   resolved.querySelector('#change-place').addEventListener('click', () => {
@@ -229,7 +235,7 @@ function render(report, birth, coordsWereResolved) {
   window.__lastReport = report;
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
-  const rows = Object.entries(chart.placements).map(([name, p]) => `<tr><td>${escape(name)}</td><td>${escape(p.sign)}<br><small>${(p.longitude % 30).toFixed(2)}° ${p.retrograde ? 'retrograde' : ''}</small></td><td>${escape(p.whole_sign_house_from_ascendant)}</td><td>${escape(p.sripati_degree_house?.house)}${p.sripati_degree_house?.at_sandhi ? ' (sandhi)' : ''}</td></tr>`).join('');
+  const rows = Object.entries(chart.placements).map(([name, p]) => `<tr><td>${escape(name)}</td><td>${escape(p.sign)}<br><small>${(p.longitude % 30).toFixed(5)}° ${p.retrograde ? 'retrograde' : ''}</small></td><td>${escape(p.whole_sign_house_from_ascendant)}</td><td>${escape(p.sripati_degree_house?.house)}${p.sripati_degree_house?.at_sandhi ? ' (sandhi)' : ''}</td></tr>`).join('');
   const periods = chart.moon_periods;
   const periodRows = periods.periods.map(p => `<tr><td>${escape(p.lord)}</td><td>${Number(p.start_solar_years_after_birth).toFixed(3)}</td><td>${Number(p.end_solar_years_after_birth).toFixed(3)}</td></tr>`).join('');
   const sources = [star.source, periods.source, ...Object.values(chart.placements).map(p => p.sripati_degree_house?.source)].filter(Boolean);
@@ -239,6 +245,7 @@ function render(report, birth, coordsWereResolved) {
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p>${escape(birth.place)} · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
+  ${tamilSheet(report, birth)}
   ${whoSection(report.who_you_are)}
   ${outcomeSection(report.outcome_summary)}
   ${periodsSection(report.life_periods)}
@@ -248,7 +255,7 @@ function render(report, birth, coordsWereResolved) {
   <h2 class="chart-structure-title">The structure of your chart</h2>
   <section class="reading">${reading.map(t => `<p>${t}</p>`).join('')}</section>
   <div class="boundary"><h3>Where this reading stops</h3><p>The career alternatives above add source-based conditional interpretation to the chart structure. They do not choose the strongest route or a profession. Selected strength, calendar timing and life outcomes remain research-gated. No complete personal forecast or predictive accuracy is established.</p><p>Chart mechanics do not establish a life outcome or reproduce a professional astrologer's judgement.</p></div>
-  <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu is the mean node. Ketu is not supplied in this engine report; no extra placement is invented.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
+  <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu uses the ${escape(chart.node_mode || "mean")} node. Ketu in the Tamil sheet is its opposite point, not an independently computed planet.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
   <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details>`;
@@ -271,7 +278,7 @@ const clock = t => { const [h, m] = t.split(':').map(Number); return `${h % 12 |
 async function runCalc(birth, note) {
   button.disabled = true; button.textContent = 'Calculating…'; workspace.setAttribute('aria-busy', 'true');
   try {
-    const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth}), signal:AbortSignal.timeout(30000)});
+    const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth,tamil_view:document.querySelector("#tamil-view").checked,node_mode:form.elements.node_mode.value}), signal:AbortSignal.timeout(30000)});
     const report = await response.json();
     if (!response.ok) throw new Error(report.error || 'Calculation is unavailable.');
     render(report, birth, resolvedFromLookup);
@@ -497,14 +504,14 @@ document.addEventListener('click', e => {
       const b = r.input;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date) || !['sure','window','known'].includes(b.timemode) || typeof b.place !== 'string' || b.place.length > 120 || typeof b.timezone !== 'string' || b.timezone.length > 120 || !Number.isFinite(b.latitude) || !Number.isFinite(b.longitude) || Math.abs(b.latitude)>=90 || Math.abs(b.longitude)>180) throw Error('Invalid birth details. Nothing was imported.');
       const dateObj=new Date(b.date+'T12:00:00Z'); if(!Number.isFinite(dateObj.getTime())||dateObj.toISOString().slice(0,10)!==b.date||Number(b.date.slice(0,4))<1800||Number(b.date.slice(0,4))>2399)throw Error('Invalid birth date.');
-      try{new Intl.DateTimeFormat('en',{timeZone:b.timezone});}catch{throw Error('Invalid birth time zone.');}
+      if(b.node_mode!=null&&!['mean','true'].includes(b.node_mode))throw Error('Invalid node convention.');if(b.tamil_view!=null&&typeof b.tamil_view!=='boolean')throw Error('Invalid Tamil view.');try{new Intl.DateTimeFormat('en',{timeZone:b.timezone});}catch{throw Error('Invalid birth time zone.');}
       const clockOk=t=>/^([01]\d|2[0-3]):[0-5]\d$/.test(t);
       if(b.timemode==='sure'&&!clockOk(b.time)||b.timemode==='window'&&(!clockOk(b.win_start)||!clockOk(b.win_end))||b.timemode==='known'&&!['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'].includes(b.known_lagna))throw Error('Invalid birth-time choice.');
       for (const key of ['time','win_start','win_end','known_lagna','known_around']) if (typeof b[key] !== 'string' || b[key].length > 30) throw Error('Invalid birth-time fields.');
       for (const c of r.consultations) if (!c || typeof c.id !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(c.date) || ['reading','observed','notes'].some(k => typeof c[k] !== 'string' || c[k].length > 8000)) throw Error('Invalid consultation. Nothing was imported.');
     }
     // Whitelist fields: untrusted backup content never becomes markup or executable code.
-    return data.records.map(r=>({id:r.id,name:r.name,input:{...Object.fromEntries(['date','time','timezone','place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'].map(k=>[k,r.input[k]]))},consultations:r.consultations.map(c=>({id:c.id,date:c.date,reading:c.reading,observed:c.observed,notes:c.notes})),updated:typeof r.updated==='string'?r.updated:''}));
+    return data.records.map(r=>({id:r.id,name:r.name,input:{...Object.fromEntries(['date','time','timezone','place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around','node_mode','tamil_view'].map(k=>[k,r.input[k]]))},consultations:r.consultations.map(c=>({id:c.id,date:c.date,reading:c.reading,observed:c.observed,notes:c.notes})),updated:typeof r.updated==='string'?r.updated:''}));
   }
   try { const raw = localStorage.getItem(KEY); storedRaw = raw; if (raw) records = validate(JSON.parse(raw)); }
   catch { ready = false; say('Saved records could not be read. They have not been overwritten. Download the stored backup before repairing browser data.'); }
@@ -540,12 +547,12 @@ document.addEventListener('click', e => {
     if(v.timemode==='sure'&&!v.time)throw Error('Choose the birth time first.');
     if(v.timemode==='window'&&(!v.win_start||!v.win_end))throw Error('Choose the earliest and latest possible time.');
     if(v.timemode==='known'&&!v.known_lagna)throw Error('Choose the known lagna.');
-    return {date:v.date,time:v.time,timezone:v.timezone==='__other'?v.timezone_other.trim():v.timezone,place:v.place.trim(),latitude:Number(v.latitude),longitude:Number(v.longitude),timemode:v.timemode,win_start:v.win_start,win_end:v.win_end,known_lagna:v.known_lagna,known_around:v.known_around};
+    return {date:v.date,time:v.time,timezone:v.timezone==='__other'?v.timezone_other.trim():v.timezone,place:v.place.trim(),latitude:Number(v.latitude),longitude:Number(v.longitude),node_mode:form.elements.node_mode.value,tamil_view:document.querySelector('#tamil-view').checked,timemode:v.timemode,win_start:v.win_start,win_end:v.win_end,known_lagna:v.known_lagna,known_around:v.known_around};
   }
   $('client-form').onsubmit=e=>{e.preventDefault();try{const input=inputSnapshot(),name=$('client-name').value.trim();if(!name)throw Error('Give this client a name or private label.');const r=current();if(r&&!confirm('Replace the saved birth details for '+r.name+' with the current birth form?'))return;const saved={id:r?.id||id(),name,input,consultations:r?.consultations||[],updated:new Date().toISOString()};persist(r?records.map(x=>x.id===r.id?saved:x):[...records,saved]);selected=saved.id;renderNotebook();say('Birth details saved in this browser only.');}catch(e){say(e.message);}};
   $('client-new').onclick=()=>{selected=null;editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';$('client-name').value='';renderNotebook();say('New client. Fill or check the birth form before saving.');$('client-name').focus();};
   $('client-search').oninput=renderNotebook;
-  $('client-load').onclick=()=>{const r=current();if(!r)return;if(!confirm('Replace the current birth form with '+r.name+"'s saved details?"))return;const b=r.input;setPickers(b.date,b.time||'00:00');if(!b.time){hourEl.value='';minEl.value='';ampmEl.value='';syncTime();}for(const k of ['place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'])form.elements[k].value=b[k];const available=[...form.elements.timezone.options].some(o=>o.value===b.timezone);form.elements.timezone.value=available?b.timezone:'__other';form.elements.timezone_other.value=available?'':b.timezone;form.elements.timezone.dispatchEvent(new Event('change'));applyMode();resolvedFromLookup=false;resolved.hidden=true;candidatesBox.hidden=true;choicesBox.hidden=true;output.hidden=true;document.querySelector('#empty').hidden=false;say('Saved details loaded. Check them, then calculate a fresh chart.');document.querySelector('#birth-title').scrollIntoView({behavior:'smooth'});};
+  $('client-load').onclick=()=>{const r=current();if(!r)return;if(!confirm('Replace the current birth form with '+r.name+"'s saved details?"))return;const b=r.input;form.elements.node_mode.value=b.node_mode==='true'?'true':'mean';document.querySelector('#tamil-view').checked=b.tamil_view!==false;setPickers(b.date,b.time||'00:00');if(!b.time){hourEl.value='';minEl.value='';ampmEl.value='';syncTime();}for(const k of ['place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'])form.elements[k].value=b[k];const available=[...form.elements.timezone.options].some(o=>o.value===b.timezone);form.elements.timezone.value=available?b.timezone:'__other';form.elements.timezone_other.value=available?'':b.timezone;form.elements.timezone.dispatchEvent(new Event('change'));applyMode();resolvedFromLookup=false;resolved.hidden=true;candidatesBox.hidden=true;choicesBox.hidden=true;output.hidden=true;document.querySelector('#empty').hidden=false;say('Saved details loaded. Check them, then calculate a fresh chart.');document.querySelector('#birth-title').scrollIntoView({behavior:'smooth'});};
   $('client-delete').onclick=()=>{const r=current();if(!r||!confirm('Delete '+r.name+' and all their consultation notes permanently from this browser?'))return;try{persist(records.filter(x=>x.id!==r.id));selected=null;$('client-name').value='';renderNotebook();say('Client and consultation history deleted.');}catch(e){say(e.message);}};
   $('consult-date').value=new Date().toLocaleDateString('en-CA');
   $('consult-form').onsubmit=e=>{e.preventDefault();try{const r=current();if(!r)throw Error('Select a client first.');const c={id:editingConsult||id(),date:$('consult-date').value,reading:$('consult-reading').value.trim(),observed:$('consult-observed').value.trim(),notes:$('consult-notes').value.trim()};if(!c.reading&&!c.observed&&!c.notes)throw Error('Add a reading, follow-up or note first.');persist(records.map(x=>x.id===r.id?{...x,consultations:editingConsult?x.consultations.map(z=>z.id===editingConsult?c:z):[...x.consultations,c],updated:new Date().toISOString()}:x));editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';renderNotebook();say('Consultation saved locally. Nothing was sent for benchmarking.');}catch(e){say(e.message);}};
@@ -556,3 +563,29 @@ document.addEventListener('click', e => {
   if(privacy) privacy.textContent="No account. Birth details are sent only to this app's own calculation endpoints. The place name goes to OpenStreetMap's Nominatim for lookup. Nothing is saved unless you choose Save in the client notebook. Notes stay in this browser; no analytics or automatic benchmarking.";
   renderNotebook();
 })();
+
+// Tamil-first birth sheet. Modern astronomical profiles are stated, not hidden.
+const PLANET_TA={Sun:'சூரியன்',Moon:'சந்திரன்',Mars:'செவ்வாய்',Mercury:'புதன்',Jupiter:'குரு',Venus:'சுக்கிரன்',Saturn:'சனி',Rahu:'ராகு',Ketu:'கேது'};
+const TITHI_TA=['பிரதமை','துவிதியை','திருதியை','சதுர்த்தி','பஞ்சமி','சஷ்டி','சப்தமி','அஷ்டமி','நவமி','தசமி','ஏகாதசி','துவாதசி','திரயோதசி','சதுர்த்தசி'];
+const YOGA_TA=['விஷ்கம்பம்','பிரீதி','ஆயுஷ்மான்','சௌபாக்கியம்','சோபனம்','அதிகண்டம்','சுகர்மம்','திருதி','சூலம்','கண்டம்','விருத்தி','துருவம்','வியாகாதம்','ஹர்ஷணம்','வஜ்ரம்','சித்தி','வியதீபாதம்','வரியான்','பரிகம்','சிவம்','சித்தம்','சாத்தியம்','சுபம்','சுப்பிரம்','பிராமியம்','ஐந்திரம்','வைதிருதி'];
+const localStamp=(value,zone)=>value?new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(value)):'Unavailable';
+const tamilLord=n=>`${PLANET_TA[n]||n} / ${n}`;
+function karanaName(i){return i===1?'கிம்ஸ்துக்னம்':i<=57?['பவம்','பாலவம்','கௌலவம்','தைதுலம்','கரசை','வணிசை','பத்திரை'][(i-2)%7]:['சகுனி','சதுஷ்பாதம்','நாகவம்'][i-58];}
+function tamilSheet(report,birth){
+  const p=report.tamil_panchangam;if(!p)return '';
+  const d=p.tamil_solar_date, c=report.natal_chart;
+  const naz=p.udayadi_nazhikai==null?'Unavailable':`${Math.floor(p.udayadi_nazhikai)} நா. ${p.udayadi_vinadi.toFixed(2)} வி.`;
+  const tithi=p.tithi_in_paksha===15?(p.tithi_index_1_based===15?'பௌர்ணமி':'அமாவாசை'):TITHI_TA[p.tithi_in_paksha-1];
+  const fields=[['தமிழ் தேதி / Solar date',d.status==='computed_profile'?`${d.year_name} · ${d.month} ${d.day}`:'Unavailable'],['கிழமை / Weekday',p.weekday],['நட்சத்திரம் / Star',`${p.nakshatra_tamil} · ${p.pada} பாதம்`],['உதயம் / Sunrise',localStamp(p.sunrise,p.timezone)],['அஸ்தமனம் / Sunset',localStamp(p.sunset,p.timezone)],['உதயாதி / From last sunrise',naz],['நட்சத்திர மணி / Sidereal clock',p.local_apparent_sidereal_time],['திதி / Tithi',`${tithi} · ${p.paksha}`],['யோகம் / Yoga',YOGA_TA[p.yoga_index_1_based-1]],['கரணம் / Karana',karanaName(p.karana_half_index_1_based)],['அயனாம்சம் / Lahiri',`${p.ayanamsa_degrees.toFixed(6)}°`],['நேர மண்டலம் / Time zone',`${p.timezone} · UTC ${p.utc_offset_seconds/3600>=0?'+':''}${(p.utc_offset_seconds/3600).toFixed(4)} h`]];
+  const longitudeRows=[...Object.entries(c.placements),['Ketu',{longitude:p.ketu_longitude,sign:Object.keys(LAGNA_TA)[Math.floor(p.ketu_longitude/30)]}]];
+  const charts=['rasi','navamsa'].map(kind=>southChart(p.chart_signs,kind)).join('');
+  const planets=longitudeRows.map(([name,x])=>`<div class="tamil-position"><strong>${escape(tamilLord(name))}</strong><span>${escape(LAGNA_TA[x.sign]||x.sign)} · ${(x.longitude%30).toFixed(5)}°</span></div>`).join('');
+  const periods=Object.entries(report.timing_conditional.timelines).map(([key,t])=>`<details class="tamil-period"><summary>${t.balance_reading==='moon_longitude_uniform'?'Longitude balance / கோண இருப்பு':'Moon crossing time / கடக்கும் நேரம்'} · ${t.year_length_days}-day year</summary><p>Dates are local to ${escape(birth.timezone)}. From is inclusive; To is the next boundary, exclusive. First period is its remainder at birth.</p>${t.mahadasas.map(m=>`<details><summary>${escape(tamilLord(m.lord))}: ${localStamp(m.start,birth.timezone)} to ${localStamp(m.end,birth.timezone)}</summary>${m.antardasas.map(a=>`<div class="bhukti-row"><strong>${escape(tamilLord(a.lord))} புத்தி</strong><span>${localStamp(a.start,birth.timezone)}<br>to ${localStamp(a.end,birth.timezone)}</span></div>`).join('')}</details>`).join('')}</details>`).join('');
+  return `<section class="tamil-sheet" aria-labelledby="tamil-title"><p class="eyebrow">தமிழ் முதலில் / Tamil-first</p><h2 id="tamil-title">பிறப்பு ஜாதகக் குறிப்பு / Birth sheet</h2><div class="tamil-fields">${fields.map(([label,value])=>`<div><span>${escape(label)}</span><strong>${escape(value)}</strong></div>`).join('')}</div><p class="help">Solar date: local-sunset Lahiri profile, not a Vakya calendar. Panchang angles are at birth. Before sunrise, udayadi uses the previous day's sunrise. Missing polar events stay unavailable.</p>${charts}<details><summary>கிரக நிலைகள் / Planet degrees</summary><p>${escape(p.node_mode)} Rahu; Ketu is 180° opposite. Absolute longitudes remain in the report.</p>${planets}</details><details><summary>முறை / Calculation profiles</summary><p>${escape(p.solar_event_profile)}</p><p>${escape(p.sidereal_clock_notice)}</p><p>${escape(d.notice||d.reason)}</p><p>1 நாழிகை = 24 minutes; 1 வினாடி = 24 seconds. No terrain or observed sunrise correction.</p></details><h3>திசை - புத்தி / Dasha - bhukti</h3><p>Four named Vimshottari options. No single historical convention or site formula is selected. Expand the one you use.</p>${periods}<p class="aspect-limit">${escape(p.notice)}</p></section>`;
+}
+
+function southChart(signs,kind){
+  const layout=['Pisces','Aries','Taurus','Gemini','Aquarius',null,null,'Cancer','Capricorn',null,null,'Leo','Sagittarius','Scorpio','Libra','Virgo'];
+  const short={Sun:'சூ',Moon:'சந்',Mars:'செ',Mercury:'பு',Jupiter:'கு',Venus:'சு',Saturn:'சனி',Rahu:'ரா',Ketu:'கே',Lagna:'லக்'};
+  return `<div class="south-chart" role="img" aria-label="${kind==='rasi'?'South Indian rasi chart':'South Indian navamsa chart'}"><div class="south-centre">${kind==='rasi'?'இராசி / Rasi':'நவாம்சம் / Navamsa'}<small>Fixed signs<br>லக் = lagna</small></div>${layout.map((sign,i)=>sign?`<div class="south-cell" style="grid-column:${i%4+1};grid-row:${Math.floor(i/4)+1}"><span>${escape(LAGNA_TA[sign])}</span><strong>${Object.entries(signs).filter(([name,x])=>x[kind]===sign).map(([n])=>short[n]).join(' · ')}</strong></div>`:'').join('')}</div>`;
+        }
