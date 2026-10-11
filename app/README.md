@@ -43,3 +43,11 @@ No new database, paid service or default astrology convention was introduced.
 Tests cover notebook persistence, editing, deletion, unsafe text, uncertain time,
 corrupt storage and private backup handling, alongside the existing chart tests.
 See docs/srirangam-spot-checks.md for the limited external arithmetic comparison.
+
+## Local Tamil-first preview
+
+See docs/tamil-jathagam-preview.md for the new opt-in-compatible Tamil sheet,
+node choice, readable dated maha/bhukti options and editable place timezone hint.
+Mean node remains the prior default; all four research timing alternatives remain.
+The sheet uses declared modern solar profiles, not a promised Vakya reproduction.
+The owner approved deployment to the existing app; inspect the live build before treating deployment as complete.
