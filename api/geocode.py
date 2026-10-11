@@ -35,8 +35,17 @@ def parse_candidates(payload):
             continue
         if not (-90 < lat < 90 and -180 <= lon <= 180):
             continue
+        try:
+            from tzfpy import get_tz
+            from zoneinfo import ZoneInfo
+            zone=get_tz(lon,lat)
+            ZoneInfo(zone)
+        except (ImportError, ValueError, KeyError):
+            zone=None
         candidates.append({
             'display_name': row.get('display_name', ''),
+            'timezone': zone,
+            'timezone_notice': 'Current boundary lookup; verify historical jurisdiction for old birth dates and places near borders.',
             'latitude': lat,
             'longitude': lon,
             'category': row.get('category') or row.get('class'),
