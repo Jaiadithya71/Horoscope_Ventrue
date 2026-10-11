@@ -1,9 +1,10 @@
 const {test,expect}=require('@playwright/test');
+test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('horoscope-language','en'));});
 async function notebook(page){await page.goto('/');await page.getByRole('button',{name:'Use a synthetic example'}).click();await page.locator('#clients-title').click();}
 async function save(page,name='Test client'){await page.locator('#client-name').fill(name);await page.getByRole('button',{name:'Save birth details to this browser'}).click();await expect(page.locator('#client-status')).toContainText('saved in this browser');}
 test('opt-in client save, consultation, reload and deletion',async({page},info)=>{
  let notesSent=false;page.on('request',r=>{if(r.postData()?.includes('private note'))notesSent=true;});
- await notebook(page);expect(await page.evaluate(()=>localStorage.length)).toBe(0);await save(page,'Test <img src=x>');
+ await notebook(page);expect(await page.evaluate(()=>localStorage.getItem('horoscope-client-notebook-v1'))).toBe(null);await save(page,'Test <img src=x>');
  await page.locator('#consult-reading').fill('Reader expects a career change');await page.locator('#consult-observed').fill('Client reports no change yet');await page.locator('#consult-notes').fill('private note <script>alert(1)</script>');await page.getByRole('button',{name:'Save consultation',exact:true}).click();
  await expect(page.locator('.consult-item')).toContainText('no change yet');await page.getByRole('button',{name:'Edit consultation',exact:true}).click();await page.locator('#consult-observed').fill('Corrected: no change yet');await page.getByRole('button',{name:'Update consultation',exact:true}).click();await expect(page.locator('.consult-item')).toHaveCount(1);await expect(page.locator('.consult-item')).toContainText('Corrected: no change yet');expect(await page.locator('.client-panel script,.client-panel img').count()).toBe(0);
  await page.screenshot({path:`/downloads/notebook-${info.project.name}.png`,fullPage:true});
