@@ -243,6 +243,7 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  ${inspectionSwitch()}${astrologerPanel(report,birth)}<div id="plain-reading" ${inspectionState.view!=='plain'?'hidden':''}>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${tamilSheet(report, birth)}
@@ -258,7 +259,7 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu uses the ${escape(chart.node_mode || "mean")} node. Ketu in the Tamil sheet is its opposite point, not an independently computed planet.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
-  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details>`;
+  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details></div>`;
   if(window.__lastNote)output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
@@ -276,6 +277,7 @@ function applyMode() {
 for (const r of form.elements.timemode) r.addEventListener('change', applyMode);
 const clock = t => { const [h, m] = t.split(':').map(Number); return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? 'PM' : 'AM'}`; };
 async function runCalc(birth, note) {
+  inspectionState={view:'plain',profile:'',at:new Date().toISOString().slice(0,19),house:1,planet:'Jupiter'};
   button.disabled = true; button.textContent = 'Calculating…'; workspace.setAttribute('aria-busy', 'true');
   try {
     const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth,tamil_view:document.querySelector("#tamil-view").checked,node_mode:form.elements.node_mode.value}), signal:AbortSignal.timeout(30000)});
@@ -590,3 +592,57 @@ function southChart(signs,kind){
   const short={Sun:'சூ',Moon:'சந்',Mars:'செ',Mercury:'பு',Jupiter:'கு',Venus:'சு',Saturn:'சனி',Rahu:'ரா',Ketu:'கே',Lagna:'லக்'};
   return `<div class="south-chart" role="img" aria-label="${kind==='rasi'?'South Indian rasi chart':'South Indian navamsa chart'}"><div class="south-centre">${kind==='rasi'?'இராசி / Rasi':'நவாம்சம் / Navamsa'}<small>Fixed signs<br>லக் = lagna</small></div>${layout.map((sign,i)=>sign?`<div class="south-cell" style="grid-column:${i%4+1};grid-row:${Math.floor(i/4)+1}"><span>${escape(LAGNA_TA[sign])}</span><strong>${Object.entries(signs).filter(([name,x])=>x[kind]===sign).map(([n])=>interfaceLanguage==='en'?({Sun:'Su',Moon:'Mo',Mars:'Ma',Mercury:'Me',Jupiter:'Ju',Venus:'Ve',Saturn:'Sa',Rahu:'Ra',Ketu:'Ke',Lagna:'Asc'}[n]):short[n]).join(' · ')}</strong></div>`:'').join('')}</div>`;
                                              }
+
+// Display-only inspection. No report fields or calculation requests are changed.
+let inspectionState = {view:'plain', profile:'', at:new Date().toISOString().slice(0,19), house:1, planet:'Jupiter'};
+const astText=(en,ta)=>interfaceLanguage==='ta'?ta:en;
+const astPlanet=n=>interfaceLanguage==='ta'?(PLANET_TA[n]||n):n;
+const astSign=n=>interfaceLanguage==='ta'?(LAGNA_TA[n]||n):n;
+function activeInspectionPeriod(timeline, instant) {
+  const t=Date.parse(instant);
+  if(!Number.isFinite(t)||!timeline)return null;
+  const maha=timeline.mahadasas.find(p=>Date.parse(p.start)<=t&&t<Date.parse(p.end));
+  if(!maha)return null;
+  return {maha,bhukti:(maha.antardasas||[]).find(p=>Date.parse(p.start)<=t&&t<Date.parse(p.end))||null};
+}
+function houseDistance(reference, placement){return ((placement-reference+12)%12)+1;}
+function inspectionPlanetCard(name,report,compact=false){
+ const chart=report.natal_chart,p=chart.placements[name];
+ if(!p)return `<p>${escape(astPlanet(name))}: ${astText('Not supplied in this report.','இந்த அறிக்கையில் அளிக்கப்படவில்லை.')}</p>`;
+ const f=chart.structural_factors_from_ascendant?.planet_factors?.find(x=>x.planet===name);
+ const strength=report.shadbala_working_profile?.planets?.[name];
+ const dignity=chart.natal_factors?.dignity?.[name]?.flags;
+ const conditions=dignity?Object.entries(dignity).filter(([,v])=>v===true).map(([k])=>({own_sign:astText('Own sign','ஆட்சி'),exaltation_sign:astText('Exaltation sign','உச்ச ராசி'),fall_sign:astText('Debilitation sign','நீச ராசி'),moolatrikona_portion:astText('Moolatrikona portion','மூலத்திரிகோணப் பகுதி')}[k])).filter(Boolean).join(' · '):astText('Dignity not supplied','ஆட்சி / உச்சம் / நீசம் அளிக்கப்படவில்லை');
+ const pairs=[
+  [astText('Sign / degree','ராசி / பாகை'),`${astSign(p.sign)} · ${(p.longitude%30).toFixed(5)}°`],
+  [astText('Rasi house / Sripati house','ராசிப் பாவம் / ஸ்ரீபதி பாவம்'),`${p.whole_sign_house_from_ascendant} / ${p.sripati_degree_house?.house??'—'}${p.sripati_degree_house?.at_sandhi?' · '+astText('Sandhi','சந்தி'):''}`],
+  [astText('Owned houses','அதிபதியான பாவங்கள்'),(f?.rules_owned||[]).join(', ')||'—'],
+  [astText('Sign condition / motion','ராசி நிலை / இயக்கம்'),conditions+' · '+(p.retrograde?astText('Retrograde','வக்கிரம்'):astText('Direct','நேர் இயக்கம்'))],
+  [astText('Aspects to houses (whole-sign)','பார்வை பெறும் பாவங்கள் (ராசி முறை)'),(f?.aspects||[]).map(a=>a.target_house_from_reference).join(', ')||astText('Not supplied','அளிக்கப்படவில்லை')],
+  [astText('Strength range (rupas)','பல வரம்பு (ரூபா)'),strength?RUPA(strength.total_rupa_interval).replace(' to ',interfaceLanguage==='ta'?' முதல் ':' to '):astText('Not supplied','அளிக்கப்படவில்லை')]
+ ];
+ return `<article class="inspection-planet${compact?' inspection-compact':''}" data-planet="${escape(name)}"><h4>${escape(astPlanet(name))}</h4><dl>${pairs.map(([l,v])=>`<div><dt>${escape(l)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>${!compact?`<details><summary>${astText('Evidence references','ஆதாரக் குறிப்புகள்')}</summary><p>${escape(source(f?.sources?.lordship))}</p><p>${escape(source(p.sripati_degree_house?.source))}</p><p>${escape(source(report.shadbala_working_profile?.source))}</p></details>`:''}</article>`;
+}
+function astrologerPanel(report,birth){
+ const s=inspectionState,timelines=report.timing_conditional?.timelines||{};
+ const label=t=>`${astText(t.balance_reading==='moon_time_in_nakshatra_bj'?'Moon crossing time':'Longitude balance',t.balance_reading==='moon_time_in_nakshatra_bj'?'சந்திரன் கடக்கும் நேரம்':'கோண இருப்பு')} · ${t.year_length_days} ${astText('day year','நாள் ஆண்டு')}`;
+ const timeline=timelines[s.profile],active=activeInspectionPeriod(timeline,s.at+'Z');
+ const periodRow=(title,p)=>`<div class="inspection-period-row"><strong>${title}: ${escape(astPlanet(p.lord))}</strong><span>${escape(localStamp(p.start,birth.timezone))} → ${escape(localStamp(p.end,birth.timezone))}</span></div>`;
+ const p=report.natal_chart.placements[s.planet]||Object.values(report.natal_chart.placements)[0];
+ const placement=p.whole_sign_house_from_ascendant,count=houseDistance(s.house,placement);
+ const path=Array.from({length:count},(_,i)=>(s.house+i-1)%12+1);
+ return `<section id="astrologer-panel" data-private ${s.view!=='astro'?'hidden':''} aria-labelledby="astrologer-title"><h2 id="astrologer-title">${astText('Astrologer view','ஜோதிடர் பார்வை')}</h2><p class="inspection-intro">${astText('Inspect the arithmetic, not a new prediction. This view does not change the engine, the plain reading or saved birth inputs.','இது கணக்கைப் பார்ப்பதற்கான பகுதி; புதிய கணிப்பு அல்ல. கணக்கீட்டு இயந்திரம், எளிய வாசிப்பு, சேமித்த பிறப்பு விவரங்கள் மாறாது.')}</p>
+ <section class="inspection-block"><h3>${astText('Viewing profile','பார்வைக்கான கணக்கு முறை')}</h3><label>${astText('Choose a timing profile','காலக் கணக்கு முறையைத் தேர்ந்தெடுங்கள்')}<select id="inspection-profile"><option value="">${astText('Choose explicitly; no default is selected','நீங்களே தேர்ந்தெடுங்கள்; இயல்புநிலை இல்லை')}</option>${Object.entries(timelines).map(([k,t])=>`<option value="${escape(k)}" ${s.profile===k?'selected':''}>${escape(label(t))}</option>`).join('')}</select></label><label>${astText('Inspection instant (UTC)','பார்க்கும் நேரம் (UTC)')}<input id="inspection-at" type="datetime-local" step="1" value="${escape(s.at)}"></label><p class="inspection-banner">${timeline?escape(label(timeline)):astText('No viewing profile selected.','பார்வை முறை தேர்ந்தெடுக்கப்படவில்லை.')} ${astText('Display choice only. No historical convention or complete strength has been selected by the engine.','இது காட்சிக்கான தேர்வு மட்டும். இயந்திரம் வரலாற்றுக் கால முறையையோ முழுப் பலக் கணக்கையோ தேர்ந்தெடுக்கவில்லை.')}</p><p class="help">${astText('Boundaries below use the birth timezone:','கீழுள்ள எல்லைகள் பிறந்த இடத்தின் நேர மண்டலத்தில்:')} ${escape(birth.timezone)}. ${astText('Start inclusive; end exclusive. Rounded life themes are separate.','தொடக்க நேரம் உட்படும்; முடிவு நேரம் உட்படாது. தோராயமான வாழ்க்கை வாசிப்பு தனியாக உள்ளது.')}</p>
+ <h3>${astText('Active periods in this viewing profile','இந்த முறையில் நடக்கும் திசை - புத்தி')}</h3><div id="inspection-active">${!timeline?`<p>${astText('Choose a profile to inspect its active periods.','நடக்கும் திசை - புத்தியைப் பார்க்க ஒரு முறையைத் தேர்ந்தெடுங்கள்.')}</p>`:!active?`<p>${astText('No active period is supplied for this instant. Check the instant and the available timeline range.','இந்த நேரத்திற்கான காலப்பகுதி அளிக்கப்படவில்லை. நேரத்தையும் கணக்கின் கால வரம்பையும் சரிபார்க்கவும்.')}</p>`:periodRow(astText('Dasha','திசை'),active.maha)+(active.bhukti?periodRow(astText('Bhukti','புத்தி'),active.bhukti):`<p>${astText('Bhukti unavailable','புத்தி கிடைக்கவில்லை')}</p>`)+`<div class="inspection-lords">${[...new Set([active.maha.lord,active.bhukti?.lord].filter(Boolean))].map(n=>inspectionPlanetCard(n,report,true)).join('')}</div>`}</div><p class="help">${astText('Antara is not displayed. These date boundaries do not establish an event or predictive accuracy.','அந்தரம் காட்டப்படவில்லை. இந்தக் கால எல்லைகள் நிகழ்வையோ கணிப்புத் துல்லியத்தையோ உறுதிப்படுத்தாது.')}</p></section>
+ <section class="inspection-block"><h3>${astText('Count from a reference house','ஒரு பாவத்திலிருந்து எண்ணுங்கள்')}</h3><div class="inspection-controls"><label>${astText('Reference house','தொடக்கப் பாவம்')}<select id="inspection-house">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${s.house===i+1?'selected':''}>${i+1}</option>`).join('')}</select></label><label>${astText('Planet placement','கிரக இருப்பிடம்')}<select id="inspection-planet">${Object.keys(report.natal_chart.placements).map(n=>`<option value="${n}" ${s.planet===n?'selected':''}>${escape(astPlanet(n))}</option>`).join('')}</select></label></div><p class="inspection-count" id="inspection-count">${astText('Reference','தொடக்கம்')} ${s.house} → ${astText('placement','இருப்பிடம்')} ${placement} = <strong>${count}</strong> ${astText('houses, counting inclusively','பாவங்கள், தொடக்கத்தையும் எண்ணி')}</p><div class="inspection-path" aria-label="${astText('Inclusive house counting path','தொடக்கத்துடன் எண்ணும் பாவ வரிசை')}">${path.map((h,i)=>`<span><b>${h}</b><small>${i+1}</small></span>`).join('')}</div><p class="help">${astText('Whole-sign houses from lagna only. Formula: ((placement − reference + 12) mod 12) + 1. Each small number is the count, not a strength score.','லக்னத்திலிருந்து ராசிப் பாவங்கள் மட்டும். சூத்திரம்: ((இருப்பிடம் − தொடக்கம் + 12) mod 12) + 1. சிறிய எண் எண்ணிக்கையே; பல மதிப்பெண் அல்ல.')}</p><p class="inspection-banner">${astText('Sixth or eighth is a distance, not a harm verdict. The video rule is unvalidated. No family, health or lifespan prediction is added.','ஆறு அல்லது எட்டு என்பது இடைவெளி மட்டுமே; தீமைத் தீர்ப்பு அல்ல. காணொளி விதி சோதிக்கப்படவில்லை. குடும்பம், உடல்நலம், ஆயுள் பற்றிய கணிப்பு சேர்க்கப்படவில்லை.')}</p></section>
+ <section class="inspection-block"><h3>${astText('Planet inspection','கிரக ஆய்வு')}</h3><p class="help">${astText('Whole-sign and Sripati are different models. Ranges are partial evidence, not final strength scores. Dignity flags are not supplied by this public report and are left unavailable rather than inferred.','ராசி, ஸ்ரீபதி இரண்டும் வெவ்வேறு முறைகள். வரம்புகள் பகுதி ஆதாரங்களே; இறுதிப் பல மதிப்பெண்கள் அல்ல. பொதுவான அறிக்கையில் ஆட்சி / உச்சம் / நீசம் அளிக்கப்படாததால் ஊகிக்காமல் கிடைக்கவில்லை எனக் காட்டப்படுகிறது.')}</p><div class="inspection-grid">${Object.keys(report.natal_chart.placements).map(n=>inspectionPlanetCard(n,report)).join('')}</div></section></section>`;
+}
+function inspectionSwitch(){return `<div class="inspection-switch" data-private role="group" aria-label="${astText('Reading view','வாசிப்புப் பார்வை')}"><button type="button" data-inspection-view="plain" aria-pressed="${inspectionState.view==='plain'}">${astText('Plain view','எளிய பார்வை')}</button><button type="button" data-inspection-view="astro" aria-pressed="${inspectionState.view==='astro'}">${astText('Astrologer view','ஜோதிடர் பார்வை')}</button></div>`;}
+function refreshInspection(){
+ if(!window.__lastReport)return;
+ const old=document.querySelector('#astrologer-panel');if(old)old.outerHTML=astrologerPanel(window.__lastReport,window.__lastBirth);
+ const plain=document.querySelector('#plain-reading');if(plain)plain.hidden=inspectionState.view!=='plain';
+ document.querySelectorAll('[data-inspection-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.inspectionView===inspectionState.view)));
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-inspection-view]');if(b){inspectionState.view=b.dataset.inspectionView;refreshInspection();}});
+document.addEventListener('change',e=>{const fields={'inspection-profile':'profile','inspection-at':'at','inspection-house':'house','inspection-planet':'planet'};const key=fields[e.target.id];if(key){inspectionState[key]=key==='house'?Number(e.target.value):e.target.value;refreshInspection();document.getElementById(e.target.id)?.focus();}});
