@@ -183,7 +183,7 @@ function publicReport(report) {
 const CHIP = t => t.level === 'mixed' ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? (t.confidence === 'tentative' ? ['moderate', 'Moderate indication'] : ['strong', 'Strong indication']) : ['light', 'Light indication'];
 function outcomeSection(summary) {
  if(!summary?.topics?.length)return '';
- const r=window.__lastReport;
+ const r=horizonReport(window.__lastReport);
  const cards=summary.topics.map(t=>{
   const reasons=t.evidence||[];
   const lead=reasons[0]||({career:'Alternative livelihood routes; strength comparison not selected',timing:'Four timing conventions; years rounded',periods:'Period-lord themes; not tested against events'}[t.id]||'Source-based theme; not tested');
@@ -238,6 +238,7 @@ function periodsSection(lp) {
 
 function render(report, birth, coordsWereResolved) {
   window.__lastReport = report; window.__lastBirth = birth; window.__lastCoords = coordsWereResolved;
+  report=horizonReport(report);
   const chart = report.natal_chart;
   const star = chart.moon_nakshatra;
   const rows = Object.entries(chart.placements).map(([name, p]) => `<tr><td>${escape(name)}</td><td>${escape(p.sign)}<br><small>${(p.longitude % 30).toFixed(5)}° ${p.retrograde ? 'retrograde' : ''}</small></td><td>${escape(p.whole_sign_house_from_ascendant)}</td><td>${escape(p.sripati_degree_house?.house)}${p.sripati_degree_house?.at_sandhi ? ' (sandhi)' : ''}</td></tr>`).join('');
@@ -248,7 +249,7 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
-  ${inspectionSwitch()}${astrologerPanel(report,birth)}<div id="plain-reading" ${inspectionState.view!=='plain'?'hidden':''}>
+  ${horizonBanner(report,birth)}${inspectionSwitch()}${astrologerPanel(report,birth)}<div id="plain-reading" ${inspectionState.view!=='plain'?'hidden':''}>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
   ${tamilSheet(report, birth)}
@@ -264,7 +265,7 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu uses the ${escape(chart.node_mode || "mean")} node. Ketu in the Tamil sheet is its opposite point, not an independently computed planet.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
-  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null.</p><pre>${escape(JSON.stringify(publicReport(report), null, 2))}</pre></details></details></div>`;
+  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null. This audit report retains the full arithmetic beyond the display horizon; it is not an extended forecast.</p><pre>${escape(JSON.stringify(publicReport(window.__lastReport), null, 2))}</pre></details></details></div>`;
   if(window.__lastNote)output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
@@ -412,6 +413,7 @@ form.elements.timezone.addEventListener('change', () => {
 
 /* ---------- Story view: swipeable cards, one beat per card ---------- */
 function storyCards(report) {
+  report=horizonReport(report);
   const cards = [];
   const chip = (t, k) => `<span class="chip ${k || ''}">${escape(t)}</span>`;
   const why = rules => rules?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${rules.map(r => `<li>${escape(r.sign ? r.sign + ': ' : '')}${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details>` : '';
@@ -630,6 +632,7 @@ function inspectionPlanetCard(name,report,compact=false){
  return `<article class="inspection-planet${compact?' inspection-compact':''}" data-planet="${escape(name)}"><h4>${escape(astPlanet(name))}</h4><dl>${pairs.map(([l,v])=>`<div><dt>${escape(l)}</dt><dd>${escape(v)}</dd></div>`).join('')}</dl>${!compact?`<details><summary>${astText('Evidence references','ஆதாரக் குறிப்புகள்')}</summary><p>${escape(source(dignityEvidence?.source))}</p><p>${astText('Sign flags only; not peak exaltation degree, cancellation, complete strength or a prediction.','ராசி நிலைகள் மட்டும்; முழு உச்ச பாகை, நீசபங்கம், முழுப் பலம் அல்லது கணிப்பு அல்ல.')}</p><p>${escape(source(f?.sources?.lordship))}</p><p>${escape(source(p.sripati_degree_house?.source))}</p><p>${escape(source(report.shadbala_working_profile?.source))}</p></details>`:''}</article>`;
 }
 function astrologerPanel(report,birth){
+ report=horizonReport(report);
  const s=inspectionState,timelines=report.timing_conditional?.timelines||{};
  const label=t=>`${astText(t.balance_reading==='moon_time_in_nakshatra_bj'?'Moon crossing time':'Longitude balance',t.balance_reading==='moon_time_in_nakshatra_bj'?'சந்திரன் கடக்கும் நேரம்':'கோண இருப்பு')} · ${t.year_length_days} ${astText('day year','நாள் ஆண்டு')}`;
  const timeline=timelines[s.profile],active=activeInspectionPeriod(timeline,s.at+'Z');
@@ -652,3 +655,23 @@ function refreshInspection(){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-inspection-view]');if(b){inspectionState.view=b.dataset.inspectionView;refreshInspection();}});
 document.addEventListener('change',e=>{const fields={'inspection-profile':'profile','inspection-at':'at','inspection-house':'house','inspection-planet':'planet'};const key=fields[e.target.id];if(key){inspectionState[key]=key==='house'?Number(e.target.value):e.target.value;refreshInspection();document.getElementById(e.target.id)?.focus();}});
+
+
+// Finite presentation horizon, not a lifespan estimate. Raw report stays untouched.
+function displayHorizon(report){
+ const c=new Date(report.natal_chart.birth_utc);const month=c.getUTCMonth();
+ c.setUTCFullYear(c.getUTCFullYear()+100);if(c.getUTCMonth()!==month)c.setUTCDate(0);
+ return c.toISOString();
+}
+function horizonReport(report){
+ const r=JSON.parse(JSON.stringify(report)),end=displayHorizon(r),endMs=Date.parse(end),year=new Date(end).getUTCFullYear();
+ const clip=xs=>(xs||[]).filter(x=>Date.parse(x.start)<endMs).map(x=>({...x,end:Date.parse(x.end)>endMs?end:x.end,display_clipped:Date.parse(x.end)>endMs,...(x.antardasas?{antardasas:clip(x.antardasas)}:{})}));
+ if(r.timing_conditional?.timelines)for(const t of Object.values(r.timing_conditional.timelines)){t.mahadasas=clip(t.mahadasas);t.marriage_candidate_antardasa_windows=clip(t.marriage_candidate_antardasa_windows);}
+ if(r.life_periods?.periods)r.life_periods.periods=r.life_periods.periods.filter(p=>p.years_about[0]<year).map(p=>({...p,years_about:[p.years_about[0],Math.min(p.years_about[1],year)],display_clipped:p.years_about[1]>year,bhuktis:(p.bhuktis||[]).filter(b=>b.years_about[0]<year).map(b=>({...b,years_about:[b.years_about[0],Math.min(b.years_about[1],year)]}))}));
+ if(r.outcome_summary?.topics)for(const t of r.outcome_summary.topics){
+  if(t.id==='periods'){t.evidence=(r.life_periods?.periods||[]).map(p=>`${p.years_about[0]} to ${p.years_about[1]}: ${p.lord} period, ${p.tone}`);t.points=[];}
+  if(t.id==='timing'){t.text='Four alternative date profiles are available within the display horizon. Candidate marriage windows are source conditions, not a date or promise.';}
+ }
+ return r;
+}
+function horizonBanner(report,birth){return `<p class="horizon-note" data-private>${astText('Timeline shown up to the 100th birth anniversary:','காலவரிசை 100-வது பிறந்த நாள் வரை மட்டும்:')} <strong>${escape(localStamp(displayHorizon(report),birth.timezone))}</strong>. ${astText('Display limit only, not an expected lifespan or a death prediction. A period ending here is clipped for display, not naturally completed.','இது காட்சி வரம்பு மட்டும்; ஆயுள் மதிப்பீடோ இறப்புக் கணிப்போ அல்ல. இந்த எல்லையில் முடியும் காலப்பகுதி காட்சிக்காக வெட்டப்பட்டது; இயல்பான முடிவு அல்ல.')}</p>`;}
