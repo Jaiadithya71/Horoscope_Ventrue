@@ -365,3 +365,14 @@ Object.assign(UI_TRANSLATIONS,{'AM':'மு.ப.','PM':'பி.ப.','South Indi
 Object.assign(UI_TRANSLATIONS,{
 "Astrologer's reading:":'ஜோதிடர் அளித்த வாசிப்பு:','Client-reported events / follow-up:':'வாடிக்கையாளர் தெரிவித்த நிகழ்வுகள் / பின்தொடர்வு:','Private notes:':'தனிப்பட்ட குறிப்புகள்:',
 });
+Object.assign(UI_TRANSLATIONS,{
+'Reason first, then the reading. Open only the topic you want. Supporting and opposing conditions remain separate.':'முதலில் காரணம், பிறகு வாசிப்பு. வேண்டிய துறையை மட்டும் திறந்து பாருங்கள். ஆதரவும் எதிர்மறை நிபந்தனைகளும் தனித்தனியாக உள்ளன.',
+'Alternative livelihood routes; strength comparison not selected':'மாற்று வாழ்வாதார வழிகள்; பல ஒப்பீடு தேர்ந்தெடுக்கப்படவில்லை',
+'Four timing conventions; years rounded':'நான்கு காலக் கணக்கு முறைகள்; ஆண்டுகள் தோராயமானவை',
+'Period-lord themes; not tested against events':'திசை அதிபதி வாசிப்புகள்; நிகழ்வுகளுடன் சோதிக்கப்படவில்லை',
+'Source-based theme; not tested':'ஆதாரத்தின் அடிப்படையிலான வாசிப்பு; சோதிக்கப்படவில்லை',
+'Reading from the existing evidence, not a validated event prediction.':'ஏற்கெனவே உள்ள ஆதாரங்களின் வாசிப்பு; சோதிக்கப்பட்ட நிகழ்வுக் கணிப்பு அல்ல.',
+'Period lord placement and lordship':'திசை அதிபதியின் இருப்பிடமும் அதிபத்தியமும்',
+'Chart context, not an additional prediction.':'ஜாதக அடிப்படை மட்டுமே; கூடுதல் கணிப்பு அல்ல.'});
+
+Object.assign(UI_TRANSLATIONS,{'Strength comparison not selected. These are alternatives, not a chosen profession.':'பல ஒப்பீடு தேர்ந்தெடுக்கப்படவில்லை. இவை மாற்று வழிகள்; தேர்ந்தெடுத்த தொழில் அல்ல.'});
