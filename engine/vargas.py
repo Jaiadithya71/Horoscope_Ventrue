@@ -84,3 +84,49 @@ def seven_varga_owner_evidence(planet,longitude):
         'pdf_page':40,'printed_page':26,'verified_against_page_image':True,'url':'https://archive.org/details/dli.ernet.203510'}
     result['notice']='Seven-varga owner geometry from explicitly named sources, not a source-selected strength aggregation. Compound relations and alternative owner-strength interpretation remain unresolved.'
     return result
+
+
+D4_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':9,
+           'pdf_page':15,'printed_page':14,'verified_against_page_image':True,
+           'url':'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/par0110.pdf'}
+D10_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':'13-14',
+            'pdf_page':16,'printed_page':15,'verified_against_page_image':True,
+            'url':'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/par0110.pdf'}
+
+
+def selected_divisional_geometry(longitude,division):
+    """Named source geometry only. Does not feed predictions or strength totals."""
+    if division not in (1,3,4,7,9,10):
+        raise ValueError('Division not in the selected display profile')
+    if not math.isfinite(longitude) or not 0<=longitude<360:
+        raise ValueError('Longitude must be finite and in [0,360)')
+    lon=Fraction(str(longitude));index=int(lon//30);degree=lon-index*30
+    part=int(degree*division//30)
+    if division in (1,3,9):
+        name={1:'rasi',3:'drekkana',9:'navamsa'}[division]
+        row=dict(next(x for x in six_vargas(longitude)['vargas'] if x['varga']==name))
+        convention={1:'D1 natal sign',3:'Same, fifth, ninth signs (Phaladeepika III.4)',9:'Element-based start (Phaladeepika III.4)'}[division]
+    elif division==7:
+        row=saptamsa(longitude);convention='Odd: same-sign start; even: seventh-sign start (Sarvartha I.19)'
+    else:
+        target=(index+3*part)%12 if division==4 else (index+(0 if index%2==0 else 8)+part)%12
+        row={'varga':'chaturthamsa' if division==4 else 'dasamsa','part_1_based':part+1,
+             'sign':SIGNS[target],'owner':LORDS[target],'source':D4_SOURCE if division==4 else D10_SOURCE}
+        convention='Same, fourth, seventh, tenth signs (Parashara VI.9)' if division==4 else 'Odd: same-sign start; even: ninth-sign start (Parashara VI.13-14)'
+    row.update({'division':division,'natal_sign':SIGNS[index],
+                'natal_degree_in_sign':float(degree),'part_1_based':part+1,
+                'part_start_degree':float(Fraction(30*part,division)),
+                'part_end_degree':float(Fraction(30*(part+1),division)),
+                'convention':convention,'notice':'Start-inclusive/end-exclusive partition. Geometry only; no domain outcome or strength score.'})
+    return row
+
+
+def divisional_chart_report(chart):
+    """Small public geometry bundle, including ascendant and opposite-point Ketu."""
+    points={name:p['longitude'] for name,p in chart['placements'].items()}
+    points['Ketu']=(points['Rahu']+180)%360
+    points['Lagna']=chart['ascendant']['longitude']
+    return {'profile':'source_named_divisional_geometry_v1',
+            'charts':{str(d):{name:selected_divisional_geometry(lon,d) for name,lon in points.items()} for d in (1,3,4,7,9,10)},
+            'node_mode':chart.get('node_mode','mean'),
+            'notice':'Named source conventions, not the only varga conventions. Ketu derives from Rahu plus 180 degrees before division. Divisional Lagna and boundary placements depend on precise birth inputs. D2 sign scheme remains unselected. No new predictive rules.'}
