@@ -376,3 +376,7 @@ Object.assign(UI_TRANSLATIONS,{
 'Chart context, not an additional prediction.':'ஜாதக அடிப்படை மட்டுமே; கூடுதல் கணிப்பு அல்ல.'});
 
 Object.assign(UI_TRANSLATIONS,{'Strength comparison not selected. These are alternatives, not a chosen profession.':'பல ஒப்பீடு தேர்ந்தெடுக்கப்படவில்லை. இவை மாற்று வழிகள்; தேர்ந்தெடுத்த தொழில் அல்ல.'});
+
+Object.assign(UI_TRANSLATIONS,{
+'Four alternative date profiles are available within the display horizon. Candidate marriage windows are source conditions, not a date or promise.':'காட்சி வரம்பிற்குள் நான்கு மாற்றுக் கால முறைகள் உள்ளன. திருமண வாய்ப்புக் காலங்கள் நூல் நிபந்தனைகள் மட்டுமே; தேதியோ உறுதியோ அல்ல.',
+'This audit report retains the full arithmetic beyond the display horizon; it is not an extended forecast.':'இந்த ஆய்வு அறிக்கையில் காட்சி வரம்பிற்கு அப்பாலான முழுக் கணக்கும் உள்ளது; அது நீட்டிக்கப்பட்ட கணிப்பு அல்ல.'});
