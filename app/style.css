@@ -45,3 +45,5 @@ header{position:sticky;top:0;z-index:20;background:white;padding:12px 0;border-b
 @media(max-width:700px){.inspection-grid,.inspection-lords,.inspection-controls{grid-template-columns:1fr}.inspection-block{padding:16px 0}.inspection-switch button{flex:1;padding:10px 8px}.inspection-planet{padding:14px}.inspection-banner{padding:12px}}
 
 .concise-topic>summary{padding:16px 0;min-height:44px;list-style-position:inside}.concise-topic>summary strong{font-size:16px}.reason-first{display:block;font-size:14px;line-height:1.8;font-weight:400;margin-top:8px;color:#585254;overflow-wrap:anywhere}.concise-topic>p,.concise-topic>ul{font-size:14px;line-height:1.8}.period>summary{flex-wrap:wrap}.period>summary .reason-first{width:100%}.plain-phase-reason{font-size:14px;line-height:1.8;padding:12px;background:#f4efec;border-radius:8px}.period-planet-context{margin:16px 0}.concise-topic[open]>summary{border-bottom:1px solid #eae9ea;margin-bottom:12px}
+
+.horizon-note{font-size:13px;line-height:1.8;padding:14px;background:#f4efec;border-radius:8px;margin:16px 0;overflow-wrap:anywhere}
