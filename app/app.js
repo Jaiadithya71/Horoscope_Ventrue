@@ -182,20 +182,24 @@ function publicReport(report) {
 
 const CHIP = t => t.level === 'mixed' ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? (t.confidence === 'tentative' ? ['moderate', 'Moderate indication'] : ['strong', 'Strong indication']) : ['light', 'Light indication'];
 function outcomeSection(summary) {
-  if (!summary?.topics?.length) return '';
-  const cards = summary.topics.map(t => { const [cls, label] = CHIP(t); return `<article class="outcome-card chip-${cls}"><div class="outcome-top"><h3>${escape(t.title)}</h3><span class="chip">${label}</span></div>
-    <p class="outcome-head">${escape(t.headline)}</p><p class="outcome-text">${escape(t.text)}</p>
-    ${t.points?.length ? `<ul class="outcome-points">${t.points.map(p => `<li>${escape(p)}</li>`).join('')}</ul>` : ''}${t.evidence?.length ? `<details class="why"><summary>Why the chart says this</summary><ul class="outcome-points">${t.evidence.map(p => `<li>${escape(p)}</li>`).join('')}</ul></details>` : ''}</article>`; }).join('');
-  return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your reading in plain words</h2><div class="outcome-list">${cards}</div>
-    <p class="aspect-limit">${escape(summary.basis)}</p></section>`;
+ if(!summary?.topics?.length)return '';
+ const r=window.__lastReport;
+ const cards=summary.topics.map(t=>{
+  const reasons=t.evidence||[];
+  const lead=reasons[0]||({career:'Alternative livelihood routes; strength comparison not selected',timing:'Four timing conventions; years rounded',periods:'Period-lord themes; not tested against events'}[t.id]||'Source-based theme; not tested');
+  const career=t.id==='career'?`<ul class="cond-list">${(r.life_aspect_candidates?.career?.candidates||[]).map(c=>`<li>${escape(c.reference)}: ${escape(c.tenth_lord)} · ${escape(c.navamsa_sign)} → ${escape(c.navamsa_owner)}. ${escape(c.conditional_reading)} <span class="route-source">${sourceLink(c.occupation_source)}</span></li>`).join('')}</ul><p class="help">Strength comparison not selected. These are alternatives, not a chosen profession.</p>`:'';
+  const more=(t.id==='marriage'||t.id==='wealth')?`<ul class="cond-list">${visibleRows((t.id==='marriage'?r.marriage_conditional:r.wealth_conditional)?.rows).filter(x=>x.status!=='not_met').map(conditionRow).join('')}</ul>`:'';
+  return `<details class="outcome-card concise-topic" data-topic="${escape(t.id)}"><summary><strong>${escape(t.title)}</strong><span class="reason-first">${escape(lead)} → ${escape(t.headline)}</span></summary><p>${escape(t.text)}</p>${reasons.length?`<ul>${reasons.map(x=>`<li>${escape(x)}</li>`).join('')}</ul>`:''}${more}${career}<p class="help">Reading from the existing evidence, not a validated event prediction.</p></details>`;
+ }).join('');
+ return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your reading in plain words</h2><p class="help">Reason first, then the reading. Open only the topic you want. Supporting and opposing conditions remain separate.</p><div class="outcome-list">${cards}</div><p class="aspect-limit">${escape(summary.basis)}</p></section>`;
 }
 
 const TONE = {strong:['strong','Supportive'], weak:['weak','Testing'], mixed:['mixed','Mixed']};
 const KIND = {money:'money', career:'career', partnership:'partnership', children:'children'};
 function whoSection(w) {
   if (!w) return '';
-  const card = (title, o) => `<div class="who-card"><h3>${escape(title)}</h3><p class="outcome-text">${escape(o.text)}</p><p class="p-hl">${o.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>
-    <details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${o.rules.map(r => `<li>${escape(r.sign)}: ${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details></div>`;
+  const card = (title, o) => `<details class="who-card concise-topic"><summary><strong>${escape(title)}</strong><span class="reason-first">${escape(o.rules[0]?.sign)} → ${escape(o.pointers.join(' · '))}</span></summary><p class="outcome-text">${escape(o.text)}</p><p class="p-hl">${o.pointers.map(k => `<span class="hl">${escape(k)}</span>`).join('')}</p>
+    <details class="why"><summary>Why the chart says this</summary><ul class="cond-list">${o.rules.map(r => `<li>${escape(r.sign)}: ${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('')}</ul></details></details>`;
   return `<section class="who" aria-labelledby="who-title"><p class="eyebrow">Who you are</p><h2 id="who-title">The person behind the chart</h2>
     ${card('How you come across', w.outer_you)}${w.same_sign ? '<p class="muted">Your outer and inner nature point the same way, so the same sketch applies to both.</p>' : card('Your inner nature', w.inner_you)}
     <p class="aspect-limit">${escape(w.notice)}</p></section>`;
@@ -208,20 +212,21 @@ function periodsSection(lp) {
     const [cls, label] = TONE[p.tone] || TONE.mixed;
     const current = p.when === 'now' || (!p.when && p.years_about[0] <= now && now <= p.years_about[1]);
     const hl = (p.highlight_words || []).map(k => `<span class="hl">${escape(k)}</span>`).join('');
+    const phaseReason = b => `<p class="plain-phase-reason">${escape(b.lord)} · ${escape(b.basis)} → ${escape(b.label)}</p>`;
     const phaseHead = b => `<span class="ph-years">${escape(b.years_about[0])} to ${escape(b.years_about[1])}</span> <span class="chip">${escape(b.label)}</span>`;
     const phaseAreas = b => (b.phase_areas || []).length ? (b.phase_areas).map(x => `<div class="ph-area"><strong>${escape(x.label)}.</strong> ${escape(x.text)} <span class="guide-inline">${escape(x.guidance)}</span></div>`).join('') + '<p class="route-caveat">Areas for a smaller phase are our reading, not stated by the book.</p>' : '<p class="route-caveat">No area stands out for this phase, so the overall feel of the stretch applies.</p>';
     const subs = p.bhuktis.map(b => { const chips = (b.phase_areas || []).map(x => `<span class="hl">${escape(x.label)}</span>`).join('');
       return p.depth === 'full'
-        ? `<section class="phase-open sub-${escape(b.tone)}"><h4>${phaseHead(b)}</h4><p class="p-hl">${chips}</p>${phaseAreas(b)}</section>`
-        : `<details class="phase sub-${escape(b.tone)}"><summary>${phaseHead(b)} ${chips}</summary>${phaseAreas(b)}</details>`; }).join('');
+        ? `<details class="phase sub-${escape(b.tone)}"><summary>${phaseHead(b)}</summary>${phaseReason(b)}${phaseAreas(b)}</details>`
+        : `<details class="phase sub-${escape(b.tone)}"><summary>${phaseHead(b)} ${chips}</summary>${phaseReason(b)}${phaseAreas(b)}</details>`; }).join('');
     const asp = Object.values(p.aspects || {});
     const aspChips = asp.filter(x => x.status !== 'quiet').map(x => `<span class="hl asp-${escape(x.status)}">${escape(x.label)}: ${escape(x.status)}</span>`).join('');
     const full = p.depth === 'full';
     const aspects = full ? `<div class="aspects">${asp.map(x => `<details class="aspect asp-${escape(x.status)}"><summary><span class="a-name">${escape(x.label)}</span><span class="chip">${escape(x.status === 'quiet' ? 'nothing specific' : x.status)}</span></summary><p>${escape(x.text)}</p>${x.guidance ? `<p class="guide">${escape(x.guidance)}</p>` : ''}</details>`).join('')}</div>` : (aspChips ? `<p class="p-hl">${aspChips}</p>` : '');
     const reasons = p.bhuktis.map(b => `<li>${escape(b.years_about[0])} to ${escape(b.years_about[1])}: ${escape(b.lord)}. ${escape(b.basis)}</li>`).join('');
     const rules = p.rules.map(r => `<li>${escape(r.effect)} <span class="route-source">${sourceLink(r.source)}</span></li>`).join('');
-    return `<details class="period period-${cls} depth-${escape(p.depth || "short")}"${current ? ' open' : ''}><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : p.when === 'next' ? '<span class="chip">Next</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span></summary>
-      <p class="outcome-text">${escape(p.you_text || p.summary)}</p>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
+    return `<details class="period period-${cls} depth-${escape(p.depth || "short")}"><summary><span class="p-lord">${escape(p.years_about[0])} to ${escape(p.years_about[1])}</span>${current ? '<span class="chip chip-now">Now</span>' : p.when === 'next' ? '<span class="chip">Next</span>' : ''}<span class="chip tone-${cls}">${escape(p.label || label)}</span><span class="reason-first">${escape(p.lord)} · ${escape(p.basis.join('; '))} → ${escape(p.label || label)}</span></summary>
+      <p class="outcome-text">${escape(p.you_text || p.summary)}</p><details class="period-planet-context"><summary>Period lord placement and lordship</summary><p class="help">Chart context, not an additional prediction.</p>${inspectionPlanetCard(p.lord,window.__lastReport,true)}</details>${hl ? `<p class="p-hl">Stands out for: ${hl}</p>` : ''}
       ${p.confidence === 'tentative' ? '<p class="route-caveat">The chart is less clear-cut for this stretch, so read it as a softer signal.</p>' : ''}
       ${aspects}${full ? `<h3 class="phases-title">Phase by phase</h3><div class="phase-list open">${subs}</div>` : `<details class="phases"><summary>Smaller phases inside it</summary><div class="phase-list">${subs}</div></details>`}
       <details class="why"><summary>Why the chart says this</summary><p class="route-caveat">Ruling planet for this stretch: ${escape(p.lord)}. ${escape(p.basis.join('; '))}.</p><ul class="cond-list">${rules}</ul><p class="route-caveat">Smaller phases:</p><ul class="cond-list">${reasons}</ul></details></details>`;
