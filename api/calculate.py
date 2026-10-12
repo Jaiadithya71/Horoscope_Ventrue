@@ -5,6 +5,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import json
 from http.server import BaseHTTPRequestHandler
 from engine.research_input_report import research_input_report
+from engine.vargas import divisional_chart_report
 
 def calculate(payload):
     if not isinstance(payload, dict) or (set(payload)-{'birth','tamil_view','node_mode'} or 'birth' not in payload):
@@ -34,7 +35,7 @@ def calculate(payload):
                 'source': evidence.get('sources', [None])[0] if flags is not None else None,
                 'notice': 'Sign-level conditions only. Exaltation and own-sign flags can overlap. Not exact exaltation degree, complete strength, cancellation, or a prediction.' if flags is not None else 'Node dignity is not defined by this seven-planet rule; no classification is inferred.'
             }
-        report = {**report, 'natal_chart': {**{k: v for k, v in chart.items() if k != 'natal_factors'}, 'sign_dignity': dignity}}
+        report = {**report, 'natal_chart': {**{k: v for k, v in chart.items() if k != 'natal_factors'}, 'sign_dignity': dignity, 'divisional_charts': divisional_chart_report(chart)}}
     return report
 
 def response_body(raw):
