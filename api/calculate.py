@@ -22,7 +22,19 @@ def calculate(payload):
     # (about 0.9 MB). The engine still computes them; only the HTTP response omits them.
     chart = report.get('natal_chart')
     if isinstance(chart, dict):
-        report = {**report, 'natal_chart': {k: v for k, v in chart.items() if k != 'natal_factors'}}
+        # Expose only the existing cited sign flags, never the candidate scores.
+        # True/false describes sign geometry, not strength or a forecast.
+        dignity = {}
+        for name, evidence in (chart.get('natal_factors') or {}).get('dignity', {}).items():
+            flags = evidence.get('flags')
+            dignity[name] = {
+                'planet': name, 'sign': evidence.get('sign'),
+                'status': 'computed_sign_flags' if flags is not None else 'not_defined_in_this_rule',
+                'flags': {key: flags[key] for key in ('own_sign', 'exaltation_sign', 'fall_sign')} if flags is not None else None,
+                'source': evidence.get('sources', [None])[0] if flags is not None else None,
+                'notice': 'Sign-level conditions only. Exaltation and own-sign flags can overlap. Not exact exaltation degree, complete strength, cancellation, or a prediction.' if flags is not None else 'Node dignity is not defined by this seven-planet rule; no classification is inferred.'
+            }
+        report = {**report, 'natal_chart': {**{k: v for k, v in chart.items() if k != 'natal_factors'}, 'sign_dignity': dignity}}
     return report
 
 def response_body(raw):
