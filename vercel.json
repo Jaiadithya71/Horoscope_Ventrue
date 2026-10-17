@@ -16,6 +16,18 @@
     {
       "source": "/i18n.js",
       "destination": "/app/i18n.js"
+    },
+    {
+      "source": "/weekly",
+      "destination": "/app/weekly.html"
+    },
+    {
+      "source": "/weekly.js",
+      "destination": "/app/weekly.js"
+    },
+    {
+      "source": "/weekly.css",
+      "destination": "/app/weekly.css"
     }
   ]
 }
