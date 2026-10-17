@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ta"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A week-by-lagna transit view computed by the Horoscope engine: sidereal positions day by day, houses counted from the chosen lagna, and only page-cited rules as readings."><title>Weekly sky by lagna | Horoscope</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/weekly.css"></head>
+<body><main>
+<header><a class="wordmark" href="/">Horoscope<span>Source-led chart research</span></a><span class="badge">Research preview</span></header>
+<section class="intro"><p class="eyebrow">Week by week, sign by sign</p><h1>The week’s sky, read from a lagna.</h1><p>Pick a week and a lagna. The engine computes sidereal planet positions day by day, counts houses from that lagna, and times every sign change and station inside the week. Readings appear only where a page-cited rule exists, and those rules read the Moon sign, so add yours to switch them on.</p></section>
+<div class="layout"><section class="input-panel" aria-labelledby="week-title"><h2 id="week-title">Week and lagna</h2>
+<div class="week-nav"><button type="button" class="secondary inline" id="prev-week">← Previous week</button><button type="button" class="secondary inline" id="this-week">This week</button><button type="button" class="secondary inline" id="next-week">Next week →</button></div>
+<p class="help" id="week-label">Weeks run Monday to Sunday, India time.</p>
+<fieldset class="pick"><legend>Lagna</legend><div class="lagna-grid" id="lagna-grid" role="group" aria-label="Lagna"></div></fieldset>
+<fieldset class="pick"><legend>Moon sign (optional)</legend><label>Add your Moon rasi to switch on the cited transit readings<select id="moon-sign"><option value="">Skip, structure only</option></select></label><p class="help">The enabled transit rules in Phaladeepika chapter 26 are counted from the birth Moon sign, not from the lagna.</p></fieldset>
+<button type="button" id="compute">Read the week</button>
+<p class="help">No birth details needed. The sky for a week is the same for everyone; only the lagna and Moon sign you pick change how it is counted.</p>
+<p id="error" role="alert" hidden></p></section>
+<section id="workspace" aria-live="polite" aria-busy="false"><div id="empty" class="empty"><span class="orbit" aria-hidden="true"></span><p class="eyebrow">Structure first</p><h2>What the sky does this week.</h2><p>Day-by-day signs and houses from your lagna, the exact clock time of every sign change, and cited readings when your Moon sign enables them.</p><div class="boundary"><h3>Kept honest</h3><p>A house count or an aspect is structure, not a verdict. Outcome lines come only from verified book rules, which are few on purpose.</p></div></div><div id="results" hidden></div></section></div>
+<footer><p class="builder-link"><a href="https://jaiadithya-developer.vercel.app">Built by Jaiadithya A</a></p>Astrology is a historical tradition, not scientifically validated prediction. This preview uses modern Lahiri / Moshier chart math. Week boundaries and event times are India time (IST).</footer>
+</main><script src="/i18n.js"></script><script src="/weekly.js"></script></body></html>
