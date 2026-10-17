@@ -28,6 +28,14 @@
     {
       "source": "/weekly.css",
       "destination": "/app/weekly.css"
+    },
+    {
+      "source": "/studio",
+      "destination": "/app/studio.html"
+    },
+    {
+      "source": "/studio.js",
+      "destination": "/app/studio.js"
     }
   ]
 }
