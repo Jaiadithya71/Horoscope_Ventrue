@@ -7,7 +7,8 @@ Zero-cost local render: AI images (`tools image create`) + Tamil voiceover (edge
 
 | Reel | File | Duration | Status |
 | --- | --- | --- | --- |
-| Monday single-point captioned v1 | astro-monday-captioned-v1.mp4 | 22.8s | Preview for user review 2026-10-23; NOT posted |
+| Monday single-point captioned v1 | astro-monday-captioned-v1.mp4 | 22.8s | Superseded by v2 (painterly look); kept for reference |
+| Monday single-point captioned v2 (photoreal, benchmark-mimic) | astro-monday-captioned-v2.mp4 | 22.8s | Preview for user review 2026-10-23; NOT posted |
 
 ## v1 spec (2026-10-23, user's approved test idea)
 
