@@ -2,7 +2,7 @@
 
 Source video: https://youtu.be/ONyljEHjHQo
 
-Full transcript excluded from this public repository. These notes are our own paraphrase of the reported reasoning, not permission to reuse the creator's spoken text.
+Full transcript: dasha-bhukti-video-transcript-ta.md (in this directory, stored as a research reference at the repo owner's direction; rights remain with the creator). These notes are our own paraphrase of the reported reasoning, not permission to reuse the creator's spoken text.
 
 ## Video (https://youtu.be/ONyljEHjHQo), Tamil, "why a well-placed planet gives bad results in its own dasha-bhukti"
 Source: YouTube Tamil auto-captions (no manual subtitles; English track rate-limited, so Tamil only). Channel/speaker name not captured. Captions are auto-generated and some words are garbled; Tamil kept in my paraphrase, not verbatim. A short video followed by a course advertisement. The advertised course date is not verified and is not used here. The speaker's rule is a practitioner claim, not a cited classical text.
