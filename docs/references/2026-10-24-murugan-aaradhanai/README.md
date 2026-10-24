@@ -113,14 +113,19 @@ our own words. Video IDs link to the source.
   sampled items.
 - Content-reviewed notes: **37 videos** (`video-notes.md`) — the top all-time
   performers, the current Aippasi Pournami cluster, and top long-form videos.
-- Caption-recovery route (proven 2026-10-24): direct timedtext downloads from this
-  workspace IP get HTTP 429 after ~5 requests; the working route is yt-dlp player-API
-  metadata (not rate-limited) to obtain the timedtext URL, then fetch the URL through
-  the cloud browser (different egress). ~4–5 s per video paced.
+- Caption access: direct timedtext downloads from the workspace IP were
+  rate-limited (HTTP 429) after ~5 requests, which ended bulk caption
+  fetching. A workaround that re-fetched the same signed URLs through a
+  different browser egress was tried and WITHDRAWN: routing around a rate
+  limit via another IP is circumvention and must not be reused or taught.
+  The 37 reviewed notes came from ordinary single fetches plus the small
+  batch gathered before this was stopped; no further caption harvesting
+  through any such route.
 - Not reviewable via captions: of 70 attempted, 16 have no captions at all and 17 have
   ASR-garbage tracks (YouTube misdetected the spoken language; e.g. the user-shared
   short 3nuMRXAx61c yields two nonsense words). For those, the only remaining route is
   audio download + local speech-to-text (Whisper), not run in this pass.
-- Remaining uncovered: ~1,590 videos are catalog-only (title metadata). Extending
-  coverage uses the proven route above; at a paced ~5 s/video the caption fetch for the
-  full remainder is roughly 2–3 hours of browser time, plus note-writing in batches.
+- Remaining uncovered: ~1,590 videos are catalog-only (title metadata).
+  There is no permitted bulk-caption route. Further coverage is limited to
+  ordinary, paced, normal-access viewing/audio review of individual videos
+  (slow), or the channel's own public transcript UI where offered.
