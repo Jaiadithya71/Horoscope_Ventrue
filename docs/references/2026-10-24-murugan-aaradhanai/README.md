@@ -104,15 +104,23 @@ our own words. Video IDs link to the source.
   guarantees — exactly the claim categories we decided to avoid on astro_guidance_108.
   Model the mechanics (hook, identity, timing, CTA), not the claims.
 
-## Coverage and gaps
+## Coverage and gaps (updated 2026-10-24 ~23:50 IST)
 
 - Catalog: complete — all 1,660 public items listed across `catalog-shorts.csv` and
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
-- Per-item upload dates/durations are not in the public listing; captured only for the
-  sampled items above.
-- Detailed notes: 6 items. YouTube rate-limited caption fetches after ~5 requests
-  (HTTP 429); the shared short's own captions could not be fetched in this pass.
-  The remaining 1,654 items are catalog-only (titles carry each item's claim; a title
-  index is often enough to mine remedy/topic ideas). Extending transcription is
-  possible later in spaced batches if wanted.
+- Per-item upload dates/durations are not in the public listing; captured only for
+  sampled items.
+- Content-reviewed notes: **37 videos** (`video-notes.md`) — the top all-time
+  performers, the current Aippasi Pournami cluster, and top long-form videos.
+- Caption-recovery route (proven 2026-10-24): direct timedtext downloads from this
+  workspace IP get HTTP 429 after ~5 requests; the working route is yt-dlp player-API
+  metadata (not rate-limited) to obtain the timedtext URL, then fetch the URL through
+  the cloud browser (different egress). ~4–5 s per video paced.
+- Not reviewable via captions: of 70 attempted, 16 have no captions at all and 17 have
+  ASR-garbage tracks (YouTube misdetected the spoken language; e.g. the user-shared
+  short 3nuMRXAx61c yields two nonsense words). For those, the only remaining route is
+  audio download + local speech-to-text (Whisper), not run in this pass.
+- Remaining uncovered: ~1,590 videos are catalog-only (title metadata). Extending
+  coverage uses the proven route above; at a paced ~5 s/video the caption fetch for the
+  full remainder is roughly 2–3 hours of browser time, plus note-writing in batches.
