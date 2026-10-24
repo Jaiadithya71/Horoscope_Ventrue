@@ -29,7 +29,7 @@ only, summarized below; auto-captions are partly garbled).
   short: 50K–700K views; top shorts reach 3–6.4M. The two channel playlists are only
   YouTube's auto-generated "Videos" / "Shorts" listings.
 
-## Topic taxonomy (keyword match over all 1,660 titles; approximate, first-match wins)
+## Topic taxonomy - TITLE-DERIVED HYPOTHESIS ONLY (keyword match over all 1,660 titles; approximate, first-match wins; video content not reviewed for these)
 
 | approx. count | theme |
 |---:|---|
@@ -46,7 +46,7 @@ only, summarized below; auto-captions are partly garbled).
 
 ## What the channel teaches — sample notes (transcripts fetched + summarized)
 
-Six items captured in detail: the shared short, the top all-time performers, and the
+Six items captured: the shared short, the top all-time performers, and the
 current Aippasi Pournami cluster. Tamil auto-captions are partly garbled; summaries are
 our own words. Video IDs link to the source.
 
