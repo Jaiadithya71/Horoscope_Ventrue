@@ -112,15 +112,17 @@ our own words. Video IDs link to the source.
   guarantees — exactly the claim categories we decided to avoid on astro_guidance_108.
   Model the mechanics (hook, identity, timing, CTA), not the claims.
 
-## Coverage and gaps (updated 2026-10-24 ~23:50 IST)
+## Coverage and gaps (updated 2026-10-25 ~00:15 IST)
 
 - Catalog: complete — all 1,660 public items listed across `catalog-shorts.csv` and
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
 - Per-item upload dates/durations are not in the public listing; captured only for
   sampled items.
-- Content-reviewed notes: **37 videos** (`video-notes.md`) — the top all-time
-  performers, the current Aippasi Pournami cluster, and top long-form videos.
+- Content-reviewed notes: **52 videos** (`video-notes.md`) — the top all-time
+  performers, the current Aippasi Pournami cluster, top long-form videos, plus 14
+  more recovered on 2026-10-25 by native audio transcription of downloaded
+  bestaudio tracks (yt-dlp -> mp3 -> audio transcription).
 - Caption access: direct timedtext downloads from the workspace IP were
   rate-limited (HTTP 429) after ~5 requests, which ended bulk caption
   fetching. A workaround that re-fetched the same signed URLs through a
@@ -129,11 +131,17 @@ our own words. Video IDs link to the source.
   The 37 reviewed notes came from ordinary single fetches plus the small
   batch gathered before this was stopped; no further caption harvesting
   through any such route.
-- Not reviewable via captions: of 70 attempted, 16 have no captions at all and 17 have
-  ASR-garbage tracks (YouTube misdetected the spoken language; e.g. the user-shared
-  short 3nuMRXAx61c yields two nonsense words). For those, the only remaining route is
-  audio download + local speech-to-text (Whisper), not run in this pass.
-- Remaining uncovered: ~1,590 videos are catalog-only (title metadata).
+- Audio review status (2026-10-25): of the 33 previously unreviewable items
+  (16 no-caption + 17 ASR-garbage, including the anchor short which was
+  recovered earlier), 15 were recovered by normal public bestaudio download +
+  audio transcription (the anchor + the 14 in `video-notes.md` Batch 2).
+  The remaining 12 return ~3-second stub audio from YouTube's servers (same
+  access-block signature as their missing captions); we do not route around
+  that, so their content remains unknown and they are listed at the end of
+  `video-notes.md`.
+- Remaining uncovered: ~1,608 videos are catalog-only (title metadata).
   There is no permitted bulk-caption route. Further coverage is limited to
   ordinary, paced, normal-access viewing/audio review of individual videos
-  (slow), or the channel's own public transcript UI where offered.
+  (slow), or the channel's own public transcript UI where offered. Native
+  audio transcription of downloaded audio now works well for Tamil and is
+  the sanctioned path for expanding coverage.

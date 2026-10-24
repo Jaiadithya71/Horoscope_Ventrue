@@ -1,9 +1,10 @@
-# Murugan Aaradhanai — content-reviewed video notes (2026-10-24)
+# Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-37 videos reviewed from their actual Tamil auto-captions (fetched 2026-10-24 via the
-browser route; see README "Coverage and gaps"). Summaries are our own words, not
-transcripts. Auto-captions are imperfect: where ASR garbles a specific name/list, the
-note says so instead of guessing. Rights remain with the channel owner.
+52 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+audio review (2026-10-24/25; see README "Coverage and gaps"), plus 14 more (Batch 2
+below) from native audio transcription of downloaded audio. Summaries are our own
+words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
+name/list, the note says so instead of guessing. Rights remain with the channel owner.
 
 Views are the 2026-10-24 snapshot. ta = Tamil.
 
@@ -153,3 +154,128 @@ Captions exist but ASR garbage / unusable (17): 3nuMRXAx61c (the shared short),
 Rv_sZWG5PEM, fLKVskjz9yQ, 5fDZk5hW0IY, eXgT1gtlNZQ, w6McS6Cs0qg, TW8g5NR5fFw,
 DA5BE39Q2Cc, AZV7Po0bUDA, aOru16MXC8U, 0UxwL9s-xN4, xPx1-vFwAGk, pL1_YTJWu_w,
 4vEhSezpliw, 0yGpHD13v-g, 65ikNy9nwJM, vvVRlohjUNw.
+
+## Batch 2: native audio transcription of previously unreviewable IDs (2026-10-25)
+
+Method: yt-dlp bestaudio download -> ffmpeg to mp3 -> native audio transcription (tools read). 14 of 32
+previously-unreviewable IDs yielded full, clean Tamil audio transcripts and are now CONTENT-REVIEWED.
+The other 12 IDs returned ~3-second stub audio from YouTube's servers (same anti-bot signature that
+made their caption tracks unavailable); per project constraints we do not route around that, so they
+remain unreviewable and are listed as unknown at the end of this file.
+
+Notes below are original paraphrase of the audio content, not transcripts.
+
+### 0UxwL9s-xN4 (short) - "21 நாட்கள் இந்த மந்திரத்தை மட்டும் எழுதுங்கள்..."
+Mantra-writing (likhita japa) practice for wish fulfillment. Write the mantra "Om Sreem Santhaya
+Namaha" 6 times daily for 21 days, starting on a Tuesday, in a fresh notebook, just before sleep,
+seated in a quiet place, without talking or phone/TV. Frame the wish positively and specifically
+(example given: write "I have five lakh rupees" rather than "my debt should clear"). Claimed signs
+that the wish will be fulfilled: dreaming of a Murugan idol or vel, a person named after Murugan
+visiting the home, seeing a peacock, or smelling vibhuti fragrance at home.
+
+### 0yGpHD13v-g (short) - "ஐப்பசி பௌர்ணமி அன்று இந்த பொருளை மட்டும் தானம் கொடுத்து விடாதீர்கள்!"
+Aippasi Pournami prohibition: do not lend (give as kadan/loan) rice, salt, or milk on that day.
+Rationale given: rice and milk carry the karakatvam of Chandra and Sukkiran; giving them away is
+believed to anger Mahalakshmi/Annapoorani and bring financial trouble, with effects on the family's
+wealth across "24 generations". These items should instead be given only as neivedyam or donation to
+God. Food donation (annadhanam), clothes, and fruits to the hungry are permitted.
+
+### 4vEhSezpliw (short) - "'1 வரி' Powerful Murugan Manthiram"
+One-line mantra to be chanted 108 times with full concentration and no other thoughts:
+"Om Sreem Hreem Dhana Nayakiye Swarnakarshana Deviyai Sarva Dharithra Nivaranayai Om Hreem Swaha".
+Presented as a Murugan mantra (the wording is a wealth/lakshmi-type bija mantra) for long-pending
+wishes and hardships. Claimed confirming signs: the vel or a peacock appearing in dreams, vibhuti
+fragrance that day, hearing temple bells.
+
+### 5fDZk5hW0IY (short) - "தீபாவளி அன்று சனிபகவான் வக்ரநிலை 3 ராசிகளுக்கு டபுள் ஜாக்பாட்"
+Astrology: claims Saturn goes retrograde into Mithuna rasi on Deepavali day "after 500 years", giving
+three rasis a "double jackpot". Predictions - Mithuna: desired job for the unemployed, business
+profit, salary hike. Kumbha: rising status in social circles, good returns on investments, promotion
+and pay rise, higher family income, purchase of expensive household items. Makara: increased family
+happiness, legal issues resolving, childbirth for newlyweds, foreign-travel wishes fulfilled.
+(Content claim only; the "500 years" framing is the channel's own rhetoric.)
+
+### AZV7Po0bUDA (short) - "ஏப்ரல் 11 அபிஜித் நட்சத்திரம்!..."
+Abhijit nakshatra falling on April 11, described as a day that turns failure into success.
+Instruction: light a lamp for Shiva anywhere, spend one minute, and state your wish; do not doubt
+that it will be fulfilled (doubting is the one thing warned against). The stated sacred window:
+April 11, 7:10 AM to 3:23 PM.
+
+### DA5BE39Q2Cc (short) - "வைகாசி விசாகம் அன்று கட்டாயம் வாங்க வேண்டிய பொருட்கள்"
+Vaikasi Visakam (Murugan's avatar day; stated as June 9, Monday): list of items considered
+especially auspicious to buy that day - abhishekam items for a Murugan temple (at least milk if
+nothing else), turmeric (auspicious, linked to Kubera), pickle (said to be where Kubera dwells; even
+a Rs.10 pickle is fine), mango and banana (Murugan's preferred fruits) or the mukkani trio
+(mango/jackfruit/banana), six non-bitter vegetables, and sandalwood (Murugan's abhishekam item).
+Claimed benefits: hardship leaves the home, income rises, auspicious events take place.
+
+### TW8g5NR5fFw (short) - "முருக பக்தர்கள் இந்த ஒரு நாளை மட்டும் தவறவிட்டு விடாதீர்கள்"
+November 11 ritual built around the "11:11 angel number": at 11:11 (morning or night), hold your
+wish with full faith as if already fulfilled; write the wish on paper in completed form (example
+given: "All my debt troubles have ended well. Thank you Muruga and this universe"), light a lamp for
+Murugan, and burn the paper in the lamp flame.
+
+### aOru16MXC8U (short) - "இழந்ததை மீட்டு தரும் சக்தி வாய்ந்த மந்திரம்"
+Mantra to regain what was lost, framed with the teaching that Murugan tests only those he intends
+to give great joy to, and that one should face trials courageously. Chant for 11 days, either daily
+or on Sashti/Tuesday/Karthigai days; if started on a weekday (e.g. Tuesday), continue on that same
+weekday for 11 occurrences without switching days. Mantra: "Om Muruga, Guru Muruga, Arul Muruga,
+Ananda Muruga, Sivasakthi Balagane, Shanmugane, Sadatcharane, en vaakilum ninaivilum nindru kaakka,
+Om Aim Hreem Vel kaakka Swaha."
+
+### eXgT1gtlNZQ (short) - "சனி தோஷம் முடியப்போகிறது..."
+Astrology: Sani dosham ending for Mesham, Kadakam, and Makaram rasis; says these signs were heavily
+affected by Saturn's retrograde over the past 7.5 years and that from this October a good period
+begins via Guru and Sani changes: stalled works proceed, long-delayed good events materialize,
+parents' health improves, ancestors' blessings received. Asks viewers to comment their rasi and
+lagnam.
+
+### pL1_YTJWu_w (short) - "வெற்றிலை தீபம் இந்த நேரத்தில் ஏற்றினால்..."
+Vettilai (betel-leaf) deepam procedure for Murugan, to be done every Tuesday for 9 Tuesdays.
+Method: clean the Murugan picture/idol, apply turmeric and kumkum, decorate with flowers or a
+garland; wash 6 betel leaves and wipe dry; apply turmeric-kumkum to the leaves; arrange them on a
+plate fanned like a peacock's plumage; place a flower on top and set a turmeric-kumkum-smeared agal
+lamp on the leaves; light with sesame oil or ghee; state your wish. Auspicious times on Tuesday:
+6:00-7:00 AM, 1:00-2:00 PM, 8:00-9:00 PM. Rules: leaves must be fresh, untorn, and newly bought
+(never borrowed or reused); the plate must not be silver - use brass, copper, or similar.
+
+### w6McS6Cs0qg (short) - "சனி பெயர்ச்சி இந்த 3 ராசிகளுக்கு கடின சோதனை ஆரம்பம்!"
+Astrology: Saturn transits from Kumbha to Meena rasi (stated time: 8:24 AM that morning), beginning
+a testing period for three rasis; frames Saturn as giving correction rather than punishment.
+Meena: Jenma Sani (7.5-year Sani) begins - more physical toil and mental stress; think twice before
+major decisions. Kumbha: Dhana Sani - income continues but savings may shrink, unwanted expenses;
+speech needs care as words can harm relationships. Dhanusu: Ardhashtama Sani - no haste in
+house/vehicle purchases, attention needed in family matters and the mother's health. Ends with
+encouragement that trials are followed by success.
+
+### xPx1-vFwAGk (long video) - "பிரம்ம முகூர்த்தத்தில் இந்த முருகன் மந்திரம் சொன்னால் வாழ்க்கை மாறும்"
+Brahma-muhurta Murugan mantra practice for obstacles, education, wealth, childbirth, debt relief,
+and peace of mind. Method: rise at brahma muhurta, bathe, decorate Murugan with a flower garland,
+light a ghee lamp, sit in a quiet place, mentally state the wish to Murugan first, then chant
+"Gnana Sakthi Dhara Skanda, Valli Kalyana Sundara, Deva Sena Manakandha, Karthikeya Namosthuthe,
+Om Subramanyaya Namaha" 21 times. Claimed confirming sign: if someone visits your home that day,
+give them food or coins. Emphasizes correct method and intent over mere recitation.
+
+### 65ikNy9nwJM (long video) - "முருகன் அருள் இவர்களுக்கு கேட்காமலே கிடைக்குமாம்!"
+Which birth months carry Murugan's natural grace: children born in Vaikasi month (his avatar month,
+born under Visaka nakshatra) and Karthigai month are said to receive his full grace naturally,
+including inborn devotion and spiritual inclination; Visaka-nakshatra births get additional
+benefits. The video explicitly clarifies that Murugan blesses all devotees equally regardless of
+birth month, attributing the special-month effect to planetary alignments and Sevvai's (Mars')
+aspect in those months.
+
+### vvVRlohjUNw (long video) - "இதை மட்டும் மறந்து செய்து விடாதீர்கள்"
+Rules to follow after returning home from a temple visit, per sastras as presented by the channel:
+(1) do not wash hands and legs immediately on returning - the divine energy that came with you would
+leave; (2) come straight home from the temple without visiting friends' or relatives' houses on the
+way; (3) vibhuti, kumkum, and prasadam from the temple must be kept in the pooja room, not placed
+casually; (4) strictly avoid eating non-vegetarian food right after a temple visit. Frames these as
+preserving the benefit (palan) of the visit.
+
+## Still unreviewable (stub audio / no captions, access-blocked) - content unknown
+
+These 12 IDs return ~3-second stub audio from YouTube and have no usable caption tracks. Their
+content is unknown; titles are in catalog-shorts.csv but are not treated as content evidence.
+
+vuBTd2LV2Dg, 3BbR5PN0t7M, 9Y1d99Ex124, LSJZqGfLALE, D_8D7VXeLls, Xyja9rJ8dzE, 8I4JEgYDO24,
+MquCqeUDHGY, -FD8zTJjpgQ, bmIEpftArks, Rv_sZWG5PEM, fLKVskjz9yQ
