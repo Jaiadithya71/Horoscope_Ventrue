@@ -117,6 +117,10 @@ our own words. Video IDs link to the source.
 - Catalog: complete — all 1,660 public items listed across `catalog-shorts.csv` and
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
+- Per-ID coverage tracker: `coverage-tracker.csv` is the durable source of truth —
+  one row per cataloged item with status `content-reviewed` (52),
+  `inaccessible-unknown` (12), or `pending` (1,596), with a per-item source URL.
+  Counts elsewhere in this README and in `video-notes.md` derive from it.
 - Per-item upload dates/durations are not in the public listing; captured only for
   sampled items.
 - Content-reviewed notes: **52 videos** (`video-notes.md`) — the top all-time
@@ -135,11 +139,13 @@ our own words. Video IDs link to the source.
   (16 no-caption + 17 ASR-garbage, including the anchor short which was
   recovered earlier), 15 were recovered by normal public bestaudio download +
   audio transcription (the anchor + the 14 in `video-notes.md` Batch 2).
-  The remaining 12 return ~3-second stub audio from YouTube's servers (same
-  access-block signature as their missing captions); we do not route around
-  that, so their content remains unknown and they are listed at the end of
-  `video-notes.md`.
-- Remaining uncovered: ~1,608 videos are catalog-only (title metadata).
+  The remaining 12 are inaccessible: YouTube serves only ~3-second stub audio
+  for them and no usable caption track. The reason is unknown (not proven to
+  be rate limiting); we do not route around it, so their content remains
+  unknown. They are listed at the end of `video-notes.md` and marked
+  `inaccessible-unknown` in the tracker.
+- Remaining uncovered: 1,596 videos are catalog-only (title metadata) plus 12
+  inaccessible-unknown (see tracker for the checkable per-ID split).
   There is no permitted bulk-caption route. Further coverage is limited to
   ordinary, paced, normal-access viewing/audio review of individual videos
   (slow), or the channel's own public transcript UI where offered. Native

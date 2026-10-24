@@ -159,9 +159,10 @@ DA5BE39Q2Cc, AZV7Po0bUDA, aOru16MXC8U, 0UxwL9s-xN4, xPx1-vFwAGk, pL1_YTJWu_w,
 
 Method: yt-dlp bestaudio download -> ffmpeg to mp3 -> native audio transcription (tools read). 14 of 32
 previously-unreviewable IDs yielded full, clean Tamil audio transcripts and are now CONTENT-REVIEWED.
-The other 12 IDs returned ~3-second stub audio from YouTube's servers (same anti-bot signature that
-made their caption tracks unavailable); per project constraints we do not route around that, so they
-remain unreviewable and are listed as unknown at the end of this file.
+The other 12 IDs returned only ~3-second stub audio from YouTube's servers and have no usable
+caption tracks. The cause is unknown (not proven to be rate limiting); per project constraints we
+do not route around access failures, so they remain unreviewable and are listed as unknown at the
+end of this file.
 
 Notes below are original paraphrase of the audio content, not transcripts.
 
@@ -272,10 +273,11 @@ way; (3) vibhuti, kumkum, and prasadam from the temple must be kept in the pooja
 casually; (4) strictly avoid eating non-vegetarian food right after a temple visit. Frames these as
 preserving the benefit (palan) of the visit.
 
-## Still unreviewable (stub audio / no captions, access-blocked) - content unknown
+## Still unreviewable (inaccessible: stub audio + no usable captions) - content unknown
 
-These 12 IDs return ~3-second stub audio from YouTube and have no usable caption tracks. Their
-content is unknown; titles are in catalog-shorts.csv but are not treated as content evidence.
+These 12 IDs return only ~3-second stub audio from YouTube and have no usable caption tracks;
+the cause is unknown. Their content is unknown; titles are in catalog-shorts.csv but are not
+treated as content evidence. Status tracked as `inaccessible-unknown` in coverage-tracker.csv.
 
 vuBTd2LV2Dg, 3BbR5PN0t7M, 9Y1d99Ex124, LSJZqGfLALE, D_8D7VXeLls, Xyja9rJ8dzE, 8I4JEgYDO24,
 MquCqeUDHGY, -FD8zTJjpgQ, bmIEpftArks, Rv_sZWG5PEM, fLKVskjz9yQ
