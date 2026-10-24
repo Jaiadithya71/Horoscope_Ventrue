@@ -9,10 +9,18 @@ Views are the 2026-10-24 snapshot. ta = Tamil.
 
 ## A. The current Aippasi Pournami cluster (Oct 22–24, 2026 uploads)
 
-- **3nuMRXAx61c** (120K) — the user-shared short. **Captions unusable**: YouTube's ASR
-  misdetected the language and produced two nonsense words ("ஃபோர்ச். வெளிநாட்டு."),
-  so the spoken content is unverified. Title claim: "Aippasi Pournami: buy one item for
-  ₹10 — a 16-generation curse will be lifted."
+- **3nuMRXAx61c** (121K views, 63s, uploaded 2026-10-24 per player metadata) - the
+  user-shared short. **PARTIALLY REVIEWED** (normal public access, 2026-10-25 ~00:05
+  IST). Visuals reviewed frame-by-frame: a slideshow of Murugan deity/temple photos
+  watermarked @MuruganAaradhanai, with NO on-screen text - all information is in the
+  voiceover. YouTube's own caption track is ASR garbage (misdetected language; two
+  nonsense words). Local Whisper on the audio (ordinary public download): tiny model
+  gave a gist but with hallucination loops; base was garbled; small exceeds this
+  environment's execution cap. Recovered gist (LOW CONFIDENCE, not verbatim): on
+  Aippasi Pournami, buy one item for Rs.10 for Murugan's complete grace; relief from
+  debt/poverty; keep it at home. **The specific item could NOT be reliably
+  identified.** Title claim: "buy one item for Rs.10 - a 16-generation curse will be
+  lifted."
 - **6w7JYu1ITLA** (734K) — On pournami day (Sun Oct 25), donate bitter/sour items —
   bitter gourd, tamarind, black pepper, cumin — at a Shiva temple to erase "24
   generations" of pitru sabam and poverty; promises rajayogam for one's children.
