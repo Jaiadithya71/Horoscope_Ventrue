@@ -146,8 +146,12 @@ our own words. Video IDs link to the source.
   `inaccessible-unknown` in the tracker.
 - Remaining uncovered: 1,596 videos are catalog-only (title metadata) plus 12
   inaccessible-unknown (see tracker for the checkable per-ID split).
-  There is no permitted bulk-caption route. Further coverage is limited to
-  ordinary, paced, normal-access viewing/audio review of individual videos
-  (slow), or the channel's own public transcript UI where offered. Native
-  audio transcription of downloaded audio now works well for Tamil and is
-  the sanctioned path for expanding coverage.
+  There is no permitted bulk-caption route. Native audio transcription of
+  downloaded audio worked well for Tamil and recovered 15 items on 2026-10-25.
+- EXPANSION HALTED (2026-10-25 00:51 IST): YouTube began serving its
+  "Sign in to confirm you're not a bot" wall for every bestaudio download
+  attempt from this environment. Automated audio download was the last
+  working review path, so coverage expansion is stopped at 52 content-reviewed
+  of 1,660. No workaround will be used (no cookies, no alternate IP/identity,
+  no timed retries) - resuming would require a genuinely new external signal,
+  not a schedule. This status is persistent; do not treat it as transient.
