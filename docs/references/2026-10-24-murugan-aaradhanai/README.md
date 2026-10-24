@@ -47,20 +47,22 @@ only, summarized below; auto-captions are partly garbled).
 ## What the channel teaches — sample notes
 
 **Evidence classes below:** items 2-6 are CONTENT-REVIEWED (captions fetched and
-read). Item 1 (the user-shared short) is PARTIALLY REVIEWED - see its entry and
-video-notes.md. The taxonomy above is TITLE-DERIVED HYPOTHESIS ONLY.
+read). Item 1 (the user-shared short) is CONTENT-REVIEWED via visuals + native audio
+transcription (its YouTube caption track is ASR garbage; reviewed from the public
+audio instead). The taxonomy above is TITLE-DERIVED HYPOTHESIS ONLY.
 
 Six items captured: the shared short, the top all-time performers, and the
 current Aippasi Pournami cluster. Tamil auto-captions are partly garbled; summaries are
 our own words. Video IDs link to the source.
 
 1. **3nuMRXAx61c** (the shared short; 121K views, 63s, uploaded 2026-10-24 per player
-   metadata) - **EVIDENCE STATUS: PARTIALLY REVIEWED.** Visuals: deity-photo slideshow,
-   no on-screen text (verified frame-by-frame). Audio: gist recovered at LOW CONFIDENCE
-   via local Whisper (Rs.10 item purchase on Aippasi Pournami for Murugan's complete
-   grace; debt/poverty relief; keep at home); the specific item is NOT reliably
-   identified. Title: "Aippasi Pournami: buy one item for Rs.10 - a 16-generation curse
-   will be lifted." Full attempt trail in video-notes.md section A.
+   metadata) - **EVIDENCE STATUS: CONTENT-REVIEWED** (visual frames + native audio
+   transcription of the public audio, 2026-10-25). Buy sukku (dry ginger) or vasambu
+   (sweet flag) for ~Rs.10 on Aippasi Pournami, keep at home after offering at
+   Murugan's feet during abhishekam; claimed to clear money blocks, poverty, debt and
+   marital problems and erase "24 generations" of curses (title says 16 - numbers are
+   rhetorical). Visuals: watermarked deity-photo slideshow, no on-screen text.
+   Full note in video-notes.md section A.
 
 2. **6w7JYu1ITLA** (734K views, 66s, 2026-10-22) — Aippasi Pournami donation remedy:
    on pournami day (Sun Oct 25), donate bitter/sour items — bitter gourd, tamarind,

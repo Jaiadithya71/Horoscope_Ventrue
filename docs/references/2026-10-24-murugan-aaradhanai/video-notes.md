@@ -10,17 +10,17 @@ Views are the 2026-10-24 snapshot. ta = Tamil.
 ## A. The current Aippasi Pournami cluster (Oct 22–24, 2026 uploads)
 
 - **3nuMRXAx61c** (121K views, 63s, uploaded 2026-10-24 per player metadata) - the
-  user-shared short. **PARTIALLY REVIEWED** (normal public access, 2026-10-25 ~00:05
-  IST). Visuals reviewed frame-by-frame: a slideshow of Murugan deity/temple photos
-  watermarked @MuruganAaradhanai, with NO on-screen text - all information is in the
-  voiceover. YouTube's own caption track is ASR garbage (misdetected language; two
-  nonsense words). Local Whisper on the audio (ordinary public download): tiny model
-  gave a gist but with hallucination loops; base was garbled; small exceeds this
-  environment's execution cap. Recovered gist (LOW CONFIDENCE, not verbatim): on
-  Aippasi Pournami, buy one item for Rs.10 for Murugan's complete grace; relief from
-  debt/poverty; keep it at home. **The specific item could NOT be reliably
-  identified.** Title claim: "buy one item for Rs.10 - a 16-generation curse will be
-  lifted."
+  user-shared short. **CONTENT-REVIEWED** (normal public access: visuals frame-by-frame
+  + native audio transcription, 2026-10-25). Visuals: slideshow of Murugan deity/temple
+  photos watermarked @MuruganAaradhanai, no on-screen text. Content (voiceover): on
+  Aippasi Pournami, buy **sukku (dry ginger) or vasambu (sweet flag)** for ~Rs.10;
+  Murugan's planetary lord is Mars (Sevvaai), said to carry a debt-clearing quality,
+  making this item especially apt for him. Keep it at home, or first place it at
+  Murugan's feet during abhishekam, do pooja, then keep it - claimed to clear money
+  blocks, poverty, debt troubles and husband-wife problems, and erase "24 generations"
+  of sins and curses for the lineage. CTA: type "Om Muruga Potri" in comments; share
+  with relatives; subscribe. Note: the voiceover says 24 generations while the title
+  says 16 - the channel's numbers are rhetorical, not consistent.
 - **6w7JYu1ITLA** (734K) — On pournami day (Sun Oct 25), donate bitter/sour items —
   bitter gourd, tamarind, black pepper, cumin — at a Shiva temple to erase "24
   generations" of pitru sabam and poverty; promises rajayogam for one's children.
