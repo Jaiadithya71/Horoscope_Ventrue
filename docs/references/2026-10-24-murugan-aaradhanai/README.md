@@ -50,7 +50,7 @@ Six items captured in detail: the shared short, the top all-time performers, and
 current Aippasi Pournami cluster. Tamil auto-captions are partly garbled; summaries are
 our own words. Video IDs link to the source.
 
-1. **3nuMRXAx61c** (the shared short; 120K views, 66s, uploaded 2026-10-24) —
+1. **3nuMRXAx61c** (the shared short; 120K views, listed #1 on the Shorts tab so it is the channel's latest upload as of 2026-10-24; per-item date/duration not exposed in the public listing) —
    "Aippasi Pournami: buy one item for ₹10 — a 16-generation curse will be lifted."
    Caption fetch was rate-limited (HTTP 429 on repeated attempts), so this one is from
    its title/metadata, not a transcript. Fits the channel's "small cheap act → huge
