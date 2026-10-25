@@ -37,5 +37,11 @@
       "source": "/studio.js",
       "destination": "/app/studio.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.py": {
+      "excludeFiles": "{docs/**,pipeline/**,extracted/**,tests/**,builder-site/**,benchmarks/**,profiles/**,app/**,node_modules/**,.git/**}"
+    }
+  },
+  "ignoreCommand": "node scripts/vercel-ignore-build.cjs"
 }
