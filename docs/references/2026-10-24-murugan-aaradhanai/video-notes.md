@@ -1,6 +1,6 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-81 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+91 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
 evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
@@ -515,3 +515,79 @@ mind is said to clear obstacles.
 ## Additions to the inaccessible list (stub audio, Batch 4)
 
 SrB_19pN_wA, s_y-6kv53gw - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 18.
+
+## Batch 5: native audio transcription, fourth wave (2026-10-25 evening)
+
+10 more IDs yielded full clean audio transcripts; 2 more returned ~3-second stub audio and moved to
+the inaccessible list. Notes are original paraphrase, not transcripts.
+
+### g5NQzXlg6-o (short) - "மாசி மகம் + பௌர்ணமி + சந்திர கிரகணம் - ரூ.0 செலவில்"
+The combined day of Masi Magam, Pournami and a lunar eclipse - described as a rare high-power day
+uniting the grace of Perumal, Shiva, Sakthi and Ambal. Zero-cost practice: observe mouna viratham
+(silence vow) that day for solutions to all troubles and fulfillment of long-pending wishes; those
+who work and cannot keep silence should instead write "Om Saravanabhava" 108 times. Doing it during
+Yamakandam time is said to double the benefit.
+
+### ZNwF1_yDjBI (short) - "2026 இல் இந்த ராசிகள் இருக்கிற இடம் தெரியாமல் இருக்க வேண்டும்"
+Astrology caution for 2026: Meenam - avoid unnecessary arguments in places that do not concern you;
+do not volunteer to help others, framed as a trap you cannot escape for years. Rishabam - mind only
+your own work this year; do not make promises out of sympathy, especially in money matters. Simham
+(Ketu already in the rasi, Sani joining): even if you keep to yourself, people will come to you
+with problems.
+
+### srFTEfAPWcU (short) - "கார்த்திகை மாத சந்திர தரிசனம் நவம்பர் 21"
+Chandra darshan (sighting the third-day crescent moon after Amavasai) falling in Karthigai month
+(Nov 21): sighting the moon then is said to equal seeing Shiva himself, carrying both Shiva's and
+Murugan's grace. The crescent is visible only between 5:25 and 6:39 PM. Rules for that window: do
+not borrow anything; keep front and back doors open, not closed; do not spill rice, salt, tamarind,
+oil, or turmeric on the floor.
+
+### jBtGbGLzfSo (short) - "புரட்டாசி சனிக்கிழமை அன்று ₹10 க்கு இந்த பொருளை"
+Purattasi Saturday practice: the custom is drawing thaliyal (kolam offerings) for Perumal on a
+Saturday of Purattasi; those unable to do that can instead buy and offer yellow-colored items for
+about Rs.10 - a piece of turmeric root, jaggery, or a yellow vegetable - or offer sweet pongal made
+with jaggery as neivedyam. Said to clear debt troubles and bring a peaceful, prosperous life,
+carrying the combined grace of Perumal and Murugan.
+
+### 9uSrbViNLcA (short) - "ஆடி அமாவாசை அன்று இந்த தப்பை செய்யாதீர்கள்"
+Aadi Amavasai rules: do not light the ancestor lamp inside your pooja room; place the padayal
+(cooked food offering) before the ancestors' picture; feed the crow FIRST (the offering must
+contain ellu/sesame) and only then eat; draw no kolam anywhere that day - not at the entrance,
+doorsteps, or pooja rooms; do not cook greens (keerai); do not clean the lamps that day; and do
+not light a lamp with two wicks in the home pooja room on Aadi Amavasai.
+
+### XnYlzypKokg (short) - "அக்டோபர் 5 முதல் பணத்தை அள்ளும் 4 ராசிகள்"
+Astrology: from October 5, planetary changes end past troubles for four lucky rasis (framed as the
+combined grace of Murugan and Perumal): Kanni - family money problems end, chance to redeem
+pledged jewelry. Mesham - promotion at work, higher income. Simham - the biggest turning point of
+their life; those who mocked them will be stunned. Makaram - unexpected good support arrives;
+money that never stayed in hand now accumulates.
+
+### _kJDHZe5CIY (short) - "கோடீஸ்வர யோகம் பெறும் 4 ராசிகள் (சனி-ராகு வக்ரம்)"
+Astrology: with the vakra (retrograde) moves of Sani and Raahu from October to December, four
+rasis get unexpected crorepati yogam: Mesham - huge business growth and sudden money. Mithunam -
+everything touched turns to gold; new property yogam. Kanni - debt problems end; double profit in
+business. Makaram - big rise in career; foreign opportunity comes seeking them.
+
+### ObIoKfWXD9Y (short) - "ஆடி மாதத்தில் சனி பார்வை - 3 ராசிகள் கவனம்"
+Astrology caution: in Aadi month, Sun and Saturn face off; three rasis must be careful or
+opportunities slip away. Kadagam (ashtamathu Sani): unnecessary hassles and money wastage possible;
+avoid borrowing. Simham (kanda Sani effect): avoid pointless arguments in business and family.
+Kumbham (jenma Sani period): pay extra attention to health; postpone new investments. Closes with
+the framing that Saturn comes to teach lessons, not to be feared.
+
+### 4tj4TmQdwPs (short) - "ஆடி மாதம் முதல் நாள் இந்த பொருட்களை வாங்காதீர்கள்"
+Do NOT buy on the first day of Aadi month: (1) electronics like TV or fridge; (2) new vehicles or
+vehicle accessories; (3) long and black-colored clothing; (4) anything bought with borrowed money;
+(5) items for starting a business, or essential groceries like rice, salt, dal. Buying these on
+Aadi day one is said to bring extreme poverty, endless medical expenses, and waste into the home.
+
+### TGSV3TVHiFA (short) - "12 ஆண்டுகளுக்குப் பின் ராஜயோகம் - 3 ராசிகள்"
+Astrology: after 12 years of hardship, three rasis get raja yogam and a "jackpot life": Rishabam -
+long-awaited money comes to hand; only happiness ahead. Kadagam - success piles up in every
+venture; pledged jewelry redeemed. Kanni - wherever you step turns to gold; all you wish happens;
+evil energies leave the family.
+
+## Additions to the inaccessible list (stub audio, Batch 5)
+
+EvmnbZjSPcY, Fznh8mp_VsE - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 20.
