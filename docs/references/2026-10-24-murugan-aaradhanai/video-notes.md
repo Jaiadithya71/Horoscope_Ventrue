@@ -1,10 +1,10 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-26)
 
-232 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+234 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, 15 more (Batch 3, 2026-10-25
-evening: 14 audio transcriptions + 1 visual review of a music-only video), and 165 more
-(Batches 4-16) from native audio transcription. Summaries are our own
+evening: 14 audio transcriptions + 1 visual review of a music-only video), and 167 more
+(Batches 4-17) from native audio transcription. Summaries are our own
 words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
 name/list, the note says so instead of guessing. Rights remain with the channel owner.
 
@@ -1472,3 +1472,16 @@ Aavani Amavasya writing practice, named September 10: write Om Saravanabhava 108
 Source: https://www.youtube.com/shorts/mgOjLdD31aw
 
 Mahashivaratri sleep guidance, named February 15 without year: rejects forcing the body to stay awake all night, but recommends remaining awake for the source's 12:09-1 am window, worshipping Shiva, stating a wish and reciting Rudra Gayatri. Claims scripture supports this interpretation and promises fulfillment before year-end. Records the narrator's religious reading, not verified scriptural attribution, sleep advice or usable current festival timing.
+
+
+## Batch 17 - 2026-10-26: 2 additional audio-reviewed items, then access halted
+
+### _lzPvp5-bzE (short) - முருகனுக்கு இதை செய்தால் 16 பிறவிக்கும் கஷ்டம் வராதாம்! தேய்பிறை சஷ்டி #தேய்பிறைசஷ்டி#Sashti#Murugan
+Source: https://www.youtube.com/shorts/_lzPvp5-bzE
+
+June 6 waning Sashti after Jupiter's transit, without year/locality established: the source calls it an 18-year rarity and recommends silence rather than food abstinence, claiming triple power. Suggests offering one inexpensive item such as a banana, turmeric, lemon, sweet flag or pepper at Murugan's feet. Promises relief from debts, illness, marital disputes, emotional distress and job/childbirth obstacles. Calendar rarity and effects are unverified source assertions, not fasting, medical or financial advice.
+
+### ed281AytEpw (short) - 😱மகாளய அமாவாசை ரகசியம் காகத்திற்கு இந்த உணவை வைத்தால் தீராத கடனும் தீரும்! #shorts #MahalayaAmavasai
+Source: https://www.youtube.com/shorts/ed281AytEpw
+
+Mahalaya Amavasya crow offering: before noon, mix cooked raw-rice rice with black sesame, sesame oil, cow ghee and a little jaggery or banana, and offer to crows before household members eat. The narrator presents crows as ancestors and promises removal of ancestral curses, debt and poverty, plus Lakshmi's blessing. Records a devotional feeding custom, not verified supernatural effects or animal-nutrition advice. No current festival date established here.

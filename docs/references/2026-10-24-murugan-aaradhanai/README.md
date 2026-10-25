@@ -112,18 +112,18 @@ our own words. Video IDs link to the source.
   guarantees — exactly the claim categories we decided to avoid on astro_guidance_108.
   Model the mechanics (hook, identity, timing, CTA), not the claims.
 
-## Coverage and gaps (updated 2026-10-26 00:50 IST)
+## Coverage and gaps (updated 2026-10-26 02:40 IST)
 
 - Catalog: complete — all 1,660 public items listed across `catalog-shorts.csv` and
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
 - Per-ID coverage tracker: `coverage-tracker.csv` is the durable source of truth —
-  one row per cataloged item with status `content-reviewed` (232),
-  `inaccessible-unknown` (47), or `pending` (1,381), with a per-item source URL.
+  one row per cataloged item with status `content-reviewed` (234),
+  `inaccessible-unknown` (47), or `pending` (1,379), with a per-item source URL.
   Counts elsewhere in this README and in `video-notes.md` derive from it.
 - Per-item upload dates/durations are not in the public listing; captured only for
   sampled items.
-- Content-reviewed notes: **232 videos** (`video-notes.md`) — the top all-time
+- Content-reviewed notes: **234 videos** (`video-notes.md`) — the top all-time
   performers, the current Aippasi Pournami cluster, top long-form videos, plus 29
   more recovered on 2026-10-25 by native audio transcription of downloaded
   bestaudio tracks (yt-dlp -> mp3 -> audio transcription; one reviewed visually
@@ -145,7 +145,7 @@ our own words. Video IDs link to the source.
   be rate limiting); we do not route around it, so their content remains
   unknown. They are listed at the end of `video-notes.md` and marked
   `inaccessible-unknown` in the tracker.
-- Remaining uncovered: 1,381 videos are catalog-only (title metadata) plus 47
+- Remaining uncovered: 1,379 videos are catalog-only (title metadata) plus 47
   inaccessible-unknown (see tracker for the checkable per-ID split).
   There is no permitted bulk-caption route. Native audio transcription of
   downloaded audio worked well for Tamil and recovered 15 items on 2026-10-25.
@@ -164,3 +164,7 @@ Batches 11-14 added 31 original audio-reviewed summaries and six short-audio unk
 ### Continuation checkpoint - 2026-10-26 00:50 IST
 
 Batches 15-16 added 29 audio-reviewed original summaries and six short-audio unknowns. Normal public access remained available, with no challenge or access workaround. Coverage: 232 content-reviewed, 47 inaccessible-unknown, 1,381 pending; total 1,660. The no-speech item identified above still awaits visual review.
+
+### ACCESS HALTED - 2026-10-26 02:38 IST
+
+After two normal public audio reviews, fresh pending item `QwsjtS3-8og` returned HTTP403 Forbidden. Expansion stopped immediately, without retry, alternate identity/IP, cookies or other workaround. Automatic continuation was removed. The cause is not proven to be a bot wall, and the item remains pending with its access evidence rather than being treated as content-reviewed or a confirmed per-item restriction. Resume only after a genuinely new external access signal, not a timed retry. Final checkpoint: 234 reviewed, 47 inaccessible-unknown, 1,379 pending, total 1,660.
