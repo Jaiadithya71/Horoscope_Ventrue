@@ -1,9 +1,9 @@
-# Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
+# Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-26)
 
 232 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, 15 more (Batch 3, 2026-10-25
-evening: 14 audio transcriptions + 1 visual review of a music-only video), and 161 more
+evening: 14 audio transcriptions + 1 visual review of a music-only video), and 165 more
 (Batches 4-16) from native audio transcription. Summaries are our own
 words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
 name/list, the note says so instead of guessing. Rights remain with the channel owner.
