@@ -49,7 +49,7 @@ position,type,id,url,views_2026-10-24,status,evidence
 48,short,hq9AXYCjols,https://www.youtube.com/shorts/hq9AXYCjols,1600000,inaccessible-unknown,stub audio; cause unknown (2026-10-25)
 49,short,AZV7Po0bUDA,https://www.youtube.com/shorts/AZV7Po0bUDA,1600000,content-reviewed,video-notes.md
 50,short,rVpDF07TQ4A,https://www.youtube.com/shorts/rVpDF07TQ4A,1600000,inaccessible-unknown,stub audio; cause unknown (2026-10-25)
-51,short,5RJiOZvOYHc,https://www.youtube.com/shorts/5RJiOZvOYHc,1600000,pending,
+51,short,5RJiOZvOYHc,https://www.youtube.com/shorts/5RJiOZvOYHc,1600000,content-reviewed,video-notes.md (Batch 4 audio)
 52,short,co2IN7KsRTU,https://www.youtube.com/shorts/co2IN7KsRTU,1600000,content-reviewed,video-notes.md (Batch 3 audio)
 53,short,utJqE93ZajY,https://www.youtube.com/shorts/utJqE93ZajY,1600000,content-reviewed,video-notes.md (Batch 3 audio)
 54,short,ol7l7L8byf4,https://www.youtube.com/shorts/ol7l7L8byf4,1600000,content-reviewed,video-notes.md (Batch 3 audio)
@@ -67,21 +67,21 @@ position,type,id,url,views_2026-10-24,status,evidence
 66,short,ApgwgqdkUL8,https://www.youtube.com/shorts/ApgwgqdkUL8,1400000,inaccessible-unknown,stub audio; cause unknown (2026-10-25)
 67,short,t8Hn901Kr4c,https://www.youtube.com/shorts/t8Hn901Kr4c,1400000,content-reviewed,video-notes.md (Batch 3 audio)
 68,short,w-ld-6pzXVs,https://www.youtube.com/shorts/w-ld-6pzXVs,1400000,content-reviewed,video-notes.md (Batch 3 audio)
-69,short,SrB_19pN_wA,https://www.youtube.com/shorts/SrB_19pN_wA,1300000,pending,
-70,short,s_y-6kv53gw,https://www.youtube.com/shorts/s_y-6kv53gw,1300000,pending,
-71,short,vj_G9bt1bEU,https://www.youtube.com/shorts/vj_G9bt1bEU,1300000,pending,
-72,short,eEJ3yQRXrIo,https://www.youtube.com/shorts/eEJ3yQRXrIo,1300000,pending,
-73,short,E7ee3v6yW8g,https://www.youtube.com/shorts/E7ee3v6yW8g,1300000,pending,
-74,short,xcs575_YZ1M,https://www.youtube.com/shorts/xcs575_YZ1M,1300000,pending,
-75,short,sztdf3tAmxg,https://www.youtube.com/shorts/sztdf3tAmxg,1300000,pending,
-76,short,vNarrp9qhXk,https://www.youtube.com/shorts/vNarrp9qhXk,1300000,pending,
-77,short,4LllHNarqPQ,https://www.youtube.com/shorts/4LllHNarqPQ,1300000,pending,
-78,short,j-vuvBoxz5U,https://www.youtube.com/shorts/j-vuvBoxz5U,1300000,pending,
-79,short,ehBgGMyRnvM,https://www.youtube.com/shorts/ehBgGMyRnvM,1200000,pending,
-80,short,dXkx0si6M7Q,https://www.youtube.com/shorts/dXkx0si6M7Q,1200000,pending,
-81,short,UQb6aYg-lwo,https://www.youtube.com/shorts/UQb6aYg-lwo,1200000,pending,
-82,short,qZuCZn860iA,https://www.youtube.com/shorts/qZuCZn860iA,1200000,pending,
-83,short,3rjeVB5pe4w,https://www.youtube.com/shorts/3rjeVB5pe4w,1200000,pending,
+69,short,SrB_19pN_wA,https://www.youtube.com/shorts/SrB_19pN_wA,1300000,inaccessible-unknown,stub audio; cause unknown (2026-10-25)
+70,short,s_y-6kv53gw,https://www.youtube.com/shorts/s_y-6kv53gw,1300000,inaccessible-unknown,stub audio; cause unknown (2026-10-25)
+71,short,vj_G9bt1bEU,https://www.youtube.com/shorts/vj_G9bt1bEU,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+72,short,eEJ3yQRXrIo,https://www.youtube.com/shorts/eEJ3yQRXrIo,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+73,short,E7ee3v6yW8g,https://www.youtube.com/shorts/E7ee3v6yW8g,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+74,short,xcs575_YZ1M,https://www.youtube.com/shorts/xcs575_YZ1M,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+75,short,sztdf3tAmxg,https://www.youtube.com/shorts/sztdf3tAmxg,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+76,short,vNarrp9qhXk,https://www.youtube.com/shorts/vNarrp9qhXk,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+77,short,4LllHNarqPQ,https://www.youtube.com/shorts/4LllHNarqPQ,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+78,short,j-vuvBoxz5U,https://www.youtube.com/shorts/j-vuvBoxz5U,1300000,content-reviewed,video-notes.md (Batch 4 audio)
+79,short,ehBgGMyRnvM,https://www.youtube.com/shorts/ehBgGMyRnvM,1200000,content-reviewed,video-notes.md (Batch 4 audio)
+80,short,dXkx0si6M7Q,https://www.youtube.com/shorts/dXkx0si6M7Q,1200000,content-reviewed,video-notes.md (Batch 4 audio)
+81,short,UQb6aYg-lwo,https://www.youtube.com/shorts/UQb6aYg-lwo,1200000,content-reviewed,video-notes.md (Batch 4 audio)
+82,short,qZuCZn860iA,https://www.youtube.com/shorts/qZuCZn860iA,1200000,content-reviewed,video-notes.md (Batch 4 audio)
+83,short,3rjeVB5pe4w,https://www.youtube.com/shorts/3rjeVB5pe4w,1200000,content-reviewed,video-notes.md (Batch 4 audio)
 84,short,g5NQzXlg6-o,https://www.youtube.com/shorts/g5NQzXlg6-o,1200000,pending,
 85,short,EvmnbZjSPcY,https://www.youtube.com/shorts/EvmnbZjSPcY,1200000,pending,
 86,short,ZNwF1_yDjBI,https://www.youtube.com/shorts/ZNwF1_yDjBI,1200000,pending,

@@ -1,6 +1,6 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-67 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+81 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
 evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
@@ -403,3 +403,115 @@ so the complete on-screen list may include more nakshatras than these five.
 
 hq9AXYCjols, rVpDF07TQ4A, hOU1EJWpu6A, ApgwgqdkUL8 - these returned only ~3-second stub audio
 from YouTube (cause unknown), same as the 12 listed above. Total inaccessible-unknown: 16.
+
+## Batch 4: native audio transcription, third wave (2026-10-25 evening)
+
+Continuation under the original channel-wide request after access was verified normal (the earlier
+single 403 on 5RJiOZvOYHc was transient - it downloaded cleanly on the bounded re-check). 14 IDs
+yielded full clean audio transcripts; 2 more returned ~3-second stub audio and moved to the
+inaccessible list. Notes are original paraphrase, not transcripts.
+
+### 5RJiOZvOYHc (short) - "7½ ஆண்டுகள் கஷ்டம் முடிவு! இனி உச்சத்தை..."
+Astrology: Saturn transits from his own house Kumbha to Guru's house Meena on March 6 at 8:24 AM
+(per Thirunallaru vakya panchangam), bringing mahayogam to four rasis after 7.5 hard years.
+Kumbha (2nd phase of 7.5-year Sani): a major turning point - career change, hard work and new
+responsibilities lift you up. Makaram (final phase): long struggles end, finances stabilize, steady
+career progress. Mesham (Sani in 3rd house): courage and self-confidence rise, ventures succeed.
+Meenam (1st phase begins, but Sani in 3/6/11 positions gives good results): financial progress and
+foreign opportunities.
+
+### vj_G9bt1bEU (short) - "12 ஆண்டுகளுக்குப் பின் இந்த வருட பொங்கல் முதல்..."
+Astrology: after 12 years, from this Pongal onward money "overflows like pongal" for three rasis.
+Mesham: sudden money gains from Sani and Sukran position changes; double progress across job,
+business, income. Kadagam: rewards for sacrifices made for family; the household money problem
+resolves; savings grow; pledged jewelry redeemed. Makaram: the trial period ends; obstacles, debt
+and stress lift together; unexpected money arrives after Pongal.
+
+### eEJ3yQRXrIo (short) - "குழந்தை வரம் தரும் மலை முருகன் கோவில்" (temple feature)
+A hill Murugan temple devotees believe grants childbirth. Legend told: the local king was childless
+for years; Murugan appeared in his dream and asked him to build steps for devotees coming to see
+him on the hill; a son was born to him before the steps were finished. The climb is about 1,400
+steps. Practice described: take the temple spring theertham home and consume it for 48 days. The
+temple is not open daily - special days listed: Sashti, Karthigai, Amavasai, Pournami, and Mondays
+of Karthigai month. Address offered via comments.
+
+### E7ee3v6yW8g (short) - "5 தலை 8 கரங்களுடன் அதிசய முருகன்" (temple feature)
+Described as the only Murugan temple in Tamil Nadu where he appears with five heads and eight
+hands. The hill's name is linked to the legend of Murugan imprisoning Brahma and teaching him the
+pranava mantra "Om" (the Swamimalai legend). Climb: 1,880 steps; devotees who worship sincerely
+are said to receive secret teaching/visions. Darshan only on Monday, Friday, Sashti, Karthigai and
+Amavasai, 11 AM-6 PM, plus the whole of Margazhi month; visits on other days should be
+pre-booked by phone. Said to resolve debt, marriage delay, childbirth and family problems.
+
+### xcs575_YZ1M (short) - "தீபாவளி அன்று ₹10 கொடுத்து இந்த ஒரு பொருளை..."
+Deepavali practice: buy a banana and vettilai-pakku (betel leaf and areca nut) for Murugan for
+Rs.10, light an agal lamp, and chant "Om Saravanabhava" 108 or 1008 times. Said to keep poverty
+out of the home and clear the sins of seven births so pending wishes are granted. Those who cannot
+buy the items can simply chant with a lit lamp.
+
+### sztdf3tAmxg (short) - "புரட்டாசி அமாவாசை அன்று காகத்திற்கு இந்த உணவை வைக்காதீர்கள்"
+Purattasi Amavasai (said to equal 12 Amavasyais in potency; this year combined with Mahalaya
+Amavasai) - rules for the crow feeding done for ancestors: feed crows only AFTER completing pitru
+worship; do not offer non-vegetarian food; do not offer food heavily fried in oil with ginger,
+garlic, or onion; serve the offering on a banana leaf together with water.
+
+### vNarrp9qhXk (short) - "மயில் இறக்கும் முன் என்ன செய்யும்?" (belief story)
+A devotional belief story explaining why a naturally dead peacock (Murugan's vahanam) is never
+seen: peacocks are said to sense their exact death date, time and moment 48 days ahead; the bird
+then chooses a hidden spot at a hill Murugan temple and keeps "mayil thuyil viratham" - one meal
+and a little water daily, then complete silence with no food in the final week; just before death
+it drinks seven drops of cow's urine, sheds six tears onto a rock cleft which opens, sits inside
+chanting "Om Muruga", and gives up its life. Presented as channel belief content, not natural
+history.
+
+### 4LllHNarqPQ (short) - "விளக்கு ஏற்றும்போது செய்யக்கூடாத தவறுகள்"
+Home lamp-lighting rules: the front door may stay open but the back door should be closed (so
+Mahalakshmi stays in the house); pour the oil FIRST and only then place the wick (a common mistake
+is setting wick and pottu first and adding oil later); do not sweep the house after the lamp is
+lit; no one should cry while the lamp burns; light the lamp facing east; auspicious windows given
+as 5:00-10:00 AM and 5:00-7:00 PM. Frames small mistakes as the cause of bigger hardships.
+
+### j-vuvBoxz5U (short) - "பழனி முருகனின் அலங்கார தரிசனங்கள்"
+Palani Murugan alankara (decoration) darshan schedule: 6:30-7:15 AM Sannyasi alankaram during
+vizha pooja (with the tradition of Murugan worshipping Shiva); 8:00-8:30 AM Vedan (hunter)
+alankaram; 9:00-9:30 AM Balasubramani alankaram; 12:00-12:45 PM Vaideegal alankaram (uchikala
+pooja); 5:30-6:15 PM Raja alankaram; 8:30-9:00 PM Pushpa alankaram during rakkala pooja; the day
+ends with sandalwood paste applied to the processional deity's chest (rakkala sandhanam).
+
+### ehBgGMyRnvM (short) - "மஹாளய அமாவாசை பின் ராகுவின் ஆட்டம் - 3 ராசிகள்"
+Astrology: after Mahalaya/Purattasi Amavasai, position changes of Sani, Sukkiran and Raahu are
+said to bring sudden money flow, extraordinary growth and crorepathi yogam to three rasis.
+Mithunam: continuous money flow for the next three months, unseen business growth, new property
+news, double profits. Simham: raja yogam - large income through new investments, promotion,
+property addition, status change. Dhanusu: the luck door opens - debts clear, an unexpectedly
+large sum arrives, long-pending money comes to hand.
+
+### dXkx0si6M7Q (short) - "ஆடி அமாவாசை அன்று இந்த பொருளை வாங்காதீர்கள்"
+Aadi Amavasai (a key day for ancestor worship): do NOT buy wheat - whole grain or flour - and
+ideally avoid cooking wheat foods that day; buying it is said to cut the home's positive energy
+and bring debt trouble and bitterness. Instead: remember the ancestors, offer ellu (sesame) and
+water, and worship; said to grow family peace and wealth.
+
+### UQb6aYg-lwo (short) - "6.5 அடி முத்துக்குமார சுவாமி கோவில்" (temple feature)
+Temple feature: a 6.5-foot Muthukumara Swamy idol, not swayambhu - said to have lain buried for
+about 600 years. Two rarities claimed: Valli and Deivanai stand in swapped positions compared with
+every other Murugan temple, and the outer prakaram has a rare sannidhi of Murugan seated on a
+horse-drawn chariot driven by Brahma himself. Presented as a place powerful enough to change one's
+fate, where wishes come true without parikarams.
+
+### qZuCZn860iA (short) - "சித்ரா பௌர்ணமி அன்று ₹5 இல் இந்த ஒரு பொருள்"
+Chitra Pournami practice: buy one lemon for Rs.5 and have it pierced on Murugan's vel, or place it
+at his feet and do archanai. Beyond removing drishti (evil eye), offering it on Chitra Pournami is
+said to clear karmic debts and start a new life.
+
+### 3rjeVB5pe4w (short) - "பங்குனி 10 க்கு பின் ஜாக்கிரதை - 3 ராசிகள்"
+Astrology caution: after Panguni 10, three rasis should be careful - every decision, expense and
+step needs thought; hasty decisions, unnecessary quarrels and money mistakes can grow into big
+problems this period. Mesham: avoid hasty decisions; care in job and money matters. Rishabam:
+avoid unnecessary quarrels and arguments - staying calm lets many problems pass. Makaram: be very
+careful with money; think before investing or lending. Chanting "Om Saravanabhava" with Murugan in
+mind is said to clear obstacles.
+
+## Additions to the inaccessible list (stub audio, Batch 4)
+
+SrB_19pN_wA, s_y-6kv53gw - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 18.
