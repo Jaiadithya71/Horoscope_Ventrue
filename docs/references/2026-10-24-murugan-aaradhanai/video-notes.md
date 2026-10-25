@@ -1,6 +1,6 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-98 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+102 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
 evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
@@ -654,3 +654,39 @@ alongside working hard toward them.
 ## Additions to the inaccessible list (stub audio, Batch 6)
 
 yGuqrcriVB4 - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 21.
+
+## Batch 7: native audio transcription, sixth wave (2026-10-25 evening)
+
+4 more IDs yielded full clean audio transcripts (all Aadi-month themed). Notes are original
+paraphrase, not transcripts.
+
+### ggFa35wD9c8 (short) - "ஆடி 18 அன்று இந்த ஒரு பொருளை வாங்காதீர்கள்"
+Aadi Perukku (Aadi 18): a highly auspicious day when whatever you take on is believed to multiply -
+so do NOT borrow on this day (a debt taken then keeps multiplying), and do not buy medicines with
+borrowed money; buy medicines in advance instead, purchasing on the day itself only in an
+emergency, and never buy anything on credit. Recommended for the day: starting good things -
+seeing a bride/groom, poo-vaikkal (engagement flower), ear-piercing/mottai, and buying fields,
+houses, new vehicles, gold, or silver.
+
+### eY-VTmp3tPY (short) - "ஆடி 18 அன்று இந்த தவறுகளை செய்யாதீர்கள்"
+More Aadi 18 (Perukku) rules, same multiply-what-you-do premise: strictly avoid borrowing of any
+kind (home, business, vehicle loans); do not go to a hospital for any check-up and do not buy
+medicines that day (aimed at those on routine/monthly check-ups); do not pledge old items; do not
+donate your old clothes. Permitted: registering a new vehicle, plot or field; house milk-boiling
+(grihapravesham) and mottai ceremonies; seeing a bride or groom - but flower-setting (poo vaippathu)
+type functions should not be done.
+
+### bB38vs6wN5o (short) - "ஆடி அமாவாசை அன்று மௌன விரதம்"
+Aadi Amavasai mouna viratham (silence vow) for Murugan: worshipping Murugan on Aadi Amavasai is
+said to bring Shiva's grace too - the video cites a saying that Shiva promised to fulfill whatever
+is asked by those who fast thinking of Murugan that day. Practice: light a lamp in the morning and
+keep silence from 6:00 AM to 7:00 PM (harder than fasting without food, the video notes); keep
+some neivedyam, eat only milk and fruit, and end the fast. Said to clear all karmic debts and
+grant the full grace of both Murugan and Shiva.
+
+### DQON5qeym8c (short) - "ஆடி வெள்ளி அன்று இந்த தவறுகளை செய்யாதீர்கள்"
+Aadi Fridays (the powerful Fridays of Aadi month) - things to avoid: do not buy bitter foods -
+bitter gourd, sundakkai, fenugreek, fenugreek greens, manathakkali greens - and avoid sour tastes
+among the six tastes; do not buy anything made of iron (iron cot, bureau, puttu maker, aruval,
+cooking vessels); do not buy spicy masala items or house-cleaning products. Recommended: offer any
+jaggery-based neivedyam to Murugan and Amman - wishes said to be granted quickly.
