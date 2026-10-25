@@ -1,6 +1,6 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-102 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+106 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
 evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
@@ -690,3 +690,42 @@ bitter gourd, sundakkai, fenugreek, fenugreek greens, manathakkali greens - and 
 among the six tastes; do not buy anything made of iron (iron cot, bureau, puttu maker, aruval,
 cooking vessels); do not buy spicy masala items or house-cleaning products. Recommended: offer any
 jaggery-based neivedyam to Murugan and Amman - wishes said to be granted quickly.
+
+## Batch 8: native audio transcription, seventh wave (2026-10-25 evening)
+
+4 more IDs yielded full clean audio transcripts. Notes are original paraphrase, not transcripts.
+
+### D_DHw6zXpq8 (short) - "யார் வீட்டிற்கு வந்தாலும் முதலில் இதை செய்யுங்கள்"
+Hospitality rule: whenever anyone comes to your home, first offer them water - a practice kept
+since the ancestors, because no being lives without water. A glass of water is said to transform
+whatever state the visitor arrives in - anger, joy, or sorrow - and to reduce the anger of someone
+who arrives angry. Never say "no" to someone who asks for water. Giving water to the thirsty is
+said to bring the blessings of Murugan, Shiva, Perumal, Lakshmi and Parvathi, and even free one's
+lineage from curses.
+
+### qPNqmd0ygAE (short) - "செப்டம்பர் 2 - அக்டோபர் 31: கடகத்தில் குரு உச்சம் - 4 ராசிகள்"
+Astrology: Guru exalted in Kadagam from September 2 to October 31 (after ~12 years) is said to
+change the fate of four rasis with unprecedented economic rise and raja yogam. Rishabam (Guru
+exalted in 3rd house, aspecting the 9th): stalled works finish quickly; big gains via new business
+investment and foreign travel. Mithunam (2nd house): finances strengthen to another level; family
+auspicious events proceed unblocked; new posts come through your eloquence. Kanni (11th house):
+jackpot - everything touched turns to gold, double business profit, new property. Viruchigam (Guru
+aspecting from the 9th): long-held dreams come true ("Guru paarka kodi nanmai").
+
+### pzalINdq7Vg (short) - "ஜூன் 23 முதல் 30 நாட்கள் - மந்திர எழுத்து சவால்"
+A 30-day mantra-writing practice for June 23 - July 23, when "the universe's energy doubles":
+write the six permutations of the Saravanabhava mantra in sequence - Om Saravanabhava, Om
+Ravanabhavasu, Om Banabhavasara, Om Nabhavasarava, Om Bhavasaravana, Om Vasaravanabha - six times
+each, daily, anywhere from 6 to 108 repetitions, in a fresh notebook, with full belief that the
+wish is already happening (never with doubt). Best at brahma muhurta, else at rahukaalam, else
+whenever possible. The narrator claims their own wish began manifesting on day 11. Framed as
+clearing "24 generations" of sins at zero cost.
+
+### g26WNY_HJMM (short) - "குரு பெயர்ச்சியில் ஜாக்கிரதை - 3 ராசிகள்"
+Astrology caution: in the coming Guru transit, Guru's impact runs high for three rasis (Guru can
+test like Sani, not only bless). Mesham: despite Guru's aspect, take no hasty decisions -
+especially do not hand over money trusting anyone now; a time for patience. Simham: the impact
+shows in speech - avoid unnecessary arguments and angry words; well-meant words may be taken
+wrong; silence is your strength now. Viruchigam: heavy workload bringing body fatigue and mental
+stress; do not neglect even small health issues; eat on time and rest. All three are advised to
+worship Dakshinamoorthy on Thursdays for protection.
