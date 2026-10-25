@@ -1,10 +1,10 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-172 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+203 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, 15 more (Batch 3, 2026-10-25
-evening: 14 audio transcriptions + 1 visual review of a music-only video), and 101 more
-(Batches 4-10) from native audio transcription. Summaries are our own
+evening: 14 audio transcriptions + 1 visual review of a music-only video), and 132 more
+(Batches 4-14) from native audio transcription. Summaries are our own
 words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
 name/list, the note says so instead of guessing. Rights remain with the channel owner.
 
@@ -1152,3 +1152,172 @@ next 12 days. Optionally keep one hour of silence daily during Kuligai time.
 Astrology: Chithirai month new-rich rasis. Kadagam: opportunities, investments and salary hikes come your
 way. Simmam: financial progress certain - from borrower you become a lender. Thulam: new job and
 business openings raise income; blocked hardships, debts and family problems lift.
+
+
+## Batch 11 - 2026-10-25: 11 additional audio-reviewed items
+
+Original summaries from normal public audio. Dates, astrological predictions, temple stories and promised effects below are attributed to the channel, not independently established facts.
+
+### ngcIKR4pZu8 (short) - 🦚🙏 இந்த ஒன்றை செய்வதினால் முருகனின் பரிபூரண அருளும் கிடைக்கும் #muruganarul #amavasya #deepavali2025
+Source: https://www.youtube.com/shorts/ngcIKR4pZu8
+
+Diwali Amavasya silence practice. The narrator gives an Amavasya window from October 20 at 3:44 pm to October 21 at 5:54 pm, without establishing the year here, and recommends four hours of silence on Diwali evening, or two if that is all one can manage. Says not to cook non-vegetarian food that day. Claims the practice brings Murugan's grace and removes family, marriage and work troubles. The claimed 18-year rarity and calendar times are source assertions, not checked timing advice.
+
+### FEb6v4EkILw (short) - 🦚மே 30 இந்த 27 நிமிடத்தை மட்டும் மிஸ் பண்ணிடாதீங்க | வாழ்க்கை மாறும் நேரம்! #மைத்ரமுகூர்த்தம #shorts
+Source: https://www.youtube.com/shorts/FEb6v4EkILw
+
+Debt-repayment ritual for May 30, described as Saturday: the source names a Maithra muhurtham from 5:58 pm to 8:17 pm and promises debt relief from repaying even a small amount. Before repayment, wrap the money with one cardamom, three peppercorns, one whole turmeric piece and a one-rupee coin in white cloth, tie it during the stated window and place it in the prayer room. The hook advertises a special 27-minute interval but the captured speech never identifies its boundaries. Year and local applicability of the times are not established; financial benefits are devotional claims.
+
+### UnQb60C22Kw (short) - 🛕🕉️🦚முருகனே நினைத்தால்தான் போகமுடியும் இந்த கோவிலுக்கு #murugankovil #murugandevotees #vayaloorkovil
+Source: https://www.youtube.com/shorts/UnQb60C22Kw
+
+Vayalur temple near Tiruchirappalli: the narrator recounts the belief that Murugan created Sakthi Theertham with his vel, and that staying overnight, bathing there the next morning and worshipping can remove marriage obstacles and other troubles. Retells Arunagirinathar being called to Vayalur, receiving Poyya Vinayagar's grace and then Murugan's appearance and instruction to spread his praise through songs. Says the temple was originally for Shiva and depicts Murugan behind Shiva with Valli and Deivanai in wedding form. The claim of 92 Vayalur references in Tiruppugazh and temple-history details are reported from this video, not independently verified.
+
+### 1FsWOOnezdc (short) - 💰🕉️2026ல் மாபெரும் வெற்றி பெறப்போகும் ராசிகள் இவர்கள்தான் 💰🕉️🔱 #murugandevotees #astrology2026
+Source: https://www.youtube.com/shorts/1FsWOOnezdc
+
+2026 success predictions attributed to Saturn, Venus and Jupiter: Rishabam gets business and new-effort progress; Simmam gets workplace success and opportunities to buy land or a home; Kadagam gets exceptional success, especially in politics, attributed to exalted Jupiter. The narrator invokes actor Vijay as a Kadagam example and uses that as a comment prompt. These are the video's astrology assertions, including the personal-sign attribution, not verified facts or investment guidance.
+
+### wmq7cgCr2xk (short) - 🦚🧨 18 ஆண்டுகளுக்கு ஒருமுறை நடக்கும் அபூர்வ மகா ராஜயோகம் - 3 ராசிகள் #தீபாவளிராசிபலன் #shorts_2025
+Source: https://www.youtube.com/shorts/wmq7cgCr2xk
+
+Diwali astrology forecast for Rishabam, Mithunam and Kadagam: predicts improved income, stalled home construction resuming and family-deity blessings. Attributes wishes being fulfilled over the next 77 days to Saturn's retrograde movement and presents the Diwali Amavasya as an 18-year rarity. Invites viewers to comment their rasi and family deity. Calendar rarity and promised outcomes are channel claims.
+
+### WdlOP3jERz8 (short) - 🦚மறந்தும் கூட வர மே 30ஆம் தேதி வரும் இந்த 2 மணி நேரத்தை மட்டும் மிஸ் பண்ணிடாதிங்க #ommuruga #shorts
+Source: https://www.youtube.com/shorts/WdlOP3jERz8
+
+May 30 Vaikasi Visakam practice: wear red or yellow and, during the source's 12:25-2:35 pm window, keep silence while writing Om Saravanabhava repeatedly on paper to offer as a garland. Alternative: sing Murugan songs or recite Tiruppugazh/Kanda Sashti; workers may do it after 6 pm. Recommends feeding one person. Claims unusually multiplied benefit and food security for 22 generations; neither those guarantees nor the timing/18-year rarity were independently checked.
+
+### 2W4TG8ueU-M (short) - 🧿💰🦚500 ஆண்டுகளுக்கு பிறகு நடைபெறும் சனி குரு பெயர்ச்சி: கோடீஸ்வரர் யோகம் பெறும் 4 ராசிகள் #Rasipalan
+Source: https://www.youtube.com/shorts/2W4TG8ueU-M
+
+Saturn/Jupiter transit forecast advertised as a 500-year event. Predicts financial improvement and debt relief for Mithunam, favorable business for Rishabam, new business chances for Makaram, and vehicle/property purchases plus career progress for Meenam and Kumbham. Internal mismatch: the opening promises four rasis, but the speech names five. Rarity, planetary interpretation and outcomes are the narrator's claims, not checked astronomical or financial facts.
+
+### ywvwKU5yxZo (short) - 40 ஆண்டுகளுக்கு பிறகு🔥இந்த 3 ராசிகளுக்கு பெரிய திருப்பம்! அதிர்ஷ்ட காலம் ஆரம்பம்#astrology#viral#yt
+Source: https://www.youtube.com/shorts/ywvwKU5yxZo
+
+Luck/money predictions for Mesham, Kadagam and Makaram. Mesham is promised released money and fresh chances; Kadagam, family happiness and unexpected income; Makaram, a new period of progress and gains through investments, competition or chance opportunities. Uses a 40-year hardship/turning-point hook. Unlike many entries, it explicitly calls this a spiritual planetary prediction and warns against rushing lottery or money decisions, leaving the choice to the viewer. The forecast is not evidence of likely financial returns.
+
+### X5uUR_nLTTQ (short) - 😳 தேய்பிறை பஞ்சமி! இந்த நேரத்தில் செய்தால் 100% பலன்... இந்த தவறு செய்யாதீங்க#shortsviral #yt#viral
+Source: https://www.youtube.com/shorts/X5uUR_nLTTQ
+
+Waning Panchami wish ritual: offer three bananas to Murugan, light a lamp and state the wish sincerely. The narrator calls 1:50 pm through 3:05 pm the following day a golden window, but gives no usable calendar date in the captured speech. Warns against harshly scolding others. Frames seeing the video as proof of merit and promises guaranteed success; these are devotional persuasion, not verified effects.
+
+### 38VYriGdqqY (short) - 😱 April 18 மிஸ் பண்ணாதீங்க! இந்த நேரத்தில் இதை பண்ணா சிவன் ஆசை நிறைவேறும் 🙏🔥#murugan #tamil #viral
+Source: https://www.youtube.com/shorts/38VYriGdqqY
+
+Chandra darshan after Amavasya, on an unspecified month's 18th: the source gives 6:45-7:30 pm, recommends lighting a ghee lamp and chanting Om Chandramouleeswaraya Namaha 21 times before stating a wish to Shiva. Promises fulfillment before year-end. Its description of the window as one hour conflicts with the stated 45-minute interval; the missing month/year prevents using it as current timing advice.
+
+### XndIZCatWmg (short) - பங்குனி அமாவாசை முடியும் கடைசி 1 மணி நேரத்தில் முருகனுக்கு இதை மட்டும் செஞ்சிடுங்க #viral #ommuruga
+Source: https://www.youtube.com/shorts/XndIZCatWmg
+
+Panguni Amavasya ritual: the narrator says the tithi begins March 18 evening and ends March 19 at 6:53 pm, with no year established here. In its last hour, state a wish to Murugan, eat seven peppercorns, then sit on the floor chanting Om Saravanabhava while holding the wish in mind. Claims guaranteed fulfillment and says only those with Murugan's grace can do it. This records the channel's practice and claim, not health advice or verified festival timing.
+
+
+## Batch 12 - 2026-10-25: 9 additional audio-reviewed items
+
+### sOxqpgQ8HEc (short) - 😱🦚வேண்டிய வரம் கிடைக்க முருகனுக்கு வெற்றிலை தீபம் எத்தனை நாட்கள் ஏற்ற வேண்டும் தெரியுமா.? #shorts
+Source: https://www.youtube.com/shorts/sOxqpgQ8HEc
+
+Betel-leaf lamp practice for nine consecutive Tuesdays. Clean the prayer room, adorn Murugan's picture with turmeric, kumkum and flowers, clean and mark six betel leaves, arrange them on a plate like a peacock's spread tail, then place an earthen lamp above them and light it with sesame oil. The source calls 6-7 am, 1-2 pm and 6-7 pm favorable Mars-hour windows, without establishing location or date. Wish fulfillment is presented as a devotional belief, not a verified result.
+
+### 6t1t8gxUhKI (short) - 😱பங்குனி உத்திரம் விரதம் இருந்தால் என்ன நடக்கும் தெரியுமா.? #shorts
+Source: https://www.youtube.com/shorts/6t1t8gxUhKI
+
+Panguni Uthiram fasting benefits: the narrator describes Uthiram star coinciding with full moon in Panguni and associates the day with divine marriages. Recommends fasting and worshipping Murugan for marriage obstacles, family disputes, employment, promotions and government-related matters. These promised benefits are channel beliefs, not evidence that fasting changes those outcomes.
+
+### OBcNIZFEu7Y (short) - 🔥 இந்த 5 முருகன் கோவிலில் பாதம் வைத்தாலே முன் ஜென்ம பாவம் தீருமாம்! 😲🙏 #murugantemple #shortsviral
+Source: https://www.youtube.com/shorts/OBcNIZFEu7Y
+
+Temple-list video whose opening promises five temples, but the captured audio covers only three: Siruvapuri Balasubramaniyar, Vallakottai Murugan and a third place transcribed unclearly as Elathur/Kayatharu. Attributes six weekly visits for a home-building wish to Siruvapuri, and tells a Lava-Kusha martial-training legend. Calls Vallakottai's standing Murugan about seven feet tall and connects it to a king regaining his kingdom. Describes the third temple's deity as a hunter carrying bow and arrows for victory over enemies. Temple identities, superlatives and legends require independent verification; the missing two temples are not inferred.
+
+### stjfZU7koCc (short) - 😳பங்குனி உத்திரம் கடைசி 3 நாள்! இந்த மிளகு விரதம் இருந்தால்… வாழ்க்கை மாறும்|முருகன் அருள்#viral#yt
+Source: https://www.youtube.com/shorts/stjfZU7koCc
+
+Panguni Uthiram final-three-day pepper-fast promotion. The narrator says a pepper fast may replace one meal while ordinary food is eaten at the other two, emphasizes sincere intent rather than copying others, recommends chanting a Murugan mantra three or 21 times in the evening and drinking water. The opening says there are three forms but the captured speech does not explain all three and ends mid-thought. Uses extreme-distress language and instant-problem-removal promises. Recorded as risky devotional content, not fasting, medical or crisis advice; the practice's ingredient quantities and full rules are not established.
+
+### 50VtGgwOWr4 (short) - 🔱 🦚🪔 முருகனின் அருள் கிடைக்க இப்படி மட்டும் பரணி தீபத்தை ஏற்றுங்கள்🔱🦚🪔 #baranideepam #muruganarul
+Source: https://www.youtube.com/shorts/50VtGgwOWr4
+
+Bharani deepam practice linked by the source to December 2 evening, described as Tuesday, with no year established in this review. Light five lamps representing the five elements, first at the entrance and then in the prayer room, after 6:30 pm. Also describes writing unwanted thoughts/events on paper and burning it in the lamp. Claims removal of affliction and multiplied Murugan grace. The annual-star/calendar framing and effects are not verified; the fire practice is documented, not recommended.
+
+### AwUZBNdkNyQ (short) - 🦚பங்குனி உத்திரம் ஒருமணி நேரம் இந்த விரதம் இருந்தால் வாழ்க்கை மாறும் | முருகன் அருள்💯#ommurugapottri
+Source: https://www.youtube.com/shorts/AwUZBNdkNyQ
+
+Panguni Uthiram silence practice, named in this video as April 1 without a stated year. Keep silence for at least an hour, longer or all day if possible, while placing a heartfelt wish before Murugan. Says doing so during a hora gives double benefit and seeing the video itself signals Murugan's favor. These are devotional promises; no particular hora, locality or current calendar date is established.
+
+### IQ-NXgP2F9s (short) - பெண்கள் மறந்தும் கூட ஆடி 18 அன்று இந்த தப்ப செஞ்சிடாதீங்க #shorts #trend #aadimonth
+Source: https://www.youtube.com/shorts/IQ-NXgP2F9s
+
+Aadi Perukku/Aadi 18 customs directed at women: avoid black clothes; choose red, yellow or the wedding sari; wear bangles, apply turmeric and forehead sacred ash, worship Amman and receive elders' blessings. Says not to cook/eat bitter food, melt butter or ghee, or quarrel with elders. Frames new beginnings as auspicious and promises Amman's grace. These are the channel's customary/religious rules, not universal obligations or dietary advice.
+
+### dNl6m4l1MEw (short) - வைகாசி விசாகம் அன்று எப்போதாவது இதை மட்டும் செய்தால் போதும் #shorts #trend #vaigasivisagam #ommuruga
+Source: https://www.youtube.com/shorts/dNl6m4l1MEw
+
+Vaikasi Visakam silence vow: keep silence as far as possible, or avoid needless speech. Connects reflection on hurtful words, curses and ill will with repentance, and recounts Murugan's emergence from fire. Promises removal of seven-birth sins, evil eye and sorcery through Murugan's grace. No concrete medical intervention is described; the supernatural effects are the video's devotional assertions.
+
+### jG_Y6FQndGY (short) - கொழுக்கட்டையில் இந்த ஒரு தவறை மட்டும் செய்து விடாதீர்கள் #shortsviral #vinayagar #trend #shortsfeed
+Source: https://www.youtube.com/shorts/jG_Y6FQndGY
+
+Vinayagar Chaturthi kozhukattai offering rules: the source objects to making and refrigerating the filling the previous day, saying to bathe and prepare it fresh on the festival day. Make the dumplings cleanly and attentively with their proper shape; do not eat them before offering to Vinayagar, and make only the amount that can be eaten rather than wasting food. Records ritual etiquette, not a verified food-safety rule against refrigeration.
+
+
+## Batch 13 - 2026-10-25: 7 additional audio-reviewed items
+
+### U7rPbwt6LRI (short) - 🦚🔥அட்சய திருதியை – முருகனுக்கு இதை மட்டும் வாங்குங்க! 10 ரூபாய் போதும்! 🦚#AkshayaTritiya #Murugan
+Source: https://www.youtube.com/shorts/U7rPbwt6LRI
+
+Akshaya Tritiya camphor remedy: buy about Rs.10 of edible/green camphor (pachai karpooram), place it before Murugan's picture and chant Om Saravanabhava. After worship, put a small piece in a cupboard or purse. Attributes removal of Mars dosha and debts, lasting prosperity and Lakshmi's presence to this ritual. The five-day good-news promise and wealth effects are channel assertions, not established results; the video does not advise ingestion here.
+
+### U7u9-hwIuww (short) - அபிஜித் + மகாசிவராத்திரி இந்த 4 மணி நேரம் தவறினால் ஒரு வருடம் காத்திருக்க வேண்டும்#shiva#shivaratri
+Source: https://www.youtube.com/shorts/U7u9-hwIuww
+
+Sunday Shivaratri/Abhijit-star claim: the source gives a 5-9:29 pm window and admits it does not specify the star's exact start or duration. Recommends lighting five earthen lamps, offering datura flowers to Shiva, praying sincerely and avoiding anger, quarrels and negative thoughts. Suggests a fortunate viewer's prayer might coincide with Abhijit. No calendar date or verifiable astrological basis is supplied in the reviewed speech; record as the channel's belief rather than scheduling guidance.
+
+### 2nPyTgRS_zE (short) - 🦚💯 இப்படி மட்டும் கடைசி 6 நாள் விரதம் இருந்தால் வேண்டியது அப்படியே நடக்கும் #murugandevotees #shorts
+Source: https://www.youtube.com/shorts/2nPyTgRS_zE
+
+Final-six-day Maha Kanda Sashti fast promotion: describes pepper, milk-and-fruit, tender-coconut, or ordinary-food variants, without full diet rules. Recommends daily lamp-lighting and Kanda Sashti/Tiruppugazh songs; if lamps are not possible, visit a temple, and if neither is possible, repeat Om Saravanabhava. Promises wishes fulfilled within seven days and frames encountering the video as a sign of grace. This is documentation of devotional persuasion, not a fasting recommendation or verified guarantee.
+
+### pysDihL4XPY (short) - சித்ரா பௌர்ணமி 😱 இந்த ஒரு தவறை செய்யாதீங்க! 🌕 #ChitraPournami2026 #muruganthunai #viralreels
+Source: https://www.youtube.com/shorts/pysDihL4XPY
+
+Chitra Pournami etiquette, called May 1 in this source without a year: avoid anger, arguments and hurtful speech because the narrator says bitter-minded worship or donations do not count in Chitragupta's ledger. Suggests salt-free food if possible, girivalam if possible, or worshipping Chitragupta at home in moonlight. Presents the day as his birth and a chance to change destiny. Religious and dietary claims are attributed to the video, not medical advice or independently checked calendar facts.
+
+### GiaKWpjtMiw (short) - 🕉️🦚 வைகாசி சனி அம்மாவாசை 🌑 இதை முருகனுக்கு செய்தால் 14 பிறவிக்கு கஷ்டம் வராது..! #vaigasimatham #yt
+Source: https://www.youtube.com/shorts/GiaKWpjtMiw
+
+Vaikasi Saturday Amavasya feeding practice: give food to crows and a cooked rice-and-jaggery preparation to a cow. Claims ancestral blessings, removal of 16-birth sins and protection from hardship for 14 births and descendants, including Saturn-related troubles. Calls this combination a 165-year rarity, but does not substantiate that. Records animal-feeding ritual claims, not verified outcomes or veterinary feeding advice.
+
+### k2QsLqm9FIg (short) - இனி குபேர யோகத்தை பார்க்கும் ராசிகள் இவர்கள் தான் #astrology #viralvideo #trend #shortsfeed #om #yt
+Source: https://www.youtube.com/shorts/k2QsLqm9FIg
+
+Jupiter-transit wealth forecast for Simmam, Thulam, Dhanusu, Kadagam and Kumbham. The source gives May 24 at 10:36 pm for Jupiter moving from Rishabam into Mithunam, without establishing year/location in the reviewed speech. Predicts a year of income, salary rises, debt resolution and new-business chances, while advising against further borrowing if possible. Transit timing and promised Kubera yogam are source claims, not checked ephemeris or financial advice.
+
+### cr558G2IjZw (short) - 😱 ஆவணியில் குரு பகவான் கை கொடுக்கப்போகும் 4 ராசிகள்! #shorts #aavanimatharasipalan #astrology #yt
+Source: https://www.youtube.com/shorts/cr558G2IjZw
+
+Aavani-month Jupiter/Rahu forecast: Mithunam gets a delayed matter turning favorable, especially money/opportunities; Simmam sees obstacles to an ongoing effort ease; Kanni receives unexpected help or good news; Meenam sees a long-held wish or effort start moving in a better direction. Generic rasi predictions and share/subscribe prompts, not independently verified personal forecasts.
+
+
+## Batch 14 - 2026-10-25: 4 additional audio-reviewed items
+
+### swcOC7cV3rE (short) - ஜூன் 13 அமாவாசை முதல் நாள் இரவு! முருகனுக்கு இதை செய்யுங்க! 😱#shorts#murugan #kirthigai #amavasai
+Source: https://www.youtube.com/shorts/swcOC7cV3rE
+
+Pre-Amavasya Krithigai lamp practice: the narrator names June 13 Krithigai before June 14 Vaikasi Amavasya, with no year established here. After 8 pm, light a lamp with two cloves before Murugan's picture and pray for financial hardship to end. Claims removal of Mars dosha, debt and enemies, plus ancestors' blessings. Festival timing and guaranteed effects are source assertions, not verified advice.
+
+### sMjh_aGhPf4 (short) - 😱மருதாணி வைக்கும் போது எல்லாரும் செய்கிற தப்பு #shorts #maruthani
+Source: https://www.youtube.com/shorts/sMjh_aGhPf4
+
+Henna customs: do not pluck leaves after the evening lamp is lit; avoid applying during Rahu kalam, Yamagandam or one's Chandrashtama. Names Friday and Sunday as favorable, with another weekday unclear in the audio transcription; prefers Sunday. Lists Panchami, Dasami, Ekadasi and Dwadashi tithis, and Bharani, Pooram and Pooradam star days as favorable. Recommends applying with other household members rather than alone. The speech also refers confusingly to those same stars in its Chandrashtama caution. These are reported customary beliefs; unclear wording is not repaired by guessing.
+
+### swSHFQoIq2A (short) - தைப்பூசம் பௌர்ணமி அன்று  கட்டாயம் வாங்க வேண்டிய பொருட்கள் 🔱 #Murugan #Thaipusam #Pournami #Shorts#yt
+Source: https://www.youtube.com/shorts/swSHFQoIq2A
+
+Thaipusam/full-moon Sunday remedy advertised as costing Rs.5. Bathe early and wear clean clothes; tie a little sandalwood and camphor in yellow cloth and place it at Murugan's feet. Describes cutting and de-seeding a dry red chilli, adding ghee and lighting it as a lamp while invoking Murugan. Claims lifelong family protection and removal of evil eye, obstacles and negative forces. Records a source-described fire ritual rather than recommending it; no current festival date or verified protective effect is established.
+
+### ZYUXZqHJon4 (short) - 🕉️🔱பங்குனி அம்மாவாசை முருகனுக்கு இந்த ஒன்றை மட்டும் செஞ்சிடுங்க | வேண்டியது நிறைவேறும் #amavasya
+Source: https://www.youtube.com/shorts/ZYUXZqHJon4
+
+Panguni Amavasya wish-paper ritual: offer a preferred food to Murugan, or a piece of jaggery or hibiscus flower if food preparation is not possible. Write a wish on paper, keep it in the prayer room, hold it while silently repeating Om Saravanabhava, and light a lamp. The source then says to burn the paper at the lamp during that day's Yamagandam after Amavasya starts. Promises fulfillment and removal of 21-generation sins. Those effects and the calendar applicability are unverified; the burning practice is documented, not recommended.

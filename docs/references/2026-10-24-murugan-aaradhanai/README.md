@@ -112,18 +112,18 @@ our own words. Video IDs link to the source.
   guarantees — exactly the claim categories we decided to avoid on astro_guidance_108.
   Model the mechanics (hook, identity, timing, CTA), not the claims.
 
-## Coverage and gaps (updated 2026-10-25 ~00:15 IST)
+## Coverage and gaps (updated 2026-10-25 23:50 IST)
 
 - Catalog: complete — all 1,660 public items listed across `catalog-shorts.csv` and
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
 - Per-ID coverage tracker: `coverage-tracker.csv` is the durable source of truth —
-  one row per cataloged item with status `content-reviewed` (172),
-  `inaccessible-unknown` (35), or `pending` (1,453), with a per-item source URL.
+  one row per cataloged item with status `content-reviewed` (203),
+  `inaccessible-unknown` (41), or `pending` (1,416), with a per-item source URL.
   Counts elsewhere in this README and in `video-notes.md` derive from it.
 - Per-item upload dates/durations are not in the public listing; captured only for
   sampled items.
-- Content-reviewed notes: **172 videos** (`video-notes.md`) — the top all-time
+- Content-reviewed notes: **203 videos** (`video-notes.md`) — the top all-time
   performers, the current Aippasi Pournami cluster, top long-form videos, plus 29
   more recovered on 2026-10-25 by native audio transcription of downloaded
   bestaudio tracks (yt-dlp -> mp3 -> audio transcription; one reviewed visually
@@ -145,7 +145,7 @@ our own words. Video IDs link to the source.
   be rate limiting); we do not route around it, so their content remains
   unknown. They are listed at the end of `video-notes.md` and marked
   `inaccessible-unknown` in the tracker.
-- Remaining uncovered: 1,453 videos are catalog-only (title metadata) plus 35
+- Remaining uncovered: 1,416 videos are catalog-only (title metadata) plus 41
   inaccessible-unknown (see tracker for the checkable per-ID split).
   There is no permitted bulk-caption route. Native audio transcription of
   downloaded audio worked well for Tamil and recovered 15 items on 2026-10-25.
@@ -156,3 +156,7 @@ our own words. Video IDs link to the source.
   same normal public path was retried once on 2026-10-25 ~18:54 IST and
   access worked again, so a bounded 19-ID batch ran (15 reviewed, 4 moved to
   inaccessible). If the wall returns, expansion halts again the same way.
+
+### Continuation checkpoint - 2026-10-25 23:50 IST
+
+Batches 11-14 added 31 original audio-reviewed summaries and six short-audio unknowns. Normal signed-out public audio access worked, without cookies, identity/IP changes or caption-limit workarounds. One additional item (`5J0zS71ZLSs`) has no detected speech and remains pending visual review, rather than being counted as fully reviewed. Calendar times, temple legends, supernatural effects and astrology predictions in these notes are attributed channel claims, not independently verified facts or recommended practices. Full transcripts and media are not stored in this repository.
