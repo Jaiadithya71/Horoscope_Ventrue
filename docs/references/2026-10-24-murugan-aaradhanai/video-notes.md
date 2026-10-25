@@ -1,6 +1,6 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-91 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+98 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
 evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
@@ -591,3 +591,66 @@ evil energies leave the family.
 ## Additions to the inaccessible list (stub audio, Batch 5)
 
 EvmnbZjSPcY, Fznh8mp_VsE - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 20.
+
+## Batch 6: native audio transcription, fifth wave (2026-10-25 evening)
+
+7 more IDs yielded full clean audio transcripts; 1 more returned ~3-second stub audio and moved to
+the inaccessible list. Notes are original paraphrase, not transcripts.
+
+### XyIbOqvFUZQ (short) - "சனி பெயர்ச்சி முடிந்தவுடன் உச்சம் - 3 ராசிகள்"
+Astrology: once the Saturn transit completes, stalled works move fast, waited money arrives, and
+three rasis get Saturn's full support. Rishabam: sudden money flow, profit on investments, yoga for
+buying a house or land; family happiness and peak savings. Makaram: "jackpot life" - big
+responsibility, leadership post, multiplied savings. Mithunam: stalled work takes off at express
+speed; business growth; stress reduces and a fresh start comes. Framing: Saturn tests first but
+never abandons.
+
+### VfYvVd1sjZg (short) - "மகா சிவராத்திரி - சிவனின் மூன்றாம் கண் திறக்கும் நேரம்"
+Maha Shivaratri: claims that after 100 years the festival coincides with Abhijit nakshatra, and
+Shiva's third eye "opens" during the third of the four kaala poojas - given as Feb 16, 12:16-1:06
+AM. Practice for those who cannot stay awake all night or fast: at that time, sit with the spine
+straight and keep chanting "Om Namasivaya"; wishes are said to travel through the spine to Shiva
+with the universe's full support (the third kaalam is when Shiva's jyoti appeared to Brahma and
+Vishnu). Grants the combined grace of Shiva and Perumal.
+
+### hkxklsDYkSU (short) - "தீபாவளி புது துணி வாங்கும் முன் இதை செய்யுங்கள்"
+Pre-purchase ritual before buying Deepavali new clothes (or any new item): take a fresh white
+cloth, cut it square, soak it in turmeric water and dry it; place in it a little turmeric-smeared
+rice, two cloves, cardamom and a one-rupee coin, tie it, and do pooja to Murugan. After buying the
+new clothes, place the coin packet on them and do pooja again; then keep the packet in the pooja
+room. Said to keep the family free of debt and money trouble through the year and on every special
+day.
+
+### _EMnvIKXlcA (short) - "கந்த சஷ்டி விரதம் - வரும் சோதனைகள்"
+Kanda Sashti fasting guidance: warns that obstacles appear just before starting the fast - doubts,
+non-veg food "finding" you, home problems, mental distress, husband-wife quarrels - and tells
+viewers not to abandon the fast over them; respond with "whatever trials you give, I want only
+your grace, Muruga". Flexible fasting: 48, 21, or 6 days all valid; skip all three meals if able,
+else eat once or twice - do only what you can, without confusion. Full fasting procedure offered
+via comments.
+
+### Z7G39lN6DEs (short) - "செப்டம்பர் 7 சந்திர கிரகணம் - 4 ராசிகள் கவனம்"
+Astrology: the lunar eclipse on Sunday September 7 occurs in Kumbha rasi, with effects on four
+rasis. Meenam: problems through enemies and at home - stay mentally strong and fully focused at
+work; kuladeivam worship helps. Kumbham: do all work carefully; health issues possible - keep
+regular sleep and healthy food; share stress with trusted people. Viruchigam: verify thoroughly
+before buying land, property or valuables; do nothing in panic. Kadagam: travel carefully by
+vehicle; watch words with family; mind health and consult a doctor rather than neglecting issues.
+
+### i0HxOc1QeSc (short) - "விநாயகர் சதுர்த்தி அன்று இதை வாங்காதீர்கள்"
+Vinayagar Chathurthi rules: buying auspicious items for the pooja room invites Pillaiyar's full
+grace, but do NOT buy firewood, palm-leaf items (viraku, mattai), kerosene, stoves, candles, or
+anything fire-related that day - said to bring hardship and Ganapathy's anger. Best buys named:
+turmeric, kumkum, sandalwood, sugar, salt, rice flour, and jaggery.
+
+### R6MGKzmV3k4 (short) - "ஆகஸ்ட் 12-13 இரவு 8:08 - 100 வருடங்களுக்கு பின்"
+Aadi-month wish ritual tied to a Sukkiran-Viyazhan (Venus-Jupiter) alignment said to recur after
+~100 years: on Aug 12 (a Tuesday, Murugan's day) or Aug 13, from 8:08 PM for the next 22 minutes,
+sit before Murugan in the pooja room, write everything you wish for on a paper, fold and hold it,
+and pray wholeheartedly as if it has already happened; then keep the paper safely in a box in the
+pooja room until next year. Wishes made then are said to come true by the same days next year -
+alongside working hard toward them.
+
+## Additions to the inaccessible list (stub audio, Batch 6)
+
+yGuqrcriVB4 - ~3-second stub audio, cause unknown. Total inaccessible-unknown: 21.
