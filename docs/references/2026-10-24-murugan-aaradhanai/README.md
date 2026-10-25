@@ -118,12 +118,12 @@ our own words. Video IDs link to the source.
   `catalog-videos.csv` (position as listed by YouTube, recent-first, with view counts
   snapshot 2026-10-24).
 - Per-ID coverage tracker: `coverage-tracker.csv` is the durable source of truth —
-  one row per cataloged item with status `content-reviewed` (140),
-  `inaccessible-unknown` (27), or `pending` (1,493), with a per-item source URL.
+  one row per cataloged item with status `content-reviewed` (172),
+  `inaccessible-unknown` (35), or `pending` (1,453), with a per-item source URL.
   Counts elsewhere in this README and in `video-notes.md` derive from it.
 - Per-item upload dates/durations are not in the public listing; captured only for
   sampled items.
-- Content-reviewed notes: **140 videos** (`video-notes.md`) — the top all-time
+- Content-reviewed notes: **172 videos** (`video-notes.md`) — the top all-time
   performers, the current Aippasi Pournami cluster, top long-form videos, plus 29
   more recovered on 2026-10-25 by native audio transcription of downloaded
   bestaudio tracks (yt-dlp -> mp3 -> audio transcription; one reviewed visually
@@ -145,7 +145,7 @@ our own words. Video IDs link to the source.
   be rate limiting); we do not route around it, so their content remains
   unknown. They are listed at the end of `video-notes.md` and marked
   `inaccessible-unknown` in the tracker.
-- Remaining uncovered: 1,493 videos are catalog-only (title metadata) plus 27
+- Remaining uncovered: 1,453 videos are catalog-only (title metadata) plus 35
   inaccessible-unknown (see tracker for the checkable per-ID split).
   There is no permitted bulk-caption route. Native audio transcription of
   downloaded audio worked well for Tamil and recovered 15 items on 2026-10-25.

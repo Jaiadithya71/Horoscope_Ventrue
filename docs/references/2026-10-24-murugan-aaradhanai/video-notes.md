@@ -1,10 +1,10 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-140 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+172 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
 audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
 native audio transcription of downloaded audio, 15 more (Batch 3, 2026-10-25
-evening: 14 audio transcriptions + 1 visual review of a music-only video), and 68 more
-(Batches 4-9) from native audio transcription. Summaries are our own
+evening: 14 audio transcriptions + 1 visual review of a music-only video), and 101 more
+(Batches 4-10) from native audio transcription. Summaries are our own
 words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
 name/list, the note says so instead of guessing. Rights remain with the channel owner.
 
@@ -948,3 +948,207 @@ June 29 rare Shuklapaksha Pournami (waxing full moon, said to recur after three 
 Muhurtham (11:46 am-12:37 pm), light a lamp facing east in the pooja room and keep a silence fast
 (mauna viratham) holding your wish in mind - for one hour, two hours, or even till night. Good acts done
 in the waxing moon are said to multiply; presented as the narrator's own proven experience.
+
+## Batch 10: native audio transcription, ninth wave (2026-10-25 night)
+
+32 more IDs yielded full clean audio transcripts. Notes are original paraphrase, not transcripts.
+8 more IDs returned stub audio only (<10s) and are logged as inaccessible-unknown (cause unknown):
+_2Do-_oEAW4, OiSkp5W2pgo, zG-0x6LPXh4, DnTWNkPUDkg, NqBvgivz4vk, TVdBdahp_nU, z43vEIFJMX0, BRhTI4yfxu0.
+
+### f_lVNhO3OuQ (short) - "இந்த 5 ராசிக்கு 500 ஆண்டுகளுக்கு பின் வரப்போகும் அதிஷ்ட யோகம்"
+Astrology: a rare cluster said to recur after 500 years - Mercury enters Kumbham Mar 17 (joining Rahu),
+Venus Mar 19, Sun Mar 21, Mars Mar 23 - forming five raja yogas in one sign (Lakshmi-Narayana,
+Shukraditya, Aditya-Mangala, Budhaditya, Chaturgrahi). Beneficiaries: Mesham, Rishabam, Mithunam,
+Kumbham, Kadagam - career, wealth and foreign fortune.
+
+### su8MiV8jISw (short) - "தைப்பூசம் அன்று முருகனின் அருளை பெற இந்த ஒரு விளக்கை ஏற்றுங்கள்"
+Thaipoosam lamp rite: after morning bath, wipe Murugan's picture, apply turmeric-kumkum and decorate
+with flowers; on a small thamboolam plate place two bananas, press a hollow between them, fill with ghee
+and light a wick; chant the Murugan Gayatri ("Om Tatpurushaya Vidmahe Shanmukhaya Dheemahi Tanno
+Murugan Prachodayat") six times and state the wish - said to equal next year's Thaipoosam fast merit.
+
+### F_lHVhsA6a8 (short) - "பங்குனி மாதம் இந்த 3 ராசிக்கு பண மழை!"
+Astrology: Panguni month money rain for three rasis. Simmam: long-awaited good news, progress in job,
+business and income. Kumbham: new opportunities knock, investment profits, job or promotion news.
+Dhanusu: stalled work moves, income rises - a "golden period" for all three.
+
+### MoWML2_4DBU (short) - "முருகனின் பரிபூரண அருளை பெற இதை செய்து விடுங்கள்"
+Mahalaya Amavasya (Purattasi) rite: offer Murugan any neivedyam (or just a piece of jaggery or a
+hibiscus flower), write your wish on a paper and keep it in the pooja room, hold it and mentally chant
+"Om Saravanabhava" as much as possible with a lamp lit, then at the Amavasya hour burn the paper in the
+lamp flame. Said to clear 21 generations of sins and fulfil even long-failed wishes.
+
+### fon0TzBf-G0 (short) - "முருக பக்தர்களே உங்கள் வீட்டில இந்த மரம் இருக்கிறதா!"
+Seven trees a Murugan devotee's home should have (any four suffice): mango (Narada's mango made Murugan
+come to Palani; Sooran hid as a mango tree - as the tree grows, problems fade), banana (Murugan's
+favourite fruit, no lack of wealth), custard apple (seethappazham), jackfruit (one of the mukkani),
+drumstick (no food scarcity), lemon (divine and medicinal power), coconut (no problems at home).
+
+### VJe_lTbptas (short) - "தப்பித்தவறி கூட இந்த தப்பை செய்யாதீர்கள் செவ்வாய் அன்று"
+Tuesday (Murugan's day) don'ts: no nail cutting, hair cutting or shaving; do not throw household items
+out; lend no money; buy no milk-based sweets; avoid heavy spending; after lighting the evening lamp do
+not travel out of town or stay overnight elsewhere, and do not set out from someone else's house back to
+yours that day.
+
+### 4soS6zf1NvU (short) - "ஏப்ரல் 1ஆம் தேதி முருகனுக்கு இதை செய்வதினால் நடக்கும் ஒரு பெரிய அதிசயம்"
+April 1 (Panguni Uthiram) five practices: keep a silence fast from one hour upward (said to equal a
+48-day half-meal fast); no non-veg food (Murugan will test you with cravings); light a lamp morning and
+evening at home; light a coconut, pumpkin, lemon or agal lamp at a temple; write "Om Saravanabhava" as
+many times as possible and garland Murugan with it. Open to fasters and non-fasters alike.
+
+### vR8aRY0dynM (short) - "ஆடி அமாவாசை அன்று முருகனுக்கு இதை மட்டும் செய்யுங்கள்! 1 வருடம் நிம்மதி நிச்சயம்!"
+Aadi Amavasya rite: Shiva himself is said to have promised to grant whatever is asked of Murugan on this
+day (more special than Aadi Krithigai or Sashti). Light a morning lamp and keep a silence fast from 6 am
+to 7 pm, end it with a simple neivedyam and just milk and fruit. Said to clear karmic sins and give a
+worry-free, debt-free year. A "secret one hour" option is teased via comments.
+
+### 94l7orHKQGY (short) - "34 ஆண்டுகளுக்கு பின் வரும் வைகாசி அமாவாசை! அந்த 2 மணி நேரம் மட்டும் இதை செய்ய தவறாதீர்கள்!"
+Vaikasi Amavasya (said to recur after 34 years): tithi runs June 14 (Sunday) midday to June 15 midday;
+the key window is June 14, 5:30-7:30 pm (Pradosham + sandhya time). Light an agal lamp in the pooja
+room, remember ancestors and worship; if possible feed the hungry - pitru shapam is said to lift and
+money to flow for generations.
+
+### DJylpiHyNaw (short) - "2026 சனி பெயர்ச்சியால் காணாத பெரிய உச்சத்தை பார்க்க போகும் ராசிகள்"
+Astrology (2026 Sani peyarchi): Rishabam - labha Sani, "lottery yoga" in speech, money and jewellery for
+2.5 years. Mithunam - karma Sani, big success for business people, promotion and salary hike for
+employees. Kadagam - ashtama Sani ends, bhagya Sani begins, past-birth merit fructifies. Viruchigam -
+arthashtama Sani ends, panchama Sani begins; success in everything.
+
+### FhLx3U1bApE (short) - "விநாயகர் சிலை வாங்கும் போது இந்த தவறினை செய்து விடாதீர்கள்"
+How to choose a Vinayagar idol for Chaturthi: buy a seated Ganesha, never a standing one; avoid
+"dhrishti Vinayagar"; the trunk should curl to the left (brings family unity); choose red, yellow or
+orange colours (luck, wealth, wisdom); the idol should hold prasadam in its hand (removes obstacles and
+brings joy).
+
+### zQmtn5a2DDo (short) - "மாதவிடாய் நேரத்தில் முருகனுக்கு விரதமிருக்கலாமா?"
+Menstruation and fasting, answered: the old rule of keeping women aside was meant for rest during
+physical and mental exhaustion, not impurity. So skip pooja and temple visits if the body needs rest -
+but mentally thinking of Murugan and keeping a fast is never wrong; a clean mind and devotion are enough
+for Murugan to accept it.
+
+### MjoZxWwJpZ8 (short) - "மார்ச் 2: 6:29 PM பிறகு மிஸ் பண்ணாதீர்கள்!"
+March 2 Pournami coinciding with Magam nakshatra (rare after many years): the sacred window runs 6:29 pm
+to next morning 8:07. Light a banana lamp for Murugan and offer his favourite neivedyam (or simply milk
+and dates). Worshipping in this window with full faith is said to burn obstacles, doshas, evil eye and
+bad karma like fire and bring 100% success.
+
+### 0GIFBoQ16wM (short) - "முருகன் பக்தர்களாக இருந்தால் இந்த ஒரு கோவிலை மட்டும் தவறவிடாதீர்கள்"
+Temple feature: Sennimalai Murugan temple at ~1,749 ft above sea level, where Kanda Sashti Kavacham was
+first rendered. Cows climb the 1,320 steps daily carrying abhisheka milk. Only eight navagrahas stand
+here - Murugan himself appears as the ninth (Sevvai/Mars), so worship clears Sevvai dosham (Tuesday
+worship is special). Separate shrines for Valli and Deivanai behind the temple. Any problem is said to
+leave after praying here.
+
+### o821G5NuJ-U (short) - "மார்ச் மாதம் இந்த 5 ராசிகளுக்கு பண மழை! மார்ச் 10க்கு பிறகு வாழ்க்கை மாறும்"
+Astrology: March money rain for five rasis, turning after March 10. Rishabam: long-waited money luck
+arrives in sacks; a bold attempt after March 10 becomes big income. Simmam: double raja yogam, bold
+money decisions win, savings grow, lottery luck favourable. Meenam: money doors open everywhere;
+business, job, debt and marriage blocks end one by one. (Transcript names these three in detail; title
+says five.)
+
+### Rc_1fvwLoJo (short) - "27 நட்சத்திர காரர்களின் பிரச்சனை தீர போக வேண்டிய ஒரே முருகன் கோவில்"
+Temple feature: Vilvarani nakshatra temple, ~1,200 years old, 36 km from Tiruvannamalai / 13 km from
+Polur - the one Murugan temple for all 27 nakshatra natives. For nakshatra dosham: do a honey abhishekam
+to Murugan and offer a red oleander (sevarali) garland. Best days: Pournami, Karthigai, or your own
+nakshatra day. Murugan appears as a swayambhu lingam with Valli and Deivanai (Shiva's form); 250 steps;
+a Malaysian Murugan statue stands at the entrance for those who cannot go to Malaysia.
+
+### rj0d50-Dm68 (short) - "முருகனுக்கு இதை செய்தால் 24 பிறவிக்கும் கஷ்டம் வராதாம்! வைகாசி அமாவாசை"
+Vaikasi Amavasya on a Sunday (June 14, tithi 12:21 pm to Monday 8:23 am): the peak window is 1:15-2:45
+pm. Offer food or tithi to ancestors then (full pitru blessing), and do a simple Murugan worship: on a
+banana leaf place turmeric-kumkum, six flowers around, raw rice and a one-rupee coin in the middle, and
+pray wholeheartedly. Said to keep hardship away for 24 births.
+
+### l_ZGC4d8y3Q (short) - "மயில் இறகு வீட்டில் வைத்து இருப்பவர்கள் இந்த ஒரு தவறை செய்யாதீர்கள்"
+Peacock feather rules: keeping one at home is itself a sign of Murugan's grace; good for homes with vastu
+problems; best is seven feathers tied in white thread in the pooja room. Never keep peacock feathers
+with money, in cloth storage boxes, or shut inside a box - it diminishes Murugan's power in the home.
+Keep them where your eyes fall often.
+
+### XoZdzQBhaeY (short) - "வெள்ளி செவ்வாய் வீட்டில் இதை கட்டாயம் செய்தே தீர வேண்டும்"
+Friday/Tuesday home practice for Lakshmi's permanent grace: burn sambrani (benzoin) with white mustard
+seeds (white mustard breaks evil forces and seivinai troubles); while burning, add green camphor, then
+cardamom and cloves - the fragrance draws Mahalakshmi in. Also tie cardamom, clove and green camphor in
+a yellow cloth and keep it somewhere in the home (wardrobe, kitchen).
+
+### EDjSC6gKSDw (short) - "வைகுண்ட ஏகதேசி நாள் மட்டும் நேரம் | சொர்க வாசல் திறக்கும் நாள்"
+Vaikunta Ekadasi dates: the year's most powerful and last Vaikunta Ekadasi begins December 30 (Margazhi
+waxing Ekadasi; tithi from 7:50 am Dec 30 to next afternoon), with Sorga Vasal opening said to run Dec
+30 to January 8. One Margazhi Ekadasi equals all 12 of the year; fasting and worshipping Perumal on it
+is said to equal 23 Ekadasis and grant salvation. (Another Ekadasi noted on January 10, but the main one
+is Dec 30.)
+
+### ETpiLnb1Ttw (short) - "முருகன் அருள் தான் எல்லாமே | வேண்டியது கிடைக்கும் (குட்டி முருகன், வேலூர்)"
+Temple feature: a "kutti Murugan" temple at Vellore where Murugan appears in child form; whatever is
+asked of the child Murugan with a true heart is said to happen. Pitched for long-standing debt, marriage
+blocks, childlessness, health, job and business stagnation - one faithful visit is said to restart life.
+
+### 4gymOXOSScY (short) - "ஆடி மாதத்தில் அடிமேல் அடி வாங்கப்போகும் 4 ராசிகள்! உஷாரா இருங்க"
+Astrology warning: four rasis face repeated blows in Aadi month. Mesham: needless stress and family
+arguments - watch your words. Simmam: avoid big investments in business - money loss possible.
+Viruchigam: friction with superiors at work - patience needed. Kumbham: 7.5 Sani effects - wandering and
+health dips. Remedy: on Fridays go to an Amman temple and light a ghee lamp.
+
+### eukFZsa95uI (short) - "முருகனுக்கு இதை மட்டும் மறக்காமல் செய்து விடுங்கள் தை அம்மாவாசை அன்று"
+Thai Amavasya remedy for ancestral-curse troubles (recurring problems, illness, postponed auspicious
+events - souls that haven't reached Kashi): wash the whole house, wipe the front step and apply warmed
+coconut oil mixed with a piece of camphor on the doorstep; give new clothes or food to three people
+matching the afflicted horoscope signs in the family; then donate a brass or copper vel (small or large,
+as you can afford) to a nearby Murugan temple.
+
+### qMbUBaV1lBk (short) - "முருகன் அருள் இருப்பவர்களால் மட்டுமே இதை பார்க்க முடியும் (வாலி சம்பவம்)"
+Devotional story: how lyricist Vaali, born a Vaishnavite, became a deep Murugan devotee. In '48 his
+sister fell terminally ill and doctors gave up; a visiting foreign-returned doctor named Subramani saved
+her with a single injection, and she lived past 80. From that day Vaali never appeared without vibhuti
+on his forehead, and in that period wrote the song "Karpanai endralum karchilai endralum Kanthane unnai
+maraven". Presented as a true incident.
+
+### 0JKaHDmbnFw (short) - "மார்கழி முடிவதற்குள் முருகன் செய்யும் அதிசயம் - இந்த ஒரு பரிகாரம் தவறவிட்டு விடாதீர்கள்"
+Margazhi-end Tuesday parikaram: on a Tuesday, rise in Brahma muhurtham (bathing not compulsory), place
+arali flowers before Murugan's picture, spread toor dal on a small thamboolam plate, pour ghee on it and
+light a lamp (or simply light a betel-leaf lamp); state the wish and chant the given four-line Murugan
+verse 11 times. Said to resolve debt, incurable disease, marriage blocks, childlessness and evil eye
+before Margazhi ends.
+
+### 9Qeba1c-WK4 (short) - "18 ஆண்டுகளில் பின் நிகழ போகும் சேர்க்கை! செவ்வாய் பெயர்ச்சி 2025-26"
+Astrology: Mars transit in December after 18 years (Sevvai entering Guru's Dhanusu). Viruchigam (2nd
+house): marriage proposal, promotion, dreams fulfilled, sudden income, cinema chances. Mesham (9th
+house): job progress, business profit, child blessing, blocked property issues end. Meenam (10th house):
+social respect, students' education success, real-estate/medical income, lost property returns, debts
+end. NOTE: the tail is an embedded paid promotion for an external astrologer ("Bhavan Namboothiri", Sri
+Varahi Amman astrology centre) - channel advertising, not endorsed information.
+
+### RuDuUdyGa0k (short) - "பங்குனி உத்திரம்! இந்த 1 தவறு செய்தால் பலன் கிடையாது"
+Panguni Uthiram guidance: a one-day silence fast on this day equals a 21-day fast for Murugan -
+especially for the childless and unmarried women; giving annadhanam multiplies merit manyfold. The one
+mistake to avoid: do not get angry while fasting, whatever provocation comes - controlling anger speeds
+Murugan's grace.
+
+### WN4ctQwLBC8 (short) - "தெரியாமல் கூட இந்த பொருளை மே 5 வாங்கிடாதீங்க"
+May-month buying caution: do not bring old, rusted iron items into the home this month - iron is
+Saturn's karaka, and in peak summer heat such items are said to attract negative vibrations that disturb
+family peace and cause needless spending (spiritual + vastu reasoning). (Transcript ends here; the full
+item list may continue beyond the captured audio.)
+
+### wZt_34kuXwo (short) - "100 ஆண்டுகளுக்கு ஒருமுறை வரும் ரகசிய நேரம்! நினைத்தது பலிக்கும் அந்த 39 நிமிடங்கள்"
+July 14 Tuesday Aani Amavasya (said to recur after 100 years, on Murugan's own weekday): the tithi's
+last 39 minutes (2:33-3:12 pm) are a maha muhurtham. Light a ghee lamp before Murugan and chant "Om
+Saravanabhava" for Sevvai dosham and debt relief; also light two agal lamps facing south for the
+ancestors. Wishes made in this window are said to be granted with Murugan's and the ancestors' blessing,
+enemy trouble ending.
+
+### fBSJ-wCt3As (short) - "மறந்தும் இந்த 6 பொருள்களை மட்டும் வாங்கி விடாதீர்கள் (ஆடி அமாவாசை)"
+Aadi Amavasya don'ts: buy nothing on the day itself - no broom, nail cutter, scissors, oil, pooja items,
+alcohol, non-veg, or house-cleaning items; stock all pooja needs the day before; buy no groceries that
+day and do not clean the anjarai (spice) box. Notes that unexplained anger, fatigue and sleeplessness in
+the 2-3 days before Aadi Amavasya are common.
+
+### rC9zROEYWmk (short) - "முருகன் உங்கள் வேண்டுதலை நிறைவேத்தி வைக்கும் நாள் வந்துவிட்டது (நவ 22-26)"
+November 22-26 five-day practice (comes once a year): go to a nearby Murugan temple morning and evening
+and circle the prakaram, totaling 1008 rounds by the fifth day; the wish is said to fulfil within the
+next 12 days. Optionally keep one hour of silence daily during Kuligai time.
+
+### E5sqoG1N3Ho (short) - "சித்திரை மாதம் இந்த 3 ராசி புது பணக்காரர்கள்! வாழ்க்கை தலைகீழ்"
+Astrology: Chithirai month new-rich rasis. Kadagam: opportunities, investments and salary hikes come your
+way. Simmam: financial progress certain - from borrower you become a lender. Thulam: new job and
+business openings raise income; blocked hardships, debts and family problems lift.
