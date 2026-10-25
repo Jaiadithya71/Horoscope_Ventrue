@@ -1,8 +1,9 @@
 # Murugan Aaradhanai — content-reviewed video notes (updated 2026-10-25)
 
-52 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
-audio review (2026-10-24/25; see README "Coverage and gaps"), plus 14 more (Batch 2
-below) from native audio transcription of downloaded audio. Summaries are our own
+67 videos reviewed from actual content. 38 from Tamil auto-captions / visual + native
+audio review (2026-10-24/25; see README "Coverage and gaps"), 14 more (Batch 2) from
+native audio transcription of downloaded audio, and 15 more (Batch 3, 2026-10-25
+evening: 14 audio transcriptions + 1 visual review of a music-only video). Summaries are our own
 words, not transcripts. Auto-captions are imperfect: where ASR garbles a specific
 name/list, the note says so instead of guessing. Rights remain with the channel owner.
 
@@ -280,4 +281,125 @@ the cause is unknown. Their content is unknown; titles are in catalog-shorts.csv
 treated as content evidence. Status tracked as `inaccessible-unknown` in coverage-tracker.csv.
 
 vuBTd2LV2Dg, 3BbR5PN0t7M, 9Y1d99Ex124, LSJZqGfLALE, D_8D7VXeLls, Xyja9rJ8dzE, 8I4JEgYDO24,
-MquCqeUDHGY, -FD8zTJjpgQ, bmIEpftArks, Rv_sZWG5PEM, fLKVskjz9yQ
+MquCqeUDHGY, -FD8zTJjpgQ, bmIEpftArks, Rv_sZWG5PEM, fLKVskjz9yQ, plus the Batch 3
+additions listed below (hq9AXYCjols, rVpDF07TQ4A, hOU1EJWpu6A, ApgwgqdkUL8).
+
+## Batch 3: native audio transcription, second expansion wave (2026-10-25 evening)
+
+Access re-attempted at the user's explicit request ("Try again now", 2026-10-25 18:53 IST) through
+the same normal public bestaudio path; the automated-access wall from 00:51 IST was no longer
+serving. 14 IDs yielded full clean audio transcripts, 1 ID (-NYF4TIKy4k) was reviewed visually
+(music-only audio, on-screen text frames), 4 more IDs returned ~3-second stub audio and moved to
+the inaccessible list. Notes are original paraphrase, not transcripts.
+
+### co2IN7KsRTU (short) - "மயில் இறகை வீட்டில் வைத்து இருந்தால்..."
+Keeping a peacock feather (Murugan's vahanam) at home: believed to remove vastu problems, bring
+mental peace where there are quarrels, and ward off evil eye/negative energies. Placement rules:
+keep it facing the north direction for wealth and steady income; always in an open place - never in
+closed boxes or lockers, which is said to reduce positive energy. A peacock feather finding its way
+to you is framed as a sign that Murugan is with you.
+
+### utJqE93ZajY (short) - "7½ ஆண்டுகளுக்குப் பின் சனியின் பிடியில் இருந்து..."
+Astrology: after 7.5 years under Saturn's grip, three rasis - Mithunam, Kanni, and Makaram - are
+said to be free of Saturn problems from October (after Purattasi ends). Predictions: job,
+profession, property, money and position all fall into place; long-standing debt troubles end;
+steady progress from October. Asks viewers to comment "Om Saneeswarar Potri".
+
+### ol7l7L8byf4 (short) - "முருகனின் அருளை பெற ஆவணி மாதம் முடியும்குள்ள..."
+Avani-month Friday ritual for pending wishes (obstacles, family quarrels, child/marriage delays,
+job problems): on the Fridays of Avani month (all four if possible, or at least two or three), light
+a vettilai (betel-leaf) lamp with a red wick for Murugan in the evening. Write what you want to
+happen on six papers, visualize it as already done, burn the papers, then blow the ashes toward the
+sky outside while staying joyful. Continue working toward the goal in parallel. Claimed sign within
+a week: a butterfly comes to the house. Framed as a personally-tested practice; wishes said to
+manifest within 45 days.
+
+### Nk6xYufzf7g (short) - "அட்சய திருதியை அன்று பல்லி பார்த்தால்..."
+Akshaya Tritiya belief: sighting a lizard (palli) on that day is said to clear the sins of seven
+births and remove clinging poverty. Claims Vastu Bhagavan ordered all house lizards to stay hidden
+on Akshaya Tritiya, so spotting one is rare and auspicious - those who do are said to gain all
+wealth and Lakshmi's grace. Some people also worship lizards.
+
+### YQVu6XbQlN8 (short) - "ஆகஸ்ட் 27! ஆவணி பௌர்ணமி+ஆவணி அவிட்டம்!"
+Avani Pournami coinciding with Avani Avittam (Aug 27): buy pachai karpooram (green camphor) for
+Rs.5 and place it at Murugan's feet - put a little fragrant green camphor in a small bowl. Claimed
+benefits beyond removing evil eye: debt troubles clear, karmic debts dissolve, a new life begins,
+household income rises. Says this Rs.5 offering yields double benefit on this combined day, more
+than large donations.
+
+### 5DuTf9_Z2RY (short) - "ஏப்ரல் 1 பங்குனி உத்திரம்! இந்த 1 செயல்..."
+Panguni Uthiram (April 1): a very special day for Murugan; heartfelt wishes said to be granted "in
+a second". Practice: write "Om Saravana Bhava" 1,000 times in a notebook, specifically between
+9:20 and 10:20 AM, for full grace - debts cleared and wealth accumulated. Warns that not
+worshipping Murugan that day keeps troubles coming.
+
+### Bg8tc79SYN0 (short) - "தீபாவளிக்கு உருவாகும் ராஜ மகாயோகம்..."
+Astrology: Guru (Jupiter) moving from Mithuna to Kadaga rasi around Deepavali is said to form Hamsa
+Rajayogam "after about 100 years" (attributed to astrology experts). Benefits for Kadagam, Thulam,
+and Viruchigam rasis - especially Aayilyam, Poosam, Anusham, and Visagam nakshatras: prediction of
+buying new and old properties; unexpected auspicious events after Deepavali. Notes results come per
+one's karma.
+
+### VZZ2x77Mdgo (short) - "மறந்தும் கூட இந்த தவறை மட்டும் செய்யாதீர்கள்"
+Amavasai (new moon) prohibitions - a day for pitru (ancestors) and Sani worship, and good for
+kuladeivam worship. Do NOT buy these six on Amavasai: broom, alcohol, non-veg food, wheat, oil, and
+pooja items (said to bring family harm and raise negative energy). Also: no boiling milk in a new
+house (grihapravesham context), no auspicious functions, no sweeping the house, no bhoomi pooja, no
+buying new vehicles or jewelry, do not keep temple prasadam pooja items in the home pooja room, and
+strictly avoid oil-bath (oil linked to Sani; donating oil-related items on Amavasai is instead said
+to give good results).
+
+### lD1gfmFfUD8 (short) - "தப்பிதவறி கூட இந்த நாட்களில் தாலி கயிறு..."
+Rules for changing the thali (mangalsutra) thread: sit facing east; have the husband or a sumangali
+(mother/mother-in-law) present; once seated, do not get up midway - keep all needed items at hand
+first. Forbidden days: Tuesday, Saturday, and the tithis Ashtami, Navami, Prathamai; permitted
+weekdays named as Monday, Tuesday, Thursday (the transcript lists Tuesday both ways - internal
+inconsistency preserved as heard). Change only twice a year and only when the thread wears out.
+Dispose of the old thread by tying it to a plant/creeper or a temple tree - never in the trash.
+
+### l62XUFgfJzQ (short) - "வீட்டில் தெய்வ சக்தி இருந்தால் இது நடக்கும்"
+Signs that divine presence (deiva sakthi) resides in a home: continuous lizard sounds, especially
+from the pooja room and at night (a white lizard in the pooja room called a certain sign); sudden
+fragrances without source - sambrani, jasmine, sandalwood, rose water, or vibhuti smells; the pooja
+lamp burning bright, or a white ring forming around the flame; crows and other creatures visiting
+the house frequently (crows cawing often cited as a sign).
+
+### i0W0Yo5Nk-0 (short) - "முருகனின் அருள் கேட்காமலே இந்த 4 பெண் ராசி..."
+Four "female" rasis said to carry Murugan's inborn grace: Mesham (leadership and fearlessness -
+courage as Murugan's amsam), Viruchigam (ruled by Sevvaai/Mars - distinct facial radiance and sharp
+intellect that defeats enemies), Simham (the dignity to question injustice and stand with dharma),
+Makaram (unshaken faith and hard work through any hardship - Murugan never abandons them). Includes
+an on-screen astrologer contact pitch for personal horoscope readings.
+
+### WJT0vpgEyQg (short) - "கேட்டதை தரும் ஆடி பௌர்ணமி! 10 செலவில்..."
+Aadi Pournami (July 29) coconut ritual: Aadi month is supreme for Amman and kuladeivam - light a
+coconut lamp at the kuladeivam temple. For Murugan: buy a coconut for Rs.10, break it, place it on
+rock salt, apply turmeric-kumkum, and chant Murugan's moola mantra "Om Saravana Bhavaya Namaha" 37
+times on Pournami night. Said to combine kuladeivam and Murugan grace so the wish happens fast;
+hints at a "secret time" that multiplies the benefit sixfold, gated behind subscribing/commenting.
+
+### t8Hn901Kr4c (short) - "மறந்தும் கூட இந்த ஒரு பொருளை தானம் கொடுக்க வேண்டாம்"
+Aadi Perukku (Aadi 18): anything started this day prospers, and donation this day benefits one's
+lineage - but never donate your USED/old clothes to anyone (even washed), said to bring poverty
+home and increase your karma. Instead donate new clothes or money. Recommended Aadi Perukku
+charity: feed someone with turmeric, kumkum, two bangles and a thali string offered, or give new
+clothes.
+
+### w-ld-6pzXVs (short) - "அரிசியை இப்படி மட்டும் எடுத்து யூஸ் பண்ணாதீங்க"
+Rice-handling rules (vastu-style) to keep the household free of food scarcity: store rice on the
+floor level, never high up or in a cupboard; ideally below the cooking stove. Never reach for rice
+standing at arm's length - always bend and take it with a bowed head, as namaskaram (rice carries
+Lakshmi's grace). Measure with a traditional aazhakku/marakkal/padi rather than a tumbler; keep the
+padi always holding four measures of rice, never empty, and keep the padi inside the rice pot.
+
+### -NYF4TIKy4k (short) - "முருகனின் அம்சத்தில் பிறந்த நட்சத்திரங்கள்" (VISUAL review)
+Audio contains no speech (music only), so reviewed from sampled video frames. A deity-image
+slideshow (watermarked @MuruganAaradhanai) naming nakshatras said to be born in Murugan's amsam,
+one label per slide. Labels visible in the sampled frames: Bharani (பரணி), Thiruvathirai
+(திருவாதிரை), Aayilyam (ஆயில்யம்), Visagam (விசாகம்), Moolam (மூலம்). Caveat: frames are sampled,
+so the complete on-screen list may include more nakshatras than these five.
+
+## Additions to the inaccessible list (stub audio, 2026-10-25 evening)
+
+hq9AXYCjols, rVpDF07TQ4A, hOU1EJWpu6A, ApgwgqdkUL8 - these returned only ~3-second stub audio
+from YouTube (cause unknown), same as the 12 listed above. Total inaccessible-unknown: 16.
