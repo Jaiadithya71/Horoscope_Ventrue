@@ -17,3 +17,11 @@ Documentation changes remain available in Git without republishing the app.
 
 Smaller bundles only affect future deployments. Existing stored deployment
 artifacts require a separate, owner-approved retention/rollback decision.
+
+Verified production outcome for e4702a2: all five bundles are 10.7 MB each in
+IAD1 (about 80% reduction). All five public API endpoints returned HTTP 200
+with expected JSON; the home, weekly, studio and JavaScript assets returned
+HTTP 200. The full source-tree engine suite passed 634 tests. An isolated
+runtime-only tree also passed representative calls to every API adapter;
+research CLI/fixture tests still require the excluded source directories in
+normal development. No live user records were written during these checks.
