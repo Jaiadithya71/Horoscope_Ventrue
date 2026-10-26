@@ -1,6 +1,6 @@
 # Murugan 9-Tuesday betel-leaf lamp practice: review preview
 
-Status: REVIEW ONLY. Not queued or published.
+Status: PUBLISHED. Approved Oct26 23:42:58 IST; submitted 23:50 IST; Buffer reports published 23:53 IST. Verified public Oct27 00:53 IST.
 Prepared 2026-10-26 for astro_guidance_108.
 Source: https://www.youtube.com/watch?v=pL1_YTJWu_w
 Source notes: ../../references/2026-10-24-murugan-aaradhanai/video-notes.md
@@ -28,3 +28,11 @@ The independently written Tamil narration preserves the reviewed source topic, p
 Render sources are retained; update local path constants before rebuilding in another checkout.
 
 Correction: main QC rejected initial hook for leaves too close to flame. Hook now reuses the unlit oil-pouring image with leaves on a separate plate. Actual encoded first frame inspected. Old hook is superseded. Footer glyphs corrected to Tamil-only text.
+
+## Publication closeout
+- Public reel: https://www.instagram.com/reel/De96azOvkJl/
+- Opened live redirect: https://www.instagram.com/reels/De96azOvkJl/
+- User approval: original WhatsApp Yes post at Oct26 23:42:58 IST, message wamid.HBgMOTE3MzU4MjU4MjE2FQIAEhggQUM2MEVCMjlGQkUyMkZBOUQzMDdDNDJDODc3NEE5MDAA, replying to exact video/caption review.
+- Corrected MP4 sha256: 0885fd1d581cf60980b4f1414f446825e4f750720791e906cefac68460764ada.
+- Public verification: correct account, corrected hook, Tamil caption, AI content label, 73.708s player duration. Screenshot retained.
+- No recurring cadence authorized or created.
