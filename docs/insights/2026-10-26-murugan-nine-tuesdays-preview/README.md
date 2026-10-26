@@ -26,3 +26,5 @@ The independently written Tamil narration preserves the reviewed source topic, p
 - No music is mixed, so the instructional voice remains clear.
 
 Render sources are retained; update local path constants before rebuilding in another checkout.
+
+Correction: main QC rejected initial hook for leaves too close to flame. Hook now reuses the unlit oil-pouring image with leaves on a separate plate. Actual encoded first frame inspected. Old hook is superseded. Footer glyphs corrected to Tamil-only text.
