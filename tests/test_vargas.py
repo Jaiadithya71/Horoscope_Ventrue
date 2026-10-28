@@ -35,3 +35,24 @@ class VargaTests(unittest.TestCase):
         for lon in (-1,360,float('nan'),float('inf')):
             with self.assertRaises(ValueError):six_vargas(lon)
         self.assertIsNone(varga_owner_evidence('Rahu',0)['vargas'][0]['natural_relation_to_owner'])
+
+
+class D2HoraTests(unittest.TestCase):
+    def test_parashara_cancer_leo(self):
+        from engine.vargas import selected_divisional_geometry as g
+        # odd sign (Aries): 0-15 Leo/Sun, 15-30 Cancer/Moon
+        self.assertEqual(g(14.99,2)['sign'],'Leo');self.assertEqual(g(15,2)['sign'],'Cancer')
+        # even sign (Taurus): 30-45 Cancer/Moon, 45-60 Leo/Sun
+        self.assertEqual(g(30,2)['sign'],'Cancer');self.assertEqual(g(45,2)['sign'],'Leo')
+        for i in range(12):
+            a,b=g(i*30+1,2),g(i*30+16,2)
+            self.assertEqual({a['sign'],b['sign']},{'Leo','Cancer'})
+            self.assertEqual(a['owner'],'Sun' if a['sign']=='Leo' else 'Moon')
+        self.assertIn('Parashara Cancer/Leo',g(10,2)['convention'])
+        self.assertEqual(g(10,2)['division'],2)
+
+    def test_in_report(self):
+        from engine.vargas import divisional_chart_report
+        chart={'placements':{'Sun':{'longitude':100.0},'Rahu':{'longitude':10.0}},'ascendant':{'longitude':200.0}}
+        r=divisional_chart_report(chart)
+        self.assertIn('Parashara',r['notice'])

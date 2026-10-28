@@ -89,6 +89,9 @@ def seven_varga_owner_evidence(planet,longitude):
 D4_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':9,
            'pdf_page':15,'printed_page':14,'verified_against_page_image':True,
            'url':'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/par0110.pdf'}
+D2_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':'5-6',
+           'pdf_page':15,'printed_page':14,'verified_against_page_image':True,
+           'url':'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/par0110.pdf'}
 D10_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':'13-14',
             'pdf_page':16,'printed_page':15,'verified_against_page_image':True,
             'url':'https://sanskritdocuments.org/doc_z_misc_sociology_astrology/par0110.pdf'}
@@ -96,7 +99,7 @@ D10_SOURCE={'slug':'parashara-hora-ch1-10-sanskrit','chapter':'VI','sloka':'13-1
 
 def selected_divisional_geometry(longitude,division):
     """Named source geometry only. Does not feed predictions or strength totals."""
-    if division not in (1,3,4,7,9,10):
+    if division not in (1,2,3,4,7,9,10):
         raise ValueError('Division not in the selected display profile')
     if not math.isfinite(longitude) or not 0<=longitude<360:
         raise ValueError('Longitude must be finite and in [0,360)')
@@ -106,6 +109,14 @@ def selected_divisional_geometry(longitude,division):
         name={1:'rasi',3:'drekkana',9:'navamsa'}[division]
         row=dict(next(x for x in six_vargas(longitude)['vargas'] if x['varga']==name))
         convention={1:'D1 natal sign',3:'Same, fifth, ninth signs (Phaladeepika III.4)',9:'Element-based start (Phaladeepika III.4)'}[division]
+    elif division==2:
+        # Parashara VI.5-6: odd sign = Sun's hora then Moon's; even sign reversed.
+        # Sun hora -> Leo, Moon hora -> Cancer (their own signs). Single scheme, not mixed.
+        sun_first=index%2==0
+        sun=(part==0)==sun_first
+        target=4 if sun else 3
+        row={'varga':'hora','part_1_based':part+1,'sign':SIGNS[target],'owner':LORDS[target],'source':D2_SOURCE}
+        convention='Parashara Cancer/Leo Hora (VI.5-6): odd signs Sun-half Leo then Moon-half Cancer; even signs reversed. One named scheme; not claimed to match any other astrologer\'s method'
     elif division==7:
         row=saptamsa(longitude);convention='Odd: same-sign start; even: seventh-sign start (Sarvartha I.19)'
     else:
@@ -127,6 +138,6 @@ def divisional_chart_report(chart):
     points['Ketu']=(points['Rahu']+180)%360
     points['Lagna']=chart['ascendant']['longitude']
     return {'profile':'source_named_divisional_geometry_v1',
-            'charts':{str(d):{name:selected_divisional_geometry(lon,d) for name,lon in points.items()} for d in (1,3,4,7,9,10)},
+            'charts':{str(d):{name:selected_divisional_geometry(lon,d) for name,lon in points.items()} for d in (1,2,3,4,7,9,10)},
             'node_mode':chart.get('node_mode','mean'),
-            'notice':'Named source conventions, not the only varga conventions. Ketu derives from Rahu plus 180 degrees before division. Divisional Lagna and boundary placements depend on precise birth inputs. D2 sign scheme remains unselected. No new predictive rules.'}
+            'notice':'Named source conventions, not the only varga conventions. Ketu derives from Rahu plus 180 degrees before division. Divisional Lagna and boundary placements depend on precise birth inputs. D2 Hora uses only the labelled Parashara Cancer/Leo convention. No new predictive rules.'}
