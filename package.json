@@ -16,6 +16,9 @@
     "url": "https://github.com/Jaiadithya71/Horoscope_Ventrue/issues"
   },
   "homepage": "https://github.com/Jaiadithya71/Horoscope_Ventrue#readme",
+  "dependencies": {
+    "@vercel/blob": "^2.8.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.63.0"
   },
