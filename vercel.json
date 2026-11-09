@@ -40,6 +40,10 @@
     {
       "source": "/studio.js",
       "destination": "/app/studio.js"
+    },
+    {
+      "source": "/r/:path*",
+      "destination": "/app/index.html"
     }
   ],
   "functions": {
