@@ -32,10 +32,20 @@ user messages.
 
 ## The big pattern (measured)
 
-### 1. Marriage and relationships - first in every dataset we found
+Three different claim levels run through this section - do not merge them:
+category rankings (which life area dominates), individual question shapes
+(documented, but no platform publishes a ranked top-10 of verbatim
+questions, so they are not ranked against each other), and age bands (the
+category order flips with age - see the life-stage curve below).
+
+### 1. Marriage and relationships - the leading category in six of seven measured sources
 
 Each dataset measures it differently (percentages not interchangeable - see
-above).
+above). The category lead has two measured qualifications: in Astrotalk's
+2025 year-end data the single most frequently asked individual question was
+a career question ("Is AI going to take my job?") even while
+relationship/marriage queries dominated overall volume; and in Kundli.me's
+age bands career overtakes marriage from the early 30s on.
 
 - Astrotalk (founder interview, Aug 2025): "About 65% of our queries per day
   are on marriage and relationships" - concentrated in ages 25-35.
@@ -52,7 +62,12 @@ above).
 - Melooha and Coto (founders, Aug 2025): relationships are their largest
   category too, including post-marriage problems, breakups and divorce.
 
-### 2. Career and work - solid #2, and rising fast
+### 2. Career and work - second-largest category everywhere it is ranked, and rising fast
+
+Category-level #2 in every source that ranks categories - with the two
+qualifications noted above: it supplied Astrotalk's single most-asked
+individual question of 2025, and it leads the older age bands in Kundli.me
+(33-45 and 46-59).
 
 - Astrotalk year-end 2025: career + relationship queries together were
   nearly 95% of all questions; job-related queries grew 50% year on year;
@@ -96,7 +111,8 @@ marriage, home), not wealth in the abstract.
 
 - People ask "when", not "what". Om.AI: 42.6% of first questions ask for a
   time. GrahAI: 25.2% of all questions ask when / which year / at what age /
-  kab tak. People arrive with the decision already in front of them and
+  kab tak. Om.AI: 55.8% of career questions and 54.9% of marriage questions
+  ask when. People arrive with the decision already in front of them and
   want a date or a window.
 - The life-stage curve. Kundli.me (630 age-placed questions): ages 20-25
   ask 67% marriage vs 9% career; 26-32 is nearly level (45% vs 38%); 33-45
