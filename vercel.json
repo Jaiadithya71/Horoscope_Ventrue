@@ -18,6 +18,10 @@
       "destination": "/app/i18n.js"
     },
     {
+      "source": "/stats",
+      "destination": "/app/stats.html"
+    },
+    {
       "source": "/weekly",
       "destination": "/app/weekly.html"
     },

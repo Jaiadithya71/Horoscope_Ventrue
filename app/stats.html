@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<title>Visit counts | Horoscope</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  body { max-width: 720px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 1.4rem; }
+  .stats-note { color: #555; font-size: 0.92rem; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; font-size: 0.95rem; }
+  th { background: #f3f3f0; }
+  .days { margin: 8px 0 24px; font-size: 0.9rem; color: #333; }
+  .days span { display: inline-block; margin-right: 12px; white-space: nowrap; }
+  #stats-error { color: #8a1f1f; }
+  .muted { color: #777; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Shared-link visit counts</h1>
+  <p class="stats-note">Private admin view. Counts are page loads of each shared link, not unique people: opening the same link twice counts twice. Likely scripted loads are kept in a separate column.</p>
+
+  <form id="stats-auth">
+    <label for="stats-key">Admin password
+      <input type="password" id="stats-key" name="stats-key" autocomplete="current-password" required>
+    </label>
+    <button type="submit">Show counts</button>
+    <p id="stats-error" role="alert"></p>
+  </form>
+
+  <section id="stats-out" hidden>
+    <div id="stats-tables"></div>
+    <p id="stats-meta" class="muted"></p>
+  </section>
+</main>
+<script>
+(function () {
+  var form = document.getElementById('stats-auth');
+  var keyInput = document.getElementById('stats-key');
+  var err = document.getElementById('stats-error');
+  var out = document.getElementById('stats-out');
+  var tables = document.getElementById('stats-tables');
+  var meta = document.getElementById('stats-meta');
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (ch) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+    });
+  }
+  function fmt(ts) {
+    if (!ts || !isFinite(ts)) return '-';
+    return new Date(ts).toISOString().replace('T', ' ').slice(0, 16) + ' UTC';
+  }
+  function render(data) {
+    var names = Object.keys(data.campaigns || {}).sort();
+    if (!names.length) {
+      tables.innerHTML = '<p>No visits counted yet.</p>';
+    } else {
+      var html = '<table><thead><tr><th>Link</th><th>Loads</th><th>Likely bots</th><th>First</th><th>Latest</th></tr></thead><tbody>';
+      names.forEach(function (c) {
+        var s = data.campaigns[c];
+        html += '<tr><td>' + esc(c) + '</td><td>' + s.loads + '</td><td>' + s.botLoads +
+          '</td><td>' + fmt(s.first) + '</td><td>' + fmt(s.last) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      names.forEach(function (c) {
+        var s = data.campaigns[c];
+        var days = Object.keys(s.days || {}).sort();
+        if (!days.length) return;
+        html += '<div class="days"><strong>' + esc(c) + ', per day:</strong> ' +
+          days.map(function (d) { return '<span>' + esc(d.slice(5)) + ': ' + s.days[d] + '</span>'; }).join('') +
+          '</div>';
+      });
+      tables.innerHTML = html;
+    }
+    var bits = ['Generated ' + fmt(Date.parse(data.generatedAt))];
+    bits.push('Test probes: ' + (data.testProbes || 0));
+    if (data.truncated) bits.push('NOTE: results truncated (cap reached) - counts below the real total');
+    meta.textContent = bits.join(' · ');
+    out.hidden = false;
+  }
+  function load(key) {
+    err.textContent = '';
+    fetch('/api/stats', { headers: { 'Authorization': 'Bearer ' + key } })
+      .then(function (r) {
+        if (r.status === 401) throw new Error('Wrong password.');
+        if (!r.ok) throw new Error('Stats request failed (' + r.status + ').');
+        return r.json();
+      })
+      .then(function (data) {
+        sessionStorage.setItem('statsKey', key);
+        render(data);
+      })
+      .catch(function (e) {
+        sessionStorage.removeItem('statsKey');
+        err.textContent = e.message || 'Stats request failed.';
+      });
+  }
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    load(keyInput.value);
+  });
+  var saved = sessionStorage.getItem('statsKey');
+  if (saved) { keyInput.value = saved; load(saved); }
+})();
+</script>
+</body>
+</html>
