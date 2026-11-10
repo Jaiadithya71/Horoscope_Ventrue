@@ -23,3 +23,7 @@ After publication is confirmed, add its recognizable Tamil and English title plu
 `npx playwright test app/tests/reels.spec.js` tests both phone and desktop, all catalog links, skip, unknown, keyboard access, no-JavaScript fallback, 320px layout and the analytics sanitizer. Analytics requests are blocked in these tests. No production verification page views are generated.
 
 The legacy suite at baseline `700efdc` has 10 failures across phone and desktop: five assertions per viewport involving language/weekly-header content, old chart counts/expectations, and 320px chart overflow. The same 10 failures reproduced after this change; no new regression was found. Keep those existing issues separate from the chooser's passing tests.
+
+## Approved marriage-reel DM pilot
+
+`/dm/marriage-timing` is the sole DM-specific direct chart route, separate from chooser selections. It is allowlisted exactly, not by wildcard. Arrivals there can include forwarded links or repeat visits, not necessarily completed charts or causal reel conversions. No person-specific identifier, extra birth-data storage or query attribution. Existing root/chooser/legacy paths are unchanged.

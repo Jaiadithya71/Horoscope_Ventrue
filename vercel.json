@@ -10,6 +10,10 @@
       "destination": "/app/index.html"
     },
     {
+      "source": "/dm/marriage-timing",
+      "destination": "/app/index.html"
+    },
+    {
       "source": "/reels",
       "destination": "/app/reels.html"
     },

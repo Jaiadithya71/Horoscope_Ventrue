@@ -6,7 +6,7 @@ window.va('beforeSend', function (event) {
     var p = u.pathname;
     var selections = (window.HOROSCOPE_REELS || []).map(function (r) { return '/from/' + r.slug; });
     selections.push('/from/unknown');
-    if (['/', '/chart', '/weekly', '/stats', '/reels'].indexOf(p) < 0 && selections.indexOf(p) < 0 && !/^\/r\/[a-z0-9][a-z0-9-]{2,40}$/.test(p)) p = '/other';
+    if (['/', '/chart', '/dm/marriage-timing', '/weekly', '/stats', '/reels'].indexOf(p) < 0 && selections.indexOf(p) < 0 && !/^\/r\/[a-z0-9][a-z0-9-]{2,40}$/.test(p)) p = '/other';
     event.url = u.origin + p;
   } catch (e) { return null; } // Never pass an unparseable address through unchanged.
   return event;

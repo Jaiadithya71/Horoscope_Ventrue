@@ -40,8 +40,8 @@ test('chooser works at 320px, keyboard and without JavaScript',async({page,brows
 test('analytics only records whitelisted paths, never query/hash or free text',()=>{
  const ctx={window:{},location:{origin:'https://test.invalid'},URL};ctx.window.va=(...a)=>ctx.hook=a[1];vm.createContext(ctx);
  vm.runInContext(fs.readFileSync('app/reels-catalog.js','utf8'),ctx);vm.runInContext(fs.readFileSync('app/analytics.js','utf8'),ctx);
- for(const path of ['/','/chart','/reels','/from/marriage-timing','/from/unknown','/weekly','/stats'])expect(ctx.hook({url:'https://test.invalid'+path+'?birth=SECRET#private'}).url).toBe('https://test.invalid'+path);
- for(const path of ['/from/private-person','/from/123-SECRET','/api/calculate','/search?q=SECRET'])expect(ctx.hook({url:'https://test.invalid'+path}).url).toBe('https://test.invalid/other');
+ for(const path of ['/','/chart','/dm/marriage-timing','/reels','/from/marriage-timing','/from/unknown','/weekly','/stats'])expect(ctx.hook({url:'https://test.invalid'+path+'?birth=SECRET#private'}).url).toBe('https://test.invalid'+path);
+ for(const path of ['/dm/private-person','/from/private-person','/from/123-SECRET','/api/calculate','/search?q=SECRET'])expect(ctx.hook({url:'https://test.invalid'+path}).url).toBe('https://test.invalid/other');
  expect(ctx.hook({url:'http://['})).toBeNull();
 });
 test('existing root bio URL opens optional chooser, direct and returning tools bypass it',async({page})=>{
@@ -55,7 +55,7 @@ test('existing root bio URL opens optional chooser, direct and returning tools b
  await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);
  await page.goto('/weekly');await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);await expect(page.locator('#birth-form')).toBeVisible();
  await page.goto('/studio');await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);
- for(const path of ['/chart','/r/reel1-kalyanam','/from/marriage-timing']){await page.goto(path);await expect(page.locator('#birth-form')).toBeVisible();}
+ for(const path of ['/chart','/dm/marriage-timing','/r/reel1-kalyanam','/from/marriage-timing']){await page.goto(path);await expect(page.locator('#birth-form')).toBeVisible();}
  await page.goto('/#birth-title');await expect(page).toHaveURL(/\/chart#birth-title$/);await expect(page.locator('#birth-form')).toBeVisible();
  await page.goto('/');await page.locator('.reel-card').first().click();await expect(page).toHaveURL(/\/from\/marriage-timing$/);
  await expect(page.locator('#birth-form')).toBeVisible();
