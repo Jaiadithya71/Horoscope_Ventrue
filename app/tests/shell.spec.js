@@ -10,7 +10,7 @@ const multi = {candidates:[
  {display_name:'Salem, Oregon, United States',latitude:44.9429,longitude:-123.0351,category:'place',type:'city'}]};
 test('place lookup resolves one match and calculates',async({page},info)=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:chennai}));
- await page.goto('/');
+ await page.goto('/chart');
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-start.png`,fullPage:true});
  await setBirth(page,2000,1,1,2,30,'PM');
  await expect(page.locator('#date-echo')).toContainText('Saturday, 1 January 2000');
@@ -55,7 +55,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
 });
 test('ambiguous place asks the user to pick',async({page})=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:multi}));
- await page.goto('/');
+ await page.goto('/chart');
  await page.locator('[name=place]').fill('Salem');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.getByRole('alert')).toContainText('More than one place matches');
@@ -65,7 +65,7 @@ test('ambiguous place asks the user to pick',async({page})=>{
 });
 test('no match and manual fallback',async({page})=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:{candidates:[]}}));
- await page.goto('/');
+ await page.goto('/chart');
  await page.locator('[name=place]').fill('Nowhereplace');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.getByRole('alert')).toContainText('No match');
@@ -75,7 +75,7 @@ test('no match and manual fallback',async({page})=>{
 test('manual coordinates still work without lookup, safe text, timezone errors',async({page})=>{
  let geocodeCalls = 0;
  await page.route('**/api/geocode**',route=>{geocodeCalls++;route.fulfill({json:chennai});});
- await page.goto('/');await page.getByRole('button',{name:'Use a synthetic example'}).click();
+ await page.goto('/chart');await page.getByRole('button',{name:'Use a synthetic example'}).click();
  await page.locator('[name=place]').fill('<img src=x onerror=alert(1)>');
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('.result-head')).toContainText('<img src=x onerror=alert(1)>');
@@ -88,7 +88,7 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
 });
 
 test('life periods render as collapsible period cards',async({page})=>{
- await page.goto('/');
+ await page.goto('/chart');
  await page.getByRole('button',{name:'Use a synthetic example'}).click();
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('#periods-title')).toContainText('period by period');
@@ -98,7 +98,7 @@ test('life periods render as collapsible period cards',async({page})=>{
 });
 
 test('story view: 7 cards, next/back, jump to full page',async({page})=>{
- await page.goto('/');
+ await page.goto('/chart');
  await page.getByRole('button',{name:'Use a synthetic example'}).click();
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await page.locator('#story-open').click();
@@ -113,7 +113,7 @@ test('story view: 7 cards, next/back, jump to full page',async({page})=>{
  await expect(page.locator('.story')).toHaveCount(0);
 });
 test('lagna options: uncertain time window lists lagnas and the chosen one calculates',async({page})=>{
- await page.goto('/');
+ await page.goto('/chart');
  await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Chennai');
  await page.locator('details.manual summary').click();
@@ -130,7 +130,7 @@ test('lagna options: uncertain time window lists lagnas and the chosen one calcu
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('lagna options: known lagna picks its clock hours',async({page})=>{
- await page.goto('/');
+ await page.goto('/chart');
  await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Chennai');
  await page.locator('details.manual summary').click();

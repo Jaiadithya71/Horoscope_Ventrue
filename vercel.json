@@ -3,6 +3,10 @@
   "rewrites": [
     {
       "source": "/",
+      "destination": "/app/reels.html"
+    },
+    {
+      "source": "/chart",
       "destination": "/app/index.html"
     },
     {

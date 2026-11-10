@@ -27,7 +27,7 @@ test('all catalog links load chart and unknown and skip remain optional',async({
  await page.goto('/reels');await page.locator('#reel-search').fill('no-such-reel');
  await expect(page.locator('#no-matches')).toBeVisible();
  await page.locator('.unknown').click();await expect(page).toHaveURL(/\/from\/unknown$/);await expect(page.locator('#birth-form')).toBeVisible();
- await page.goto('/reels');await page.locator('.skip').click();await expect(page).toHaveURL(/\/$/);
+ await page.goto('/reels');await page.locator('.skip').click();await expect(page).toHaveURL(/\/chart$/);await expect(page.locator('#birth-form')).toBeVisible();
 });
 test('chooser works at 320px, keyboard and without JavaScript',async({page,browser})=>{
  await page.route('**/_vercel/**',r=>r.abort());
@@ -40,7 +40,23 @@ test('chooser works at 320px, keyboard and without JavaScript',async({page,brows
 test('analytics only records whitelisted paths, never query/hash or free text',()=>{
  const ctx={window:{},location:{origin:'https://test.invalid'},URL};ctx.window.va=(...a)=>ctx.hook=a[1];vm.createContext(ctx);
  vm.runInContext(fs.readFileSync('app/reels-catalog.js','utf8'),ctx);vm.runInContext(fs.readFileSync('app/analytics.js','utf8'),ctx);
- for(const path of ['/','/reels','/from/marriage-timing','/from/unknown','/weekly','/stats'])expect(ctx.hook({url:'https://test.invalid'+path+'?birth=SECRET#private'}).url).toBe('https://test.invalid'+path);
+ for(const path of ['/','/chart','/reels','/from/marriage-timing','/from/unknown','/weekly','/stats'])expect(ctx.hook({url:'https://test.invalid'+path+'?birth=SECRET#private'}).url).toBe('https://test.invalid'+path);
  for(const path of ['/from/private-person','/from/123-SECRET','/api/calculate','/search?q=SECRET'])expect(ctx.hook({url:'https://test.invalid'+path}).url).toBe('https://test.invalid/other');
  expect(ctx.hook({url:'http://['})).toBeNull();
+});
+test('existing root bio URL opens optional chooser, direct and returning tools bypass it',async({page})=>{
+ await page.route('**/_vercel/**',r=>r.abort());
+ await page.goto('/?utm_source=ig&utm_medium=social&utm_content=link_in_bio');
+ await expect(page.locator('h1')).toHaveText('எந்த ரீல் பார்த்து வந்தீங்க?');
+ await expect(page.locator('.reel-card')).toHaveCount(12);
+ await expect(page.locator('#birth-form')).toHaveCount(0);
+ await page.locator('.skip').click();await expect(page).toHaveURL(/\/chart$/);
+ await expect(page.locator('#birth-form')).toBeVisible();
+ await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);
+ await page.goto('/weekly');await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);await expect(page.locator('#birth-form')).toBeVisible();
+ await page.goto('/studio');await page.locator('.wordmark').click();await expect(page).toHaveURL(/\/chart$/);
+ for(const path of ['/chart','/r/reel1-kalyanam','/from/marriage-timing']){await page.goto(path);await expect(page.locator('#birth-form')).toBeVisible();}
+ await page.goto('/#birth-title');await expect(page).toHaveURL(/\/chart#birth-title$/);await expect(page.locator('#birth-form')).toBeVisible();
+ await page.goto('/');await page.locator('.reel-card').first().click();await expect(page).toHaveURL(/\/from\/marriage-timing$/);
+ await expect(page.locator('#birth-form')).toBeVisible();
 });

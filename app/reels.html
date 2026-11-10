@@ -2,19 +2,23 @@
 <html lang="ta"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Which reel brought you here? | Horoscope</title><meta name="description" content="Choose the reel you watched, then open your free chart and traditional interpretation. No account needed.">
 <link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/reels.css">
+<script>
+// Keep legacy chart bookmarks usable; never derive a reel choice from a URL.
+if (location.pathname === '/' && /^#(?:birth-form|birth-title|results|clients-title|who-title|periods-title|evidence)$/.test(location.hash)) location.replace('/chart' + location.search + location.hash);
+</script>
 <script src="/reels-catalog.js"></script><script src="/analytics.js"></script><script defer src="/_vercel/insights/script.js"></script><script defer src="/reels.js"></script></head>
 <body><main class="reel-page">
 <header><a class="wordmark" href="/">Horoscope<span data-ta="ஜாதகம் · மரபு விளக்கம்" data-en="Chart · traditional interpretation">ஜாதகம் · மரபு விளக்கம்</span></a><div class="languages" role="group" aria-label="Language"><button type="button" data-lang="ta" aria-pressed="true">தமிழ்</button><button type="button" data-lang="en" aria-pressed="false">English</button></div></header>
 <section class="reel-intro"><p class="eyebrow" data-ta="ரீலில் இருந்து வந்தீங்களா?" data-en="From a reel to your chart">ரீலில் இருந்து வந்தீங்களா?</p>
 <h1 data-ta="எந்த ரீல் பார்த்து வந்தீங்க?" data-en="Which reel brought you here?">எந்த ரீல் பார்த்து வந்தீங்க?</h1>
 <p class="lead" data-ta="பார்த்த ரீலைத் தேர்ந்தெடுங்க. அடுத்து உங்கள் இலவச ஜாதகமும் மரபுப் பலன் விளக்கமும். கணக்கு தேவையில்லை." data-en="Choose the reel you watched, then open your free chart and traditional interpretation. No account needed.">பார்த்த ரீலைத் தேர்ந்தெடுங்க. அடுத்து உங்கள் இலவச ஜாதகமும் மரபுப் பலன் விளக்கமும். கணக்கு தேவையில்லை.</p>
-<a class="skip" href="/" data-ta="தேர்வு செய்யாமல் ஜாதகத்திற்குச் செல்லவும் →" data-en="Skip this step and open my chart →">தேர்வு செய்யாமல் ஜாதகத்திற்குச் செல்லவும் →</a></section>
+<a class="skip" href="/chart" data-ta="தேர்வு செய்யாமல் ஜாதகத்திற்குச் செல்லவும் →" data-en="Skip this step and open my chart →">தேர்வு செய்யாமல் ஜாதகத்திற்குச் செல்லவும் →</a></section>
 <section aria-labelledby="reel-list-title"><h2 id="reel-list-title" data-ta="நீங்க பார்த்த ரீல்" data-en="The reel you watched">நீங்க பார்த்த ரீல்</h2>
 <label class="search-label" for="reel-search" data-ta="ரீலைக் கண்டுபிடிக்க" data-en="Find a reel">ரீலைக் கண்டுபிடிக்க</label><input id="reel-search" type="search" autocomplete="off" maxlength="80" placeholder="திருமணம், கோலம்…" aria-describedby="choice-note">
 <p id="choice-note" class="muted" data-ta="ஒரு தேர்வு. அடுத்து நேராக ஜாதகப் படிவம்." data-en="One choice, then straight to the chart form.">ஒரு தேர்வு. அடுத்து நேராக ஜாதகப் படிவம்.</p>
 <div id="reel-list" class="reel-list"></div><p id="no-matches" hidden data-ta="இந்த வார்த்தைக்கு ரீல் இல்லை. வேறு வார்த்தை முயற்சிக்கவும் அல்லது கீழே தொடரவும்." data-en="No reel matches that search. Try another word or continue below.">இந்த வார்த்தைக்கு ரீல் இல்லை. வேறு வார்த்தை முயற்சிக்கவும் அல்லது கீழே தொடரவும்.</p>
 <a class="unknown" href="/from/unknown" data-ta="வேறு ரீல் / நினைவில்லை →" data-en="Another reel / I don’t remember →">வேறு ரீல் / நினைவில்லை →</a>
-<noscript><p>ரீல் பட்டியலுக்கு JavaScript தேவை. <a href="/">இலவச ஜாதகத்திற்குச் செல்லவும் / Open your free chart</a>.</p></noscript></section>
+<noscript><p>ரீல் பட்டியலுக்கு JavaScript தேவை. <a href="/chart">இலவச ஜாதகத்திற்குச் செல்லவும் / Open your free chart</a>.</p></noscript></section>
 <footer><p data-ta="தேர்வு விருப்பமானது. நீங்கள் தேர்ந்தெடுக்கும் ரீலின் தலைப்பு, பக்க வருகைகளின் மொத்தத்தில் சேரும்; தேடும் வார்த்தைகள் அனுப்பப்படாது. பிறந்த விவரங்கள் இந்தப் பக்கத்தில் கேட்கப்படாது." data-en="Choosing is optional. The reel topic you choose is counted in page-visit totals; search words are not sent. This page does not ask for birth details.">தேர்வு விருப்பமானது. நீங்கள் தேர்ந்தெடுக்கும் ரீலின் தலைப்பு, பக்க வருகைகளின் மொத்தத்தில் சேரும்; தேடும் வார்த்தைகள் அனுப்பப்படாது. பிறந்த விவரங்கள் இந்தப் பக்கத்தில் கேட்கப்படாது.</p>
 <p data-ta="ஜோதிடம் ஒரு வரலாற்று மரபு; அறிவியலால் உறுதிசெய்யப்பட்ட கணிப்பு அல்ல. விளக்கங்களில் உள்ள வரம்புகளும் ஜாதகப் பக்கத்தில் காட்டப்படும்." data-en="Astrology is a historical tradition, not scientifically validated prediction. The chart page also explains the limits of its readings.">ஜோதிடம் ஒரு வரலாற்று மரபு; அறிவியலால் உறுதிசெய்யப்பட்ட கணிப்பு அல்ல. விளக்கங்களில் உள்ள வரம்புகளும் ஜாதகப் பக்கத்தில் காட்டப்படும்.</p></footer>
 </main></body></html>

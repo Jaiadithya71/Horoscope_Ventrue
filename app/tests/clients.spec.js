@@ -1,6 +1,6 @@
 const {test,expect}=require('@playwright/test');
 test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('horoscope-language','en'));});
-async function notebook(page){await page.goto('/');await page.getByRole('button',{name:'Use a synthetic example'}).click();await page.locator('#clients-title').click();}
+async function notebook(page){await page.goto('/chart');await page.getByRole('button',{name:'Use a synthetic example'}).click();await page.locator('#clients-title').click();}
 async function save(page,name='Test client'){await page.locator('#client-name').fill(name);await page.getByRole('button',{name:'Save birth details to this browser'}).click();await expect(page.locator('#client-status')).toContainText('saved in this browser');}
 test('opt-in client save, consultation, reload and deletion',async({page},info)=>{
  let notesSent=false;page.on('request',r=>{if(r.postData()?.includes('private note'))notesSent=true;});

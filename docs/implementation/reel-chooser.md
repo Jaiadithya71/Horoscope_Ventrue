@@ -1,12 +1,12 @@
 # Fixed-link reel chooser
 
-The bio entry point is `/reels`. The homepage and existing application remain unchanged. Do not edit the Instagram bio as part of code deployment.
+The existing root bio URL `/` now opens the reel chooser. `/reels` remains an alias. The unchanged chart application has the explicit direct entry `/chart`, while `/from/<slug>`, legacy `/r/<slug>`, and existing tool routes remain direct. Do not edit the Instagram bio as part of code deployment.
 
 ## Flow
 
 - Tamil-first; English toggle shares the app's existing language preference.
 - Search filters the local catalog only. No search terms are sent to analytics.
-- A topic choice opens `/from/<stable-slug>`, internally rewritten to the existing chart application. Unknown uses `/from/unknown`; skip uses `/`.
+- A topic choice opens `/from/<stable-slug>`, internally rewritten to the existing chart application. Unknown uses `/from/unknown`; skip and no-JavaScript fallback use `/chart`. Internal chart/tool home links also use `/chart`, so returning within those flows does not repeat the chooser. Existing local notebook storage and calculation logic are unchanged. Root visits remain unattributed until a choice; there is no automatic choice, query-based attribution, or persistent source assignment.
 - These paths are visitor-reported attribution. They do not prove the selected reel caused a visit. Repeated loads, forgotten choices, shared links and skips limit inference.
 - No additional visitor-level store or custom event is introduced. Vercel Web Analytics records page visits on the allowed paths. In the dashboard, distinguish page views from visitors. Do not describe either as exact Instagram link taps, chart completions or conversions.
 
