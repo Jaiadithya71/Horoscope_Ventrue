@@ -31,6 +31,12 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
+        # Mirror the deployed static rewrites for local verification.
+        aliases = {'/reels': '/reels.html', '/weekly': '/weekly.html', '/stats': '/stats.html', '/studio': '/studio.html'}
+        if parsed.path in aliases:
+            self.path = aliases[parsed.path]
+        elif parsed.path.startswith('/from/') or parsed.path.startswith('/r/'):
+            self.path = '/index.html'
         super().do_GET()
     def do_POST(self):
         if self.path not in ('/api/calculate', '/api/lagna'):

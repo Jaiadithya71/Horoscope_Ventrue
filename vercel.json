@@ -6,6 +6,30 @@
       "destination": "/app/index.html"
     },
     {
+      "source": "/reels",
+      "destination": "/app/reels.html"
+    },
+    {
+      "source": "/reels.css",
+      "destination": "/app/reels.css"
+    },
+    {
+      "source": "/reels.js",
+      "destination": "/app/reels.js"
+    },
+    {
+      "source": "/reels-catalog.js",
+      "destination": "/app/reels-catalog.js"
+    },
+    {
+      "source": "/analytics.js",
+      "destination": "/app/analytics.js"
+    },
+    {
+      "source": "/from/:slug",
+      "destination": "/app/index.html"
+    },
+    {
       "source": "/style.css",
       "destination": "/app/style.css"
     },
