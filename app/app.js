@@ -350,7 +350,7 @@ async function runCalc(birth, note) {
     window.__lastNote=note||'';render(report, birth, resolvedFromLookup);
     showScreen('app'); activateTab('home');
   } catch (e) { showScreen('wizard'); gotoStep(4); fail(e.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : e.message); }
-  finally { button.disabled = false; button.textContent = 'Calculate chart'; workspace.setAttribute('aria-busy', 'false'); }
+  finally { button.disabled = false; button.textContent = 'Reveal my chart'; workspace.setAttribute('aria-busy', 'false'); }
 }
 function spanText(s) {
   const f = s.from.slice(11), t = s.to.slice(11), next = s.to.slice(0, 10) !== s.from.slice(0, 10) ? ' (next day)' : '';
@@ -385,7 +385,7 @@ async function lagnaOptions(base) {
     showScreen('wizard'); gotoStep(2); document.querySelector('#lagna-choices').scrollIntoView({behavior:'smooth'});
     choicesBox.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => chooseSpan(base, spans[Number(b.dataset.i)], 'chosen by you from the options')));
   } catch (e) { fail(e.name === 'TimeoutError' ? 'That took too long. Try again.' : e.message); }
-  finally { button.disabled = false; button.textContent = 'Calculate chart'; }
+  finally { button.disabled = false; button.textContent = 'Reveal my chart'; }
 }
 form.addEventListener('submit', async e => {
   e.preventDefault(); error.hidden = true; output.hidden = true; choicesBox.hidden = true;
@@ -771,7 +771,10 @@ function fillConfirmSummary() {
   const timeBit = timeMode() === 'sure' ? v.time.value : timeMode() === 'window' ? `${v.win_start.value} to ${v.win_end.value}` : (v.known_lagna.value ? `${v.known_lagna.value} lagna` : 'Lagna known');
   const zone = v.timezone.value === '__other' ? (v.timezone_other.value || '') : v.timezone.value;
   document.querySelector('#confirm-summary').innerHTML =
-    `<div><strong>${escape(v.date.value)}</strong> · ${escape(timeBit)}</div><div><span data-private>${escape(v.place.value)}</span>${zone ? ' · ' + escape(zone) : ''}</div>`;
+    `<div class="sumrow"><span class="k">Date</span><span class="v">${escape(v.date.value)}</span><button type="button" data-step-goto="1">Edit</button></div>
+    <div class="sumrow"><span class="k">Time</span><span class="v">${escape(timeBit)}</span><button type="button" data-step-goto="2">Edit</button></div>
+    <div class="sumrow"><span class="k">Place</span><span class="v" data-private>${escape(v.place.value)}</span><button type="button" data-step-goto="3">Edit</button></div>
+    <div class="sumrow"><span class="k">Time zone</span><span class="v">${escape(zone)}</span><button type="button" data-step-goto="3">Edit</button></div>`;
 }
 function wizardNext() {
   if (wizardStep === 1 && !form.elements.date.value) return fail('Choose the full date of birth: day, month and a four-digit year.');
@@ -786,6 +789,7 @@ document.addEventListener('click', e => {
   if (e.target.closest('.w-home')) return showScreen('welcome');
   if (e.target.closest('.w-next')) return wizardNext();
   if (e.target.closest('.w-back')) return gotoStep(wizardStep - 1);
+  const sg = e.target.closest('[data-step-goto]'); if (sg) return gotoStep(Number(sg.dataset.stepGoto));
   if (e.target.closest('#start-wizard')) return showWizard();
   if (e.target.closest('#new-chart')) return showWizard();
   const tb = e.target.closest('.tabbar [data-tab]');

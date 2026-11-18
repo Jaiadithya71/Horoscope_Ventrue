@@ -204,3 +204,20 @@ th{color:var(--muted)}
 #nb-slot .client-panel textarea{background:#0f1626;color:var(--ink);border:1px solid var(--line)!important;border-radius:10px!important}
 #nb-slot .client-item,#nb-slot .consult-item{border:1px solid var(--line)!important;border-radius:10px!important;background:#0f1626}
 #nb-slot .client-panel input[type=text],#nb-slot .client-panel input:not([type]){background:#0f1626;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}
+
+/* step-2 polish: wizard cards + confirm summary */
+.pick{border:0;background:none;padding:0;margin:0 0 18px}
+.pick legend{display:block;font-size:12.5px;color:var(--muted);font-weight:600;margin:0 2px 8px;padding:0}
+.pick .trio{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px}
+.pick .trio label,.pick .pair label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted);font-weight:600}
+.pick select,.pick input{min-height:48px}
+.confirm-summary{border:1px solid var(--line);border-radius:16px;background:var(--night2,#141b2e);padding:4px 16px;margin-bottom:18px}
+.sumrow{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sumrow:last-child{border-bottom:0}
+.sumrow .k{color:var(--muted);flex:0 0 74px}
+.sumrow .v{flex:1;min-width:0;overflow-wrap:anywhere}
+.sumrow button{color:var(--gold);font-size:12.5px;font-weight:650;width:auto;min-height:0;padding:4px 6px;background:none;border:0}
+.advanced{margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--night2,#141b2e);padding:2px 16px}
+.advanced summary{padding:12px 0;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+.advanced .pick{margin-top:6px}
+#calculate{width:100%;min-height:52px;font-size:16px}

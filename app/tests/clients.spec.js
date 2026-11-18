@@ -11,7 +11,7 @@ test('opt-in client save, consultation, reload and deletion',async({page},info)=
  await page.screenshot({path:`/downloads/notebook-${info.project.name}.png`,fullPage:true});
  await page.reload();await page.getByRole('button',{name:'Use a synthetic example'}).click();await page.locator('#calculate').click();await expect(page.locator('#scr-app')).toBeVisible();await page.locator('.tabbar [data-tab=more]').click();await page.locator('#clients-title').click();await page.locator('.client-item').click();await expect(page.locator('.consult-item')).toContainText('private note');
  page.on('dialog',d=>d.accept());await page.getByRole('button',{name:'Load birth details'}).click();await expect(page.locator('[name=time]')).toHaveValue('14:30');await expect(page.locator('[name=latitude]')).toHaveValue('13');
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();await expect(page.locator('#results')).toBeVisible();expect(notesSent).toBe(false);
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();await expect(page.locator('#results')).toBeVisible();expect(notesSent).toBe(false);
  await page.locator('.tabbar [data-tab=more]').click();await page.locator('.client-item').click();await page.getByRole('button',{name:'Delete client',exact:true}).click();await expect(page.locator('.client-item')).toHaveCount(0);await expect(page.locator('#client-detail')).toBeHidden();
 });
 test('uncertain time survives saving and loading without an invented precise time',async({page})=>{

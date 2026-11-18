@@ -20,7 +20,7 @@ const UI_TRANSLATIONS = {
 'Pick where you were born. The UTC offset shown is the one in force on your birth date.':'பிறந்த இடத்தின் நேர மண்டலத்தைத் தேர்ந்தெடுங்கள். பிறந்த தேதியில் நடைமுறையில் இருந்த நேர வேறுபாடு பயன்படுத்தப்படும்.',
 'தமிழ் ஜாதகம் / Tamil sheet':'ஜாதகக் குறிப்பு','Show Tamil birth sheet beside the life reading':'வாழ்க்கை வாசிப்புடன் பிறப்பு ஜாதகக் குறிப்பையும் காட்டு','ராகு / Rahu node':'ராகு கணக்கீடு','Mean / சராசரி':'சராசரி ராகு','True / உண்மை (site-compatible option)':'உண்மை ராகு (மற்ற தளத்துடன் ஒப்பிடும் தேர்வு)',
 'Choose the node convention. Mean remains the existing default. No site timing formula is copied.':'ராகு கணக்கீட்டு முறையைத் தேர்ந்தெடுங்கள். ஏற்கெனவே உள்ள சராசரி ராகு முறையே இயல்புநிலை. மற்ற தளத்தின் காலக் கணக்கு நகலெடுக்கப்படவில்லை.',
-'Calculate chart':'ஜாதகம் கணக்கிடு','Calculating…':'கணக்கிடுகிறோம்…','Checking…':'சரிபார்க்கிறோம்…','Use a synthetic example':'மாதிரி விவரங்களுடன் பாருங்கள்',
+'Calculate chart':'ஜாதகம் கணக்கிடு','Reveal my chart':'ஜாதகத்தைக் காண்','Advanced options':'மேம்பட்ட விருப்பங்கள்','Time zone':'நேர மண்டலம்','Edit':'திருத்து','Calculating…':'கணக்கிடுகிறோம்…','Checking…':'சரிபார்க்கிறோம்…','Use a synthetic example':'மாதிரி விவரங்களுடன் பாருங்கள்',
 'A reading, not a verdict':'வாசிப்பு மட்டுமே. உறுதியான தீர்ப்பு அல்ல.','Your chart, read properly.':'உங்கள் ஜாதகம் ஒரே இடத்தில்.',
 'Three conditional career routes, then your lagna, Moon and nakshatra and the planets as a reader would lay them out. Sources and period arithmetic sit one step deeper.':'முதலில் பிறப்பு விவரங்களை நிரப்புங்கள். பிறகு ஜாதகக் குறிப்பு, வாழ்க்கைத் துறைகள், திசை - புத்தி காலங்கள் கிடைக்கும். ஒவ்வொரு வாசிப்பின் ஆதாரமும் தனியாக உள்ளது.',
 'Not available yet':'இன்னும் உறுதியாகக் கிடைக்காதவை','Full strength totals, a selected historical calendar and personal forecasts remain research-gated.':'முழுமையான பலக் கணக்கு, ஒரே மரபுக் காலண்டர் தேர்வு, சோதிக்கப்பட்ட தனிப்பட்ட கணிப்புகள் இன்னும் முடிவாகவில்லை.',
@@ -348,7 +348,7 @@ Object.assign(UI_TRANSLATIONS,{
 // Compiled once after all dictionaries are loaded. Long phrases go first.
 let translationPatterns;
 function translateFragments(v,longOnly=false){
- translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Home','Reading','Charts','More','Continue','Date','Time','Place','Confirm','Weekly sky','About'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
+ translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Home','Reading','Charts','More','Continue','Date','Time','Place','Confirm','Weekly sky','About','Edit','Time zone'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
  for(const [re,ta] of translationPatterns)if(!longOnly||re.source.length>70)v=v.replace(re,ta);return v;
 }
 Object.assign(UI_TRANSLATIONS,{

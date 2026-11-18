@@ -30,7 +30,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('#resolved')).toContainText('13.0827, 80.2707');
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
  await next(page);
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
  await expect(page.locator('#scr-app')).toBeVisible();
  await expect(page.locator('.outcome-card')).toHaveCount(6);
@@ -88,22 +88,22 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
  await back(page);
  await page.locator('[name=place]').fill('<img src=x onerror=alert(1)>');
  await next(page);
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.locator('.result-head')).toContainText('<img src=x onerror=alert(1)>');
  expect(await page.locator('#results img').count()).toBe(0);
  expect(geocodeCalls).toBe(0);
  await tab(page,'more');await page.locator('#new-chart').click();
  await back(page);
- await page.locator('select[name=timezone]').selectOption('__other');await page.locator('[name=timezone_other]').fill('bad-zone');await next(page);await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.locator('select[name=timezone]').selectOption('__other');await page.locator('[name=timezone_other]').fill('bad-zone');await next(page);await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Invalid IANA timezone');
  await expect(page.locator('#results')).toBeHidden();
- await expect(page.getByRole('button',{name:'Calculate chart',exact:true})).toBeEnabled();
+ await expect(page.getByRole('button',{name:'Reveal my chart',exact:true})).toBeEnabled();
 });
 
 test('life periods render as collapsible period cards',async({page})=>{
  await page.goto('/chart');
  await page.getByRole('button',{name:'Use a synthetic example'}).click();
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await tab(page,'reading');
  await expect(page.locator('#periods-title')).toContainText('period by period');
  await expect(page.locator('.period')).toHaveCount(9);
@@ -114,7 +114,7 @@ test('life periods render as collapsible period cards',async({page})=>{
 test('story view: 7 cards, next/back, jump to full page',async({page})=>{
  await page.goto('/chart');
  await page.getByRole('button',{name:'Use a synthetic example'}).click();
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await page.locator('#story-open').click();
  await expect(page.locator('.story')).toBeVisible();
  await expect(page.locator('.story-count')).toContainText('1');
@@ -137,7 +137,7 @@ test('lagna options: uncertain time window lists lagnas and the chosen one calcu
  await expect(page.locator('#time-pick')).toBeHidden();
  await page.locator('[name=win_start]').fill('06:00');await page.locator('[name=win_end]').fill('10:00');
  await next(page);await next(page);
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.locator('.choice')).toHaveCount(3);
  await expect(page.locator('#lagna-choices')).toContainText('Capricorn');
  await page.locator('.choice').nth(1).click();
@@ -154,12 +154,12 @@ test('lagna options: known lagna picks its clock hours',async({page})=>{
  await back(page);
  await page.locator('input[name=timemode][value=known]').check();
  await next(page);await next(page);
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Choose your lagna');
  await back(page);await back(page);
  await page.locator('select[name=known_lagna]').selectOption('Leo');
  await next(page);await next(page);
- await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.locator('.result-head h2')).toContainText('Leo');
  await expect(page.locator('.lagna-note')).toContainText('chosen by you');
 });
