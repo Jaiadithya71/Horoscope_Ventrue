@@ -273,6 +273,14 @@ function periodsSection(lp) {
     <div class="period-list">${items}</div><p class="aspect-limit">${escape(lp.notice)}</p></section>`;
 }
 
+function nowCard(lp) {
+  const periods = lp?.periods || []; if (!periods.length) return '';
+  const yr = new Date().getFullYear();
+  const cur = periods.find(p => p.when === 'now') || periods.find(p => p.years_about[0] <= yr && yr <= p.years_about[1]);
+  if (!cur) return '';
+  const [cls, label] = TONE[cur.tone] || TONE.mixed;
+  return `<button type="button" class="now-card" data-goto="reading"><p class="eyebrow">Right now · your current stretch</p><h3>${escape(cur.years_about[0])} to ${escape(cur.years_about[1])} <span class="chip tone-${cls}">${escape(cur.label || label)}</span></h3><p>${escape(cur.you_text || cur.summary)}</p><span class="now-more">See every period</span></button>`;
+}
 function render(report, birth, coordsWereResolved) {
   const reRender = !output.hidden && !!output.querySelector('.result-head');
   window.__lastReport = report; window.__lastBirth = birth; window.__lastCoords = coordsWereResolved;
@@ -286,14 +294,16 @@ function render(report, birth, coordsWereResolved) {
   const unique = [...new Map(sources.map(s => [JSON.stringify(s), s])).values()];
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
-  output.innerHTML = `<div class="result-head"><span class="result-mascot${reRender ? ' still' : ''}" aria-hidden="true">${mascotSVG('happy')}</span><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
-  ${horizonBanner(report,birth)}${inspectionSwitch()}${divisionalPanel(report)}${astrologerPanel(report,birth)}<div id="plain-reading" ${inspectionState.view!=='plain'?'hidden':''}>
+  document.querySelector('#inspection-slot').innerHTML = inspectionSwitch();
+  document.querySelector('#pane-home').innerHTML = `<div class="result-head"><span class="result-mascot${reRender ? ' still' : ''}" aria-hidden="true">${mascotSVG('happy')}</span><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
-  <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>
-  ${tamilSheet(report, birth)}
-  ${whoSection(report.who_you_are)}
-  ${outcomeSection(report.outcome_summary)}
-  ${periodsSection(report.life_periods)}
+  ${nowCard(report.life_periods)}
+  ${outcomeSection(report.outcome_summary)}`;
+  document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
+  document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
+  document.querySelector('#pane-more').innerHTML = `<h2 class="more-title">More</h2>
+  <div class="more-list"><button type="button" id="new-chart">New chart / edit birth details<span aria-hidden="true">→</span></button><a href="/weekly">Weekly sky · வார ராசி<span aria-hidden="true">→</span></a></div>
+  ${horizonBanner(report,birth)}
   <details class="evidence-all" id="evidence"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
   ${lifeSections(report)}
@@ -303,8 +313,10 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Planet placements</summary><p>Whole-sign and Sripati degree houses are separate models, not interchangeable. Rahu uses the ${escape(chart.node_mode || "mean")} node. Ketu in the Tamil sheet is its opposite point, not an independently computed planet.</p><div class="table-wrap"><table><thead><tr><th>Planet</th><th>Sign / degree</th><th>Whole-sign house</th><th>Sripati house</th></tr></thead><tbody>${rows}</tbody></table></div></details>
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
-  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null. This audit report retains the full arithmetic beyond the display horizon; it is not an extended forecast.</p><pre>${escape(JSON.stringify(publicReport(window.__lastReport), null, 2))}</pre></details></details></div>`;
-  if(window.__lastNote)output.querySelector('.result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
+  <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null. This audit report retains the full arithmetic beyond the display horizon; it is not an extended forecast.</p><pre>${escape(JSON.stringify(publicReport(window.__lastReport), null, 2))}</pre></details></details>`;
+  document.querySelector('#astro-slot').innerHTML = astrologerPanel(report,birth);
+  document.querySelector('#plain-reading').hidden = inspectionState.view!=='plain';
+  if(window.__lastNote)document.querySelector('#pane-home .result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
   output.hidden = false;
 }
 const LAGNA_TA = {"Aries": "மேஷம்", "Taurus": "ரிஷபம்", "Gemini": "மிதுனம்", "Cancer": "கடகம்", "Leo": "சிம்மம்", "Virgo": "கன்னி", "Libra": "துலாம்", "Scorpio": "விருச்சிகம்", "Sagittarius": "தனுசு", "Capricorn": "மகரம்", "Aquarius": "கும்பம்", "Pisces": "மீனம்"};
@@ -323,14 +335,14 @@ const clock = t => { const [h, m] = t.split(':').map(Number); return `${h % 12 |
 async function runCalc(birth, note) {
   inspectionState={view:'plain',profile:'',at:new Date().toISOString().slice(0,19),house:1,planet:'Jupiter'};
   button.disabled = true; button.textContent = 'Calculating…'; workspace.setAttribute('aria-busy', 'true');
+  showScreen('loading');
   try {
     const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({birth,tamil_view:document.querySelector("#tamil-view").checked,node_mode:form.elements.node_mode.value}), signal:AbortSignal.timeout(30000)});
     const report = await response.json();
     if (!response.ok) throw new Error(report.error || 'Calculation is unavailable.');
     window.__lastNote=note||'';render(report, birth, resolvedFromLookup);
-
-    if (matchMedia('(max-width:700px)').matches) workspace.scrollIntoView({behavior:'smooth', block:'start'});
-  } catch (e) { fail(e.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : e.message); }
+    showScreen('app'); activateTab('home');
+  } catch (e) { showScreen('wizard'); gotoStep(4); fail(e.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : e.message); }
   finally { button.disabled = false; button.textContent = 'Calculate chart'; workspace.setAttribute('aria-busy', 'false'); }
 }
 function spanText(s) {
@@ -363,6 +375,7 @@ async function lagnaOptions(base) {
     if (spans.length === 1) return chooseSpan(base, spans[0], how);
     choicesBox.innerHTML = `<p class="eyebrow">${m === 'known' ? 'Your lagna rises twice on this date' : 'Which of these fits you?'}</p>` + spans.map((s, i) => `<button type="button" class="secondary choice" data-i="${i}"><b>${escape(lagnaName(s.lagna))} lagna</b><br><small>${escape(spanText(s))}${s.cut_by_window && m === 'window' ? ' · continues past your window' : ''}</small></button>`).join('') + '<p class="help">If you can narrow your time window, you get fewer options. Pick the one that matches what your family remembers.</p>';
     choicesBox.hidden = false;
+    showScreen('wizard'); gotoStep(2); document.querySelector('#lagna-choices').scrollIntoView({behavior:'smooth'});
     choicesBox.querySelectorAll('.choice').forEach(b => b.addEventListener('click', () => chooseSpan(base, spans[Number(b.dataset.i)], 'chosen by you from the options')));
   } catch (e) { fail(e.name === 'TimeoutError' ? 'That took too long. Try again.' : e.message); }
   finally { button.disabled = false; button.textContent = 'Calculate chart'; }
@@ -388,6 +401,7 @@ document.querySelector('#example').addEventListener('click', () => {
   setPickers('2000-01-01', '14:30');
   form.elements.timezone.dispatchEvent(new Event('change'));
   resolvedFromLookup = false; resolved.hidden = true; candidatesBox.hidden = true; error.hidden = true;
+  showWizard(); gotoStep(4);
 });
 
 
@@ -510,7 +524,7 @@ function openStory() {
 document.addEventListener('click', e => {
   if (e.target.closest('#story-open')) openStory();
   const j = e.target.closest('.story-jump');
-  if (j) { document.querySelector('.story .story-close')?.click(); setTimeout(() => document.getElementById(j.dataset.jump)?.scrollIntoView({behavior: 'smooth'}), 50); }
+  if (j) { document.querySelector('.story .story-close')?.click(); const target = document.getElementById(j.dataset.jump); const pane = target?.closest('.tabpage'); if (pane) activateTab(pane.id.replace('pane-', '')); setTimeout(() => target?.scrollIntoView({behavior: 'smooth'}), 60); }
 });
 
 /* Client notebook. Explicit save only. Never sends records or notes to a server. */
@@ -600,7 +614,7 @@ document.addEventListener('click', e => {
   $('client-form').onsubmit=e=>{e.preventDefault();try{const input=inputSnapshot(),name=$('client-name').value.trim();if(!name)throw Error('Give this client a name or private label.');const r=current();if(r&&!confirm('Replace the saved birth details for '+r.name+' with the current birth form?'))return;const saved={id:r?.id||id(),name,input,consultations:r?.consultations||[],updated:new Date().toISOString()};persist(r?records.map(x=>x.id===r.id?saved:x):[...records,saved]);selected=saved.id;renderNotebook();say('Birth details saved in this browser only.');}catch(e){say(e.message);}};
   $('client-new').onclick=()=>{selected=null;editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';$('client-name').value='';renderNotebook();say('New client. Fill or check the birth form before saving.');$('client-name').focus();};
   $('client-search').oninput=renderNotebook;
-  $('client-load').onclick=()=>{const r=current();if(!r)return;if(!confirm('Replace the current birth form with '+r.name+"'s saved details?"))return;const b=r.input;form.elements.node_mode.value=b.node_mode==='true'?'true':'mean';document.querySelector('#tamil-view').checked=b.tamil_view!==false;setPickers(b.date,b.time||'00:00');if(!b.time){hourEl.value='';minEl.value='';ampmEl.value='';syncTime();}for(const k of ['place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'])form.elements[k].value=b[k];const available=[...form.elements.timezone.options].some(o=>o.value===b.timezone);form.elements.timezone.value=available?b.timezone:'__other';form.elements.timezone_other.value=available?'':b.timezone;form.elements.timezone.dispatchEvent(new Event('change'));applyMode();resolvedFromLookup=false;resolved.hidden=true;candidatesBox.hidden=true;choicesBox.hidden=true;output.hidden=true;document.querySelector('#empty').hidden=false;say('Saved details loaded. Check them, then calculate a fresh chart.');document.querySelector('#birth-title').scrollIntoView({behavior:'smooth'});};
+  $('client-load').onclick=()=>{const r=current();if(!r)return;if(!confirm('Replace the current birth form with '+r.name+"'s saved details?"))return;const b=r.input;form.elements.node_mode.value=b.node_mode==='true'?'true':'mean';document.querySelector('#tamil-view').checked=b.tamil_view!==false;setPickers(b.date,b.time||'00:00');if(!b.time){hourEl.value='';minEl.value='';ampmEl.value='';syncTime();}for(const k of ['place','latitude','longitude','timemode','win_start','win_end','known_lagna','known_around'])form.elements[k].value=b[k];const available=[...form.elements.timezone.options].some(o=>o.value===b.timezone);form.elements.timezone.value=available?b.timezone:'__other';form.elements.timezone_other.value=available?'':b.timezone;form.elements.timezone.dispatchEvent(new Event('change'));applyMode();resolvedFromLookup=false;resolved.hidden=true;candidatesBox.hidden=true;choicesBox.hidden=true;output.hidden=true;showWizard();gotoStep(4);say('Saved details loaded. Check them, then calculate a fresh chart.');document.querySelector('#birth-title').scrollIntoView({behavior:'smooth'});};
   $('client-delete').onclick=()=>{const r=current();if(!r||!confirm('Delete '+r.name+' and all their consultation notes permanently from this browser?'))return;try{persist(records.filter(x=>x.id!==r.id));selected=null;$('client-name').value='';renderNotebook();say('Client and consultation history deleted.');}catch(e){say(e.message);}};
   $('consult-date').value=new Date().toLocaleDateString('en-CA');
   $('consult-form').onsubmit=e=>{e.preventDefault();try{const r=current();if(!r)throw Error('Select a client first.');const c={id:editingConsult||id(),date:$('consult-date').value,reading:$('consult-reading').value.trim(),observed:$('consult-observed').value.trim(),notes:$('consult-notes').value.trim()};if(!c.reading&&!c.observed&&!c.notes)throw Error('Add a reading, follow-up or note first.');persist(records.map(x=>x.id===r.id?{...x,consultations:editingConsult?x.consultations.map(z=>z.id===editingConsult?c:z):[...x.consultations,c],updated:new Date().toISOString()}:x));editingConsult=null;$('consult-form button').textContent='Save consultation';for(const k of ['consult-reading','consult-observed','consult-notes'])$(k).value='';renderNotebook();say('Consultation saved locally. Nothing was sent for benchmarking.');}catch(e){say(e.message);}};
@@ -729,3 +743,47 @@ function divisionalPanel(report){
  return `<section id="divisional-panel" data-private aria-labelledby="divisional-title"><h2 id="divisional-title">${astText('Chart by division','அம்ச ஜாதகங்கள்')}</h2><label>${astText('Choose a chart','ஜாதகத்தைத் தேர்ந்தெடுங்கள்')}<select id="division-selector">${Object.keys(bundle.charts).map(k=>`<option value="${k}" ${k===key?'selected':''}>${escape(astText(DIV_LABELS[k][0],DIV_LABELS[k][1]))}</option>`).join('')}</select></label><p class="division-topic">${astText(label[2],label[3])}</p><p class="inspection-banner">${astText('Convention:','முறை:')} ${badge}. ${astText('Geometry only, not a domain prediction. D2 Hora follows the Parashara Cancer/Leo convention only; it is not claimed to match any other scheme.','கணித இருப்பிடம் மட்டும்; துறை சார்ந்த கணிப்பு அல்ல. D2 ஹோரா பராசர கடகம்/சிம்ம முறையை மட்டும் பின்பற்றுகிறது; பிற ஜோதிடர்களின் முறையுடன் ஒத்துப்போகும் என்று கூறவில்லை.')}</p>${divisionGrid(points,name)}${key!=='1'?`<details class="division-d1"><summary>${astText('D1 context nearby','D1 பிறப்பு அடிப்படை')}</summary>${divisionGrid(bundle.charts['1'],astText('D1 · Rasi','D1 · ராசி'))}</details>`:''}<p class="help">${astText('Click a planet for its natal degree, division boundary and source. Precise birth time matters for divisional Lagna and near-boundary placements.','கிரகத்தைத் திறந்து பிறப்புப் பாகை, பிரிவு எல்லை, ஆதாரத்தைப் பாருங்கள். அம்ச லக்னத்துக்கும் எல்லைக்கு அருகிலுள்ள கிரகங்களுக்கும் துல்லியமான பிறப்பு நேரம் முக்கியம்.')}</p><div class="division-evidence">${Object.entries(points).map(([n,x])=>`<details><summary>${escape(n==='Lagna'?astText('Lagna','லக்னம்'):astPlanet(n))} · ${escape(astSign(x.sign))}</summary><p>${astText('Natal sign / degree:','பிறப்பு ராசி / பாகை:')} ${escape(astSign(x.natal_sign))} · ${x.natal_degree_in_sign.toFixed(5)}°</p><p>${astText('Division part:','அம்சப் பகுதி:')} ${x.part_1_based} / ${key} · ${x.part_start_degree.toFixed(6)}° ≤ ${astText('degree','பாகை')} &lt; ${x.part_end_degree.toFixed(6)}°</p><p>${astText('Owner:','அதிபதி:')} ${escape(astPlanet(x.owner))}</p><p>${escape(source(x.source))}${x.source?.url?` · <a href="${escape(x.source.url)}" target="_blank" rel="noopener">${astText('Source','ஆதாரம்')}</a>`:''}</p>${n==='Ketu'?`<p>${astText('Derived from Rahu + 180° before division.','ராகுவுடன் 180° கூட்டிய பின் பிரிக்கப்பட்டது.')}</p>`:''}</details>`).join('')}</div></section>`;
 }
 document.addEventListener('change',e=>{if(e.target.id==='division-selector'){divisionalView=e.target.value;const old=document.querySelector('#divisional-panel');old.outerHTML=divisionalPanel(window.__lastReport);document.querySelector('#division-selector').focus();}});
+
+
+/* ---------- App shell: screens, wizard steps, bottom tabs ---------- */
+let wizardStep = 1;
+function showScreen(name) {
+  for (const s of document.querySelectorAll('.screen')) s.hidden = s.id !== 'scr-' + name;
+  window.scrollTo(0, 0);
+}
+function gotoStep(n) {
+  wizardStep = Math.max(1, Math.min(4, n));
+  for (const st of document.querySelectorAll('.wstep')) st.hidden = Number(st.dataset.step) !== wizardStep;
+  document.querySelectorAll('.step-dots li').forEach((li, i) => { li.classList.toggle('cur', i === wizardStep - 1); li.classList.toggle('done', i < wizardStep - 1); });
+  if (wizardStep === 4) fillConfirmSummary();
+  window.scrollTo(0, 0);
+}
+function showWizard() { showScreen('wizard'); gotoStep(wizardStep); }
+function fillConfirmSummary() {
+  const v = form.elements;
+  const timeBit = timeMode() === 'sure' ? v.time.value : timeMode() === 'window' ? `${v.win_start.value} to ${v.win_end.value}` : (v.known_lagna.value ? `${v.known_lagna.value} lagna` : 'Lagna known');
+  const zone = v.timezone.value === '__other' ? (v.timezone_other.value || '') : v.timezone.value;
+  document.querySelector('#confirm-summary').innerHTML =
+    `<div><strong>${escape(v.date.value)}</strong> · ${escape(timeBit)}</div><div><span data-private>${escape(v.place.value)}</span>${zone ? ' · ' + escape(zone) : ''}</div>`;
+}
+function wizardNext() {
+  if (wizardStep === 1 && !form.elements.date.value) return fail('Choose the full date of birth: day, month and a four-digit year.');
+  if (wizardStep === 2 && timeMode() === 'sure' && !form.elements.time.value) return fail('Choose the time of birth: hour, minute and AM or PM.');
+  error.hidden = true; gotoStep(wizardStep + 1);
+}
+function activateTab(name) {
+  for (const p of document.querySelectorAll('.tabpage')) p.hidden = p.id !== 'pane-' + name;
+  for (const b of document.querySelectorAll('.tabbar [data-tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === name));
+}
+document.addEventListener('click', e => {
+  if (e.target.closest('.w-next')) return wizardNext();
+  if (e.target.closest('.w-back')) return gotoStep(wizardStep - 1);
+  if (e.target.closest('#start-wizard')) return showWizard();
+  if (e.target.closest('#new-chart')) return showWizard();
+  const tb = e.target.closest('.tabbar [data-tab]');
+  if (tb) { activateTab(tb.dataset.tab); window.scrollTo(0, 0); return; }
+  const g = e.target.closest('[data-goto]');
+  if (g) { activateTab(g.dataset.goto); setTimeout(() => document.querySelector('#periods-title')?.scrollIntoView({behavior: 'smooth'}), 60); }
+});
+// Reel and shared deep links open the birth form directly, skipping the welcome screen.
+if (location.hash === '#birth-title' || location.hash === '#birth-form' || location.pathname !== '/chart') showWizard();

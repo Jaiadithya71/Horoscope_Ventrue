@@ -335,10 +335,20 @@ Object.assign(UI_TRANSLATIONS,{
 'benefics':'சுப கிரகங்கள்','malefic':'பாப கிரகம்','benefic':'சுப கிரகம்','candidate lords:':'கருதுகோள் அதிபதிகள்:','planets:':'கிரகங்கள்:','excluded as lords of 6/8/12:':'6/8/12 அதிபதிகளாக விலக்கப்பட்டவை:','no malefic owns and occupies the 7th':'7-ம் பாவத்திற்கு அதிபதியாகி அதிலேயே உள்ள பாப கிரகம் இல்லை','sign-parity conditions fail':'ஒற்றை / இரட்டை ராசி நிபந்தனை பொருந்தவில்லை',
 'holds: False':'பொருந்தவில்லை','holds: True':'பொருந்துகிறது','False':'இல்லை','True':'ஆம்','with houses':'பாவங்களுடன்','2nd-lord exchanges':'2-ம் அதிபதி பரிவர்த்தனை','Lagna-lord':'லக்ன அதிபதி','For':'இதில்','whole chapter':'முழு அத்தியாயம்',
 });
+Object.assign(UI_TRANSLATIONS,{
+'Your chart, read like a story.':'உங்கள் ஜாதகம், ஒரு கதை போல.',
+'Three small questions about your birth. Then your lagna, your life periods, and what the classical sources actually say, with the evidence one tap away.':'பிறப்பு பற்றிய மூன்று சிறிய கேள்விகள். பின் உங்கள் லக்னம், வாழ்க்கைக் காலங்கள், நூல்கள் உண்மையில் சொல்வது - ஆதாரம் ஒரு தட்டு தூரத்தில்.',
+'Enter my birth details':'பிறப்பு விவரங்களை உள்ளிடுங்கள்','Sources cited':'நூல் ஆதாரங்கள்','No sign-up':'பதிவு தேவையில்லை','Nothing saved on the server':'சேவையகத்தில் எதுவும் சேமிக்கப்படாது',
+'When were you born?':'எப்போது பிறந்தீர்கள்?','What time were you born?':'என்ன நேரத்தில் பிறந்தீர்கள்?','Where were you born?':'எங்கே பிறந்தீர்கள்?','All set?':'எல்லாம் சரியா?',
+'Continue':'தொடரவும்','Date':'தேதி','Time':'நேரம்','Place':'ஊர்','Confirm':'உறுதிப்படுத்தவும்',
+'Reading the sky…':'வானத்தைப் படிக்கிறோம்…','Computing positions and periods…':'கிரக நிலைகளும் காலங்களும் கணக்கிடப்படுகின்றன…',
+'Home':'முகப்பு','Reading':'வாசிப்பு','Charts':'ஜாதகம்','More':'மேலும்',
+'New chart / edit birth details':'புதிய ஜாதகம் / விவரங்களை மாற்றவும்','Right now · your current stretch':'இப்போது · தற்போதைய காலம்','See every period':'எல்லாக் காலங்களையும் பார்க்க',
+});
 // Compiled once after all dictionaries are loaded. Long phrases go first.
 let translationPatterns;
 function translateFragments(v,longOnly=false){
- translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
+ translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Home','Reading','Charts','More','Continue','Date','Time','Place','Confirm'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
  for(const [re,ta] of translationPatterns)if(!longOnly||re.source.length>70)v=v.replace(re,ta);return v;
 }
 Object.assign(UI_TRANSLATIONS,{

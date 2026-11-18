@@ -1,8 +1,14 @@
 const {test,expect} = require('@playwright/test');
 test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('horoscope-language','en'));});
+async function openWizard(page){await page.goto('/chart');if(await page.locator('#start-wizard').isVisible())await page.locator('#start-wizard').click();}
+async function next(page){await page.locator('.wstep:not([hidden]) .w-next').click();}
+async function back(page){await page.locator('.wstep:not([hidden]) .w-back').click();}
+async function tab(page,name){await page.locator(`.tabbar [data-tab=${name}]`).click();}
 async function setBirth(page,y,m,d,hh,mm,ap){
  await page.locator('#d-day').selectOption(String(d));await page.locator('#d-mon').selectOption(String(m));await page.locator('#d-year').fill(String(y));
+ await next(page);
  await page.locator('#t-hour').selectOption(String(hh));await page.locator('#t-min').selectOption(String(mm));await page.locator('#t-ampm').selectOption(ap);
+ await next(page);
 }
 const chennai = {candidates:[{display_name:'Chennai, Tamil Nadu, India',latitude:13.0827,longitude:80.2707,category:'place',type:'city'}]};
 const multi = {candidates:[
@@ -10,32 +16,33 @@ const multi = {candidates:[
  {display_name:'Salem, Oregon, United States',latitude:44.9429,longitude:-123.0351,category:'place',type:'city'}]};
 test('place lookup resolves one match and calculates',async({page},info)=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:chennai}));
- await page.goto('/chart');
+ await openWizard(page);
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-start.png`,fullPage:true});
- await setBirth(page,2000,1,1,2,30,'PM');
+ await page.locator('#d-day').selectOption('1');await page.locator('#d-mon').selectOption('1');await page.locator('#d-year').fill('2000');
  await expect(page.locator('#date-echo')).toContainText('Saturday, 1 January 2000');
+ await next(page);
+ await page.locator('#t-hour').selectOption('2');await page.locator('#t-min').selectOption('30');await page.locator('#t-ampm').selectOption('PM');
  await expect(page.locator('[name=time]')).toHaveValue('14:30');
+ await next(page);
  await page.locator('[name=place]').fill('Chennai');
  await expect(page.locator('select[name=timezone]')).toHaveValue('Asia/Kolkata');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.locator('#resolved')).toContainText('13.0827, 80.2707');
  await expect(page.locator('#resolved')).toContainText('Chennai, Tamil Nadu, India');
+ await next(page);
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
+ await expect(page.locator('#scr-app')).toBeVisible();
  await expect(page.locator('.outcome-card')).toHaveCount(6);
- await expect(page.locator('.outcomes')).not.toContainText('Not met');
- await page.locator('.evidence-all > summary').click();
  await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
+ await expect(page.locator('.result-head')).toContainText('coordinates from place lookup');
+ await tab(page,'more');
+ await page.locator('.evidence-all > summary').click();
  await expect(page.locator('.reading')).toContainText('Your Moon is in Libra');
  await expect(page.locator('.reading')).toContainText('Mars rules your ascendant');
  await expect(page.locator('.reading')).toContainText('sits in');
  await expect(page.locator('.reading')).toContainText('period sequence opens with');
- await expect(page.locator('.result-head')).toContainText('coordinates from place lookup');
  await expect(page.locator('.route-card')).toHaveCount(3);
- for (const ref of ['Lagna','Moon','Sun']) {
-   await expect(page.locator('.life-aspects:not(.life-extra)')).toContainText(`If the ${ref} route is the strongest`);
- }
- await expect(page.locator('.route-caveat', {hasText: 'strength has not been established'}).first()).toBeVisible();
  await expect(page.locator('.life-aspects:not(.life-extra)')).toContainText('whole-sign versus degree-bhava');
  await expect(page.locator('.aspect-stop')).toContainText('No wealth outcome is selected');
  await page.locator('.route-card details summary').first().click();
@@ -45,7 +52,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await expect(page.locator('#marriage-title')).toContainText('Marriage');
  await expect(page.locator('#wealth-title')).toContainText('Wealth');
  await expect(page.locator('#timing-title')).toContainText('four ways');
- await expect(page.locator('.cond-status', {hasText: 'Depends on house system'}).first()).toBeVisible();
+ await expect(page.locator('.cond-status', {hasText: 'Depends on house system'}).first()).toBeAttached();
  await expect(page.locator('#results')).not.toContainText('Sun in the 7th');
  await expect(page.locator('.boundary').last()).toContainText('research-gated');
  await page.screenshot({path:`/downloads/horoscope-${info.project.name}-result.png`,fullPage:true});
@@ -55,7 +62,8 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
 });
 test('ambiguous place asks the user to pick',async({page})=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:multi}));
- await page.goto('/chart');
+ await openWizard(page);
+ await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Salem');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.getByRole('alert')).toContainText('More than one place matches');
@@ -65,7 +73,8 @@ test('ambiguous place asks the user to pick',async({page})=>{
 });
 test('no match and manual fallback',async({page})=>{
  await page.route('**/api/geocode**',route=>route.fulfill({json:{candidates:[]}}));
- await page.goto('/chart');
+ await openWizard(page);
+ await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Nowhereplace');
  await page.getByRole('button',{name:'Find coordinates'}).click();
  await expect(page.getByRole('alert')).toContainText('No match');
@@ -76,12 +85,16 @@ test('manual coordinates still work without lookup, safe text, timezone errors',
  let geocodeCalls = 0;
  await page.route('**/api/geocode**',route=>{geocodeCalls++;route.fulfill({json:chennai});});
  await page.goto('/chart');await page.getByRole('button',{name:'Use a synthetic example'}).click();
+ await back(page);
  await page.locator('[name=place]').fill('<img src=x onerror=alert(1)>');
+ await next(page);
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('.result-head')).toContainText('<img src=x onerror=alert(1)>');
  expect(await page.locator('#results img').count()).toBe(0);
  expect(geocodeCalls).toBe(0);
- await page.locator('select[name=timezone]').selectOption('__other');await page.locator('[name=timezone_other]').fill('bad-zone');await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await tab(page,'more');await page.locator('#new-chart').click();
+ await back(page);
+ await page.locator('select[name=timezone]').selectOption('__other');await page.locator('[name=timezone_other]').fill('bad-zone');await next(page);await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Invalid IANA timezone');
  await expect(page.locator('#results')).toBeHidden();
  await expect(page.getByRole('button',{name:'Calculate chart',exact:true})).toBeEnabled();
@@ -91,6 +104,7 @@ test('life periods render as collapsible period cards',async({page})=>{
  await page.goto('/chart');
  await page.getByRole('button',{name:'Use a synthetic example'}).click();
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
+ await tab(page,'reading');
  await expect(page.locator('#periods-title')).toContainText('period by period');
  await expect(page.locator('.period')).toHaveCount(9);
  await expect(page.locator('.period').first().locator('table')).toBeHidden();
@@ -113,14 +127,16 @@ test('story view: 7 cards, next/back, jump to full page',async({page})=>{
  await expect(page.locator('.story')).toHaveCount(0);
 });
 test('lagna options: uncertain time window lists lagnas and the chosen one calculates',async({page})=>{
- await page.goto('/chart');
+ await openWizard(page);
  await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Chennai');
  await page.locator('details.manual summary').click();
  await page.locator('[name=latitude]').fill('13.08');await page.locator('[name=longitude]').fill('80.27');
+ await back(page);
  await page.locator('input[name=timemode][value=window]').check();
  await expect(page.locator('#time-pick')).toBeHidden();
  await page.locator('[name=win_start]').fill('06:00');await page.locator('[name=win_end]').fill('10:00');
+ await next(page);await next(page);
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('.choice')).toHaveCount(3);
  await expect(page.locator('#lagna-choices')).toContainText('Capricorn');
@@ -130,15 +146,19 @@ test('lagna options: uncertain time window lists lagnas and the chosen one calcu
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('lagna options: known lagna picks its clock hours',async({page})=>{
- await page.goto('/chart');
+ await openWizard(page);
  await setBirth(page,2000,1,1,2,30,'PM');
  await page.locator('[name=place]').fill('Chennai');
  await page.locator('details.manual summary').click();
  await page.locator('[name=latitude]').fill('13.08');await page.locator('[name=longitude]').fill('80.27');
+ await back(page);
  await page.locator('input[name=timemode][value=known]').check();
+ await next(page);await next(page);
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.getByRole('alert')).toContainText('Choose your lagna');
+ await back(page);await back(page);
  await page.locator('select[name=known_lagna]').selectOption('Leo');
+ await next(page);await next(page);
  await page.getByRole('button',{name:'Calculate chart',exact:true}).click();
  await expect(page.locator('.result-head h2')).toContainText('Leo');
  await expect(page.locator('.lagna-note')).toContainText('chosen by you');

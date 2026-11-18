@@ -1,4 +1,5 @@
 const {test,expect}=require('@playwright/test');
+async function back(page){await page.locator('.wstep:not([hidden]) .w-back').click();}
 test.beforeEach(async({page})=>{await page.addInitScript(()=>localStorage.setItem('horoscope-language','en'));});
 async function notebook(page){await page.goto('/chart');await page.getByRole('button',{name:'Use a synthetic example'}).click();await page.locator('#clients-title').click();}
 async function save(page,name='Test client'){await page.locator('#client-name').fill(name);await page.getByRole('button',{name:'Save birth details to this browser'}).click();await expect(page.locator('#client-status')).toContainText('saved in this browser');}
@@ -14,7 +15,7 @@ test('opt-in client save, consultation, reload and deletion',async({page},info)=
  await page.getByRole('button',{name:'Delete client',exact:true}).click();await expect(page.locator('.client-item')).toHaveCount(0);await expect(page.locator('#client-detail')).toBeHidden();
 });
 test('uncertain time survives saving and loading without an invented precise time',async({page})=>{
- await notebook(page);await page.locator('[name=timemode][value=window]').check();await save(page);page.on('dialog',d=>d.accept());await page.locator('#client-load').click();await expect(page.locator('[name=timemode][value=window]')).toBeChecked();await expect(page.locator('[name=win_start]')).toHaveValue('06:00');await expect(page.locator('#client-birth')).toContainText('uncertain');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await notebook(page);await back(page);await back(page);await page.locator('[name=timemode][value=window]').check();await save(page);page.on('dialog',d=>d.accept());await page.locator('#client-load').click();await expect(page.locator('[name=timemode][value=window]')).toBeChecked();await expect(page.locator('[name=win_start]')).toHaveValue('06:00');await expect(page.locator('#client-birth')).toContainText('uncertain');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 test('corrupt or blocked storage does not falsely report success',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('horoscope-client-notebook-v1','broken'));await notebook(page);await page.locator('#client-name').fill('Test');await page.locator('#client-form button').click();await expect(page.locator('#client-status')).toContainText('No records were changed');expect(await page.evaluate(()=>localStorage.getItem('horoscope-client-notebook-v1'))).toBe('broken');
