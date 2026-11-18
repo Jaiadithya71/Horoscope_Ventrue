@@ -342,13 +342,13 @@ Object.assign(UI_TRANSLATIONS,{
 'When were you born?':'எப்போது பிறந்தீர்கள்?','What time were you born?':'என்ன நேரத்தில் பிறந்தீர்கள்?','Where were you born?':'எங்கே பிறந்தீர்கள்?','All set?':'எல்லாம் சரியா?',
 'Continue':'தொடரவும்','Date':'தேதி','Time':'நேரம்','Place':'ஊர்','Confirm':'உறுதிப்படுத்தவும்',
 'Reading the sky…':'வானத்தைப் படிக்கிறோம்…','Computing positions and periods…':'கிரக நிலைகளும் காலங்களும் கணக்கிடப்படுகின்றன…',
-'Home':'முகப்பு','Reading':'வாசிப்பு','Charts':'ஜாதகம்','More':'மேலும்',
+'Weekly sky':'வார ராசி நிலை','Home':'முகப்பு','Reading':'வாசிப்பு','Charts':'ஜாதகம்','More':'மேலும்',
 'New chart / edit birth details':'புதிய ஜாதகம் / விவரங்களை மாற்றவும்','Right now · your current stretch':'இப்போது · தற்போதைய காலம்','See every period':'எல்லாக் காலங்களையும் பார்க்க',
 });
 // Compiled once after all dictionaries are loaded. Long phrases go first.
 let translationPatterns;
 function translateFragments(v,longOnly=false){
- translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Home','Reading','Charts','More','Continue','Date','Time','Place','Confirm'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
+ translationPatterns??=Object.entries(UI_TRANSLATIONS).filter(([x])=>!['To','From','For','Planet','Period','Lord','change','Sign / degree','Now','Next','Back','Day','Month','Year','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Home','Reading','Charts','More','Continue','Date','Time','Place','Confirm','Weekly sky'].includes(x)).sort((a,b)=>b[0].length-a[0].length).map(([en,ta])=>[new RegExp((/^[a-zA-Z]/.test(en)?'(?<![a-zA-Z])':'')+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+(/[a-zA-Z]$/.test(en)?'(?![a-zA-Z])':''),'gi'),ta]);
  for(const [re,ta] of translationPatterns)if(!longOnly||re.source.length>70)v=v.replace(re,ta);return v;
 }
 Object.assign(UI_TRANSLATIONS,{

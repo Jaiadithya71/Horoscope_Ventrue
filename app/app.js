@@ -302,7 +302,7 @@ function render(report, birth, coordsWereResolved) {
   document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
   document.querySelector('#pane-more').innerHTML = `<h2 class="more-title">More</h2>
-  <div class="more-list"><button type="button" id="new-chart">New chart / edit birth details<span aria-hidden="true">→</span></button><a href="/weekly">Weekly sky · வார ராசி<span aria-hidden="true">→</span></a></div>
+  <div class="more-list"><button type="button" id="new-chart">New chart / edit birth details<span aria-hidden="true">→</span></button><a href="/weekly">Weekly sky<span aria-hidden="true">→</span></a></div>
   ${horizonBanner(report,birth)}
   <details class="evidence-all" id="evidence"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
@@ -776,6 +776,7 @@ function activateTab(name) {
   for (const b of document.querySelectorAll('.tabbar [data-tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === name));
 }
 document.addEventListener('click', e => {
+  if (e.target.closest('.w-home')) return showScreen('welcome');
   if (e.target.closest('.w-next')) return wizardNext();
   if (e.target.closest('.w-back')) return gotoStep(wizardStep - 1);
   if (e.target.closest('#start-wizard')) return showWizard();
