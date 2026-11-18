@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Astro Guidance · App preview (mockup)</title>
+<style>
+:root{
+  --bg:#0d1320; --bg2:#131c30; --card:#182238; --card2:#1f2b45;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --ink:#f4eee1; --muted:#9fb0c9; --faint:#6d7d99;
+  --gold:#e8b64c; --gold-soft:rgba(232,182,76,.14);
+  --green:#4cae5c; --green-soft:rgba(76,174,92,.16);
+  --red:#e0725c;
+  --r-lg:20px; --r-md:14px; --r-sm:10px;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans',sans-serif;
+  --ease:cubic-bezier(.32,.72,.28,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:#070a12;font-family:var(--sans);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;min-height:100dvh}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select{font:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line2);
+  border-radius:var(--r-md);padding:13px 14px;width:100%;outline:none}
+input:focus,select:focus{border-color:var(--gold)}
+select option{background:var(--card2);color:var(--ink)}
+
+/* ---------- phone frame ---------- */
+.phone{position:relative;width:100%;height:100dvh;background:var(--bg);overflow:hidden}
+@media(min-width:520px){
+  body{padding:24px}
+  .phone{width:392px;height:min(830px,94dvh);border-radius:36px;
+    border:1px solid #2a3752;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 8px #0a0e18}
+}
+/* night sky backdrop */
+.sky{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(120% 60% at 50% -10%,#1d2a4a 0%,var(--bg) 55%),
+             radial-gradient(60% 30% at 85% 15%,rgba(232,182,76,.08),transparent 70%)}
+.sky::after{content:"";position:absolute;inset:0;opacity:.5;background-image:
+  radial-gradient(1.4px 1.4px at 12% 18%,#fff8,transparent),
+  radial-gradient(1px 1px at 32% 8%,#fff6,transparent),
+  radial-gradient(1.2px 1.2px at 58% 22%,#fff7,transparent),
+  radial-gradient(1px 1px at 74% 10%,#fff5,transparent),
+  radial-gradient(1.3px 1.3px at 88% 28%,#fff6,transparent),
+  radial-gradient(1px 1px at 45% 30%,#fff4,transparent)}
+
+/* ---------- screens & transitions ---------- */
+.screens{position:absolute;inset:0}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;
+  opacity:0;transform:translateX(26px);pointer-events:none;
+  transition:opacity .34s var(--ease),transform .34s var(--ease)}
+.screen.active{opacity:1;transform:none;pointer-events:auto}
+.screen.behind{transform:translateX(-26px)}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:0 20px 104px;
+  scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.snap *,.snap *::before,.snap *::after{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){
+  .screen,.card,.tabbar,.kiliBob{transition:none!important;animation:none!important}
+}
+
+/* ---------- shared bits ---------- */
+.topbar{display:flex;align-items:center;gap:10px;padding:14px 20px 6px}
+.topbar .brand{font-family:var(--serif);font-size:18px;letter-spacing:.2px}
+.topbar .spacer{flex:1}
+.langchip{display:flex;border:1px solid var(--line2);border-radius:99px;overflow:hidden;font-size:12px}
+.langchip button{padding:6px 11px;color:var(--muted)}
+.langchip button.on{background:var(--gold);color:#231a05;font-weight:600}
+.iconbtn{width:36px;height:36px;border-radius:12px;border:1px solid var(--line2);
+  display:grid;place-items:center;color:var(--muted)}
+.iconbtn:active{transform:scale(.94)}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.muted{color:var(--muted)} .faint{color:var(--faint)}
+.small{font-size:12.5px;line-height:1.5}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:15px 18px;border-radius:16px;font-weight:650;font-size:15.5px;
+  transition:transform .12s var(--ease),box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:linear-gradient(160deg,#f2c964,var(--gold));color:#241a04;
+  box-shadow:0 8px 22px rgba(232,182,76,.28)}
+.btn-ghost{border:1px solid var(--line2);color:var(--ink);background:rgba(255,255,255,.03)}
+.btn-text{color:var(--gold);font-weight:600;font-size:14px;padding:10px}
+.card{background:linear-gradient(170deg,var(--card),#151f34);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:18px;margin-bottom:12px}
+.card.pressable{transition:transform .14s var(--ease),border-color .2s}
+.card.pressable:active{transform:scale(.985);border-color:var(--line2)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;
+  font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--muted)}
+.chip.gold{background:var(--gold-soft);border-color:rgba(232,182,76,.35);color:var(--gold)}
+.chip.green{background:var(--green-soft);border-color:rgba(76,174,92,.35);color:#7fd28c}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.screen.active .rise{animation:fadeUp .5s var(--ease) both}
+.screen.active .rise.d1{animation-delay:.06s}.screen.active .rise.d2{animation-delay:.12s}
+.screen.active .rise.d3{animation-delay:.18s}.screen.active .rise.d4{animation-delay:.24s}
+.screen.active .rise.d5{animation-delay:.3s}.screen.active .rise.d6{animation-delay:.36s}
+
+/* ---------- welcome ---------- */
+.hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:0 28px;gap:14px}
+.hero .kili{width:104px;height:104px}
+.hero h1{font-family:var(--serif);font-size:31px;line-height:1.18;font-weight:600}
+.hero .tamil{font-family:var(--serif);color:var(--gold);font-size:19px}
+.hero p.lead{color:var(--muted);font-size:14.5px;line-height:1.55;max-width:290px}
+.herofoot{padding:0 28px 26px;display:flex;flex-direction:column;gap:6px;align-items:center}
+@keyframes kiliBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.kiliBob{animation:kiliBob 3.2s ease-in-out infinite}
+
+/* ---------- wizard ---------- */
+.progress{display:flex;gap:6px;padding:10px 20px 4px}
+.progress i{flex:1;height:3px;border-radius:2px;background:var(--line)}
+.progress i.done{background:var(--gold)}
+.wiz-head{padding:26px 24px 8px}
+.wiz-head h2{font-family:var(--serif);font-size:25px;margin:6px 0 6px}
+.wiz-body{padding:14px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.wiz-foot{padding:8px 24px 26px}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin:0 2px 6px;font-weight:600}
+.trio{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px}
+.echo{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gold);
+  background:var(--gold-soft);border:1px solid rgba(232,182,76,.3);border-radius:var(--r-md);padding:10px 13px}
+.choice{display:flex;align-items:center;gap:12px;text-align:left;width:100%;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 15px;
+  transition:border-color .18s,background .18s}
+.choice.sel{border-color:var(--gold);background:var(--gold-soft)}
+.choice .dot{width:19px;height:19px;border-radius:50%;border:2px solid var(--faint);flex:none;
+  display:grid;place-items:center}
+.choice.sel .dot{border-color:var(--gold)}
+.choice.sel .dot::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.choice b{display:block;font-size:14.5px}
+.choice span{font-size:12px;color:var(--muted)}
+.searchrow{position:relative}
+.searchrow svg{position:absolute;left:13px;top:14px;color:var(--faint)}
+.searchrow input{padding-left:40px}
+.placeresult{display:flex;gap:12px;align-items:center;text-align:left;width:100%;
+  background:var(--card);border:1px solid var(--line2);border-radius:var(--r-md);padding:13px 15px}
+.resolved{border:1px solid rgba(76,174,92,.4);background:var(--green-soft);
+  border-radius:var(--r-md);padding:13px 15px;display:flex;gap:11px;align-items:flex-start}
+.resolved b{color:#8fd79b}
+.sumrow{display:flex;justify-content:space-between;gap:12px;padding:12px 2px;
+  border-bottom:1px solid var(--line);font-size:14px}
+.sumrow:last-child{border-bottom:0}
+.sumrow .k{color:var(--muted)}
+.sumrow button{color:var(--gold);font-size:12.5px;font-weight:650}
+.legal{font-size:11.5px;color:var(--faint);line-height:1.5;text-align:center;padding:0 10px}
+
+/* ---------- loading ---------- */
+.loadingwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+.loadingwrap .kili{width:88px;height:88px}
+.loadbar{width:170px;height:4px;border-radius:3px;background:var(--line);overflow:hidden}
+.loadbar i{display:block;height:100%;width:40%;border-radius:3px;background:var(--gold);
+  animation:slide 1.1s ease-in-out infinite}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(430%)}}
+
+/* ---------- tab pages ---------- */
+.tabpage{flex:1;display:flex;flex-direction:column;min-height:0}
+.tabpage[hidden]{display:none}
+
+/* ---------- tab bar ---------- */
+.tabbar{position:absolute;left:0;right:0;bottom:0;z-index:5;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  background:rgba(13,19,32,.86);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);padding:8px 8px calc(10px + env(safe-area-inset-bottom))}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 2px;
+  color:var(--faint);font-size:10.5px;font-weight:600;border-radius:12px;position:relative}
+.tab svg{width:22px;height:22px}
+.tab.on{color:var(--gold)}
+.tab.on::before{content:"";position:absolute;top:-9px;width:26px;height:3px;border-radius:2px;
+  background:var(--gold);transition:all .3s var(--ease)}
+.tab:active{transform:scale(.94)}
+
+/* ---------- home ---------- */
+.homehead{display:flex;align-items:center;gap:13px;padding:18px 20px 14px}
+.homehead .kili{width:52px;height:52px;flex:none}
+.homehead h2{font-family:var(--serif);font-size:21px}
+.homehead .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.idcard{text-align:center;padding:22px 18px;position:relative;overflow:hidden}
+.idcard .lagna{font-family:var(--serif);font-size:27px;margin:4px 0 2px}
+.idcard .star{color:var(--gold);font-size:14.5px}
+.idcard .birth{font-size:12px;color:var(--faint);margin-top:10px}
+.sampletag{position:absolute;top:12px;right:12px;font-size:10px;letter-spacing:.1em;
+  color:var(--faint);border:1px solid var(--line2);padding:3px 8px;border-radius:99px;text-transform:uppercase}
+.nowcard{display:flex;gap:13px;align-items:center}
+.nowcard .orb{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:radial-gradient(circle at 32% 30%,#8fa3c8,#4a5c82);font-family:var(--serif);font-size:19px;color:#0d1320}
+.nowcard b{font-size:15px}
+.outcome{display:flex;flex-wrap:wrap;align-items:center;gap:13px}
+.outcome .ic{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex:none;
+  background:var(--card2);color:var(--gold)}
+.outcome .tx{flex:1;min-width:0}
+.outcome b{font-size:14.5px;display:block}
+.outcome .tx span{font-size:12px;color:var(--muted);display:block;margin-top:1px}
+.outcome .verdict{font-size:12px;font-weight:650}
+.outcome .detail{max-height:0;overflow:hidden;transition:max-height .35s var(--ease),margin .3s}
+.outcome.open .detail{max-height:220px;margin-top:10px}
+.outcome .detail p{font-size:12.5px;color:var(--muted);line-height:1.55;border-top:1px solid var(--line);padding-top:10px}
+.outcome .detail a{color:var(--gold);font-size:12.5px;font-weight:600;text-decoration:none}
+.outcome .chev{color:var(--faint);transition:transform .3s var(--ease)}
+.outcome.open .chev{transform:rotate(90deg)}
+.v-strong{color:#7fd28c}.v-mixed{color:var(--gold)}.v-soft{color:#8fa3c8}
+.storycta{display:flex;align-items:center;gap:14px;
+  background:linear-gradient(120deg,#22304f,#182238);border:1px solid rgba(232,182,76,.25)}
+.storycta .kili{width:46px;height:46px;flex:none}
+.secttl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;margin:20px 2px 10px}
+
+/* ---------- chart tab ---------- */
+.divchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 12px;scrollbar-width:none}
+.divchips::-webkit-scrollbar{display:none}
+.divchips .chip{flex:none;padding:8px 14px;cursor:pointer}
+.divchips .chip.on{background:var(--gold);color:#241a04;border-color:var(--gold);font-weight:700}
+.schart{background:linear-gradient(170deg,var(--card),#141d31);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:14px;margin-bottom:12px}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.sgrid .cell{aspect-ratio:1.06;border:1px solid var(--line2);border-radius:9px;
+  padding:5px 6px;position:relative;background:rgba(255,255,255,.02)}
+.sgrid .cell.mid{grid-column:span 2;grid-row:span 2;border:0;background:none;
+  display:grid;place-items:center;text-align:center}
+.sgrid .sign{font-size:9.5px;color:var(--faint);letter-spacing:.04em}
+.sgrid .pls{position:absolute;bottom:5px;left:6px;right:4px;font-size:11.5px;font-weight:650;line-height:1.35}
+.sgrid .asc{color:var(--gold)}
+.sgrid .mid b{font-family:var(--serif);font-size:17px;display:block}
+.sgrid .mid span{font-size:10.5px;color:var(--muted)}
+.prow{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+.prow:last-child{border:0}
+.prow .gl{width:34px;height:34px;border-radius:11px;background:var(--card2);display:grid;
+  place-items:center;font-family:var(--serif);font-size:14px;color:var(--gold);flex:none}
+.prow .tx{flex:1}.prow b{font-size:13.5px;display:block}.prow span{font-size:11.5px;color:var(--muted)}
+.prow .st{width:8px;height:8px;border-radius:50%;flex:none}
+.st.own{background:#7fd28c}.st.ex{background:var(--gold)}.st.plain{background:#54617c}
+
+/* ---------- reading / story ---------- */
+.stretch{display:flex;gap:13px;align-items:flex-start}
+.stretch .badge{width:42px;height:42px;border-radius:13px;background:var(--gold-soft);
+  display:grid;place-items:center;color:var(--gold);flex:none;font-family:var(--serif);font-size:17px}
+.aspectrow{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line);font-size:13.5px}
+.aspectrow:last-child{border:0}
+.aspectrow .nm{flex:1}.aspectrow .bar{width:74px;height:5px;border-radius:3px;background:var(--line);overflow:hidden}
+.aspectrow .bar i{display:block;height:100%;border-radius:3px;background:var(--gold)}
+.aspectrow .bar i.g{background:#7fd28c}
+.deckwrap{position:absolute;inset:0;background:var(--bg);z-index:8;display:flex;flex-direction:column}
+.deckhead{display:flex;align-items:center;padding:14px 18px;gap:12px}
+.deckdots{display:flex;gap:5px;flex:1;justify-content:center}
+.deckdots i{width:6px;height:6px;border-radius:50%;background:var(--line2);transition:all .25s}
+.deckdots i.on{background:var(--gold);width:16px;border-radius:4px}
+.deck{flex:1;display:flex;align-items:center;padding:0 24px}
+.deckcard{width:100%;background:linear-gradient(165deg,var(--card2),var(--card));
+  border:1px solid var(--line2);border-radius:24px;padding:30px 24px;min-height:390px;
+  display:flex;flex-direction:column;gap:14px;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.deckcard h3{font-family:var(--serif);font-size:23px}
+.deckcard .yrs{color:var(--gold);font-size:13px;font-weight:650}
+.deckcard p{color:var(--muted);font-size:14px;line-height:1.65}
+.deckcard .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
+.deckfoot{display:flex;gap:10px;padding:14px 24px 30px}
+.deckfoot .btn{flex:1}
+
+/* ---------- more ---------- */
+.mrow{display:flex;align-items:center;gap:13px;width:100%;text-align:left;
+  padding:15px 2px;border-bottom:1px solid var(--line)}
+.mrow:last-child{border:0}
+.mrow .ic{width:38px;height:38px;border-radius:12px;background:var(--card2);color:var(--gold);
+  display:grid;place-items:center;flex:none}
+.mrow b{font-size:14px;display:block}
+.mrow span{font-size:11.5px;color:var(--muted)}
+.mrow .chev{margin-left:auto;color:var(--faint)}
+.footer-note{text-align:center;padding:22px 30px 8px;font-size:11px;color:var(--faint);line-height:1.6}
+.footer-note a{color:var(--muted)}
+</style></head>
+<body>
+<div class="phone"><div class="sky"></div>
+<div class="screens" id="screens"></div>
+</div>
+<script>
+const KILI_TICK='<g class="m-tick"><circle cx="49" cy="14.5" r="8" fill="#2b6659"/><path d="M45.2 14.6l2.6 2.6 4.4-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>';
+function kili(mood){
+  const sleepy=mood==='sleepy',happy=mood==='happy';
+  const eyes=sleepy
+    ?'<path d="M24.6 23q1.9 1.9 3.8 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M35.6 23q1.9 1.9 3.8 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+    :'<circle cx="26.4" cy="22.4" r="1.9" fill="#251f21"/><circle cx="37.6" cy="22.4" r="1.9" fill="#251f21"/>';
+  return `<svg viewBox="0 0 64 64" class="kili" role="img" aria-label="Kili the parrot"><path d="M28 50 Q24 58 16 62 Q25 58 30 49 Z" fill="#2e7d3b"/><path d="M33 52 Q31 59 26 63 Q33 59 36 51 Z" fill="#43a04e"/><ellipse cx="32" cy="38" rx="13" ry="14.5" fill="#43a04e"/><ellipse cx="22" cy="38" rx="4.6" ry="8.6" fill="#2e7d3b"/><ellipse cx="42" cy="38" rx="4.6" ry="8.6" fill="#2e7d3b"/><circle cx="32" cy="24" r="10.5" fill="#43a04e"/><path d="M24 31 Q32 35 40 31" stroke="#1f5c2a" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M28.6 26.8 h6.8 L32 32.4 Z" fill="#d9543a"/>${eyes}<path d="M28 52 v3.4 M36 52 v3.4" stroke="#d9543a" stroke-width="1.8" stroke-linecap="round"/>${happy?KILI_TICK:''}</svg>`;
+}
+const I={
+ home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>',
+ book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4H6.5A2.5 2.5 0 0 0 4 6.5v13z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>',
+ chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/><path d="M3.5 9h17M3.5 15h17M9 3.5v17M15 3.5v17"/></svg>',
+ dots:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+ chev:'<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>',
+ back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>',
+ close:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ search:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+ pin:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+ check:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>',
+ case:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="13" rx="2.5"/><path d="M8.5 7.5V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v1.5"/></svg>',
+ rings:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="14" r="5.5"/><circle cx="15" cy="10" r="5.5"/></svg>',
+ coin:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v9M9.2 9.6c0-1.1 1.2-2 2.8-2s2.8.9 2.8 2-1.2 1.9-2.8 2.1-2.8 1-2.8 2.1 1.2 2 2.8 2 2.8-.9 2.8-2" stroke-linecap="round"/></svg>',
+ lotus:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4 0-7-2.7-7-6 2.3.3 4-.3 5.2-1.7C11 10.6 12 8 12 5c0 3 .9 5.6 1.8 7.3 1.2 1.4 2.9 2 5.2 1.7 0 3.3-3 6-7 6z"/></svg>',
+ clock:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2.5"/></svg>',
+ cal:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+ file:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>',
+ table:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M12 4.5v15"/></svg>',
+ scope:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>',
+ note:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M9 8.5h6M9 12h6M9 15.5h4"/></svg>',
+ shield:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 5.8v5.4c0 4.4 3 8 7 9.8 4-1.8 7-5.4 7-9.8V5.8z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>',
+ gear:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.7M12 18.5v2.7M21.2 12h-2.7M5.5 12H2.8M18.5 5.5l-1.9 1.9M7.4 16.6l-1.9 1.9M18.5 18.5l-1.9-1.9M7.4 7.4 5.5 5.5"/></svg>',
+ globe:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.6 2.3 4 5.2 4 8.5s-1.4 6.2-4 8.5c-2.6-2.3-4-5.2-4-8.5s1.4-6.2 4-8.5z"/></svg>'
+};
+const T={};
+T.welcome=`
+<div class="topbar rise"><span class="brand">Astro Guidance</span><span class="spacer"></span>
+  <div class="langchip"><button data-lang="ta">தமிழ்</button><button class="on" data-lang="en">EN</button></div></div>
+<div class="hero">
+  <div class="kiliBob rise">${kili('awake')}</div>
+  <p class="eyebrow rise d1" data-en="Vedic astrology, read properly" data-ta="பாரம்பரிய ஜோதிடம், எளிமையாக">Vedic astrology, read properly</p>
+  <h1 class="rise d2" data-en="Your chart, in plain words." data-ta="உங்கள் ஜாதகம், எளிய வார்த்தைகளில்.">Your chart, in plain words.</h1>
+  <p class="tamil rise d2">உங்கள் ஜாதகம், எளிய வார்த்தைகளில்.</p>
+  <p class="lead rise d3" data-en="Kili walks you through your birth chart, one card at a time, with the sources always one tap away." data-ta="கிலி உங்கள் ஜாதகத்தை அட்டை அட்டையாக வழிநடத்தும்.">Kili walks you through your birth chart, one card at a time, with the sources always one tap away.</p>
+</div>
+<div class="herofoot">
+  <button class="btn btn-gold rise d4" data-go="wiz-date" data-en="Get my reading" data-ta="என் ஜாதகம்">Get my reading</button>
+  <button class="btn-text rise d5" data-go="wiz-time" data-en="I already know my lagna" data-ta="என் லக்னம் தெரியும்">I already know my lagna</button>
+  <p class="legal rise d6">No account. Birth details are used only to compute your chart and are not saved on the server.</p>
+</div>`;
+
+function wizShell(step,inner,cta,ctaGo,back){
+  return `
+  <div class="topbar"><button class="iconbtn" data-go="${back}">${I.back}</button>
+    <span class="spacer"></span><div class="langchip"><button data-lang="ta">தமிழ்</button><button class="on" data-lang="en">EN</button></div></div>
+  <div class="progress">${[1,2,3,4].map(i=>`<i class="${i<=step?'done':''}"></i>`).join('')}</div>
+  ${inner}
+  <div class="wiz-foot"><button class="btn btn-gold" data-go="${ctaGo}">${cta}</button></div>`;
+}
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+T['wiz-date']=wizShell(1,`
+  <div class="wiz-head rise"><p class="eyebrow">Step 1 of 4</p><h2>When were you born?</h2>
+    <p class="muted small">The date sets your star and the period calendar.</p></div>
+  <div class="wiz-body">
+    <div class="trio rise d1">
+      <div class="field"><label>Day</label><select id="f-day">${Array.from({length:31},(_,i)=>`<option ${i==0?'selected':''}>${i+1}</option>`).join('')}</select></div>
+      <div class="field"><label>Month</label><select id="f-mon">${MONTHS.map((m,i)=>`<option value="${i}" ${i==0?'selected':''}>${m}</option>`).join('')}</select></div>
+      <div class="field"><label>Year</label><input id="f-year" inputmode="numeric" maxlength="4" value="2000"></div>
+    </div>
+    <div class="echo rise d2" id="date-echo">Saturday, 1 January 2000</div>
+  </div>`,'Continue','wiz-time','welcome');
+
+T['wiz-time']=wizShell(2,`
+  <div class="wiz-head rise"><p class="eyebrow">Step 2 of 4</p><h2>How sure are you of the time?</h2>
+    <p class="muted small">Your lagna turns on the birth time. Any of these works.</p></div>
+  <div class="wiz-body">
+    <button class="choice sel rise d1" data-tmode="sure"><span class="dot"></span><span><b>I know the time</b><span>Birth certificate or family record</span></span></button>
+    <div id="trio-time" class="trio rise d2">
+      <div class="field"><label>Hour</label><select id="f-hour">${Array.from({length:12},(_,i)=>`<option ${i==1?'selected':''}>${i+1}</option>`).join('')}</select></div>
+      <div class="field"><label>Minute</label><select id="f-min">${Array.from({length:60},(_,i)=>`<option ${i==30?'selected':''}>${String(i).padStart(2,'0')}</option>`).join('')}</select></div>
+      <div class="field"><label>AM/PM</label><select id="f-ampm"><option>AM</option><option selected>PM</option></select></div>
+    </div>
+    <button class="choice rise d3" data-tmode="window"><span class="dot"></span><span><b>Not sure of the exact time</b><span>Give a window, we list the lagnas that fit</span></span></button>
+    <button class="choice rise d4" data-tmode="known"><span class="dot"></span><span><b>I know my lagna</b><span>Pick it, we find matching clock hours</span></span></button>
+  </div>`,'Continue','wiz-place','wiz-date');
+
+T['wiz-place']=wizShell(3,`
+  <div class="wiz-head rise"><p class="eyebrow">Step 3 of 4</p><h2>Where were you born?</h2>
+    <p class="muted small">A city or town is enough. Coordinates and time zone are resolved for you.</p></div>
+  <div class="wiz-body">
+    <div class="searchrow rise d1">${I.search}<input id="f-place" placeholder="City, town or state" value="Chen"></div>
+    <button class="placeresult rise d2" id="place-hit">${I.pin}<span style="flex:1"><b style="font-size:14px">Chennai, Tamil Nadu</b><br><span class="small faint">India</span></span>${I.chev}</button>
+    <div class="resolved rise d3" id="place-ok" hidden><span style="color:#8fd79b">${I.check}</span>
+      <span class="small"><b>Chennai, Tamil Nadu, India</b><br>13.0827°, 80.2707° · time zone set to IST (UTC+5:30)</span></div>
+  </div>`,'Continue','wiz-confirm','wiz-time');
+
+T['wiz-confirm']=wizShell(4,`
+  <div class="wiz-head rise"><p class="eyebrow">Step 4 of 4</p><h2>Does this look right?</h2></div>
+  <div class="wiz-body">
+    <div class="card rise d1" style="margin:0">
+      <div class="sumrow"><span class="k">Date</span><b>Saturday, 1 Jan 2000</b><button data-go="wiz-date">Edit</button></div>
+      <div class="sumrow"><span class="k">Time</span><b>2:30 PM</b><button data-go="wiz-time">Edit</button></div>
+      <div class="sumrow"><span class="k">Place</span><b>Chennai, India</b><button data-go="wiz-place">Edit</button></div>
+      <div class="sumrow"><span class="k">Time zone</span><b>IST (UTC+5:30)</b><span class="chip green">auto</span></div>
+      <div class="sumrow"><span class="k">Tamil birth sheet</span><b>On</b><button>Change</button></div>
+    </div>
+    <p class="legal rise d2" style="margin-top:12px">Astrology is a historical tradition, not scientifically validated prediction. Readings here are source-based and shown with their evidence.</p>
+  </div>`,'Reveal my chart','loading','wiz-place');
+
+T.loading=`
+<div class="loadingwrap">
+  <div class="kiliBob">${kili('awake')}</div>
+  <p class="eyebrow">Reading the sky</p>
+  <p class="muted small" style="max-width:230px">Computing sidereal positions, houses and the period calendar…</p>
+  <div class="loadbar"><i></i></div>
+</div>`;
+function outcome(ic,title,verdict,vc,sub,detail){
+  return `<div class="card pressable outcome" data-expand>
+    <div class="ic">${ic}</div>
+    <div class="tx"><b>${title}</b><span>${sub}</span></div>
+    <div style="text-align:right"><span class="verdict ${vc}">${verdict}</span><br>${I.chev}</div>
+    <div class="detail" style="flex-basis:100%"><p>${detail} <a href="#">Why the chart says this →</a></p></div>
+  </div>`;
+}
+T.main=`
+<div class="tabpage" data-page="home">
+  <div class="homehead rise"><span class="kiliBob">${kili('happy')}</span>
+    <div><h2 id="greet">Good evening</h2><div class="sub">Your chart is ready</div></div>
+    <span class="spacer"></span><div class="langchip"><button data-lang="ta">தமிழ்</button><button class="on" data-lang="en">EN</button></div></div>
+  <div class="scroll">
+    <div class="card idcard rise d1"><span class="sampletag">Sample data</span>
+      <p class="eyebrow">Your birth chart</p>
+      <div class="lagna">Aries lagna · மேஷம்</div>
+      <div class="star">Swati nakshatra · சுவாதி, pada 2</div>
+      <div class="birth">1 Jan 2000 · 2:30 PM · Chennai · IST</div>
+    </div>
+    <div class="card nowcard pressable rise d2" data-tab="reading">
+      <div class="orb">Sa</div>
+      <div style="flex:1"><b>Saturn period · 2018 – 2037</b>
+        <div class="small muted">A steady, effort-heavy stretch · current phase: <b style="color:#7fd28c">easier</b> until 2027</div></div>
+      ${I.chev}
+    </div>
+    <p class="secttl rise d3">Your reading at a glance</p>
+    <div class="rise d3">${outcome(I.case,'Work & career','Strong indication','v-strong','Two source routes point the same way','Both the lagna route and the Moon route favour structured, responsibility-heavy fields. The sources agree here, which is rarer than it sounds.')}</div>
+    <div class="rise d4">${outcome(I.rings,'Marriage','Mixed signals','v-mixed','2 of 6 source conditions met','Some classical conditions for an early marriage are met, others are not. The honest reading is mixed, and the app says so instead of picking a side.')}</div>
+    <div class="rise d4">${outcome(I.coin,'Money','Slow build, then rise','v-soft','Wealth yogas partly formed','No strong wealth yoga fires outright, but two supportive combinations build through the Saturn period and strengthen after 2037.')}</div>
+    <div class="rise d5">${outcome(I.lotus,'Planet strength','4 of 9 strong','v-strong','Shown as a range, not a verdict','Shadbala totals land Sun, Moon, Jupiter and Saturn in the strong band. The full table stays one tap down, with school-by-school ranges.')}</div>
+    <div class="rise d5">${outcome(I.clock,'Timing','Next shift: Mar 2037','v-soft','Mercury period begins','The Saturn stretch runs to March 2037. The four calculation conventions agree within days on this boundary.')}</div>
+    <div class="card storycta pressable rise d6" data-deck="0">
+      ${kili('awake')}
+      <div style="flex:1"><b style="font-size:14.5px">Read your life as a story</b>
+        <div class="small muted" style="margin-top:2px">7 cards, about a minute. Kili walks you through it.</div></div>
+      ${I.chev}
+    </div>
+  </div>
+</div>
+<div class="tabpage" data-page="reading" hidden>
+  <div class="homehead"><div><h2>Your life, in stretches</h2><div class="sub">Vimshottari periods, in plain words</div></div></div>
+  <div class="scroll">
+    <div class="card rise d1"><div class="stretch">
+      <div class="badge">Sa</div>
+      <div style="flex:1"><b style="font-size:15px">Saturn · 2018 – 2037</b>
+        <div class="small muted" style="margin:2px 0 10px">Now · effort first, results steady. This stretch rewards structure: skills, credentials, slow assets.</div>
+        <div class="aspectrow"><span class="nm">Work & standing</span><span class="bar"><i style="width:80%"></i></span></div>
+        <div class="aspectrow"><span class="nm">Money</span><span class="bar"><i style="width:55%"></i></span></div>
+        <div class="aspectrow"><span class="nm">Health</span><span class="bar"><i class="g" style="width:65%"></i></span></div>
+        <div class="aspectrow"><span class="nm">Relationships</span><span class="bar"><i style="width:45%"></i></span></div>
+        <div class="aspectrow"><span class="nm">Family & home</span><span class="bar"><i class="g" style="width:70%"></i></span></div>
+        <div class="aspectrow"><span class="nm">Mind & confidence</span><span class="bar"><i style="width:60%"></i></span></div>
+      </div></div>
+      <button class="btn btn-ghost" style="margin-top:14px" data-tab="reading">Open phase-by-phase detail</button>
+    </div>
+    <div class="card pressable rise d2"><div class="stretch">
+      <div class="badge" style="background:var(--card2);color:var(--muted)">Me</div>
+      <div style="flex:1"><b style="font-size:15px">Mercury · 2037 – 2053</b>
+        <div class="small muted" style="margin-top:2px">Next · a lighter, faster stretch. Communication, trade and learning move to the front.</div></div>
+      ${I.chev}</div>
+    </div>
+    <div class="card storycta pressable rise d3" data-deck="0">${kili('awake')}
+      <div style="flex:1"><b style="font-size:14.5px">Story mode</b>
+        <div class="small muted" style="margin-top:2px">The same reading as 7 swipe cards.</div></div>${I.chev}</div>
+    <button class="btn btn-ghost rise d4">All periods, 2000 – 2100</button>
+  </div>
+</div>
+<div class="tabpage" data-page="chart" hidden>
+  <div class="homehead"><div><h2>Your charts</h2><div class="sub">South Indian style · tap a planet for its evidence</div></div></div>
+  <div class="scroll">
+    <div class="divchips rise d1">${['D1 · Rasi','D2 · Hora','D3 · Drekkana','D4','D7','D9 · Navamsa','D10'].map((d,i)=>`<span class="chip ${i==0?'on':''}">${d}</span>`).join('')}</div>
+    <div class="schart rise d2"><div class="sgrid">
+      <div class="cell"><span class="sign">Pisces</span></div>
+      <div class="cell"><span class="sign">Aries</span><div class="pls asc">Ju · Sa · Asc</div></div>
+      <div class="cell"><span class="sign">Taurus</span></div>
+      <div class="cell"><span class="sign">Gemini</span></div>
+      <div class="cell"><span class="sign">Aquarius</span><div class="pls">Ma</div></div>
+      <div class="cell mid"><div><b>D1 · Rasi</b><span>Mean node · Lahiri</span></div></div>
+      <div class="cell"><span class="sign">Cancer</span><div class="pls">Ra</div></div>
+      <div class="cell"><span class="sign">Capricorn</span><div class="pls">Ke</div></div>
+      <div class="cell"><span class="sign">Leo</span></div>
+      <div class="cell"><span class="sign">Sagittarius</span><div class="pls">Su · Me</div></div>
+      <div class="cell"><span class="sign">Scorpio</span><div class="pls">Ve</div></div>
+      <div class="cell"><span class="sign">Libra</span><div class="pls">Mo</div></div>
+      <div class="cell"><span class="sign">Virgo</span></div>
+    </div></div>
+    <p class="secttl rise d3">Planets</p>
+    <div class="card rise d3" style="padding-top:6px;padding-bottom:6px">
+      ${[['Su','Sun','Sagittarius · 9th house','ex'],['Mo','Moon','Libra · 7th house · Swati','own'],['Me','Mercury','Sagittarius · 9th house','plain'],['Ve','Venus','Scorpio · 8th house','plain'],['Ma','Mars','Aquarius · 11th house','plain'],['Ju','Jupiter','Aries · 1st house','own'],['Sa','Saturn','Aries · 1st house','plain'],['Ra','Rahu','Cancer · 4th house','plain'],['Ke','Ketu','Capricorn · 10th house','plain']]
+        .map(p=>`<div class="prow"><span class="gl">${p[0]}</span><span class="tx"><b>${p[1]}</b><span>${p[2]}</span></span><span class="st ${p[3]}"></span>${I.chev}</div>`).join('')}
+    </div>
+    <button class="btn btn-ghost rise d4">Evidence &amp; sources for every row</button>
+  </div>
+</div>
+<div class="tabpage" data-page="more" hidden>
+  <div class="homehead"><div><h2>More</h2><div class="sub">Tools, tables and settings</div></div></div>
+  <div class="scroll">
+    <div class="card rise d1" style="padding-top:4px;padding-bottom:4px">
+      <button class="mrow"><span class="ic">${I.cal}</span><span style="flex:1"><b>Weekly sky</b><span>வார ராசி · this week by Moon sign</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.file}</span><span style="flex:1"><b>Tamil birth sheet</b><span>ஜாதகம் · star, tithi, yoga, karana</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.table}</span><span style="flex:1"><b>Dasha–bhukti table</b><span>All periods, both year conventions</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.scope}</span><span style="flex:1"><b>Astrologer view</b><span>Timing profile, Bhavat Bhavam, dignity flags</span></span>${I.chev}</button>
+    </div>
+    <div class="card rise d2" style="padding-top:4px;padding-bottom:4px">
+      <button class="mrow"><span class="ic">${I.note}</span><span style="flex:1"><b>Client notebook</b><span>Saved charts &amp; notes · stays in this browser</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.book}</span><span style="flex:1"><b>Sources &amp; model</b><span>8 classical texts, page-cited</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.gear}</span><span style="flex:1"><b>Settings</b><span>Language · node convention · motion</span></span>${I.chev}</button>
+    </div>
+    <div class="card rise d3" style="padding-top:4px;padding-bottom:4px">
+      <button class="mrow"><span class="ic">${I.shield}</span><span style="flex:1"><b>Privacy &amp; limits</b><span>What is computed, what is never stored</span></span>${I.chev}</button>
+      <button class="mrow"><span class="ic">${I.globe}</span><span style="flex:1"><b>About</b><span>Astrology is a tradition, not validated prediction</span></span>${I.chev}</button>
+    </div>
+    <p class="footer-note rise d4">Built by <a href="#">Jaiadithya A</a> · Research preview<br>Chart math: Lahiri sidereal · sources: Phaladeepika, Brihat Jataka, Sarvartha Chintamani + 5 more</p>
+  </div>
+</div>
+<nav class="tabbar">
+  <button class="tab on" data-tab="home">${I.home}Home</button>
+  <button class="tab" data-tab="reading">${I.book}Reading</button>
+  <button class="tab" data-tab="chart">${I.chart}Charts</button>
+  <button class="tab" data-tab="more">${I.dots}More</button>
+</nav>`;
+const DECK=[
+ {t:'Your sky at birth',y:'1 January 2000 · Chennai',b:'You arrived with Aries rising and the Moon in Swati. In the classical frame, that pairs a direct, initiative-taking outer style with an independent, self-balancing inner one.',tags:['Aries lagna','Swati','Moon in Libra']},
+ {t:'Where you stand now',y:'Saturn period · 2018 – 2037',b:'A long, steady stretch. Saturn periods ask for structure: skills built slowly, credentials, patience. Results arrive, but they queue behind effort.',tags:['Now','Effort first','Steady']},
+ {t:'Work & standing',y:'Saturn · strong house support',b:'Two source routes point the same way here, which is rarer than it sounds. Responsibility-heavy fields suit this chart, and standing grows after 2027.',tags:['Strong indication','2 routes agree']},
+ {t:'Money & home',y:'Building through the period',b:'No single wealth yoga fires outright. Two supportive combinations build through this stretch and strengthen after 2037. Slow assets over quick wins.',tags:['Slow build','Stronger after 2037']},
+ {t:'Relationships',y:'Mixed signals, honestly shown',b:'Some classical conditions for early marriage are met, others are not. Where the texts genuinely conflict, this app says mixed instead of faking certainty.',tags:['Mixed','2 of 6 conditions']},
+ {t:'Mind & health',y:'An easier phase until 2027',b:'The current sub-phase is one of the lighter ones in this stretch: better sleep rhythm, steadier confidence. The harder phases sit earlier and later.',tags:['Easier phase','Until 2027']},
+ {t:'The road ahead',y:'Mercury period begins Mar 2037',b:'A lighter, faster stretch follows: communication, trade and learning move forward. All four calculation conventions agree within days on this boundary.',tags:['Mar 2037','4 conventions agree'],kili:true}
+];
+T.deck=`
+<div class="deckhead"><button class="iconbtn" id="deck-close">${I.close}</button>
+  <div class="deckdots">${DECK.map((_,i)=>`<i class="${i==0?'on':''}"></i>`).join('')}</div>
+  <span style="width:36px"></span></div>
+<div class="deck"><div class="deckcard" id="deckcard"></div></div>
+<div class="deckfoot"><button class="btn btn-ghost" id="deck-prev">Back</button>
+  <button class="btn btn-gold" id="deck-next">Next</button></div>`;
+
+/* ---------- engine ---------- */
+const host=document.getElementById('screens');
+const BUILT={};
+function build(name){
+  if(BUILT[name])return BUILT[name];
+  const el=document.createElement('section');
+  el.className='screen';el.dataset.name=name;
+  el.innerHTML=T[name];
+  host.appendChild(el);wire(el,name);
+  BUILT[name]=el;return el;
+}
+let current=null;
+function go(name,dir=1){
+  const next=build(name);
+  if(current===next)return;
+  if(current){current.classList.remove('active');current.classList.toggle('behind',dir>0);}
+  next.classList.remove('behind');
+  requestAnimationFrame(()=>next.classList.add('active'));
+  current=next;
+  location.hash='#/'+name;
+  if(name==='loading'&&!document.documentElement.classList.contains('snap'))setTimeout(()=>go('main',1),1700);
+}
+function wire(el,name){
+  el.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go,1)));
+  if(name==='main')wireMain(el);
+  if(name==='wiz-date'){
+    const d=el.querySelector('#f-day'),m=el.querySelector('#f-mon'),y=el.querySelector('#f-year'),e=el.querySelector('#date-echo');
+    const upd=()=>{const yy=+y.value||2000;const dt=new Date(yy,+m.value,+d.textContent||+d.value);
+      const dd=+d.value||1;const dt2=new Date(yy,+m.value,dd);
+      e.textContent=dt2.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});};
+    [d,m,y].forEach(x=>x.addEventListener('input',upd));upd();
+  }
+  if(name==='wiz-time'){
+    el.querySelectorAll('[data-tmode]').forEach(b=>b.addEventListener('click',()=>{
+      el.querySelectorAll('[data-tmode]').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      el.querySelector('#trio-time').style.display=b.dataset.tmode==='sure'?'grid':'none';
+    }));
+  }
+  if(name==='wiz-place'){
+    el.querySelector('#place-hit').addEventListener('click',()=>{
+      el.querySelector('#place-ok').hidden=false;
+      el.querySelector('#f-place').value='Chennai, Tamil Nadu';
+    });
+  }
+  el.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>{
+    const lang=b.dataset.lang;
+    document.querySelectorAll('.langchip button').forEach(x=>x.classList.toggle('on',x===b||x.dataset.lang===lang&&x.closest('.screen')===b.closest('.screen')));
+    document.querySelectorAll(`[data-${lang}]`).forEach(n=>{
+      if(!n.dataset.en)n.dataset.en=n.textContent;
+      n.textContent=n.dataset[lang];
+    });
+    document.querySelectorAll('.langchip button').forEach(x=>x.classList.toggle('on',x.dataset.lang===lang));
+  }));
+}
+function wireMain(el){
+  const h=new Date().getHours();
+  el.querySelector('#greet').textContent=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  const pages=el.querySelectorAll('.tabpage'),tabs=el.querySelectorAll('.tab');
+  function show(p){pages.forEach(x=>x.hidden=x.dataset.page!==p);
+    tabs.forEach(t=>t.classList.toggle('on',t.dataset.tab===p));}
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.tab)));
+  window.__showTab=show;
+  el.querySelectorAll('[data-tab]').forEach(b=>{if(b.classList.contains('tab'))return;
+    b.addEventListener('click',()=>show(b.dataset.tab));});
+  el.querySelectorAll('[data-expand]').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('open')));
+  el.querySelectorAll('[data-deck]').forEach(b=>b.addEventListener('click',()=>openDeck(+b.dataset.deck)));
+}
+/* deck */
+let deckEl=null,di=0;
+function openDeck(i){
+  if(!deckEl){deckEl=document.createElement('div');deckEl.className='deckwrap';deckEl.innerHTML=T.deck;
+    document.querySelector('.phone').appendChild(deckEl);
+    deckEl.querySelector('#deck-close').addEventListener('click',closeDeck);
+    deckEl.querySelector('#deck-prev').addEventListener('click',()=>setCard(di-1));
+    deckEl.querySelector('#deck-next').addEventListener('click',()=>{if(di===DECK.length-1)closeDeck();else setCard(di+1);});
+    let sx=null;deckEl.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+    deckEl.addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;
+      if(dx<-50)setCard(di+1);else if(dx>50)setCard(di-1);sx=null;},{passive:true});
+  }
+  deckEl.style.display='flex';setCard(i);
+}
+function closeDeck(){deckEl.style.display='none';}
+function setCard(i){
+  di=Math.max(0,Math.min(DECK.length-1,i));
+  const c=DECK[di],el=deckEl.querySelector('#deckcard');
+  el.style.opacity=0;el.style.transform='translateY(10px)';
+  setTimeout(()=>{
+    el.innerHTML=`${c.kili?`<div style="width:64px;height:64px">${kili('happy')}</div>`:''}
+      <p class="eyebrow">Card ${di+1} of ${DECK.length}</p><h3>${c.t}</h3>
+      <p class="yrs">${c.y}</p><p>${c.b}</p>
+      <div class="tags">${c.tags.map(t=>`<span class="chip gold">${t}</span>`).join('')}</div>
+      <p class="small faint" style="margin-top:12px">Source-based reading · evidence in the full view</p>`;
+    el.style.opacity=1;el.style.transform='none';
+  },140);
+  deckEl.querySelectorAll('.deckdots i').forEach((d,k)=>d.classList.toggle('on',k===di));
+  deckEl.querySelector('#deck-next').textContent=di===DECK.length-1?'Done':'Next';
+  deckEl.querySelector('#deck-prev').style.visibility=di===0?'hidden':'visible';
+}
+/* deep links for preview */
+if(location.search.includes('snap'))document.documentElement.classList.add('snap');
+const start=(location.hash.match(/^#\/(\w[\w-]*)/)||[])[1];
+if(['home','reading','chart','more','deck'].includes(start)){
+  go('main',1);
+  if(start!=='home'&&start!=='deck')window.__showTab(start);
+  if(start==='deck')openDeck(0);
+}else go(T[start]?start:'welcome',1);
+</script>
+</body></html>
