@@ -38,6 +38,10 @@
       "destination": "/app/index.html"
     },
     {
+      "source": "/shell.css",
+      "destination": "/app/shell.css"
+    },
+    {
       "source": "/style.css",
       "destination": "/app/style.css"
     },
