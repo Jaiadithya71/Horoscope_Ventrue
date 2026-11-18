@@ -10,6 +10,43 @@ let resolvedFromLookup = false;
 const escape = value => String(value ?? 'Unavailable').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const source = s => s ? `${escape(s.slug ?? s.book ?? s.title)} · PDF page ${escape(s.pdf_page ?? (s.pdf_pages || []).join(', '))}` : 'Source unavailable';
 function fail(message) { error.textContent = message; error.hidden = false; }
+// Original mascots, three moods each: awake (welcome), happy (finished reading), sleepy (empty state).
+const MASCOT_CHARACTER = 'parrot';
+const MASCOT_TICK = '<g class="m-tick"><circle cx="49" cy="14.5" r="8" fill="#2b6659"/><path d="M45.2 14.6l2.6 2.6 4.4-5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>';
+function mascotSVG(mood, character = MASCOT_CHARACTER) {
+  const sleepy = mood === 'sleepy', happy = mood === 'happy';
+  const tick = happy ? MASCOT_TICK : '';
+  if (character === 'parrot') {
+    const eyes = sleepy
+      ? '<path class="m-eye" d="M24.6 23q1.9 1.9 3.8 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/><path class="m-eye" d="M35.6 23q1.9 1.9 3.8 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+      : '<circle class="m-eye" cx="26.4" cy="22.4" r="1.9" fill="#251f21"/><circle class="m-eye" cx="37.6" cy="22.4" r="1.9" fill="#251f21"/>';
+    return `<svg class="mascot mascot--${mood} mascot-parrot" viewBox="0 0 64 64" role="img" aria-label="Little parrot mascot"><path d="M28 50 Q24 58 16 62 Q25 58 30 49 Z" fill="#2e7d3b"/><path d="M33 52 Q31 59 26 63 Q33 59 36 51 Z" fill="#43a04e"/><ellipse cx="32" cy="38" rx="13" ry="14.5" fill="#43a04e"/><ellipse class="m-wing-l" cx="22" cy="38" rx="4.6" ry="8.6" fill="#2e7d3b"/><ellipse class="m-wing-r" cx="42" cy="38" rx="4.6" ry="8.6" fill="#2e7d3b"/><circle cx="32" cy="24" r="10.5" fill="#43a04e"/><path d="M24 31 Q32 35 40 31" stroke="#1f5c2a" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M28.6 26.8 h6.8 L32 32.4 Z" fill="#d9543a"/>${eyes}<path d="M28 52 v3.4 M36 52 v3.4" stroke="#d9543a" stroke-width="1.8" stroke-linecap="round"/>${tick}</svg>`;
+  }
+  if (character === 'moon') {
+    const fill = sleepy ? '#e8d6ab' : '#f5e3b3';
+    const eyes = sleepy
+      ? '<path class="m-eye" d="M22.5 29.5q2 2 4 0" stroke="#251f21" stroke-width="1.7" fill="none" stroke-linecap="round"/><path class="m-eye" d="M34.5 29.5q2 2 4 0" stroke="#251f21" stroke-width="1.7" fill="none" stroke-linecap="round"/>'
+      : '<circle class="m-eye" cx="24.5" cy="29" r="2" fill="#251f21"/><circle class="m-eye" cx="37.5" cy="29" r="2" fill="#251f21"/>';
+    const mouth = sleepy
+      ? '<circle cx="30.5" cy="36" r="1.6" fill="none" stroke="#251f21" stroke-width="1.5"/>'
+      : happy
+        ? '<path d="M25 35q6 5.4 13 0" stroke="#251f21" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle cx="20.5" cy="33.5" r="2" fill="#e8a18a" opacity=".7"/><circle cx="42" cy="33.5" r="2" fill="#e8a18a" opacity=".7"/>'
+        : '<path d="M26.5 35.5q4.5 3.4 9 0" stroke="#251f21" stroke-width="1.7" fill="none" stroke-linecap="round"/>';
+    return `<svg class="mascot mascot--${mood} mascot-moon" viewBox="0 0 64 64" role="img" aria-label="Little moon mascot"><circle cx="31" cy="32" r="20" fill="${fill}"/><circle cx="24" cy="25" r="2.4" fill="#e0c894"/><circle cx="37" cy="37" r="1.9" fill="#e0c894"/><circle cx="27" cy="40" r="1.5" fill="#e0c894"/>${eyes}${mouth}${tick}</svg>`;
+  }
+  const flame = sleepy
+    ? '<path class="m-flame" d="M32 7c3.2 4.2 5 7.2 5 10.4a5 5 0 0 1-10 0C27 14.2 28.8 11.2 32 7z" fill="#d9a25f"/><path class="m-flame-core" d="M32 12.4c1.6 2 2.4 3.5 2.4 5a2.4 2.4 0 0 1-4.8 0c0-1.5.8-3 2.4-5z" fill="#eccd9c"/>'
+    : '<path class="m-flame" d="M32 7c3.2 4.2 5 7.2 5 10.4a5 5 0 0 1-10 0C27 14.2 28.8 11.2 32 7z" fill="#e8a13c"/><path class="m-flame-core" d="M32 12.4c1.6 2 2.4 3.5 2.4 5a2.4 2.4 0 0 1-4.8 0c0-1.5.8-3 2.4-5z" fill="#f6d08a"/>';
+  const eyes = sleepy
+    ? '<path class="m-eye" d="M23.6 39.6q2 2 4 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/><path class="m-eye" d="M36.4 39.6q2 2 4 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+    : '<circle class="m-eye" cx="25.6" cy="39" r="1.9" fill="#251f21"/><circle class="m-eye" cx="38.4" cy="39" r="1.9" fill="#251f21"/>';
+  const mouth = sleepy
+    ? '<path class="m-mouth" d="M29.6 43h4.8" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+    : '<path class="m-mouth" d="M28.6 42.4q3.4 2.6 6.8 0" stroke="#251f21" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+  return `<svg class="mascot mascot--${mood}" viewBox="0 0 64 64" role="img" aria-label="Little oil lamp mascot">${flame}<rect x="30.9" y="21.4" width="2.2" height="4.8" rx="1.1" fill="#7a4f2e"/><path d="M13 31h38c0 8.4-8.6 15.2-19 15.2S13 39.4 13 31z" fill="#c9885a"/><path d="M13 31h38c0 2.3-8.6 4.4-19 4.4S13 33.3 13 31z" fill="#a96a42"/>${eyes}${mouth}<path d="M25.5 46.2h13l-2.3 5.8h-8.4z" fill="#a96a42"/><rect x="21.5" y="52" width="21" height="4.2" rx="2.1" fill="#a96a42"/>${tick}</svg>`;
+}
+document.querySelectorAll('[data-mascot]').forEach(el => { el.innerHTML = mascotSVG(el.dataset.mascot); });
+
 function showResolved(candidate) {
   resolvedFromLookup = true;
   if (candidate.timezone) {
@@ -237,6 +274,7 @@ function periodsSection(lp) {
 }
 
 function render(report, birth, coordsWereResolved) {
+  const reRender = !output.hidden && !!output.querySelector('.result-head');
   window.__lastReport = report; window.__lastBirth = birth; window.__lastCoords = coordsWereResolved;
   report=horizonReport(report);
   const chart = report.natal_chart;
@@ -248,7 +286,7 @@ function render(report, birth, coordsWereResolved) {
   const unique = [...new Map(sources.map(s => [JSON.stringify(s), s])).values()];
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
-  output.innerHTML = `<div class="result-head"><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  output.innerHTML = `<div class="result-head"><span class="result-mascot${reRender ? ' still' : ''}" aria-hidden="true">${mascotSVG('happy')}</span><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   ${horizonBanner(report,birth)}${inspectionSwitch()}${divisionalPanel(report)}${astrologerPanel(report,birth)}<div id="plain-reading" ${inspectionState.view!=='plain'?'hidden':''}>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   <nav class="secnav" aria-label="Sections"><a href="#who-title">Who you are</a><a href="#periods-title">Life by period</a><a href="#evidence">Evidence</a></nav>

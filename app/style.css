@@ -35,7 +35,8 @@ body.story-on{overflow:hidden}.story{position:fixed;inset:0;z-index:50;backgroun
 #language-switch{display:flex;gap:0;flex-shrink:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}#language-switch button{width:auto;min-height:44px;margin:0;padding:8px 13px;border:0;border-radius:0;background:white;color:var(--ink);font-size:13px}#language-switch button[aria-pressed=true]{background:#dcebe6;color:#265a4d;font-weight:600}header{gap:14px;flex-wrap:wrap}header .badge{margin-left:auto}.secnav a{min-height:44px;display:inline-flex;align-items:center}html[lang=ta] body,html[lang=ta] input,html[lang=ta] select,html[lang=ta] textarea,html[lang=ta] button{font-family:TamilSheet,Arial,sans-serif}html[lang=ta] h1,html[lang=ta] h2,html[lang=ta] h3,html[lang=ta] h4{font-family:TamilSheet,Arial,sans-serif;line-height:1.65;letter-spacing:0}html[lang=ta] h1{font-size:34px}html[lang=ta] .intro>p:not(.eyebrow){line-height:1.9}html[lang=ta] .eyebrow{letter-spacing:0;line-height:1.8}html[lang=ta] .south-cell span{font-size:11px}html[lang=ta] p{line-height:1.95}#language-switch{position:sticky;top:10px;z-index:5}.language-float{position:fixed!important;right:16px;top:12px;background:white;box-shadow:0 2px 14px #0001}html[lang=ta] .story-card h2{font-size:26px}.story-prev,.story-next{min-height:48px}button,input,select{min-height:44px}.client-panel textarea{font-family:inherit!important}@media(max-width:700px){html[lang=ta] h1{font-size:25px}header .badge{display:none}header{align-items:center}.wordmark{font-size:24px}#language-switch button{padding:7px 10px;font-size:12px}.secnav{flex-wrap:wrap}.secnav a{padding:7px 10px}.tamil-fields>div{min-width:0}.tamil-fields strong{overflow-wrap:anywhere}html[lang=ta] .south-cell span{font-size:10px}html[lang=ta] .south-centre{font-size:16px}.story-card{padding:20px}.story-card h2{font-size:25px}}
 
 .story-card{opacity:1!important;color:var(--ink)!important;transform:none!important}.story-count{color:var(--ink)!important}
-header{position:sticky;top:0;z-index:20;background:white;padding:12px 0;border-bottom:1px solid var(--line)}.story-language{position:absolute;top:30px;left:12px;padding:4px 10px;min-height:36px;width:auto;background:white;color:var(--ink);border:1px solid var(--line);font-size:12px}.story-card{padding-top:74px!important}.story-close{top:30px!important}.story-count{font-family:inherit}
+header{position:sticky;top:0;z-index:20;background:white;padding:12px 0;border-bottom:1px solid var(--line)}
+#workspace{scroll-margin-top:110px}.story-language{position:absolute;top:30px;left:12px;padding:4px 10px;min-height:36px;width:auto;background:white;color:var(--ink);border:1px solid var(--line);font-size:12px}.story-card{padding-top:74px!important}.story-close{top:30px!important}.story-count{font-family:inherit}
 .layout>*{min-width:0}.input-panel,fieldset,.pick,.pair>*{min-width:0}input,select,textarea{max-width:100%;min-width:0}summary{overflow-wrap:anywhere}html[lang=ta] .wordmark span{font-family:TamilSheet,Arial,sans-serif;font-size:9px;line-height:1.6}.intro h1{margin-top:12px}@media(max-width:700px){header{flex-wrap:nowrap;gap:8px}.wordmark{max-width:132px;flex-shrink:1}.wordmark span{max-width:132px}.layout{grid-template-columns:minmax(0,1fr)}.pair{grid-template-columns:repeat(2,minmax(0,1fr))}.trio{grid-template-columns:repeat(3,minmax(0,1fr))}.intro{padding-top:24px}.input-panel legend{max-width:100%;white-space:normal}.south-chart{width:100%}.tamil-position{min-width:0}.result-head h2{font-size:23px}.client-panel summary{max-width:100%}}
 .outcome-list{min-width:0;grid-template-columns:minmax(0,1fr)}.outcome-card{min-width:0;width:100%;overflow-wrap:anywhere}.outcome-top{flex-wrap:wrap;gap:8px}.outcome-top h3{min-width:0}.table-wrap{max-width:100%;min-width:0;overflow:auto}.outcomes,.periods,.who,.tamil-sheet{min-width:0}.period>summary{flex-wrap:wrap}html[lang=ta] .chip{white-space:normal;line-height:1.7}html[lang=ta] .tamil-fields{font-family:TamilSheet,Arial,sans-serif}
 
@@ -49,3 +50,32 @@ header{position:sticky;top:0;z-index:20;background:white;padding:12px 0;border-b
 .horizon-note{font-size:13px;line-height:1.8;padding:14px;background:#f4efec;border-radius:8px;margin:16px 0;overflow-wrap:anywhere}
 
 #divisional-panel{padding:20px 0;border-top:1px solid #eae9ea;min-width:0}#division-selector{width:100%;min-height:44px}.division-topic{font-weight:600;color:#28645a}.division-evidence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.division-evidence details{min-width:0;border-bottom:1px solid #eae9ea}.division-evidence p{font-size:13px;line-height:1.8;overflow-wrap:anywhere}.division-d1{margin:12px 0}.division-chart .south-cell strong{font-size:12px;overflow-wrap:anywhere}.division-chart .south-centre{font-size:16px}.division-evidence summary{min-height:44px}@media(max-width:700px){.division-evidence{grid-template-columns:1fr}.division-chart .south-cell strong{font-size:10px}.division-chart .south-cell span{font-size:9px}.division-chart .south-centre{font-size:14px}}
+
+/* Original clay-lamp (agal vilakku) mascot: awake hero welcome, happy with tick on a finished reading, sleepy empty state */
+[data-mascot]{display:inline-flex;line-height:0}
+.hero-mascot{display:block;margin-bottom:14px}
+.hero-mascot .mascot{width:46px;height:46px}
+.empty-mascot{display:block;margin-bottom:24px}
+.empty-mascot .mascot{width:64px;height:64px}
+.result-mascot{float:right;margin:2px 0 8px 14px}
+.result-mascot .mascot{width:54px;height:54px}
+.mascot{display:inline-block;vertical-align:middle}
+.mascot .m-tick path{stroke-dasharray:16;stroke-dashoffset:16}
+.mascot--happy .m-flame,.mascot--happy .m-flame-core{transform-box:fill-box;transform-origin:50% 100%;transform:scale(1.14)}
+.mascot--sleepy .m-flame,.mascot--sleepy .m-flame-core{transform-box:fill-box;transform-origin:50% 100%;transform:scale(.74)}
+.mascot--happy .m-wing-l{transform-box:fill-box;transform-origin:80% 20%;transform:rotate(-24deg)}
+.mascot--happy .m-wing-r{transform-box:fill-box;transform-origin:20% 20%;transform:rotate(24deg)}
+@media (prefers-reduced-motion:no-preference){
+.hero-mascot .mascot{animation:m-pop .48s ease-out .08s both}
+.result-mascot:not(.still) .mascot{animation:m-pop .9s cubic-bezier(.2,1.5,.4,1) both}
+.result-mascot:not(.still) .m-tick path{animation:m-tick .35s ease-out .6s forwards}
+.mascot--sleepy .m-flame,.mascot--sleepy .m-flame-core{animation:m-sway 3.4s ease-in-out infinite}
+.story{animation:m-sheet .28s ease-out both}
+}
+@media (prefers-reduced-motion:reduce){
+.mascot .m-tick path{stroke-dashoffset:0}
+}
+@keyframes m-pop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes m-tick{to{stroke-dashoffset:0}}
+@keyframes m-sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes m-sheet{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
