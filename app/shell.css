@@ -188,3 +188,19 @@ th{color:var(--muted)}
   .wordmark{font-size:21px}
   #language-switch button{padding:8px 10px}
 }
+/* step-1 polish: meta rows + notebook + footer note in More */
+.more-meta{margin-top:14px}
+.mrow{border:1px solid var(--line);border-radius:14px;background:var(--night2,#141b2e);margin-top:10px;overflow:hidden}
+.mrow summary{display:flex;flex-direction:column;gap:2px;padding:14px 16px;cursor:pointer;list-style:none}
+.mrow summary::-webkit-details-marker{display:none}
+.mrow summary b{font-size:15px}
+.mrow .msub{font-size:12px;color:var(--muted)}
+.mrow .mbody{padding:0 16px 14px;color:var(--muted);font-size:12.5px;line-height:1.6}
+.footer-note{text-align:center;padding:26px 24px 8px;font-size:11px;color:var(--faint,var(--muted));line-height:1.7}
+.footer-note a{color:var(--muted)}
+#nb-slot .client-panel{margin-top:14px;border-top:0;max-width:none}
+#nb-slot .client-panel>details{border:1px solid var(--line);border-radius:14px;background:var(--night2,#141b2e);padding:4px 16px 14px}
+#nb-slot .client-panel summary{padding:12px 0;font-weight:600;cursor:pointer}
+#nb-slot .client-panel textarea{background:#0f1626;color:var(--ink);border:1px solid var(--line)!important;border-radius:10px!important}
+#nb-slot .client-item,#nb-slot .consult-item{border:1px solid var(--line)!important;border-radius:10px!important;background:#0f1626}
+#nb-slot .client-panel input[type=text],#nb-slot .client-panel input:not([type]){background:#0f1626;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px}

@@ -303,6 +303,11 @@ function render(report, birth, coordsWereResolved) {
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
   document.querySelector('#pane-more').innerHTML = `<h2 class="more-title">More</h2>
   <div class="more-list"><button type="button" id="new-chart">New chart / edit birth details<span aria-hidden="true">→</span></button><a href="/weekly">Weekly sky<span aria-hidden="true">→</span></a></div>
+  <div class="more-list more-meta">
+  <details class="mrow"><summary><b>Privacy &amp; limits</b><span class="msub">What is computed, what is never stored</span></summary><p class="small mbody">No account. Birth details are sent only to this app's own calculation endpoints. The place name goes to OpenStreetMap's Nominatim for lookup. Charts are not saved on the server. If you choose Save in the client notebook, those notes stay in this browser. This site uses Vercel Web Analytics to count page visits: it records the page address, referring site, country and device type for combined totals. It does not use cookies to identify you, does not track you across other websites, and its visitor identifier is discarded within 24 hours. The totals are not used to identify you personally.</p></details>
+  <details class="mrow"><summary><b>About</b><span class="msub">Astrology is a tradition, not validated prediction</span></summary><p class="small mbody">Astrology is a historical tradition, not scientifically validated prediction. This preview uses modern Lahiri / Moshier chart math, not a selected historical astronomical frame. Place lookup by Nominatim, OpenStreetMap contributors.</p></details>
+  </div>
+  <div id="nb-slot"></div>
   ${horizonBanner(report,birth)}
   <details class="evidence-all" id="evidence"><summary>See the evidence and calculations behind this</summary>
   ${lifeAspectReading(report.life_aspect_candidates)}
@@ -314,6 +319,8 @@ function render(report, birth, coordsWereResolved) {
   <details><summary>Period arithmetic</summary><p>Initial lord: ${escape(periods.initial_lord)}. Remaining at birth: ${Number(periods.initial_remaining_solar_years).toFixed(3)} solar-year units.</p><p>${escape(periods.date_limit)} ${escape(periods.method_note)}</p><div class="table-wrap"><table><thead><tr><th>Lord</th><th>Start from birth<br>(solar-year units)</th><th>End from birth<br>(solar-year units)</th></tr></thead><tbody>${periodRows}</tbody></table></div><p>No current-period label or calendar date is inferred.</p></details>
   <details><summary>Source references & model</summary><p>${escape(chart.model)}</p>${unique.map(s => `<div class="source-row">${source(s)}<p>${s.verified_against_page_image ? 'Page image checked in the engine source audit.' : 'Page-image verification not recorded.'} This preview lists references only; it does not display scanned pages or authoritative interpretations.</p></div>`).join('')}<p>${escape(chart.notice)}</p></details>
   <details><summary>Inspect the engine report</summary><p>Raw evidence includes research candidates, not selected verdicts. Unknown values remain null. This audit report retains the full arithmetic beyond the display horizon; it is not an extended forecast.</p><pre>${escape(JSON.stringify(publicReport(window.__lastReport), null, 2))}</pre></details></details>`;
+  document.querySelector('#pane-more').insertAdjacentHTML('beforeend','<p class="footer-note"><a href="https://jaiadithya-developer.vercel.app">Built by Jaiadithya A</a> &middot; Research preview<br>Chart math: modern Lahiri / Moshier &middot; Place lookup by Nominatim, OpenStreetMap contributors</p>');
+  if(window.__nbPanel){window.__nbPanel.hidden=false;document.querySelector('#nb-slot').appendChild(window.__nbPanel);}
   document.querySelector('#astro-slot').innerHTML = astrologerPanel(report,birth);
   document.querySelector('#plain-reading').hidden = inspectionState.view!=='plain';
   if(window.__lastNote)document.querySelector('#pane-home .result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
@@ -550,7 +557,7 @@ document.addEventListener('click', e => {
   <details><summary>Private backup</summary><p class="help">Backup files include all birth details and private notes. Keep them somewhere private. Import adds records, never overwrites existing ones.</p>
   <button type="button" class="secondary" id="clients-export">Download private backup</button><label>Import a notebook backup<input id="clients-import" type="file" accept="application/json,.json"></label></details>
   <p id="client-status" role="status"></p></details>`;
-  document.querySelector('.layout').after(panel);
+  window.__nbPanel=panel;panel.hidden=true;{const slot=document.querySelector('#nb-slot');if(slot){panel.hidden=false;slot.appendChild(panel);}}
   const style = document.createElement('style'); style.textContent = '.client-panel{margin-top:30px;border-top:1px solid var(--line);max-width:720px}.client-panel textarea{width:100%;min-height:90px;font:14px Arial;padding:10px;border:1px solid #cdc9ca;border-radius:4px;margin-top:6px}.client-panel textarea:focus{outline:2px solid var(--teal)}.client-item,.consult-item{border:1px solid var(--line);padding:14px;margin-top:12px;border-radius:4px;overflow-wrap:anywhere}.consult-item p{white-space:pre-wrap;font-size:13px}.client-panel h3{margin-top:24px}#client-status{font-size:13px;color:var(--teal)}'; document.head.append(style);
   const $ = id => panel.querySelector('#'+id);
   const say = msg => { $('client-status').textContent = msg; };
