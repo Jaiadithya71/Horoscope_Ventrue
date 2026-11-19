@@ -258,6 +258,183 @@ function doshaCard(chart) {
   <p class="small muted">${ks ? 'All seven planets sit on one side of the Rahu-Ketu axis.' : 'The seven planets span both sides of the Rahu-Ketu axis.'}</p>
   <p class="help">Structural checks of the classical definitions only. Traditions disagree on the houses counted and on what cancels a dosha; a met rule is not a verdict, and this app prescribes no remedies.</p></div></section>`;
 }
+
+// ---- Gap step 3: kundli matching (porutham) between this chart and a second chart
+const GANA_GROUPS = [['Deva',[0,4,6,7,12,14,16,21,26]],['Manushya',[1,3,5,10,11,19,20,24,25]],['Rakshasa',[2,8,9,13,15,17,18,22,23]]];
+const YONI_GROUPS = [['Horse',[0,23]],['Elephant',[1,26]],['Goat',[2,7]],['Serpent',[3,4]],['Dog',[5,18]],['Cat',[6,8]],['Rat',[9,10]],['Cow',[11,25]],['Buffalo',[12,14]],['Tiger',[13,15]],['Deer',[16,17]],['Monkey',[19,21]],['Mongoose',[20]],['Lion',[22,24]]];
+const YONI_ENEMIES = [['Horse','Buffalo'],['Cow','Tiger'],['Cat','Rat'],['Serpent','Mongoose'],['Dog','Deer'],['Goat','Monkey'],['Elephant','Lion']];
+const RAJJU_GROUPS = [['Pada',[0,8,9,17,18,26]],['Kati',[1,7,10,16,19,25]],['Nabhi',[2,6,11,15,20,24]],['Kanta',[3,5,12,14,21,23]],['Shira',[4,13,22]]];
+const VEDHA_PAIRS = [[0,17],[1,16],[2,15],[3,14],[4,22],[5,21],[6,20],[7,19],[8,18],[9,26],[10,25],[11,23],[12,24]];
+const NADI_GROUPS = [['Adi',[0,5,6,11,12,17,18,23,24]],['Madhya',[1,4,7,10,13,16,19,22,25]],['Antya',[2,3,8,9,14,15,20,21,26]]];
+const SIGN_LORDS = ['Mars','Venus','Mercury','Moon','Sun','Mercury','Venus','Mars','Jupiter','Saturn','Saturn','Jupiter'];
+const PLANET_FRIENDS = {Sun:['Moon','Mars','Jupiter'],Moon:['Sun','Mercury'],Mars:['Sun','Moon','Jupiter'],Mercury:['Sun','Venus'],Jupiter:['Sun','Moon','Mars'],Venus:['Mercury','Saturn'],Saturn:['Mercury','Venus']};
+const PLANET_ENEMIES = {Sun:['Venus','Saturn'],Moon:[],Mars:['Mercury'],Mercury:['Moon'],Jupiter:['Mercury','Venus'],Venus:['Sun','Moon'],Saturn:['Sun','Moon','Mars']};
+const starGroup = (groups, i) => (groups.find(([, list]) => list.includes(i)) || [''])[0];
+function vasyaGroup(signIdx, moonLon) {
+  const deg = ((moonLon % 30) + 30) % 30;
+  if (signIdx === 8) return deg < 15 ? 'Dwipada' : 'Chatushpada';
+  if (signIdx === 9) return deg < 15 ? 'Chatushpada' : 'Jalachara';
+  return ['Chatushpada','Chatushpada','Dwipada','Jalachara','Chatushpada','Dwipada','Dwipada','Keeta','','','Dwipada','Jalachara'][signIdx];
+}
+function chartMoonFacts(chart) {
+  const starIdx = (chart.moon_nakshatra?.index_1_based || 0) - 1;
+  const moon = chart.placements?.Moon;
+  if (starIdx < 0 || !moon) return null;
+  return {starIdx, signIdx: SIGN_ORDER.indexOf(moon.sign), moonLon: Number(moon.longitude)};
+}
+function poruthamChecks(a, b, dir) {
+  const [from, to] = dir === 'ab' ? [a, b] : [b, a];
+  const fromLabel = dir === 'ab' ? 'your star' : 'their star';
+  const count = (((to.starIdx - from.starIdx) % 27) + 27) % 27 + 1;
+  const rem = count % 9;
+  const ga = starGroup(GANA_GROUPS, a.starIdx), gb = starGroup(GANA_GROUPS, b.starIdx);
+  const ya = starGroup(YONI_GROUPS, a.starIdx), yb = starGroup(YONI_GROUPS, b.starIdx);
+  const yoniEnemy = YONI_ENEMIES.some(([x, y]) => (x === ya && y === yb) || (x === yb && y === ya));
+  const ra = starGroup(RAJJU_GROUPS, a.starIdx), rb = starGroup(RAJJU_GROUPS, b.starIdx);
+  const na = starGroup(NADI_GROUPS, a.starIdx), nb = starGroup(NADI_GROUPS, b.starIdx);
+  const va = vasyaGroup(a.signIdx, a.moonLon), vb = vasyaGroup(b.signIdx, b.moonLon);
+  const rasiCount = (((b.signIdx - a.signIdx) % 12) + 12) % 12 + 1;
+  const la = SIGN_LORDS[a.signIdx], lb = SIGN_LORDS[b.signIdx];
+  const vedha = VEDHA_PAIRS.some(([x, y]) => (x === a.starIdx && y === b.starIdx) || (x === b.starIdx && y === a.starIdx));
+  const v = s => `<span class="m-val">${escape(s)}</span>`;
+  return [
+    {name:'Dina', state:[0,2,4,6,8].includes(rem) ? 'met' : 'not',
+     detail:`Count from ${v(fromLabel)}: <b>${count}</b>. After dividing by nine, the remainder is <b>${rem}</b>. Even remainders and 0 are favoured.`},
+    {name:'Gana', state:(ga === gb || (ga !== 'Rakshasa' && gb !== 'Rakshasa')) ? 'met' : 'not',
+     detail:`Groups: ${v(ga)} · ${v(gb)}. Same group, or a divine-human mix, is favoured; a fierce group in the mix is flagged.`},
+    {name:'Mahendra', state:[4,7,10,13,16,19,22,25].includes(count) ? 'met' : 'not',
+     detail:`Count from ${v(fromLabel)}: <b>${count}</b>. The favoured counts are 4, 7, 10, 13, 16, 19, 22 and 25.`},
+    {name:'Sthree Dheerga', state:count >= 14 ? 'met' : 'not',
+     detail:`Count from ${v(fromLabel)}: <b>${count}</b>. The rule asks for 14 or more. Traditions assign this direction by family role; flip the toggle if your family counts the other way.`},
+    {name:'Yoni', state:ya === yb ? 'met' : (yoniEnemy ? 'not' : 'neutral'),
+     detail:`Animal symbols: ${v(ya)} · ${v(yb)}. Same symbol is favoured; a few pairs are classically inimical.`},
+    {name:'Rasi', state:[1,7].includes(rasiCount) ? 'met' : ([2,5,6,8,9,12].includes(rasiCount) ? 'not' : 'neutral'),
+     detail:`Moon signs: ${v(SIGN_ORDER[a.signIdx])} · ${v(SIGN_ORDER[b.signIdx])}; the count is <b>${rasiCount}</b>. Same sign or the seventh is favoured; 2-12, 5-9 and 6-8 pairings are watched.`},
+    {name:'Rasyadhipa', state:(la === lb || (PLANET_FRIENDS[la].includes(lb) && PLANET_FRIENDS[lb].includes(la))) ? 'met' : ((PLANET_ENEMIES[la].includes(lb) || PLANET_ENEMIES[lb].includes(la)) ? 'not' : 'neutral'),
+     detail:`Sign lords: ${v(la)} · ${v(lb)}. Mutual friendship between them is favoured.`},
+    {name:'Vasya', state:va === vb ? 'met' : 'not',
+     detail:`Groups: ${v(va)} · ${v(vb)}. Same group is the full match; the classical score weighs the exact pair.`},
+    {name:'Rajju', state:ra === rb ? 'not' : 'met',
+     detail:`Groups: ${v(ra)} · ${v(rb)}. Same group is classically flagged.`},
+    {name:'Vedha', state:vedha ? 'not' : 'met',
+     detail:'The classical list of star pairs said to clash. Being in that list is flagged.'},
+    {name:'Nadi', state:na === nb ? 'not' : 'met',
+     detail:`Groups: ${v(na)} · ${v(nb)} (northern koota list). Same nadi is classically flagged.`},
+  ];
+}
+function matchSection(chart) {
+  const m = window.__match || (window.__match = {open:false, chart2:null, birth2:null, dir:'ab'});
+  return `<section class="outcomes match-sec" id="match-sec" aria-labelledby="match-title"><p class="eyebrow">Kundli matching · porutham</p><h2 id="match-title">Match this chart with another</h2>
+  <p class="match-intro">Add the other person's birth details. Both charts are computed by the same engine, and the classical porutham rules are checked between the two stars and Moon signs.</p>
+  <button type="button" id="match-open" class="secondary"${m.open ? ' hidden' : ''}>Add the other person's details</button>
+  <form id="match-form"${m.open ? '' : ' hidden'}>
+    <div class="pair"><label class="field-label">Date of birth<input type="date" name="mdate" min="1800-01-01" max="2399-12-31" required></label><label class="field-label">Time of birth<input type="time" name="mtime" required></label></div>
+    <label class="field-label">Birthplace<input name="mplace" autocomplete="off" placeholder="City, town or state" maxlength="120"></label>
+    <div class="place-actions"><button type="button" class="secondary inline" id="m-find-place">Find coordinates</button></div>
+    <div id="m-resolved" class="resolved" hidden></div>
+    <div id="m-candidates" class="candidates" hidden></div>
+    <details class="manual"><summary>Enter coordinates manually</summary><div class="pair"><label>Latitude<input name="mlat" type="number" step="any" min="-89.9999" max="89.9999" placeholder="e.g. 13.08"></label><label>Longitude<input name="mlon" type="number" step="any" min="-180" max="180" placeholder="e.g. 80.27"></label></div></details>
+    <label class="field-label">Time zone<select name="mtimezone" required></select></label>
+    <p class="help">The classical checks read the Moon's star, so the other person's birth time is needed.</p>
+    <p id="m-error" role="alert" hidden></p>
+    <div class="wizard-nav"><button type="submit" id="match-calc">Check the match</button></div>
+  </form>
+  <div id="match-result"></div></section>`;
+}
+function matchFail(msg) { const e = document.querySelector('#m-error'); if (!e) return; e.textContent = msg; e.hidden = false; }
+async function matchFindCoordinates() {
+  const sec = document.querySelector('#match-sec'); if (!sec) return;
+  const mform = sec.querySelector('#match-form');
+  const mres = sec.querySelector('#m-resolved'), mcand = sec.querySelector('#m-candidates');
+  const btn = sec.querySelector('#m-find-place');
+  const errBox = sec.querySelector('#m-error'); errBox.hidden = true;
+  const place = mform.elements.mplace.value.trim();
+  if (!place) { matchFail('Enter a city, town or state first.'); return; }
+  btn.disabled = true; btn.textContent = 'Finding…';
+  const showResolved = (candidate) => {
+    mform.elements.mlat.value = candidate.latitude;
+    mform.elements.mlon.value = candidate.longitude;
+    const sel = mform.elements.mtimezone;
+    if (candidate.timezone && [...sel.options].some(o => o.value === candidate.timezone)) sel.value = candidate.timezone;
+    mres.innerHTML = `Using ${candidate.latitude.toFixed(4)}, ${candidate.longitude.toFixed(4)} · <span data-private>${escape(candidate.display_name)}</span>`;
+    mres.hidden = false; mcand.hidden = true;
+  };
+  try {
+    const response = await fetch(`/api/geocode?place=${encodeURIComponent(place)}`, {signal: AbortSignal.timeout(15000)});
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Place lookup failed.');
+    if (!data.candidates.length) { matchFail(`No match for "${place}". Add the state or country, or enter coordinates manually.`); return; }
+    if (data.candidates.length === 1) { showResolved(data.candidates[0]); return; }
+    mcand.innerHTML = data.candidates.map((c, i) => `<label><input type="radio" name="mcandidate" value="${i}"><span data-private>${escape(c.display_name)}</span></label>`).join('');
+    mcand.hidden = false; mres.hidden = true;
+    mcand.querySelectorAll('input').forEach(input => input.addEventListener('change', () => showResolved(data.candidates[Number(input.value)])));
+  } catch (e) { matchFail(e.name === 'TimeoutError' ? 'Place lookup timed out. Try again or enter coordinates manually.' : e.message); }
+  finally { btn.disabled = false; btn.textContent = 'Find coordinates'; }
+}
+async function onMatchSubmit(e) {
+  e.preventDefault();
+  const mform = e.target;
+  const m = window.__match;
+  document.querySelector('#m-error').hidden = true;
+  const date = mform.elements.mdate.value, time = mform.elements.mtime.value;
+  if (!date) return matchFail('Choose the full date of birth: day, month and a four-digit year.');
+  if (!time) return matchFail('Choose the time of birth: hour, minute and AM or PM.');
+  if (mform.elements.mlat.value === '' || mform.elements.mlon.value === '') {
+    await matchFindCoordinates();
+    if (mform.elements.mlat.value === '' || mform.elements.mlon.value === '') return;
+  }
+  const btn = mform.querySelector('#match-calc'); btn.disabled = true; btn.textContent = 'Calculating…';
+  try {
+    const birth = {date, time, timezone: mform.elements.mtimezone.value, place: mform.elements.mplace.value.trim() || 'Second chart', latitude: Number(mform.elements.mlat.value), longitude: Number(mform.elements.mlon.value)};
+    const response = await fetch('/api/calculate', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({birth, tamil_view:false, node_mode:'mean'}), signal: AbortSignal.timeout(30000)});
+    const report = await response.json();
+    if (!response.ok) throw new Error(report.error || 'Calculation is unavailable.');
+    m.chart2 = report; m.birth2 = birth;
+    renderMatchResult();
+    document.querySelector('#match-result')?.scrollIntoView({behavior:'smooth', block:'start'});
+  } catch (err) { matchFail(err.name === 'TimeoutError' ? 'The calculation timed out. Try again; no result has been generated.' : err.message); }
+  finally { btn.disabled = false; btn.textContent = 'Check the match'; }
+}
+function renderMatchResult() {
+  const box = document.querySelector('#match-result'); if (!box) return;
+  const m = window.__match;
+  if (!m.chart2) { box.innerHTML = ''; return; }
+  const a = chartMoonFacts(window.__lastReport.natal_chart), b = chartMoonFacts(m.chart2.natal_chart);
+  if (!a || !b) { box.innerHTML = '<p class="help">The two charts did not both return a Moon placement, so the checks cannot run.</p>'; return; }
+  const checks = poruthamChecks(a, b, m.dir);
+  const met = checks.filter(c => c.state === 'met').length;
+  const starA = window.__lastReport.natal_chart.moon_nakshatra.name, starB = m.chart2.natal_chart.moon_nakshatra.name;
+  const chip = s => `<span class="v-chip">${s === 'met' ? 'Rule met' : s === 'not' ? 'Rule not met' : 'No conflict listed'}</span>`;
+  box.innerHTML = `<div class="match-head"><h3>Classical match checks</h3>
+  <p class="small"><span>Your star:</span> <span class="m-val">${escape(starA)}</span> · <span>Their star:</span> <span class="m-val">${escape(starB)}</span></p>
+  <label class="match-dir">Counted from <select id="match-dir"><option value="ab"${m.dir === 'ab' ? ' selected' : ''}>your star</option><option value="ba"${m.dir === 'ba' ? ' selected' : ''}>their star</option></select></label>
+  <p class="match-summary"><b>${met} / ${checks.length}</b> <span>classical checks met</span></p></div>
+  <div class="dosha-card">${checks.map(c => `<div class="dosha-row"><strong>${c.name}</strong>${chip(c.state)}</div><p class="small muted">${c.detail}</p>`).join('')}</div>
+  <p class="help">Structural checks of the classical rules only. Families and traditions weigh them differently: a met rule is not a promise, an unmet rule is not a doom. This app gives no match verdict and prescribes no remedies.</p>`;
+  box.querySelector('#match-dir')?.addEventListener('change', e => { window.__match.dir = e.target.value; renderMatchResult(); });
+}
+function attachMatchHandlers() {
+  const sec = document.querySelector('#match-sec'); if (!sec || !window.__match) return;
+  const m = window.__match;
+  const mform = sec.querySelector('#match-form');
+  const tz = mform?.elements.mtimezone;
+  if (tz && !tz.options.length) {
+    for (const o of form.elements.timezone.options) {
+      if (o.value === '__other') continue;
+      const base = o.dataset.base || o.textContent.replace(/ \(.*\)$/, '');
+      const off = zoneOffset(o.value);
+      const no = new Option(off ? `${base} · ${off}` : base, o.value);
+      no.dataset.base = base;
+      tz.add(no);
+    }
+    tz.value = 'Asia/Kolkata';
+  }
+  sec.querySelector('#match-open')?.addEventListener('click', () => { m.open = true; sec.querySelector('#match-open').hidden = true; mform.hidden = false; mform.elements.mdate.focus(); });
+  sec.querySelector('#m-find-place')?.addEventListener('click', matchFindCoordinates);
+  mform?.elements.mplace?.addEventListener('input', () => { sec.querySelector('#m-resolved').hidden = true; sec.querySelector('#m-candidates').hidden = true; });
+  mform?.addEventListener('submit', onMatchSubmit);
+  renderMatchResult();
+}
 function outcomeSection(summary) {
  if(!summary?.topics?.length)return '';
  const r=horizonReport(window.__lastReport);
@@ -342,6 +519,7 @@ function render(report, birth, coordsWereResolved) {
   ${nowCard(report.life_periods)}
   ${outcomeSection(report.outcome_summary)}
   ${doshaCard(chart)}
+  ${matchSection(chart)}
   ${stretchesCard(report.life_periods)}`;
   document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
@@ -369,6 +547,7 @@ function render(report, birth, coordsWereResolved) {
   document.querySelector('#plain-reading').hidden = inspectionState.view!=='plain';
   if(window.__lastNote)document.querySelector('#pane-home .result-head').insertAdjacentHTML('beforeend', `<p class="lagna-note">${escape(window.__lastNote)}</p>`);document.querySelector('#empty').hidden = true;
   output.hidden = false;
+  attachMatchHandlers();
 }
 const LAGNA_TA = {"Aries": "மேஷம்", "Taurus": "ரிஷபம்", "Gemini": "மிதுனம்", "Cancer": "கடகம்", "Leo": "சிம்மம்", "Virgo": "கன்னி", "Libra": "துலாம்", "Scorpio": "விருச்சிகம்", "Sagittarius": "தனுசு", "Capricorn": "மகரம்", "Aquarius": "கும்பம்", "Pisces": "மீனம்"};
 const lagnaName = s => LAGNA_TA[s] ? `${s} (${LAGNA_TA[s]})` : s;

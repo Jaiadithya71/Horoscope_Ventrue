@@ -163,3 +163,28 @@ test('lagna options: known lagna picks its clock hours',async({page})=>{
  await expect(page.locator('.result-head h2')).toContainText('Leo');
  await expect(page.locator('.lagna-note')).toContainText('chosen by you');
 });
+test('kundli matching runs porutham checks between two charts',async({page})=>{
+ await page.goto('/chart');
+ await page.locator('#example').click();
+ await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
+ await expect(page.locator('#scr-app')).toBeVisible({timeout:90000});
+ await expect(page.locator('#match-sec')).toBeVisible();
+ await page.locator('#match-open').click();
+ await expect(page.locator('#match-form')).toBeVisible();
+ await expect(page.locator('#match-form [name=mtimezone] option').first()).toBeAttached();
+ await page.locator('#match-form [name=mdate]').fill('2001-05-15');
+ await page.locator('#match-form [name=mtime]').fill('08:45');
+ await page.locator('#match-form details.manual summary').click();
+ await page.locator('#match-form [name=mlat]').fill('11.6643');
+ await page.locator('#match-form [name=mlon]').fill('78.146');
+ await page.locator('#match-form [name=mtimezone]').selectOption('Asia/Kolkata');
+ await page.locator('#match-calc').click();
+ await expect(page.locator('#match-result .dosha-row')).toHaveCount(11,{timeout:90000});
+ await expect(page.locator('#match-result .match-summary b')).toContainText('/ 11');
+ await expect(page.locator('#match-result')).toContainText('Your star:');
+ await page.locator('#match-dir').selectOption('ba');
+ await expect(page.locator('#match-result .dosha-row')).toHaveCount(11);
+ await page.locator('[data-language=ta]').click();
+ await expect(page.locator('#match-sec h2')).toContainText('பொருத்த');
+ await expect(page.locator('#match-result .dosha-row').first()).toContainText('தினம்');
+});
