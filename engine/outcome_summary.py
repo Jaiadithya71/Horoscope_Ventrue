@@ -194,8 +194,56 @@ def _periods(report, as_of):
             'points': pts, 'evidence': [f"{p['years_about'][0]} to {p['years_about'][1]}: {p['lord']} period, {p['tone']}" for p in ps]}
 
 
+def _simple_topic(report, key, tid, title, heads, texts, note):
+    data = report.get(key) or {}
+    rows = data.get('rows') or []
+    if not rows:
+        return None
+    level, agree = _topic_level(rows, set())
+    good = _points([r for r in rows if not _adverse(r, set())], set())
+    ev = [f'Supports: {p}' for p in good[:6]] + [note]
+    return {'id': tid, 'evidence': ev, 'title': title, 'level': level, 'headline': heads[level],
+            'text': texts[level], 'confidence': 'steady' if agree else 'tentative', 'points': []}
+
+
+def _children(report):
+    return _simple_topic(report, 'children_conditional', 'children', 'Children and family',
+        {'strong': 'Strong support in the sources for children', 'good': 'Good support in the sources for children',
+         'some': 'Some support in the sources for children', 'quiet': 'No children-combination from the sources stands out', 'mixed': 'Mixed signals on children'},
+        {'strong': 'Several of the conditions the sources link with having children show up in this chart.',
+         'good': 'A few of the conditions the sources link with having children show up in this chart.',
+         'some': 'One or two of the source conditions for children show.',
+         'quiet': 'None of the listed source conditions for children is met; the books treat a missing combination as silence, not a denial.',
+         'mixed': 'Some children-conditions show and some do not.'},
+        'Rules from Phaladeepika Adh. XII; no count or timing of children is given.')
+
+
+def _foreign(report):
+    return _simple_topic(report, 'foreign_conditional', 'foreign', 'Living away from home',
+        {'strong': 'A strong pull away from the birthplace shows', 'good': 'A pull away from the birthplace shows',
+         'some': 'A pull away from the birthplace shows', 'quiet': 'No move away is indicated by these rules', 'mixed': 'Mixed signals on living away'},
+        {'strong': 'The placements the sources link with living in a foreign place show up clearly in this chart.',
+         'good': 'The placements the sources link with living in a foreign place show up in this chart.',
+         'some': 'One placement the sources link with living in a foreign place shows in this chart.',
+         'quiet': 'Neither source placement linked with living abroad is present; the books treat a missing combination as silence, not a denial.',
+         'mixed': 'One foreign-residence placement shows and the other does not.'},
+        'Rules from Phaladeepika Adh. VIII; they say nothing about which place or when.')
+
+
+def _love(report):
+    return _simple_topic(report, 'love_conditional', 'love', 'Love and partnership',
+        {'strong': 'Strong support for love and partnership', 'good': 'Good support for love and partnership',
+         'some': 'Some support for love and partnership', 'quiet': 'No partnership-combination stands out', 'mixed': 'Mixed signals on partnership'},
+        {'strong': 'The house the sources read for partnership carries several welfare conditions.',
+         'good': 'The house the sources read for partnership carries some welfare conditions.',
+         'some': 'One or two partnership welfare conditions from the sources show.',
+         'quiet': 'None of the listed partnership welfare conditions is met; the books treat a missing combination as silence, not a denial.',
+         'mixed': 'Some partnership welfare conditions show and some do not.'},
+        'Rules from Phaladeepika Adh. XV read for the 7th house; they describe support, not a promise of any relationship.')
+
+
 def outcome_summary(report, as_of=None):
     as_of = as_of or datetime.now(timezone.utc)
-    topics = [x for x in (_career(report), _marriage(report), _wealth(report), _strength(report), _timing(report, as_of), _periods(report, as_of)) if x]
+    topics = [x for x in (_career(report), _marriage(report), _love(report), _children(report), _wealth(report), _foreign(report), _strength(report), _timing(report, as_of), _periods(report, as_of)) if x]
     return {'topics': topics,
             'basis': 'Levels count how many of the classical books\' own combinations your chart shows. They are not tested forecasts.'}

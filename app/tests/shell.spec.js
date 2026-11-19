@@ -33,7 +33,7 @@ test('place lookup resolves one match and calculates',async({page},info)=>{
  await page.getByRole('button',{name:'Reveal my chart',exact:true}).click();
  await expect(page.locator('#results')).toBeVisible();
  await expect(page.locator('#scr-app')).toBeVisible();
- await expect(page.locator('.outcome-card')).toHaveCount(6);
+ await expect(page.locator('.outcome-card')).toHaveCount(9);
  await expect(page.locator('.result-head h2')).toContainText('Aries lagna');
  await expect(page.locator('.result-head')).toContainText('coordinates from place lookup');
  await tab(page,'more');

@@ -212,7 +212,7 @@ function lifeSections(report) {
 }
 function publicReport(report) {
   const copy = JSON.parse(JSON.stringify(report));
-  for (const k of ['marriage_conditional', 'wealth_conditional']) if (copy[k]?.rows) copy[k].rows = visibleRows(copy[k].rows);
+  for (const k of ['marriage_conditional', 'wealth_conditional', 'children_conditional', 'foreign_conditional', 'love_conditional']) if (copy[k]?.rows) copy[k].rows = visibleRows(copy[k].rows);
   return copy;
 }
 
@@ -442,8 +442,8 @@ function outcomeSection(summary) {
   const reasons=t.evidence||[];
   const lead=reasons[0]||({career:'Alternative livelihood routes; strength comparison not selected',timing:'Four timing conventions; years rounded',periods:'Period-lord themes; not tested against events'}[t.id]||'Source-based theme; not tested');
   const career=t.id==='career'?`<ul class="cond-list">${(r.life_aspect_candidates?.career?.candidates||[]).map(c=>`<li>${escape(c.reference)}: ${escape(c.tenth_lord)} · ${escape(c.navamsa_sign)} → ${escape(c.navamsa_owner)}. ${escape(c.conditional_reading)} <span class="route-source">${sourceLink(c.occupation_source)}</span></li>`).join('')}</ul><p class="help">Strength comparison not selected. These are alternatives, not a chosen profession.</p>`:'';
-  const more=(t.id==='marriage'||t.id==='wealth')?`<ul class="cond-list">${visibleRows((t.id==='marriage'?r.marriage_conditional:r.wealth_conditional)?.rows).filter(x=>x.status!=='not_met').map(conditionRow).join('')}</ul>`:'';
-  const q={career:'What kind of work suits me?',marriage:'Will I marry, and when?',wealth:'Will money come easily to me?',strength:'What can I rely on in myself?',timing:'When do things shift in my life?',periods:'What do the coming years look like?'}[t.id];
+  const more=(t.id==='marriage'||t.id==='wealth'||t.id==='children'||t.id==='foreign'||t.id==='love')?`<ul class="cond-list">${visibleRows(({marriage:r.marriage_conditional,wealth:r.wealth_conditional,children:r.children_conditional,foreign:r.foreign_conditional,love:r.love_conditional}[t.id])?.rows).filter(x=>x.status!=='not_met').map(conditionRow).join('')}</ul>`:'';
+  const q={career:'What kind of work suits me?',marriage:'Will I marry, and when?',love:'Will I find love?',children:'Will I have children?',wealth:'Will money come easily to me?',foreign:'Will I settle abroad?',strength:'What can I rely on in myself?',timing:'When do things shift in my life?',periods:'What do the coming years look like?'}[t.id];
   return `<details class="outcome-card concise-topic" data-topic="${escape(t.id)}"><summary><span class="q-title">${escape(q||t.title)}</span><span class="q-sub">${escape(t.title)}</span><span class="v-chip">${escape(t.headline)}</span><span class="reason-first">${escape(lead)} → ${escape(t.headline)}</span></summary><p>${escape(t.text)}</p>${reasons.length?`<ul>${reasons.map(x=>`<li>${escape(x)}</li>`).join('')}</ul>`:''}${more}${career}<p class="help">Reading from the existing evidence, not a validated event prediction.</p></details>`;
  }).join('');
  return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your questions, answered from the chart</h2><p class="help">Each card leads with the question. The answer stays honest: reason first, supporting and opposing conditions kept separate.</p><div class="outcome-list">${cards}</div><p class="aspect-limit">${escape(summary.basis)}</p></section>`;

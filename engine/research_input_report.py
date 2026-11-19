@@ -76,8 +76,12 @@ def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,
  except ValueError as exc:shadbala={'status':'unavailable','reason':str(exc)}
  verdicts={p:r['verdict'] for p,r in shadbala['planets'].items()} if 'planets' in shadbala else {}
  from .house_model_sensitivity import dual_house_model
+ from .extra_topics_conditional import children_conditional,foreign_conditional,love_conditional
  marriage=dual_house_model(marriage_conditional,chart,strength_verdicts=verdicts,native_sex=native_sex)
  wealth=dual_house_model(wealth_conditional,chart,strength_verdicts=verdicts)
+ children=dual_house_model(children_conditional,chart,strength_verdicts=verdicts)
+ foreign=dual_house_model(foreign_conditional,chart)
+ love=dual_house_model(love_conditional,chart,strength_verdicts=verdicts)
  marriage_rows=marriage['rows']
  period=None if period_pair is None else period_condition_report(chart['ascendant']['sign'],chart['placements'],**period_pair)
  conventions=None if query is None else convention_condition_report(birth_utc(birth['date'],birth['time'],birth['timezone']),query,chart['ascendant']['sign'],chart['placements'])
@@ -87,6 +91,9 @@ def _research_input_report_base(birth,*,period_pair=None,supplied_strength=None,
   'timing_conditional':timing_conditional(chart,marriage_rows=marriage_rows),
   'wealth_conditional':wealth,
   'marriage_conditional':marriage,
+  'children_conditional':children,
+  'foreign_conditional':foreign,
+  'love_conditional':love,
   'query_convention_condition_evidence':conventions,
   'explicit_pair_input_coverage':None if period_pair is None else period_input_coverage(chart['placements'],**period_pair),
   'query_pair_input_coverage':[] if conventions is None else [
