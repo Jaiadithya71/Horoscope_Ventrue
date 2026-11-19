@@ -460,6 +460,23 @@ function whoSection(w) {
     <p class="aspect-limit">${escape(w.notice)}</p></section>`;
 }
 
+function timelineSection(lp, birth) {
+  const periods = lp?.periods || []; if (!periods.length) return '';
+  const yr = new Date().getFullYear();
+  const byr = Number(String(birth?.date || '').slice(0, 4)) || yr;
+  const age = y => Math.max(0, Math.round(y - byr));
+  const nodes = periods.map(p => {
+    const [cls] = TONE[p.tone] || TONE.mixed;
+    const current = p.when === 'now' || (!p.when && p.years_about[0] <= yr && yr <= p.years_about[1]);
+    const past = !current && p.years_about[1] < yr;
+    const asp = Object.values(p.aspects || {});
+    const aspects = asp.length ? `<h3 class="tln-h">What it tends to bring</h3><div class="aspects">${asp.map(x => `<details class="aspect asp-${escape(x.status)}"><summary><span class="a-name">${escape(x.label)}</span><span class="chip">${escape(x.status === 'quiet' ? 'nothing specific' : x.status)}</span></summary><p>${escape(x.text)}</p>${x.guidance ? `<p class="guide">${escape(x.guidance)}</p>` : ''}</details>`).join('')}</div>` : '';
+    const phases = (p.bhuktis || []).length ? `<h3 class="tln-h">Smaller phases inside it</h3><div class="tln-ph">${p.bhuktis.map(b => `<span>${escape(b.lord)} ${escape(b.years_about[0])}\u2013${escape(String(b.years_about[1]).slice(2))} · ${escape(b.label)}</span>`).join('')}</div>` : '';
+    return `<details class="tln tln-${cls}${past ? ' past' : ''}${current ? ' now' : ''}"${current ? ' open' : ''}><summary>${current ? `<span class="tln-here">${'You are here'} · age ${age(yr)}</span>` : ''}<span class="tln-top"><span class="yr">${escape(p.lord)} · ${escape(p.years_about[0])}\u2013${escape(p.years_about[1])}</span><span class="age">age ${age(p.years_about[0])}\u2013${age(p.years_about[1])}</span></span><span class="tln-lbl">${escape(p.label || '')}</span></summary>
+      <p class="tln-sum">${escape(p.you_text || p.summary)}</p>${aspects}${phases}</details>`;
+  }).join('');
+  return `<section class="timeline" aria-labelledby="timeline-title"><h2 id="timeline-title">Your life timeline</h2><p class="muted tln-sub">Each stretch is a broad theme from its ruling planet (Phaladeepika Adh. 19\u201320), not an event or a date of one. Tap a stretch to read it.</p><div class="rail">${nodes}</div><p class="aspect-limit">${escape(lp.notice)}</p></section>`;
+}
 function periodsSection(lp) {
   if (!lp?.periods?.length) return '';
   const now = new Date().getFullYear();
@@ -497,7 +514,8 @@ function nowCard(lp) {
   const cur = periods.find(p => p.when === 'now') || periods.find(p => p.years_about[0] <= yr && yr <= p.years_about[1]);
   if (!cur) return '';
   const [cls, label] = TONE[cur.tone] || TONE.mixed;
-  return `<button type="button" class="now-card" data-goto="reading"><p class="eyebrow">Right now · your current stretch</p><h3>${escape(cur.years_about[0])} to ${escape(cur.years_about[1])} <span class="chip tone-${cls}">${escape(cur.label || label)}</span></h3><p>${escape(cur.you_text || cur.summary)}</p><span class="now-more">See every period</span></button>`;
+  const byr = Number(String(window.__lastBirth?.date || '').slice(0, 4)) || yr;
+  return `<button type="button" class="now-card" data-goto="timeline"><p class="eyebrow">Right now</p><h3>${escape(cur.lord)} stretch · ${escape(cur.years_about[0])}\u2013${escape(cur.years_about[1])} <span class="chip tone-${cls}">${escape(cur.label || label)}</span></h3><p>${escape(cur.you_text || cur.summary)}</p><span class="here-chip">You are here · age ${Math.max(0, yr - byr)}</span> <span class="now-more">Your full timeline \u2192</span></button>`;
 }
 function render(report, birth, coordsWereResolved) {
   const reRender = !output.hidden && !!output.querySelector('.result-head');
@@ -521,6 +539,7 @@ function render(report, birth, coordsWereResolved) {
   ${doshaCard(chart)}
   ${matchSection(chart)}
   ${stretchesCard(report.life_periods)}`;
+  document.querySelector('#pane-timeline').innerHTML = timelineSection(report.life_periods, birth);
   document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
   document.querySelector('#pane-more').innerHTML = `<h2 class="more-title">More</h2>
@@ -1018,7 +1037,7 @@ document.addEventListener('click', e => {
   const tb = e.target.closest('.tabbar [data-tab]');
   if (tb) { activateTab(tb.dataset.tab); window.scrollTo(0, 0); return; }
   const g = e.target.closest('[data-goto]');
-  if (g) { activateTab(g.dataset.goto); setTimeout(() => document.querySelector('#periods-title')?.scrollIntoView({behavior: 'smooth'}), 60); }
+  if (g) { activateTab(g.dataset.goto); window.scrollTo(0, 0); if (g.dataset.goto === 'reading') setTimeout(() => document.querySelector('#periods-title')?.scrollIntoView({behavior: 'smooth'}), 60); }
 });
 // Reel and shared deep links open the birth form directly, skipping the welcome screen.
 if (location.hash === '#birth-title' || location.hash === '#birth-form' || location.pathname !== '/chart') showWizard();
