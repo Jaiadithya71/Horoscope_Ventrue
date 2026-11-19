@@ -251,3 +251,10 @@ th{color:var(--muted)}
 .stretch-next .sn-body{flex:1;min-width:0}
 .stretch-next b{font-size:15px;display:block}
 .v-chip{display:inline-block;margin:6px 0 2px;padding:3px 10px;border-radius:99px;background:rgba(232,182,76,.14);color:var(--gold);font-size:11.5px;font-weight:650}
+
+/* gap step 1: dosha checks */
+.dosha-sec{margin-top:18px}
+.dosha-card{border:1px solid var(--line);border-radius:16px;background:var(--night2,#141b2e);padding:14px 16px}
+.dosha-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.dosha-row:first-child{margin-top:0}
+.dosha-card .small{margin:6px 0 2px}

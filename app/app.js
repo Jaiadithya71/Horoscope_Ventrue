@@ -232,6 +232,32 @@ function stretchesCard(lp) {
   <div class="stretch-card"><div class="stretch-top"><span class="badge">${abbr(cur.lord)}</span><div class="st-body"><b>${escape(cur.lord)} · ${escape(cur.years_about[0])} to ${escape(cur.years_about[1])}</b><div class="small muted st-sub">Now · ${escape(cur.label || '')}</div>${rows}</div></div><button type="button" class="btn-ghost" data-goto="reading">Open phase-by-phase detail</button></div>
   ${nextBit}</section>`;
 }
+const SIGN_ORDER = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces'];
+function doshaCard(chart) {
+  const pl = chart.placements || {};
+  if (!pl.Mars || !pl.Rahu) return '';
+  const HOUSE_RULE = [1, 2, 4, 7, 8, 12];
+  const h = pl.Mars.whole_sign_house_from_ascendant;
+  const metLagna = HOUSE_RULE.includes(h);
+  const mh = pl.Moon ? ((SIGN_ORDER.indexOf(pl.Mars.sign) - SIGN_ORDER.indexOf(pl.Moon.sign) + 12) % 12) + 1 : null;
+  const metMoon = mh !== null && HOUSE_RULE.includes(mh);
+  const rahu = ((pl.Rahu.longitude % 360) + 360) % 360;
+  const seven = ['Sun','Moon','Mars','Mercury','Jupiter','Venus','Saturn'];
+  let ks = null;
+  if (seven.every(n => pl[n])) {
+    const side = n => ((((pl[n].longitude - rahu) % 360) + 360) % 360) <= 180;
+    const first = side(seven[0]);
+    ks = seven.every(n => side(n) === first);
+  }
+  const chip = on => `<span class="v-chip">${on ? 'Rule met' : 'Rule not met'}</span>`;
+  return `<section class="outcomes dosha-sec" aria-labelledby="dosha-title"><p class="eyebrow">Structural checks</p><h2 id="dosha-title">Dosha checks</h2>
+  <div class="dosha-card"><div class="dosha-row"><strong>Mangal dosha</strong>${chip(metLagna)}</div>
+  <p class="small muted">Mars house from the lagna: ${h}. The classical rule counts houses 1, 2, 4, 7, 8 and 12.</p>
+  ${mh !== null ? `<p class="small muted">Counted from the Moon, a common variant: house ${mh} - ${metMoon ? 'the rule is met there too' : 'not met there'}.</p>` : ''}
+  <div class="dosha-row"><strong>Kaal Sarp pattern</strong>${chip(!!ks)}</div>
+  <p class="small muted">${ks ? 'All seven planets sit on one side of the Rahu-Ketu axis.' : 'The seven planets span both sides of the Rahu-Ketu axis.'}</p>
+  <p class="help">Structural checks of the classical definitions only. Traditions disagree on the houses counted and on what cancels a dosha; a met rule is not a verdict, and this app prescribes no remedies.</p></div></section>`;
+}
 function outcomeSection(summary) {
  if(!summary?.topics?.length)return '';
  const r=horizonReport(window.__lastReport);
@@ -314,6 +340,7 @@ function render(report, birth, coordsWereResolved) {
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   ${nowCard(report.life_periods)}
   ${outcomeSection(report.outcome_summary)}
+  ${doshaCard(chart)}
   ${stretchesCard(report.life_periods)}`;
   document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
