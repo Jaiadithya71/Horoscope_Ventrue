@@ -218,6 +218,20 @@ function publicReport(report) {
 
 
 const CHIP = t => t.level === 'mixed' ? ['mixed', 'Mixed signals'] : (t.level === 'strong' || t.level === 'good') ? (t.confidence === 'tentative' ? ['moderate', 'Moderate indication'] : ['strong', 'Strong indication']) : ['light', 'Light indication'];
+function stretchesCard(lp) {
+  const periods = lp?.periods || []; if (!periods.length) return '';
+  const yr = new Date().getFullYear();
+  const cur = periods.find(p => p.when === 'now') || periods.find(p => p.years_about[0] <= yr && yr <= p.years_about[1]);
+  const nxt = periods.find(p => p.when === 'next') || (cur && periods.find(p => p.years_about[0] > cur.years_about[1]));
+  if (!cur) return '';
+  const bar = st => st === 'supportive' ? ['86','g'] : st === 'mixed' ? ['55',''] : st === 'testing' ? ['30','r'] : ['14','q'];
+  const rows = Object.values(cur.aspects || {}).map(a => { const [w, c] = bar(a.status); return `<div class="aspectrow"><span class="nm">${escape(a.label)}</span><span class="bar"><i class="${c}" style="width:${w}%"></i></span></div>`; }).join('');
+  const abbr = l => escape(String(l || '?').slice(0, 2));
+  const nextBit = nxt ? `<button type="button" class="stretch-next" data-goto="reading"><span class="badge badge-dim">${abbr(nxt.lord)}</span><span class="sn-body"><b>${escape(nxt.lord)} · ${escape(nxt.years_about[0])} to ${escape(nxt.years_about[1])}</b><span class="small muted">Next · ${escape(nxt.you_text || nxt.summary || '')}</span></span></button>` : '';
+  return `<section class="stretches" aria-labelledby="stretches-title"><div class="sec-head"><h2 id="stretches-title">Your life, in stretches</h2><div class="sub">Vimshottari periods, in plain words</div></div>
+  <div class="stretch-card"><div class="stretch-top"><span class="badge">${abbr(cur.lord)}</span><div class="st-body"><b>${escape(cur.lord)} · ${escape(cur.years_about[0])} to ${escape(cur.years_about[1])}</b><div class="small muted st-sub">Now · ${escape(cur.label || '')}</div>${rows}</div></div><button type="button" class="btn-ghost" data-goto="reading">Open phase-by-phase detail</button></div>
+  ${nextBit}</section>`;
+}
 function outcomeSection(summary) {
  if(!summary?.topics?.length)return '';
  const r=horizonReport(window.__lastReport);
@@ -226,7 +240,7 @@ function outcomeSection(summary) {
   const lead=reasons[0]||({career:'Alternative livelihood routes; strength comparison not selected',timing:'Four timing conventions; years rounded',periods:'Period-lord themes; not tested against events'}[t.id]||'Source-based theme; not tested');
   const career=t.id==='career'?`<ul class="cond-list">${(r.life_aspect_candidates?.career?.candidates||[]).map(c=>`<li>${escape(c.reference)}: ${escape(c.tenth_lord)} · ${escape(c.navamsa_sign)} → ${escape(c.navamsa_owner)}. ${escape(c.conditional_reading)} <span class="route-source">${sourceLink(c.occupation_source)}</span></li>`).join('')}</ul><p class="help">Strength comparison not selected. These are alternatives, not a chosen profession.</p>`:'';
   const more=(t.id==='marriage'||t.id==='wealth')?`<ul class="cond-list">${visibleRows((t.id==='marriage'?r.marriage_conditional:r.wealth_conditional)?.rows).filter(x=>x.status!=='not_met').map(conditionRow).join('')}</ul>`:'';
-  return `<details class="outcome-card concise-topic" data-topic="${escape(t.id)}"><summary><strong>${escape(t.title)}</strong><span class="reason-first">${escape(lead)} → ${escape(t.headline)}</span></summary><p>${escape(t.text)}</p>${reasons.length?`<ul>${reasons.map(x=>`<li>${escape(x)}</li>`).join('')}</ul>`:''}${more}${career}<p class="help">Reading from the existing evidence, not a validated event prediction.</p></details>`;
+  return `<details class="outcome-card concise-topic" data-topic="${escape(t.id)}"><summary><strong>${escape(t.title)}</strong><span class="v-chip">${escape(t.headline)}</span><span class="reason-first">${escape(lead)} → ${escape(t.headline)}</span></summary><p>${escape(t.text)}</p>${reasons.length?`<ul>${reasons.map(x=>`<li>${escape(x)}</li>`).join('')}</ul>`:''}${more}${career}<p class="help">Reading from the existing evidence, not a validated event prediction.</p></details>`;
  }).join('');
  return `<section class="outcomes" aria-labelledby="outcomes-title"><p class="eyebrow">What your chart says</p><h2 id="outcomes-title">Your reading in plain words</h2><p class="help">Reason first, then the reading. Open only the topic you want. Supporting and opposing conditions remain separate.</p><div class="outcome-list">${cards}</div><p class="aspect-limit">${escape(summary.basis)}</p></section>`;
 }
@@ -295,10 +309,12 @@ function render(report, birth, coordsWereResolved) {
   const coordsNote = coordsWereResolved ? ' · coordinates from place lookup' : '';
   const reading = readingParagraphs(chart);
   document.querySelector('#inspection-slot').innerHTML = inspectionSwitch();
-  document.querySelector('#pane-home').innerHTML = `<div class="result-head"><span class="result-mascot${reRender ? ' still' : ''}" aria-hidden="true">${mascotSVG('happy')}</span><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
+  const hr = new Date().getHours(); const greet = hr < 5 ? 'Good night' : hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : hr < 22 ? 'Good evening' : 'Good night';
+  document.querySelector('#pane-home').innerHTML = `<div class="homehead"><div><h2 class="greet">${greet}</h2><div class="sub">Here is your chart in plain words.</div></div></div><div class="result-head"><span class="result-mascot${reRender ? ' still' : ''}" aria-hidden="true">${mascotSVG('happy')}</span><p class="eyebrow">Your reading · ${birth.place === 'Synthetic example' ? 'synthetic example' : 'explicit birth inputs'}</p><h2>${escape(lagnaName(chart.ascendant.sign))} lagna · ${escape(star.name)}</h2><p><span data-private>${escape(birth.place)}</span> · ${escape(birth.date)} · ${escape(birth.time)} · ${escape(chart.latitude)}°, ${escape(chart.longitude)}°${coordsNote}</p></div>
   <button type="button" id="story-open" class="story-open">Read your life as a story</button>
   ${nowCard(report.life_periods)}
-  ${outcomeSection(report.outcome_summary)}`;
+  ${outcomeSection(report.outcome_summary)}
+  ${stretchesCard(report.life_periods)}`;
   document.querySelector('#pane-reading').innerHTML = `${whoSection(report.who_you_are)}${periodsSection(report.life_periods)}${tamilSheet(report, birth)}`;
   document.querySelector('#pane-charts').innerHTML = divisionalPanel(report);
   document.querySelector('#pane-more').innerHTML = `<h2 class="more-title">More</h2>
